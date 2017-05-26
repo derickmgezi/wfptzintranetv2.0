@@ -1,0 +1,117 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Validator;
+use Auth;
+use Redirect;
+use Illuminate\Http\Request;
+use Adldap;
+use App\User;
+
+class UserController extends Controller {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index() {
+        return view('index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create() {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'username' => 'required',
+                    'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/')
+                   ->withErrors($validator)
+                   ->withInput();
+        } else {
+            // Authenticating against your LDAP server.
+            if (Adldap::auth()->attempt($request->username, $request->password)) {
+                // AD Authentication Passed!
+                
+                //Update User Table with AD Password
+                $user_password_update = User::where('username', $request->username)->update(['password' => bcrypt($request->password)]);
+                
+                if ($user_password_update) {
+                    if (Auth::attempt($request->only(['username', 'password']))) {
+                        // Authentication passed...
+                        return redirect()->intended('/');
+                    } else {
+                        return back()->withInput()
+                                     ->with('error', 'Username and Password Authentication Failed');
+                    }
+                } else {
+                    return back()->withInput()
+                                 ->with('error', 'Access Denied');
+                }
+            } else {
+                // AD Authentication failled!
+                return back()->withInput()
+                             ->with('error', 'Username or Password Incorect');
+            }
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id) {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id) {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id) {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+        //
+    }
+
+}

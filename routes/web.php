@@ -1,0 +1,69 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+Route::get('/', 'UserController@index');
+
+Route::post('/signin', 'UserController@store');
+
+Route::get('/home', 'HomeController@index')->middleware('guest');
+
+Route::get('/create_post', 'PIController@create_post')->middleware('guest');
+
+Route::post('/store_post', 'PIController@store_post')->middleware('guest');
+
+Route::get('/edit_post/{id}', 'PIController@edit_post')->middleware('guest');
+
+Route::post('/edit_post/{id}', 'PIController@update_post')->middleware('guest');
+
+Route::get('/remove_post/{id}', 'PIController@delete_post')->middleware('guest');
+
+Route::get('/read_post/{id}', 'PIController@show_post')->middleware('guest');
+
+Route::get('/create_news_post', 'PIController@create_news_post')->middleware('guest');
+
+Route::post('/store_news_post', 'PIController@store_news_post')->middleware('guest');
+
+Route::get('/edit_news_post/{id}', 'PIController@edit_news_post')->middleware('guest');
+
+Route::post('/edit_news_post/{id}', 'PIController@update_news_post')->middleware('guest');
+
+Route::get('/remove_news_post/{id}', 'PIController@delete_news_post')->middleware('guest');
+
+Route::get('/read_news_post/{id}', 'PIController@show_news_post')->middleware('guest');
+
+Route::get('/internaldirectory', 'PhoneDirectoryController@index')->middleware('guest');
+
+Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts')->middleware('guest');
+
+Route::get('/news', function () {
+    return view('news');
+});
+
+Route::get('/previous', function () {
+    return view('previous');
+});
+
+Route::post('/search', function () {
+    return view('search');
+});
+
+Route::get('/test', function () {
+    return view('test');
+});
+
+Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
+
+//Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
