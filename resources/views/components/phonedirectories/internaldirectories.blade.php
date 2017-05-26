@@ -4,20 +4,20 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs card-header-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#extension" role="tab">VSAT Extensions & Mobile Numbers</a>
+                <a class="nav-link {{ Session::has('upload_message')? '':'active' }}" data-toggle="tab" href="#extension" role="tab">VSAT Extensions & Mobile Numbers</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#other" role="tab">Other Numbers</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#manage" role="tab">Manage Numbers</a>
+                <a class="nav-link {{ Session::has('upload_message')? 'active':'' }}" data-toggle="tab" href="#manage" role="tab">Manage Numbers</a>
             </li>
         </ul>
     </div>
     <div class="card-block">
         <!-- Tab panes -->
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="extension" role="tabpanel">
+            <div class="tab-pane fade show {{ Session::has('upload_message')? '':'active' }}" id="extension" role="tabpanel">
                 <div class="card">
                     <div class="card-header" style="background-color:">
                         <!-- Nav tabs -->
@@ -97,7 +97,7 @@
             <div class="tab-pane fade" id="other" role="tabpanel">
                 Other Numbers
             </div>
-            <div class="tab-pane fade" id="manage" role="tabpanel">
+            <div class="tab-pane fade show {{ Session::has('upload_message')? 'active':'' }}" id="manage" role="tabpanel">
                 {{ Form::open(array('url' => '/update_contacts','class' => 'form-signin','role' => 'form','files' => 'true')) }}
                 <div class="input-group">
                     <input type="file" name="file" value="{{ (old('file')) }}" class="form-control">
@@ -108,12 +108,12 @@
                 {{Form::token()}}
                 {{ Form::close() }}
                 <br>
-                @if(Session::has('file_upload_error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @if(Session::has('upload_message'))
+                <div class="alert alert-{{ Session::get('upload_message') == 'File Uploaded Succesfully'? 'success':'danger' }} alert-dismissible fade show" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
                     </button>
-                    <i class="fa fa-exclamation " aria-hidden="true"></i> {{Session::get('file_upload_error')}}
+                    <i class="fa fa-exclamation " aria-hidden="true"></i> {{Session::get('upload_message')}}
                 </div>
                 @endif
             </div>

@@ -41,7 +41,7 @@ class PhoneDirectoryController extends Controller {
         ]);
 
         if ($validator->fails()) {
-            Session::flash('file_upload_error', 'No File was Uploaded');
+            Session::flash('upload_message', 'No File was Uploaded');
             return redirect('/internaldirectory')
                             ->withErrors($validator)
                             ->withInput();
@@ -85,9 +85,10 @@ class PhoneDirectoryController extends Controller {
                         }
                     }
                 });
+                Session::flash('upload_message','File Uploaded Succesfully');
                 return back();
             } else {
-                Session::flash('file_upload_error', 'FIle Uploaded was ' . $file_extension . '. Upload an Excel File');
+                Session::flash('upload_message', 'FIle Uploaded was ' . $file_extension . '. Upload an Excel File');
                 return back();
             }
         }
