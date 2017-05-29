@@ -18,6 +18,6 @@ class PhoneDirectory extends Model {
      * @var array
      */
     protected $fillable = [
-        'name', 'function', 'department', 'ext_no', 'number', 'location',
+        'name', 'function', 'department', 'ext_no', 'number', 'location','type',
     ];
 }

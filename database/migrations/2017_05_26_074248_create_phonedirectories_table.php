@@ -20,6 +20,7 @@ class CreatePhonedirectoriesTable extends Migration
             $table->string('department',100);
             $table->string('ext_no',10)->unique()->nullable();
             $table->string('number',20)->unique()->nullable();
+            $table->string('type',10);
             $table->string('location',100);
             $table->timestamps();
         });

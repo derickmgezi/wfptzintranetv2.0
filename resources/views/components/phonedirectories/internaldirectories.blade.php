@@ -1,10 +1,9 @@
-
 <div class="card">
     <div class="card-header" style="background-color:">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs card-header-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link {{ Session::has('upload_message')? '':'active' }}" data-toggle="tab" href="#extension" role="tab">VSAT Extensions & Mobile Numbers</a>
+                <a class="nav-link {{ Session::has('upload_message')? '':'active' }}" data-toggle="tab" href="#extension" role="tab">VSAT Extensions <i class="fa fa-plus" aria-hidden="true"></i> Mobile Numbers</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#other" role="tab">Other Numbers</a>
@@ -21,62 +20,73 @@
                 <div class="card">
                     <div class="card-header" style="background-color:">
                         <!-- Nav tabs -->
-                        <?php $locations = App\PhoneDirectory::select('location')->groupBy('location')->get(); $active_link_status=1; ?>
+                        <?php $locations = App\PhoneDirectory::select('location')->groupBy('location')->get();
+                        $active_link_status = 1; ?>
                         <ul class="nav nav-tabs card-header-tabs" id="extensionTab" role="tablist">
                             @foreach($locations as $location)
                             <li class="nav-item">
                                 <a class="nav-link {{ $active_link_status? 'active':'' }}" data-toggle="tab" href="#{{ str_replace(' ', '',$location->location) }}" role="tab">{{ $location->location }}</a>
                             </li>
-                            <?php $active_link_status=0; ?>
+                            <?php $active_link_status = 0; ?>
                             @endforeach
                         </ul>
                     </div>
                     <div class="card-block">
                         <!-- Tab panes -->
                         <div class="tab-content">
-                            <?php $active_nav_tab_status=1; ?>
+                            <?php $active_nav_tab_status = 1; ?>
                             @foreach($locations as $location)
                             <div class="tab-pane fade show {{ $active_nav_tab_status? 'active':'' }}" id="{{ str_replace(' ', '',$location->location) }}" role="tabpanel">
-                                <?php $units = App\PhoneDirectory::select('department')->where('location',$location->location)->groupBy('department')->get(); $active_department_status=1; ?>
+                            <?php $units = App\PhoneDirectory::select('department')->where('location', $location->location)->groupBy('department')->get();$active_department_status = 1; ?>
                                 <!-- Collapse -->
                                 <div id="extensionaccordion{{ str_replace(' ', '',$location->location) }}" role="tablist" aria-multiselectable="true">
                                     @foreach($units as $unit)
                                     <div class="card">
                                         <div class="card-header" role="tab" id="extensionHeading{{ str_replace(' ', '',$location->location) }}{{ str_replace(' ', '',$unit->department) }}">
                                             <h5 class="mb-0">
-                                                <a class="font-weight-normal" data-toggle="collapse" data-parent="#extensionaccordion{{ str_replace(' ', '',$location->location) }}" href="#extensionCollapse{{ str_replace(' ', '',$location->location) }}{{ str_replace(' ', '',$unit->department) }}" aria-expanded="true" aria-controls="extensionCollapse{{ str_replace(' ', '',$location->location) }}{{ str_replace(' ', '',$unit->department) }}">
-                                                    <small>{{ $unit->department }}</small>
-                                                </a>
+                                                <button class="font-weight-normal btn btn-secondary btn-sm" data-toggle="collapse" data-parent="#extensionaccordion{{ str_replace(' ', '',$location->location) }}" href="#extensionCollapse{{ str_replace(' ', '',$location->location) }}{{ str_replace(' ', '',$unit->department) }}" aria-expanded="true" aria-controls="extensionCollapse{{ str_replace(' ', '',$location->location) }}{{ str_replace(' ', '',$unit->department) }}">
+                                                    <en>{{ $unit->department }}</en>
+                                                </button>
                                             </h5>
                                         </div>
 
                                         <div id="extensionCollapse{{ str_replace(' ', '',$location->location) }}{{ str_replace(' ', '',$unit->department) }}" class="collapse {{ $active_department_status? 'show':'' }}" role="tabpanel" aria-labelledby="extensionHeading{{ str_replace(' ', '',$location->location) }}{{ str_replace(' ', '',$unit->department) }}">
                                             <div class="card-block">
-                                                <table class="table table-hover">
+                                                <table class="table table-striped">
                                                     <thead class="thead-inverse">
                                                         <tr>
-                                                            <th>
-                                                                <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> Name
+                                                            <th class="text-center">
+                                                                <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> User
                                                             </th>
-                                                            <th>
-                                                                <i class="fa fa-id-badge fa-lg" aria-hidden="true"></i> Tile
+                                                            <th class="text-center">
+                                                                <i class="fa fa-address-card-o fa-lg" aria-hidden="true"></i> Role
                                                             </th>
-                                                            <th>
-                                                                <i class="fa fa-phone-square fa-lg" aria-hidden="true"></i> Extension
+                                                            <th class="text-center">
+                                                                <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Extension
                                                             </th>
-                                                            <th>
+                                                            <th class="text-center">
                                                                 <i class="fa fa-mobile fa-lg" aria-hidden="true"></i> Mobile
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php $unit_members = App\PhoneDirectory::select('name','function','ext_no','department')->where('department',$unit->department)->where('location',$location->location)->get(); ?>
+                                                        <?php $unit_members = App\PhoneDirectory::select('name', 'function', 'ext_no', 'department', 'number', 'type')->where('department', $unit->department)->where('location', $location->location)->orderBy('ext_no')->get(); ?>
                                                         @foreach($unit_members as $unit_member)
                                                         <tr>
-                                                            <td>{{ $unit_member->name }}</td>
-                                                            <td>{{ $unit_member->function }}</td>
-                                                            <th scope="row">{{ $unit_member->ext_no }}</th>
-                                                            <th scope="row"></th>
+                                                            <td class="text-center"><em>{{ $unit_member->name }}</em></td>
+                                                            <td class="text-center"><em>{{ $unit_member->function }}</em></td>
+                                                            <td class="text-center"><em>{{ $unit_member->ext_no }}</em></td>
+                                                            <td class="text-center">
+                                                                <em>
+                                                                    @if(strlen($unit_member->number) == 0 && $unit_member->name == Auth::user()->firstname.' '.Auth::user()->secondname)
+                                                                    <a class="btn btn-success btn-sm" href="#navigation-main" aria-label="Add number">
+                                                                        <i class="fa fa-plus" aria-hidden="true"></i> Add Number
+                                                                    </a>
+                                                                    @else
+                                                                    {{ $unit_member->number }}
+                                                                    @endif
+                                                                </em>
+                                                            </td>
                                                         </tr>
                                                         @endforeach
                                                     </tbody>
@@ -84,11 +94,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <?php $active_department_status=0; ?>
+                                    <?php $active_department_status = 0; ?>
                                     @endforeach
                                 </div><!-- /end Collapse -->
                             </div><!-- /end tab-fade -->
-                            <?php $active_nav_tab_status=0; ?>
+                            <?php $active_nav_tab_status = 0; ?>
                             @endforeach
                         </div>
                     </div>

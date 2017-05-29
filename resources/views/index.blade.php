@@ -73,7 +73,7 @@
 
                         <div class="col-md-12 col-lg-12">
                             <p class="lead">
-                                <a href="{{URL::to('/home')}}" class="btn btn-lg btn-secondary"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Continue</a>
+                                <a href="{{URL::to('/home')}}" class="btn btn-lg btn-secondary">Continue <i class="fa fa-sign-in fa-lg" aria-hidden="true"></i></a>
                             </p>
                         </div>
 

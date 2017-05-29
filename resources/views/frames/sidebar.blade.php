@@ -3,7 +3,7 @@
     <ul class="nav nav-pills flex-column">
         <li class="nav-item">
             <a class="nav-link {{((Request::is('home'))? 'active':'')}}" href="{{URL::to('/home')}}">
-                <i class="fa fa-globe fa-lg" aria-hidden="true"></i> PI <span class="sr-only">(current)</span>
+                <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> PI <span class="sr-only">(current)</span>
             </a>
         </li>
         @if(Request::is('news'))
@@ -37,7 +37,7 @@
         </li>-->
         <li class="nav-item">
             <a class="nav-link {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
-                <i class="fa fa-phone-square fa-lg" aria-hidden="true"></i> Phone Directory
+                <i class="fa fa-address-book-o fa-lg" aria-hidden="true"></i> Phone Directory
             </a>
         </li>
         @if(Request::is('search'))

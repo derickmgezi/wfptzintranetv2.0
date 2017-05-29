@@ -64,11 +64,18 @@ class PhoneDirectoryController extends Controller {
 
                         if ($sheet_title == 'CO' || $sheet_title == 'Dodoma Main Office') {
                             foreach ($result as $row) {
+                                
+                                $mobile_type = 'Official';
+                                if(strlen($row->mobile_no) == 0)
+                                    $mobile_type = 'Personal';
+                                
                                 $update_phonedirectory = PhoneDirectory::where('ext_no', $row->ext_no)
                                         ->update([
                                     'name' => $row->staff_name,
                                     'function' => $row->function,
                                     'department' => $row->department,
+                                    'number' => $row->mobile_no,
+                                    'type' => $mobile_type,
                                     'location' => $sheet_title
                                 ]);
 
@@ -78,6 +85,8 @@ class PhoneDirectoryController extends Controller {
                                     $phonedirectory->function = $row->function;
                                     $phonedirectory->department = $row->department;
                                     $phonedirectory->ext_no = $row->ext_no;
+                                    $phonedirectory->number = $row->mobile_no;
+                                    $phonedirectory->type = $mobile_type;
                                     $phonedirectory->location = $sheet_title;
                                     $phonedirectory->save();
                                 }
