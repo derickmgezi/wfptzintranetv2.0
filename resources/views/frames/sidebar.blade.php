@@ -27,12 +27,12 @@
         </li>
         <li class="nav-item">
             <a class="nav-link {{((Request::is('finance'))? 'active':'')}}" href="#">
-                <i class="fa fa-university fa-lg" aria-hidden="true"></i> Finance
+                <i class="fa fa-money fa-lg" aria-hidden="true"></i> Finance
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link {{((Request::is('admin'))? 'active':'')}}" href="#">
-                <i class="fa fa-arrows-alt fa-lg" aria-hidden="true"></i> Administration
+                <i class="fa fa-cogs fa-lg" aria-hidden="true"></i> Administration
             </a>
         </li>-->
         <li class="nav-item">

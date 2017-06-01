@@ -77,8 +77,8 @@
 <hr>
 @endif
 
-<!-- Add Post Modal -->
 @if(Session::has('post_id'))
+<!-- Edit Post Modal -->
 {{ Form::open(array('url' => '/edit_post/'.Session::get('post_id'),'enctype' => "multipart/form-data",'role' => 'form')) }}
 <div class="modal fade add-post-modal" id='add-post-modal' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -102,6 +102,8 @@
                         </div>
                         <div class="form-group">
                             <label for="image"><strong>Image</strong></label>
+                            <img class="first-slide img-wraper" style="filter: brightness(60%);" src="{{url('/storage/thumbnails/'.App\Post::find(Session::get('post_id'))->image)}}" alt="First slide">
+                            <hr>
                             @if(old('image'))
                             <input type="file" name='image' value="{{ (old('image')) }}" id="image" class="form-control">
                             @elseif(Session::has('post_id'))
@@ -145,10 +147,11 @@
             </div>
         </div>
     </div>
-</div><!-- end Add News Modal -->
+</div><!-- end Edit News Modal -->
 {{Form::token()}}
 {{Form::close()}}
 @elseif(Session::has('create_post') || Session::has('new_post_error')) 
+<!-- Add Post Modal -->
 {{ Form::open(array('url' => '/store_post','enctype' => "multipart/form-data",'role' => 'form')) }}
 <div class="modal fade add-post-modal" id='add-post-modal' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -205,8 +208,8 @@
 @endif
 
 
-<!-- start of Post Pop Up Modal -->
 @if(Session::has('read_post'))
+<!-- start of Post Pop Up Modal -->
 <div class="modal fade" id="read-post" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -227,7 +230,7 @@
                             <p class="text-justify">
                                 {!! App\Post::find(Session::get('read_post'))->description !!}
                             </p>
-                            <footer class="blockquote-footer">Posted By <cite title="Source Title">{{ App\User::find(App\Post::find(Session::get('read_post'))->edited_by)->firstname.' '.App\User::find(App\Post::find(Session::get('read_post'))->edited_by)->secondname }}</cite></footer>
+                            <footer class="blockquote-footer">By <cite title="Source Title" class="text-primary">{{ App\User::find(App\Post::find(Session::get('read_post'))->edited_by)->firstname.' '.App\User::find(App\Post::find(Session::get('read_post'))->edited_by)->secondname }}</cite></footer>
                         </blockquote>
                     </div>
                 </div>

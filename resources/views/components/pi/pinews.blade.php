@@ -1,4 +1,7 @@
-<?php $news_posts = App\News::where('status', 1)->orderBy('created_by','desc')->paginate(3); $news_post_count = 1; ?>
+<?php
+$news_posts = App\News::where('status', 1)->orderBy('created_by', 'desc')->paginate(3);
+$news_post_count = 1;
+?>
 <div class="row">
     <div class="col-md-12" style="background-color:">
         @if(Auth::user()->department == 'PI')
@@ -9,7 +12,7 @@
             <i class="fa fa-plus-square" aria-hidden="true"></i> Add News
         </a>
         @endif
-        <h1 class="text-center featurette-heading">Today's News</h1>
+        <h1 class="text-center featurette-heading">News</h1>
     </div>
 </div>
 
@@ -18,8 +21,8 @@
 @if($news_post_count%2 == 1)
 <div class="row featurette align-items-center">
     <div class="col-md-6" style="background-color:">
-        <h3 class="featurette-heading hidden-md-down">{{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}</h3>
-        <h2 class="hidden-lg-up text-justify"><small class="text-muted">{{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}</small></h2>
+        <h3 class="featurette-heading hidden-md-down text-primary">{{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}</h3>
+        <h2 class="hidden-lg-up text-justify"><small class="text-primary">{{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}</small></h2>
 
         <img class="featurette-image img-fluid mx-auto hidden-md-up" src="{{url('/storage/thumbnails/'.$news_post->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
         <hr class="hidden-md-up">
@@ -53,8 +56,8 @@
 @else
 <div class="row featurette align-items-center" style="background-color:">
     <div class="col-md-6 push-md-6">
-        <h3 class="featurette-heading hidden-md-down">{{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}</h3>
-        <h2 class="hidden-lg-up text-justify"><small class="text-muted">{{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}</small></h2>
+        <h3 class="featurette-heading hidden-md-down text-primary">{{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}</h3>
+        <h2 class="hidden-lg-up text-justify"><small class="text-primary">{{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}</small></h2>
 
         <img class="featurette-image img-fluid mx-auto hidden-md-up" src="{{url('/storage/thumbnails/'.$news_post->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
         <hr class="hidden-md-up">
@@ -91,16 +94,16 @@
 <div class="col-12">
     <button type="button" class="btn btn-primary btn-lg float-left hidden-sm-down" onclick="location.href = '{{URL::to('/previous')}}'"><i class="fa fa-calendar" aria-hidden="true"></i> News Calender</button>
     <button type="button" class="btn btn-primary float-left hidden-md-up" onclick="location.href = '{{URL::to('/previous')}}'"><i class="fa fa-calendar" aria-hidden="true"></i> News</button>
-    
+
     <nav aria-label="Page navigation example">
         {{ $news_posts->links('vendor.pagination.bootstrap-4') }}
-        
+
         {{ $news_posts->links('vendor.pagination.bootstrap-4-small') }}
     </nav>
 </div>
 
-<!-- Add News Modal -->
 @if(Session::has('news_post_id'))
+<!-- Edit News Modal -->
 {{Form::open(array('url' => '/edit_news_post/'.Session::get('news_post_id'),'enctype' => "multipart/form-data",'role' => 'form'))}}
 <div class="modal fade add-news-modal" id="add-news-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -123,7 +126,9 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="image"><strong>Image</strong></label>
+                            <label for="image"><strong>Image</strong></label><br>
+                            <img class="featurette-image img-fluid mx-auto img-thumbnail" src="{{url('/storage/'.App\News::find(Session::get('news_post_id'))->image)}}">
+                            <hr>
                             @if(old('image'))
                             <input type="file" name='image' value="{{ (old('image')) }}" id="image" class="form-control">
                             @elseif(Session::has('news_post_id'))
@@ -167,7 +172,7 @@
             <div class="modal-footer bg-inverse text-white">
                 <div class="row">
                     <div class="col-12">
-                        <button type="submit" class="btn btn-success"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Edit News Post</button>
+                        <button type="submit" class="btn btn-warning"><i class="fa fa-edit fa-lg" aria-hidden="true"></i> Edit News Post</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Close</button>
                     </div>
                 </div>
@@ -177,14 +182,15 @@
     </div>
 </div>
 {{Form::token()}}
-{{Form::close()}}<!-- end Add News Modal -->
+{{Form::close()}}<!-- end Edit News Modal -->
 @elseif(Session::has('create_news_post') || Session::has('new_news_post_error'))
+<!-- Add News Modal -->
 {{Form::open(array('url' => '/store_news_post','enctype' => "multipart/form-data",'role' => 'form'))}}
 <div class="modal fade add-news-modal" id="add-news-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="exampleModalLabel">{{(Session::has("news_id"))? 'Edit':'Add'}} News Post</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add News Post</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -225,7 +231,7 @@
             <div class="modal-footer bg-inverse text-white">
                 <div class="row">
                     <div class="col-12">
-                        <button type="submit" class="btn btn-success"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> {{(Session::has("news_id"))? 'Edit':'Create'}} News Post</button>
+                        <button type="submit" class="btn btn-success"><i class="fa fa-edit fa-lg" aria-hidden="true"></i> Create News Post</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Close</button>
                     </div>
                 </div>
@@ -260,21 +266,34 @@
                             <p class="text-justify lead">
                                 {!! App\News::find(Session::get('read_news_post'))->description !!}
                             </p>
-                            <footer class="blockquote-footer">Source <cite title="Source Title">{{ App\News::find(Session::get('read_news_post'))->source }}</cite></footer>
+                            <footer class="blockquote-footer">Source <cite title="Source Title" class=" text-primary">{{ App\News::find(Session::get('read_news_post'))->source }}</cite></footer>
+                        </blockquote>
+                    </div>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-block">
+                                {!! App\News::find(Session::get('read_news_post'))->story !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <br>
+                        <blockquote class="blockquote blockquote-reverse">
+                            <p class="mb-0">By <em class="text-primary">{{ App\User::find(App\News::find(Session::get('read_news_post'))->created_by)->firstname.' '.App\User::find(App\News::find(Session::get('read_news_post'))->created_by)->secondname }}</em></p>
+                            <footer class="blockquote-footer text-success"><cite title="Source Title">{{ App\News::find(Session::get('read_news_post'))->created_at }}</cite></footer>
                         </blockquote>
                     </div>
                 </div>
             </div>
             <div class="modal-footer bg-inverse text-white">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="container-fluid">
-                            <p class="text-justify">
-                                {!! App\News::find(Session::get('read_news_post'))->story !!}
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                @if(Auth::user()->department == 'PI')
+                <a class="btn btn-warning" href="{{URL::to('/edit_news_post/'.Session::get('read_news_post'))}}" role="button">
+                    <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Edit News Post
+                </a>
+                @endif
+                <a class="btn btn-danger" data-dismiss="modal" role="button">
+                    <i class="fa fa-close fa-lg" aria-hidden="true"></i> Close
+                </a>
             </div>
         </div>
     </div>

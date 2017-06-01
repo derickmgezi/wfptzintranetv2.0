@@ -62,7 +62,7 @@ class PhoneDirectoryController extends Controller {
                         // Get Sheet Titile
                         $sheet_title = $result->getTitle();
 
-                        if ($sheet_title == 'CO' || $sheet_title == 'Dodoma Main Office') {
+                        if ($sheet_title == 'CO' || $sheet_title == 'Dodoma Main Office' || $sheet_title == 'Dodoma Warehouse') {
                             foreach ($result as $row) {
                                 
                                 $mobile_type = 'Official';
