@@ -1,7 +1,9 @@
 <?php 
      $posts = App\Post::where('status',1)->orderBy('created_by','desc')->get();
+     $post_count = App\Post::where('status',1)->orderBy('created_by','desc')->count();
      $slide_id = 0;
 ?>
+@if($post_count != 0)
 <div id="myCarousel" class="container carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         @foreach($posts as $post)
@@ -72,6 +74,40 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
+@else
+    @if(Auth::user()->department == 'PI')
+    <div id="myCarousel" class="container carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="{{$slide_id}}" class="{{($slide_id == 0)? 'active':''}}"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item {{($slide_id == 0)? 'active':''}}">
+                <img class="fourth-slide img-wraper" style="filter: brightness(60%);" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
+                <div class="container">
+                    <div class="carousel-caption d-none d-md-block text-right">
+                        <h1>Heading</h1>
+                        <p>Brief explanations regarding the heading.</p>
+                        <p>
+                            <a class="btn btn-lg btn-success" href="{{URL::to('/create_post')}}" role="button">
+                                <i class="fa fa-plus-square" aria-hidden="true"></i> Add Post
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <?php ++$slide_id ?>
+        </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    @endif
+@endif
 
 @if($slide_id != 0)
 <hr>

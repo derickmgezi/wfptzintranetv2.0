@@ -16,8 +16,6 @@
 
                 @include('components/pi/pinews')
 
-                <hr>
-
                 <!-- /END THE FEATURETTES -->
 
                 <h1 class="text-center featurette-heading">Contributers</h1>

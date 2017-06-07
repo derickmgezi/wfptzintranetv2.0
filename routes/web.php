@@ -14,6 +14,8 @@ Route::get('/', 'UserController@index');
 
 Route::post('/signin', 'UserController@store');
 
+Route::get('/signout', 'UserController@logout');
+
 Route::get('/home', 'HomeController@index')->middleware('guest');
 
 Route::get('/create_post', 'PIController@create_post')->middleware('guest');
@@ -43,6 +45,14 @@ Route::get('/read_news_post/{id}', 'PIController@show_news_post')->middleware('g
 Route::get('/internaldirectory', 'PhoneDirectoryController@index')->middleware('guest');
 
 Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts')->middleware('guest');
+
+Route::get('/view_user_bio/{id}', 'PIController@show_user_bio')->middleware('guest');
+
+Route::get('/add_bio/{id}', 'PIController@add_user_bio')->middleware('guest');
+
+Route::post('/update_bio/{id}', 'PIController@update_user_bio')->middleware('guest');
+
+Route::get('/edit_bio/{id}', 'PIController@add_user_bio')->middleware('guest');
 
 Route::get('/news', function () {
     return view('news');

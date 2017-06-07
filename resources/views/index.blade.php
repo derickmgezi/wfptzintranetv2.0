@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        <link rel="icon" href="./image/wfp_logo05.png">
+        <link rel="shortcut icon" href="{{ asset('image/wfp_logo05.png') }}">
 
         <title>Cover Template for Bootstrap</title>
 

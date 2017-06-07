@@ -10,6 +10,7 @@ use Purifier;
 use Image;
 use App\News;
 use Session;
+use App\User;
 
 class PIController extends Controller {
 
@@ -311,6 +312,53 @@ class PIController extends Controller {
         $post->save();
 
         return redirect('/home');
+    }
+
+    public function show_user_bio($id) {
+        Session::flash('view_user_bio', $id);
+        return back();
+    }
+
+    public function add_user_bio($id) {
+        Session::flash('add_user_bio', $id);
+        return back();
+    }
+
+    public function update_user_bio(Request $request, $id) {
+        //
+        $validator = Validator::make($request->all(), [
+                    'image' => 'mimes:jpeg,bmp,png,bmp,gif,svg',
+        ]);
+
+        if ($validator->fails()) {
+            Session::flash('add_user_bio', $id);
+            Session::flash('add_bio_error', 'Bio Update Error');
+            return back()
+                            ->withErrors($validator)
+                            ->withInput();
+        } else {
+            if ($request->image) {
+                //Upload the file in storage public folder
+                $request->image->store('public/profile_pictures');
+
+                //Update User Bio
+                $Update_bio = User::find($id);
+                $Update_bio->image = $request->image->store('profile_pictures');
+                $Update_bio->bio = Purifier::clean($request->bio);
+                $Update_bio->save();
+
+                Session::flash('view_user_bio', $id);
+                return back();
+            } else {
+                //Update User Bio
+                $Update_bio = User::find($id);
+                $Update_bio->bio = Purifier::clean($request->bio);
+                $Update_bio->save();
+                
+                Session::flash('view_user_bio', $id);
+                return back();
+            }
+        }
     }
 
 }

@@ -1,20 +1,42 @@
 <?php
-$news_posts = App\News::where('status', 1)->orderBy('created_by', 'desc')->paginate(3);
+$news_posts = App\News::where('status', 1)->orderBy('created_at', 'desc')->paginate(5);
+$news_count = App\News::where('status', 1)->orderBy('created_at', 'desc')->count();
 $news_post_count = 1;
 ?>
+@if($news_count != 0)
 <div class="row">
     <div class="col-md-12" style="background-color:">
-        @if(Auth::user()->department == 'PI')
-        <a class="btn btn-success btn-lg float-right hidden-sm-down" href="{{URL::to('/create_news_post')}}" role="button">
+        
+        <a class="btn btn-success btn-lg float-right hidden-sm-down {{ Auth::user()->department == 'PI'? '':'invisible'}}" href="{{URL::to('/create_news_post')}}" role="button">
             <i class="fa fa-plus-square" aria-hidden="true"></i> Add News
         </a>
-        <a class="btn btn-success float-right hidden-md-up" href="{{URL::to('/create_news_post')}}" role="button">
+        <a class="btn btn-success float-right hidden-md-up {{ Auth::user()->department == 'PI'? '':'invisible'}}" href="{{URL::to('/create_news_post')}}" role="button">
             <i class="fa fa-plus-square" aria-hidden="true"></i> Add News
         </a>
-        @endif
-        <h1 class="text-center featurette-heading">News</h1>
+
+        <button type="button" class="btn btn-primary btn-lg float-left hidden-sm-down" onclick="location.href = '{{URL::to('/previous')}}'"><i class="fa fa-calendar" aria-hidden="true"></i> News Calender</button>
+        <button type="button" class="btn btn-primary float-left hidden-md-up" onclick="location.href = '{{URL::to('/previous')}}'"><i class="fa fa-calendar" aria-hidden="true"></i> News</button>
+        
+        <h1 class="text-center featurette-heading"><i class="fa fa-newspaper-o" aria-hidden="true"></i> News</h1>
     </div>
 </div>
+@else
+    @if(Auth::user()->department == 'PI')
+        <div class="row">
+            <div class="col-md-12" style="background-color:">
+                @if(Auth::user()->department == 'PI')
+                <a class="btn btn-success btn-lg float-right hidden-sm-down" href="{{URL::to('/create_news_post')}}" role="button">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i> Add News
+                </a>
+                <a class="btn btn-success float-right hidden-md-up" href="{{URL::to('/create_news_post')}}" role="button">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i> Add News
+                </a>
+                @endif
+                <h1 class="text-center featurette-heading"><span class="invisible">News</span></h1>
+            </div>
+        </div>
+    @endif
+@endif
 
 <!-- START THE FEATURETTES -->
 @foreach ($news_posts as $news_post)
@@ -91,10 +113,8 @@ $news_post_count = 1;
 <?php ++$news_post_count; ?>
 @endforeach
 
-<div class="col-12">
-    <button type="button" class="btn btn-primary btn-lg float-left hidden-sm-down" onclick="location.href = '{{URL::to('/previous')}}'"><i class="fa fa-calendar" aria-hidden="true"></i> News Calender</button>
-    <button type="button" class="btn btn-primary float-left hidden-md-up" onclick="location.href = '{{URL::to('/previous')}}'"><i class="fa fa-calendar" aria-hidden="true"></i> News</button>
 
+<div class="col-12">
     <nav aria-label="Page navigation example">
         {{ $news_posts->links('vendor.pagination.bootstrap-4') }}
 
@@ -144,19 +164,19 @@ $news_post_count = 1;
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="headerText"><strong>Description</strong></label>
+                            <label for="descriptionTextarea"><strong>Description</strong></label>
                             @if(old('source'))
-                            <textarea class="form-control" name='description' id="exampleTextarea" rows="5">{{ (old('description')) }}</textarea>
+                            <textarea class="form-control" name='description' id="descriptionTextarea" rows="5">{{ (old('description')) }}</textarea>
                             @elseif(Session::has('news_post_id'))
-                            <textarea class="form-control" name='description' id="exampleTextarea" rows="5">{{ App\News::find(Session::get('news_post_id'))->description }}</textarea>
+                            <textarea class="form-control" name='description' id="descriptionTextarea" rows="5">{{ App\News::find(Session::get('news_post_id'))->description }}</textarea>
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="headerText"><strong>Story</strong></label>
+                            <label for="storyTextarea"><strong>Story</strong></label>
                             @if(old('story'))
-                            <textarea class="form-control" name='story' id="exampleTextarea" rows="10">{{ (old('story')) }}</textarea>
+                            <textarea class="form-control" name='story' id="storyTextarea" rows="10">{{ (old('story')) }}</textarea>
                             @elseif(Session::has('news_post_id'))
-                            <textarea class="form-control" name='story' id="exampleTextarea" rows="10">{{ App\News::find(Session::get('news_post_id'))->story }}</textarea>
+                            <textarea class="form-control" name='story' id="storyTextarea" rows="10">{{ App\News::find(Session::get('news_post_id'))->story }}</textarea>
                             @endif
                         </div>
                     </div>
@@ -222,7 +242,7 @@ $news_post_count = 1;
                     <div class="col-12 text-center">
                         @if(Session::has('new_news_post_error'))
                         <div class="panel-footer">
-                            <div class="alert alert-danger">{{$errors->first()}}</div>
+                            <div class="alert alert-danger">{{ $errors->first() }}</div>
                         </div>
                         @endif
                     </div>

@@ -28,6 +28,12 @@ class UserController extends Controller {
     public function create() {
         //
     }
+    
+    public function logout() {
+        //
+        Auth::logout();
+        return redirect('/');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -54,7 +60,10 @@ class UserController extends Controller {
                 $user_password_update = User::where('username', $request->username)->update(['password' => bcrypt($request->password)]);
                 
                 if ($user_password_update) {
-                    if (Auth::attempt($request->only(['username', 'password']))) {
+                    // Always Remember Users
+                    $remember = true;
+                    
+                    if (Auth::attempt($request->only(['username', 'password']),  $remember)) {
                         // Authentication passed...
                         return redirect()->intended('/');
                     } else {

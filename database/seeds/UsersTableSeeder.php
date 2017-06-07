@@ -12,7 +12,20 @@ class UsersTableSeeder extends Seeder {
      */
     public function run() {
         $now = date('Y-m-d H:i:s');
-
+        
+        
+//        DB::table('users')->insert([
+//            'firstname' => 'Tala',
+//            'secondname' => 'Loubieh',
+//            'username' => 'tala.loubieh',
+//            'email' => 'tala.loubieh@wfp.org',
+//            'password' => bcrypt('Welcome@123'),
+//            'title' => 'Communication Officer',
+//            'department' => 'PI',
+//            'created_at' => $now,
+//            'updated_at' => $now,
+//        ]);
+//
 //        User::create(
 //                array(
 //                    'firstname' => 'Derick',
@@ -26,18 +39,6 @@ class UsersTableSeeder extends Seeder {
 //                    'updated_at' => $now
 //                )
 //        );
-//
-//        DB::table('users')->insert([
-//            'firstname' => 'Tala',
-//            'secondname' => 'Loubieh',
-//            'username' => 'tala.loubieh',
-//            'email' => 'tala.loubieh@wfp.org',
-//            'password' => bcrypt('Welcome@123'),
-//            'title' => 'Communication Officer',
-//            'department' => 'PI',
-//            'created_at' => $now,
-//            'updated_at' => $now,
-//        ]);
 //        
 //        User::create(
 //                array(
@@ -151,15 +152,43 @@ class UsersTableSeeder extends Seeder {
 //                )
 //        );
 //        
+//        User::create(
+//                array(
+//                    'firstname' => 'Octavian',
+//                    'secondname' => 'Machumu',
+//                    'username' => 'octavian.machumu',
+//                    'email' => 'octavian.machumu@wfp.org',
+//                    'password' => bcrypt('Welcome@123'),
+//                    'title' => 'Finace Associate',
+//                    'department' => 'Finance',
+//                    'created_at' => $now,
+//                    'updated_at' => $now
+//                )
+//        );
+//        
+//        User::create(
+//                array(
+//                    'firstname' => 'Orestes',
+//                    'secondname' => 'Sotta',
+//                    'username' => 'orestes.sotta',
+//                    'email' => 'orestes.sotta@wfp.org',
+//                    'password' => bcrypt('Welcome@123'),
+//                    'title' => 'Finace Associate',
+//                    'department' => 'Finance',
+//                    'created_at' => $now,
+//                    'updated_at' => $now
+//                )
+//        );
+        
         User::create(
                 array(
-                    'firstname' => 'Octavian',
-                    'secondname' => 'Machumu',
-                    'username' => 'octavian.machumu',
-                    'email' => 'octavian.machumu@wfp.org',
+                    'firstname' => 'Judith',
+                    'secondname' => 'Eliakim',
+                    'username' => 'judith.eliakim',
+                    'email' => 'judith.eliakim@wfp.org',
                     'password' => bcrypt('Welcome@123'),
-                    'title' => 'Finace Associate',
-                    'department' => 'Finance',
+                    'title' => 'IT Intern',
+                    'department' => 'IT',
                     'created_at' => $now,
                     'updated_at' => $now
                 )

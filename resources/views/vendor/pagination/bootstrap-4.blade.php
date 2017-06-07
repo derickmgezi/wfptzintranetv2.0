@@ -33,4 +33,6 @@
             <li class="page-item disabled"><span class="page-link">Next</span></li>
         @endif
     </ul>
+
+    <hr class="hidden-sm-down">
 @endif

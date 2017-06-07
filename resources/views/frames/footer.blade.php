@@ -44,6 +44,22 @@
 <script>$('#read-news-modal').modal('show');</script>
 @endif
 
+@if(Session::has('view_user_bio') || Session::has('add_user_bio'))
+<script>$('#user-bio-modal').modal('show');</script>
+@endif
+
+<script>
+    /**
+     * this workaround makes magic happen
+     * thanks @harry: http://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
+     */
+    $(document).on('focusin', function (e) {
+        if ($(e.target).closest(".mce-window").length || $(e.target).closest(".moxman-window").length) {
+            e.stopImmediatePropagation();
+        }
+    });
+</script>
+
 </body>
 
 </html>
