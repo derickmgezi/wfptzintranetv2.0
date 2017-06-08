@@ -3,15 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/phonedirectories/internaldirectories.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/database/migrations/2017_05_26_074248_create_phonedirectories_table.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/app/PhoneDirectory.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/PhoneDirectoryController.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/pi/picarousel.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/index.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/routes/web.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/config/database.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/database/seeds/UsersTableSeeder.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/UserController.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/sidebar.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/pi/picontributers.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/header.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/routes/web.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/PIController.php</file>
         </group>
     </open-files>
 </project-private>
