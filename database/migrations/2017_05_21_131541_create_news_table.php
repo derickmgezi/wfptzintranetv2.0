@@ -24,8 +24,8 @@ class CreateNewsTable extends Migration {
             $table->string('source',50);
             $table->string('type',10);
             $table->boolean('status')->default(1);
-            $table->integer('created_by');
-            $table->integer('edited_by');
+            $table->integer('created_by')->unsigned();
+            $table->integer('edited_by')->unsigned();
             $table->timestamps();
 
             //foreign keys
