@@ -20,8 +20,8 @@ class CreatePostsTable extends Migration {
             $table->string('type',10);
             $table->string('image');
             $table->boolean('status')->default(1);
-            $table->integer('created_by',10);
-            $table->integer('edited_by',10);
+            $table->integer('created_by');
+            $table->integer('edited_by');
             $table->timestamps();
 
             //foreign keys
