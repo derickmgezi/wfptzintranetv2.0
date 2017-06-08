@@ -14,6 +14,9 @@ class CreatePhonedirectoriesTable extends Migration
     public function up()
     {
         Schema::create('phonedirectories', function (Blueprint $table) {
+            // Convert table to use InnoDB
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
             $table->string('name',100);
             $table->string('function',100);

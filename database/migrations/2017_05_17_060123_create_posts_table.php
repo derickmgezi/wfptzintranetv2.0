@@ -13,6 +13,9 @@ class CreatePostsTable extends Migration {
      */
     public function up() {
         Schema::create('posts', function (Blueprint $table) {
+            // Convert table to use InnoDB
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
             $table->text('header');
             $table->text('description');

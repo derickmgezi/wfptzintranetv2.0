@@ -13,6 +13,9 @@ class CreateNewsTable extends Migration {
      */
     public function up() {
         Schema::create('news', function (Blueprint $table) {
+            // Convert table to use InnoDB
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
             $table->text('header');
             $table->string('image');
