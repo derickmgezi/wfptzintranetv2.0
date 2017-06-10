@@ -113,16 +113,16 @@
                     </div>
                 </div>
 
-                <form class="form-inline mt-2 mt-md-0" action="{{URL::to('/search')}}" method="post">
-                    {{ csrf_field() }}
+                {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0','role' => 'form'))}}
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
+                        <input type="text" name="search" class="form-control" placeholder="Search for...">
                         <span class="input-group-btn">
                             <button class="btn btn-success" type="submit">
                                 <i class="fa fa-search"></i>
                             </button>
                         </span>
                     </div>
-                </form>
+                {{Form::token()}}
+                {{Form::close()}}
             </div>
         </nav>

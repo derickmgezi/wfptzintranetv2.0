@@ -54,16 +54,16 @@ Route::post('/update_bio/{id}', 'PIController@update_user_bio')->middleware('gue
 
 Route::get('/edit_bio/{id}', 'PIController@add_user_bio')->middleware('guest');
 
+Route::post('/search', 'SearchController@search')->middleware('guest');
+
+Route::get('/search', 'SearchController@index')->middleware('guest');
+
 Route::get('/news', function () {
     return view('news');
 });
 
 Route::get('/previous', function () {
     return view('previous');
-});
-
-Route::post('/search', function () {
-    return view('search');
 });
 
 Route::get('/test', function () {

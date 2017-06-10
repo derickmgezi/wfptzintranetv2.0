@@ -2,9 +2,13 @@
 
 namespace App;
 
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class News extends Model {
+    
+    use Searchable;
+    
     /**
      * The attributes that are mass assignable.
      *

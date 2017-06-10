@@ -6,22 +6,35 @@
                 <a class="nav-link {{ Session::has('upload_message')? '':'active' }}" data-toggle="tab" href="#extension" role="tab">VSAT Extensions <i class="fa fa-plus" aria-hidden="true"></i> Mobile Numbers</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#other" role="tab">Other Numbers</a>
+                <a class="nav-link" data-toggle="tab" href="#other" role="tab">Non Staff <i class="fa fa-plus" aria-hidden="true"></i> Vendor Numbers</a>
             </li>
+            @if(Auth::user()->department == 'IT')
             <li class="nav-item">
                 <a class="nav-link {{ Session::has('upload_message')? 'active':'' }}" data-toggle="tab" href="#manage" role="tab">Manage Numbers</a>
             </li>
+            @endif
         </ul>
     </div>
     <div class="card-block">
         <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane fade show {{ Session::has('upload_message')? '':'active' }}" id="extension" role="tabpanel">
+                <?php
+                $locations = App\PhoneDirectory::select('location')->groupBy('location')->get();
+                $location_count = App\PhoneDirectory::select('location')->groupBy('location')->count();
+                $active_link_status = 1;
+                ?>
+                @if($location_count != 0)
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                    <p class="mb-0">View CO and Sub-office contact Details</p>
+                </div>
+                
                 <div class="card">
                     <div class="card-header" style="background-color:">
                         <!-- Nav tabs -->
-                        <?php $locations = App\PhoneDirectory::select('location')->groupBy('location')->get();
-                        $active_link_status = 1; ?>
                         <ul class="nav nav-tabs card-header-tabs" id="extensionTab" role="tablist">
                             @foreach($locations as $location)
                             <li class="nav-item">
@@ -37,7 +50,8 @@
                             <?php $active_nav_tab_status = 1; ?>
                             @foreach($locations as $location)
                             <div class="tab-pane fade show {{ $active_nav_tab_status? 'active':'' }}" id="{{ str_replace(' ', '',$location->location) }}" role="tabpanel">
-                            <?php $units = App\PhoneDirectory::select('department')->where('location', $location->location)->groupBy('department')->get();$active_department_status = 1; ?>
+                                <?php $units = App\PhoneDirectory::select('department')->where('location', $location->location)->groupBy('department')->get();
+                                $active_department_status = 1; ?>
                                 <!-- Collapse -->
                                 <div id="extensionaccordion{{ str_replace(' ', '',$location->location) }}" role="tablist" aria-multiselectable="true">
                                     @foreach($units as $unit)
@@ -103,10 +117,28 @@
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                    <h4 class="alert-heading">Staff VSAT Extensions and Mobile Numbers</h4>
+                    <p>Under this section you will be able to view all Staff extension numbers and Mobile numbers.</p>
+                    <p class="mb-0"><strong>So far no numbers have been Uploaded. Please contact Administration</strong></p>
+                </div>
+                @endif
             </div>
             <div class="tab-pane fade" id="other" role="tabpanel">
-                Other Numbers
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                    <h4 class="alert-heading">Non Staff and Vendor Numbers</h4>
+                    <p>Under this section you will be able to view all non Staff numbers and Vendor Contact Details</p>
+                    <p class="mb-0"><strong>So far no numbers have been Uploaded. Please contact Administration</strong></p>
+                </div>
             </div>
+            @if(Auth::user()->department = 'IT')
             <div class="tab-pane fade show {{ Session::has('upload_message')? 'active':'' }}" id="manage" role="tabpanel">
                 {{ Form::open(array('url' => '/update_contacts','class' => 'form-signin','role' => 'form','files' => 'true')) }}
                 <div class="input-group">
@@ -125,8 +157,18 @@
                     </button>
                     <i class="fa fa-exclamation " aria-hidden="true"></i> {{Session::get('upload_message')}}
                 </div>
+                @else
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                    <h4 class="alert-heading">Manage Numbers</h4>
+                    <p>Under this section you will be able to add, edit and remove contact details</p>
+                    <p class="mb-0"><strong>Make sure you upload the correct file extension</strong></p>
+                </div>
                 @endif
             </div>
+            @endif
         </div><!-- end Tab panes -->
     </div><!-- end card block -->   
 </div><!-- end card -->

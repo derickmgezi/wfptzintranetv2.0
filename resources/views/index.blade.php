@@ -15,9 +15,6 @@
         <!-- Custom styles for this template -->
         {{ Html::style('css/cover.css') }}
 
-        <!-- Custom styles for Font Awesome template -->
-        {{ Html::style('css/ont-awesome.min.css') }}
-
         <!-- Custom styles for signin template -->
         {{ Html::style('css/signin.css') }}
 
