@@ -25,7 +25,7 @@
         <!-- Custom Java Script styles for Tinymce Text Editor -->
         {{HTML::script("js/tinymce.min.js")}}
 
-        <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=wyyhqvqudtv7t15hz9pi66r0w72zwogypai1cfhf1s7ba4co"></script>
+<!--        <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=wyyhqvqudtv7t15hz9pi66r0w72zwogypai1cfhf1s7ba4co"></script>-->
         
         <script>
             var editor_config = {
@@ -112,7 +112,7 @@
                         <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a>
                     </div>
                 </div>
-
+                
                 {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0','role' => 'form'))}}
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Search for...">
@@ -122,7 +122,6 @@
                             </button>
                         </span>
                     </div>
-                {{Form::token()}}
                 {{Form::close()}}
             </div>
         </nav>

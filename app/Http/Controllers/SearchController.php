@@ -40,11 +40,11 @@ class SearchController extends Controller {
         ]);
         
         if ($validator->fails()) {
-            return redirect('/search')
+            return back()
                    ->withErrors($validator)
                    ->withInput();
         } else {
-            Session::put('search_results',News::search($request->search)->paginate(5));
+            Session::put('search_string',$request->search);
             return redirect('/search');
         }
     }

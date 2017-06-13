@@ -21,12 +21,32 @@
 
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
 {{HTML::script("js/holder.min.js")}}
-<script src="./js/holder.min.js"></script>
 
-<script src="./js/bootstrap.min.js"></script>
+{{HTML::script("js/tether.min.js")}}
+
+{{HTML::script("js/bootstrap.min.js")}}
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="./js/ie10-viewport-bug-workaround.js"></script>
+{{HTML::script("js/ie10-viewport-bug-workaround.js")}}
+
+<!-- Enable Pop-overs everywhere -->
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
+
+<script>
+    /**
+     * this workaround makes magic happen
+     * thanks @harry: http://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
+     */
+    $(document).on('focusin', function (e) {
+        if ($(e.target).closest(".mce-window").length || $(e.target).closest(".moxman-window").length) {
+            e.stopImmediatePropagation();
+        }
+    });
+</script>
 
 @if(Session::has('create_post') || Session::has('new_post_error') || Session::has('post_id') || Session::has('edit_post_error'))
 <script>$('#add-post-modal').modal('show');</script>
@@ -47,18 +67,6 @@
 @if(Session::has('view_user_bio') || Session::has('add_user_bio'))
 <script>$('#user-bio-modal').modal('show');</script>
 @endif
-
-<script>
-    /**
-     * this workaround makes magic happen
-     * thanks @harry: http://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
-     */
-    $(document).on('focusin', function (e) {
-        if ($(e.target).closest(".mce-window").length || $(e.target).closest(".moxman-window").length) {
-            e.stopImmediatePropagation();
-        }
-    });
-</script>
 
 </body>
 

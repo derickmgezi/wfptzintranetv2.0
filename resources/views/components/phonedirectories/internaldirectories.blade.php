@@ -54,6 +54,18 @@
                                 $active_department_status = 1; ?>
                                 <!-- Collapse -->
                                 <div id="extensionaccordion{{ str_replace(' ', '',$location->location) }}" role="tablist" aria-multiselectable="true">
+                                    
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                           <span aria-hidden="true">&times;</span>
+                                         </button>
+                                        <p class="mb-0">
+                                            <button type="button" class="btn btn-primary btn-sm" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+25522219-XXXX</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0785558000</em></strong>">
+                                                <i class="fa fa-eye" aria-hidden="true"></i> View {{ $location->location }} contact Details
+                                            </button>
+                                        </p>
+                                    </div>
+                                        
                                     @foreach($units as $unit)
                                     <div class="card">
                                         <div class="card-header" role="tab" id="extensionHeading{{ str_replace(' ', '',$location->location) }}{{ str_replace(' ', '',$unit->department) }}">

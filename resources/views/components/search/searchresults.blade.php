@@ -1,91 +1,95 @@
 <?php
-$news_search_results = Session::get('search_results');
-//$news_search_results_count = App\News::search(Session::get('search_string'))->count();
+$news_search_results = App\News::search(Session::get('search_string'))->paginate(5);
+$news_search_results_count = $news_search_results->total();
+//$news_search_results_count = $news_search_results->count();
+//dd($news_search_results_count);
 $news_search_count = 1;
 ?>
-<!-- START THE FEATURETTES -->
-@foreach ($news_search_results as $news_search_result)
-@if($news_search_count%2 == 1)
-<div class="row featurette align-items-center">
-    <div class="col-md-6" style="background-color:">
-        <h3 class="featurette-heading hidden-md-down text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</h3>
-        <h2 class="hidden-lg-up text-justify"><small class="text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</small></h2>
+@if($news_search_results_count != 0)
+    <!-- START THE FEATURETTES -->
+    @foreach ($news_search_results as $news_search_result)
+        @if($news_search_count%2 == 1)
+        <div class="row featurette align-items-center">
+            <div class="col-md-6" style="background-color:">
+                <h3 class="featurette-heading hidden-md-down text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</h3>
+                <h2 class="hidden-lg-up text-justify"><small class="text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</small></h2>
 
-        <img class="featurette-image img-fluid mx-auto hidden-md-up" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-        <hr class="hidden-md-up">
+                <img class="featurette-image img-fluid mx-auto hidden-md-up" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+                <hr class="hidden-md-up">
 
-        <blockquote class="blockquote blockquote-reverse">
-            <p class="lead text-justify">
-                {{ substr(strip_tags($news_search_result->description),0,250) }}{{ strlen(strip_tags($news_search_result->description)) > 250 ? "...":"" }} <br>
-                <a class="btn btn-primary btn-sm" href="{{URL::to('/read_news_post/'.$news_search_result->id)}}" role="button">
-                    <i class="fa fa-leanpub" aria-hidden="true"></i> Read more
-                </a>
-                @if(Auth::user()->department == 'PI')
-                <a class="btn btn-warning btn-sm" href="{{URL::to('/edit_news_post/'.$news_search_result->id)}}" role="button">
-                    <i class="fa fa-edit" aria-hidden="true"></i> Edit
-                </a>
-                <a class="btn btn-danger btn-sm" href="{{URL::to('/remove_news_post/'.$news_search_result->id)}}" role="button">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
-                </a>
-                @endif
-            </p>
+                <blockquote class="blockquote blockquote-reverse">
+                    <p class="lead text-justify">
+                        {{ substr(strip_tags($news_search_result->description),0,250) }}{{ strlen(strip_tags($news_search_result->description)) > 250 ? "...":"" }} <br>
+                        <a class="btn btn-primary btn-sm" href="{{URL::to('/read_news_post/'.$news_search_result->id)}}" role="button">
+                            <i class="fa fa-leanpub" aria-hidden="true"></i> Read more
+                        </a>
+                        @if(Auth::user()->department == 'PI')
+                        <a class="btn btn-warning btn-sm" href="{{URL::to('/edit_news_post/'.$news_search_result->id)}}" role="button">
+                            <i class="fa fa-edit" aria-hidden="true"></i> Edit
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{{URL::to('/remove_news_post/'.$news_search_result->id)}}" role="button">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
+                        </a>
+                        @endif
+                    </p>
 
-            <footer class="blockquote-footer">Source <cite title="Source Title">{{ $news_search_result->source }}</cite></footer>
-        </blockquote>
+                    <footer class="blockquote-footer">Source <cite title="Source Title">{{ $news_search_result->source }}</cite></footer>
+                </blockquote>
+            </div>
+
+            <div class="col-md-6 hidden-sm-down" style="background-color:">
+                <img class="featurette-image img-fluid mx-auto" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            </div>
+        </div>
+
+        <hr>
+        @else
+        <div class="row featurette align-items-center" style="background-color:">
+            <div class="col-md-6 push-md-6">
+                <h3 class="featurette-heading hidden-md-down text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</h3>
+                <h2 class="hidden-lg-up text-justify"><small class="text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</small></h2>
+
+                <img class="featurette-image img-fluid mx-auto hidden-md-up" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+                <hr class="hidden-md-up">
+
+                <blockquote class="blockquote">
+                    <p class="text-justify lead"> 
+                        {{ substr(strip_tags($news_search_result->description),0,250) }}{{ strlen(strip_tags($news_search_result->description)) > 250 ? "...":"" }}<br>
+                        <a class="btn btn-primary btn-sm" href="{{URL::to('/read_news_post/'.$news_search_result->id)}}" role="button">
+                            <i class="fa fa-leanpub" aria-hidden="true"></i> Read more
+                        </a>
+                        @if(Auth::user()->department == 'PI')
+                        <a class="btn btn-warning btn-sm" href="{{URL::to('/edit_news_post/'.$news_search_result->id)}}" role="button">
+                            <i class="fa fa-edit" aria-hidden="true"></i> Edit
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{{URL::to('/remove_news_post/'.$news_search_result->id)}}" role="button">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
+                        </a>
+                        @endif
+                    </p>
+
+                    <footer class="blockquote-footer">Source <cite title="Source Title">{{ $news_search_result->source }}</cite></footer>
+                </blockquote>
+            </div>
+            <div class="col-md-6 pull-md-6  hidden-sm-down">
+                <img class="featurette-image img-fluid mx-auto" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            </div>
+        </div>
+
+        <hr>
+        @endif
+        <?php ++$news_search_count; ?>
+    @endforeach
+
+
+    <div class="col-12">
+        <nav aria-label="Page navigation example">
+            {{ $news_search_results->links('vendor.pagination.bootstrap-4') }}
+
+            {{ $news_search_results->links('vendor.pagination.bootstrap-4-small') }}
+        </nav>
     </div>
-
-    <div class="col-md-6 hidden-sm-down" style="background-color:">
-        <img class="featurette-image img-fluid mx-auto" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-    </div>
-</div>
-
-<hr>
-@else
-<div class="row featurette align-items-center" style="background-color:">
-    <div class="col-md-6 push-md-6">
-        <h3 class="featurette-heading hidden-md-down text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</h3>
-        <h2 class="hidden-lg-up text-justify"><small class="text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</small></h2>
-
-        <img class="featurette-image img-fluid mx-auto hidden-md-up" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-        <hr class="hidden-md-up">
-
-        <blockquote class="blockquote">
-            <p class="text-justify lead"> 
-                {{ substr(strip_tags($news_search_result->description),0,250) }}{{ strlen(strip_tags($news_search_result->description)) > 250 ? "...":"" }}<br>
-                <a class="btn btn-primary btn-sm" href="{{URL::to('/read_news_post/'.$news_search_result->id)}}" role="button">
-                    <i class="fa fa-leanpub" aria-hidden="true"></i> Read more
-                </a>
-                @if(Auth::user()->department == 'PI')
-                <a class="btn btn-warning btn-sm" href="{{URL::to('/edit_news_post/'.$news_search_result->id)}}" role="button">
-                    <i class="fa fa-edit" aria-hidden="true"></i> Edit
-                </a>
-                <a class="btn btn-danger btn-sm" href="{{URL::to('/remove_news_post/'.$news_search_result->id)}}" role="button">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
-                </a>
-                @endif
-            </p>
-
-            <footer class="blockquote-footer">Source <cite title="Source Title">{{ $news_search_result->source }}</cite></footer>
-        </blockquote>
-    </div>
-    <div class="col-md-6 pull-md-6  hidden-sm-down">
-        <img class="featurette-image img-fluid mx-auto" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-    </div>
-</div>
-
-<hr>
 @endif
-<?php ++$news_search_count; ?>
-@endforeach
-
-
-<div class="col-12">
-    <nav aria-label="Page navigation example">
-        {{ $news_search_results->links('vendor.pagination.bootstrap-4') }}
-
-        {{ $news_search_results->links('vendor.pagination.bootstrap-4-small') }}
-    </nav>
-</div>
 
 @if(Session::has('news_post_id'))
 <!-- Edit News Modal -->
