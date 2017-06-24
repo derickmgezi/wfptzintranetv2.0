@@ -12,7 +12,7 @@
             ================================================== -->
             <!-- Wrap the rest of the page in another container to center all the content. -->
 
-            <div class="container marketing">                        
+            <div class="container-fluid marketing">                        
 
                 @include('components/pi/pinews')
 

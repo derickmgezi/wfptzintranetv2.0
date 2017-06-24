@@ -51,9 +51,22 @@ $news_post_count = 1;
 
         <blockquote class="blockquote blockquote-reverse">
             <p class="lead text-justify">
-                {{ substr(strip_tags($news_post->description),0,250) }}{{ strlen(strip_tags($news_post->description)) > 250 ? "...":"" }} <br>
-                <a class="btn btn-primary btn-sm" href="{{URL::to('/read_news_post/'.$news_post->id)}}" role="button">
+                {{ substr(strip_tags($news_post->description),0,250) }}{{ strlen(strip_tags($news_post->description)) > 250 ? "...":"" }} 
+                <br>
+                
+                <span class="badge badge-pill badge-success">45 Views</span>
+                <span class="badge badge-pill badge-primary">12 Likes</span>
+                <span class="badge badge-pill badge-default">2 Comments</span>
+                <br>
+                
+                <a class="btn btn-success btn-sm" href="{{URL::to('/read_news_post/'.$news_post->id)}}" role="button">
                     <i class="fa fa-leanpub" aria-hidden="true"></i> Read more
+                </a>
+                <a class="btn btn-primary btn-sm" href="{{URL::to('/like_news_post/'.$news_post->id)}}" role="button">
+                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> like
+                </a>
+                <a class="btn btn-secondary btn-sm" href="{{URL::to('/like_news_post/'.$news_post->id)}}" role="button">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> comment
                 </a>
                 @if(Auth::user()->department == 'PI')
                 <a class="btn btn-warning btn-sm" href="{{URL::to('/edit_news_post/'.$news_post->id)}}" role="button">
@@ -62,7 +75,7 @@ $news_post_count = 1;
                 <a class="btn btn-danger btn-sm" href="{{URL::to('/remove_news_post/'.$news_post->id)}}" role="button">
                     <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
                 </a>
-                @endif
+                @endif                
             </p>
 
             <footer class="blockquote-footer">Source <cite title="Source Title">{{ $news_post->source }}</cite></footer>
@@ -87,8 +100,14 @@ $news_post_count = 1;
         <blockquote class="blockquote">
             <p class="text-justify lead"> 
                 {{ substr(strip_tags($news_post->description),0,250) }}{{ strlen(strip_tags($news_post->description)) > 250 ? "...":"" }}<br>
-                <a class="btn btn-primary btn-sm" href="{{URL::to('/read_news_post/'.$news_post->id)}}" role="button">
+                <a class="btn btn-success btn-sm" href="{{URL::to('/read_news_post/'.$news_post->id)}}" role="button">
                     <i class="fa fa-leanpub" aria-hidden="true"></i> Read more
+                </a>
+                <a class="btn btn-primary btn-sm" href="{{URL::to('/like_news_post/'.$news_post->id)}}" role="button">
+                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> like
+                </a>
+                <a class="btn btn-secondary btn-sm" href="{{URL::to('/like_news_post/'.$news_post->id)}}" role="button">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> comment
                 </a>
                 @if(Auth::user()->department == 'PI')
                 <a class="btn btn-warning btn-sm" href="{{URL::to('/edit_news_post/'.$news_post->id)}}" role="button">
@@ -98,6 +117,10 @@ $news_post_count = 1;
                     <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
                 </a>
                 @endif
+                <br>
+                <span class="badge badge-pill badge-success">45 Views</span>
+                <span class="badge badge-pill badge-primary">12 Likes</span>
+                <span class="badge badge-pill badge-default">2 Comments</span>
             </p>
 
             <footer class="blockquote-footer">Source <cite title="Source Title">{{ $news_post->source }}</cite></footer>

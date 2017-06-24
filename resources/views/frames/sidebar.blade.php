@@ -20,8 +20,8 @@
             </a>
         </li>
         @endif
-<!--        <li class="nav-item">
-            <a class="nav-link {{((Request::is('it'))? 'active':'')}}" href="#">
+        <li class="nav-item">
+            <a class="nav-link {{((Request::is('it'))? 'active':'')}}" href="{{URL::to('/it')}}">
                 <i class="fa fa-desktop fa-lg" aria-hidden="true"></i> IT
             </a>
         </li>
@@ -34,7 +34,7 @@
             <a class="nav-link {{((Request::is('admin'))? 'active':'')}}" href="#">
                 <i class="fa fa-cogs fa-lg" aria-hidden="true"></i> Administration
             </a>
-        </li>-->
+        </li>
         <li class="nav-item">
             <a class="nav-link {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
                 <i class="fa fa-address-book-o fa-lg" aria-hidden="true"></i> Phone Directory

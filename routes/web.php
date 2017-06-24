@@ -58,6 +58,18 @@ Route::post('/search', 'SearchController@search')->middleware('guest');
 
 Route::get('/search', 'SearchController@index')->middleware('guest');
 
+Route::get('/it', 'ITController@index')->middleware('guest');
+
+Route::get('/create_it_post', 'ITController@create')->middleware('guest');
+
+Route::post('/store_it_post', 'ITController@store_post')->middleware('guest');
+
+Route::get('/edit_it_post/{id}', 'ITController@edit_post')->middleware('guest');
+
+Route::post('/edit_it_post/{id}', 'ITController@update_post')->middleware('guest');
+
+Route::get('/remove_it_post/{id}', 'ITController@destroy_post')->middleware('guest');
+
 Route::get('/news', function () {
     return view('news');
 });
