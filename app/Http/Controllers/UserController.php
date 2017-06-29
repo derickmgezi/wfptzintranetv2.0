@@ -17,6 +17,10 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        if (Auth::check()) {
+            // The user is logged in...
+            return view('home');
+        }
         return view('index');
     }
 
@@ -28,7 +32,7 @@ class UserController extends Controller {
     public function create() {
         //
     }
-    
+
     public function logout() {
         //
         Auth::logout();
@@ -49,35 +53,34 @@ class UserController extends Controller {
 
         if ($validator->fails()) {
             return redirect('/')
-                   ->withErrors($validator)
-                   ->withInput();
+                            ->withErrors($validator)
+                            ->withInput();
         } else {
             // Authenticating against your LDAP server.
             if (Adldap::auth()->attempt($request->username, $request->password)) {
                 // AD Authentication Passed!
-                
                 //Update User Table with AD Password
                 $user_password_update = User::where('username', $request->username)->update(['password' => bcrypt($request->password)]);
-                
+
                 if ($user_password_update) {
                     // Always Remember Users
                     $remember = true;
-                    
-                    if (Auth::attempt($request->only(['username', 'password']),  $remember)) {
+
+                    if (Auth::attempt($request->only(['username', 'password']), $remember)) {
                         // Authentication passed...
-                        return redirect()->intended('/');
+                        return redirect()->intended('/home');
                     } else {
                         return back()->withInput()
-                                     ->with('error', 'Username and Password Authentication Failed');
+                                        ->with('error', 'Username and Password Authentication Failed');
                     }
                 } else {
                     return back()->withInput()
-                                 ->with('error', 'Access Denied');
+                                    ->with('error', 'Access Denied');
                 }
             } else {
                 // AD Authentication failled!
                 return back()->withInput()
-                             ->with('error', 'Username or Password Incorect');
+                                ->with('error', 'Username or Password Incorect');
             }
         }
     }

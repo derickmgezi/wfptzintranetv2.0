@@ -70,16 +70,16 @@ Route::post('/edit_it_post/{id}', 'ITController@update_post')->middleware('guest
 
 Route::get('/remove_it_post/{id}', 'ITController@destroy_post')->middleware('guest');
 
-Route::get('/news', function () {
-    return view('news');
+Route::get('/finance', function () {
+    return view('finance');
 });
 
 Route::get('/previous', function () {
     return view('previous');
 });
 
-Route::get('/test', function () {
-    return view('test');
+Route::get('/administration', function () {
+    return view('administration');
 });
 
 Auth::routes();

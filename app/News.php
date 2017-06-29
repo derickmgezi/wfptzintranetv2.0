@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class News extends Model {
     
-    use Searchable;
+    //use Searchable;
     
     /**
      * The attributes that are mass assignable.

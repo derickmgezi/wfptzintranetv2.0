@@ -26,12 +26,12 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{((Request::is('finance'))? 'active':'')}}" href="#">
+            <a class="nav-link {{((Request::is('finance'))? 'active':'')}}" href="{{URL::to('/finance')}}">
                 <i class="fa fa-money fa-lg" aria-hidden="true"></i> Finance
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{((Request::is('admin'))? 'active':'')}}" href="#">
+            <a class="nav-link {{((Request::is('administration'))? 'active':'')}}" href="{{URL::to('/administration')}}">
                 <i class="fa fa-cogs fa-lg" aria-hidden="true"></i> Administration
             </a>
         </li>

@@ -6,7 +6,7 @@
 
         <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
 
-            @include('components/pi/picarousel')
+<!--            @include('components/pi/picarousel')-->
 
             <!-- Marketing messaging and featurettes
             ================================================== -->

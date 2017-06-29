@@ -28,7 +28,7 @@
                 @elseif($text_format_id == 3)
                 <div class="carousel-caption d-none d-md-block text-right">
                 @endif
-                    <h1 class="">{{$post->header}} {{ $text_format_id }}</h1>
+                    <h1 class="">{{$post->header}}</h1>
 
                     <p>
                         {!!$post->description!!}

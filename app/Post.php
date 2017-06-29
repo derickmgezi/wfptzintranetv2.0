@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model {
     
-    use Searchable;
+    //use Searchable;
     
    /**
      * The attributes that are mass assignable.

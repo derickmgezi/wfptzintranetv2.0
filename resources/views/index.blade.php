@@ -27,7 +27,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="row inner">
-                        <div class="col-lg-6 col-md-4 col-sm-12"><h3 class=""><i class="fa fa-spinner fa-spin"></i> tznewsalert</h3></div>
+                        <div class="col-lg-6 col-md-4 col-sm-12"><h3 class=""><img class="img-fluid" src="{{ URL::to('image/wfp_logo08.png') }}" alt="Responsive image" alt="Generic placeholder image" width="35" data-src="holder.js/25x25/auto"> intranet.tz</h3></div>
                         <div class="col-lg-6 col-md-8 col-sm-12">
                             <nav class="nav">
                                 <a target="_blank" class="nav-link" href="http://go.wfp.org">WFP Go</a>
