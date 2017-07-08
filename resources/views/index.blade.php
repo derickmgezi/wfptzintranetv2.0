@@ -27,14 +27,19 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="row inner">
-                        <div class="col-lg-6 col-md-4 col-sm-12"><h3 class=""><img class="img-fluid" src="{{ URL::to('image/wfp_logo08.png') }}" alt="Responsive image" alt="Generic placeholder image" width="35" data-src="holder.js/25x25/auto"> intranet.tz</h3></div>
+                        <div class="col-lg-6 col-md-4 col-sm-12">
+                            <h3 class="">
+<!--                                <img class="img-fluid" src="{{ URL::to('image/wfp_logo08.png') }}" alt="Responsive image" alt="Generic placeholder image" width="35" data-src="holder.js/25x25/auto"> 
+                                intranet.tz-->
+                            </h3>
+                        </div>
                         <div class="col-lg-6 col-md-8 col-sm-12">
                             <nav class="nav">
-                                <a target="_blank" class="nav-link" href="http://go.wfp.org">WFP Go</a>
+<!--                                <a target="_blank" class="nav-link" href="http://go.wfp.org">WFP Go</a>
                                 <a target="_blank" class="nav-link" href="http://mfapps.wfp.org">WINGS</a>
                                 <a target="_blank" class="nav-link" href="http://mail.wfp.org">WEB Mail</a>
                                 <a target="_blank" class="nav-link" href="http://info.wfp.org">WFP Info</a>
-                                <a target="_blank" class="nav-link" href="http://pace.wfp.org">PACE</a>
+                                <a target="_blank" class="nav-link" href="http://pace.wfp.org">PACE</a>-->
                             </nav>
                         </div>
                     </div>
@@ -52,34 +57,34 @@
                     <div class="col-md-6 col-xl-5">
 
                         <div class="col-md-12 col-lg-12">
-                            <h1 class="cover-heading">
+<!--                            <h1 class="cover-heading">
                                 Welcome 
                                 @if(Auth::check())
                                 <i class="fa fa-user-circle" aria-hidden="true"></i> {{ Auth::user()->firstname}}
                                 @endif
 
-                            </h1>
+                            </h1>-->
                         </div>
 
                         <div class="col-md-12 col-lg-12">
                             <p class="lead text-justify">
-                                tznewsalert.wfp.org offers you the best WFP news coverage in Tanzania, 
-                                by making sure you are well informed of what is happening around WFP.
+<!--                                tznewsalert.wfp.org offers you the best WFP news coverage in Tanzania, 
+                                by making sure you are well informed of what is happening around WFP.-->
                             </p>
                         </div>
 
                         <div class="col-md-12 col-lg-12">
-                            <p class="lead">
+<!--                            <p class="lead">
                                 <a href="{{URL::to('/home')}}" class="btn btn-lg btn-secondary">Continue <i class="fa fa-sign-in fa-lg" aria-hidden="true"></i></a>
-                            </p>
+                            </p>-->
                         </div>
 
                     </div>
                     <div class="col-md-3 col-xl-4 hidden-sm-down">
-                        <a class="twitter-timeline" data-height="500" href="https://twitter.com/WFP_Tanzania">
+<!--                        <a class="twitter-timeline" data-height="500" href="https://twitter.com/WFP_Tanzania">
                             Tweets by WFP_Tanzania
                         </a> 
-                        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>-->
                     </div>
                 </div>
             </div>
@@ -120,7 +125,7 @@
         <div class="container-fluid">
             <div class="mastfoot">
                 <div class="inner">
-                    <p>Created by <a href="https://getbootstrap.com">IT Unit</a>, Tanzania CO <a href="https://twitter.com/mdo">@2017</a>.</p>
+                    <p>Created by <a href="https://getbootstrap.com">World Food Programme</a>, Tanzania CO <a href="https://twitter.com/mdo">@2017</a>.</p>
                 </div>
             </div>
         </div>

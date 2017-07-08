@@ -1,7 +1,7 @@
 
 <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
     <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
+<!--        <li class="nav-item">
             <a class="nav-link {{((Request::is('home'))? 'active':'')}}" href="{{URL::to('/home')}}">
                 <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> PI <span class="sr-only">(current)</span>
             </a>
@@ -34,10 +34,10 @@
             <a class="nav-link {{((Request::is('administration'))? 'active':'')}}" href="{{URL::to('/administration')}}">
                 <i class="fa fa-cogs fa-lg" aria-hidden="true"></i> Administration
             </a>
-        </li>
+        </li>-->
         <li class="nav-item">
             <a class="nav-link {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
-                <i class="fa fa-address-book-o fa-lg" aria-hidden="true"></i> Phone Directory
+                <i class="fa fa-phone-square fa-lg" aria-hidden="true"></i> Phone Directory
             </a>
         </li>
         @if(Request::is('search'))

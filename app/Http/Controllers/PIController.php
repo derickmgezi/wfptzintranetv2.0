@@ -11,6 +11,8 @@ use Image;
 use App\News;
 use Session;
 use App\User;
+use App\View;
+use App\Like;
 
 class PIController extends Controller {
 
@@ -29,7 +31,7 @@ class PIController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create_post() {
-        Session::flash('create_post', 'Create Post Message');
+        Session::flash('create_finance_update', 'Create Post Message');
         return back();
     }
 
@@ -236,6 +238,12 @@ class PIController extends Controller {
     }
 
     public function show_news_post($id) {
+        //Record the view in the Database
+        $view = new View;
+        $view->view_id = $id;
+        $view->viewed_by = Auth::id();
+        $view->save();
+        
         $news_post = News::find($id);
         Session::flash('read_news_post', $id);
         return back();
@@ -312,6 +320,16 @@ class PIController extends Controller {
         $post->save();
 
         return redirect('/home');
+    }
+    
+    public function like_news_post($id) {
+        $like = new Like;
+        $like->view_id = $id;
+        $like->liked_by = Auth::id();
+        $like->save();
+
+        Session::flash('read_news_post', $id);
+        return back();
     }
 
     public function show_user_bio($id) {

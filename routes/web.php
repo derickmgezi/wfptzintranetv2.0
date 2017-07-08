@@ -42,6 +42,8 @@ Route::get('/remove_news_post/{id}', 'PIController@delete_news_post')->middlewar
 
 Route::get('/read_news_post/{id}', 'PIController@show_news_post')->middleware('guest');
 
+Route::get('/like_news_post/{id}', 'PIController@like_news_post')->middleware('guest');
+
 Route::get('/internaldirectory', 'PhoneDirectoryController@index')->middleware('guest');
 
 Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts')->middleware('guest');
@@ -70,8 +72,22 @@ Route::post('/edit_it_post/{id}', 'ITController@update_post')->middleware('guest
 
 Route::get('/remove_it_post/{id}', 'ITController@destroy_post')->middleware('guest');
 
+Route::get('/create_update', 'UpdateController@create_update')->middleware('guest');
+
+Route::post('/store_update/{department}', 'UpdateController@store_update')->middleware('guest');
+
+Route::get('/edit_update/{id}', 'UpdateController@edit_update')->middleware('guest');
+
+Route::post('/edit_update/{id}', 'UpdateController@update_update')->middleware('guest');
+
+Route::get('/remove_update/{id}', 'UpdateController@delete_update')->middleware('guest');
+
+Route::get('/read_update/{id}', 'UpdateController@show_update')->middleware('guest');
+
+Route::get('/like_update/{id}', 'UpdateController@like_update')->middleware('guest');
+
 Route::get('/finance', function () {
-    return view('finance');
+    return view('finance')->with('department','Finance');
 });
 
 Route::get('/previous', function () {
@@ -79,7 +95,19 @@ Route::get('/previous', function () {
 });
 
 Route::get('/administration', function () {
-    return view('administration');
+    return view('administration')->with('department','Admin');
+});
+
+Route::get('/hr', function () {
+    return view('hr')->with('department','HR');
+});
+
+Route::get('/supplychain', function () {
+    return view('supplychain')->with('department','Logistics');
+});
+
+Route::get('/programme', function () {
+    return view('programme')->with('department','Programme');
 });
 
 Auth::routes();

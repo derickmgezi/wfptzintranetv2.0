@@ -22,6 +22,9 @@
         <!-- Custom styles for Font Awesome template -->
         {{ Html::style('css/font-awesome.min.css') }}
 
+        <!-- Custom styles for sticky footer template -->
+        {{ Html::style('css/sticky-footer-navbar.css') }}
+
         <!-- Custom Java Script styles for Tinymce Text Editor -->
         {{HTML::script("js/tinymce.min.js")}}
 
@@ -78,7 +81,7 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+<!--                    <li class="nav-item active">
                         <a target="_blank" class="nav-link" href="http://go.wfp.org">WFP Go<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
@@ -92,25 +95,62 @@
                     </li>
                     <li class="nav-item active">
                         <a target="_blank" class="nav-link" href="http://info.wfp.org">WFP Info</a>
+                    </li>-->
+                    <li class="nav-item">
+                        <a class="nav-link {{((Request::is('home'))? 'active':'')}}" href="{{URL::to('/home')}}">
+                            | <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Communications</small> <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{((Request::is('it'))? 'active':'')}}" href="{{URL::to('/it')}}">
+                            | <i class="fa fa-laptop fa-lg" aria-hidden="true"></i> <small>IT</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{((Request::is('finance'))? 'active':'')}}" href="{{URL::to('/finance')}}">
+                            | <i class="fa fa-bank" aria-hidden="true"></i> <small>Finance</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{((Request::is('administration'))? 'active':'')}}" href="{{URL::to('/administration')}}">
+                            | <i class="fa fa-cog fa-lg" aria-hidden="true"></i> <small>Administration</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{((Request::is('hr'))? 'active':'')}}" href="{{URL::to('/hr')}}">
+                            | <i class="fa fa-male fa-lg" aria-hidden="true"></i> <small>HR</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{((Request::is('supplychain'))? 'active':'')}}" href="{{URL::to('/supplychain')}}">
+                            | <i class="fa fa-truck fa-lg" aria-hidden="true"></i> <small>Supply Chain</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{((Request::is('programme'))? 'active':'')}}" href="{{URL::to('/programme')}}">
+                            | <i class="fa fa-file-text fa-lg" aria-hidden="true"></i> <small>Programme</small>
+                        </a>
                     </li>
                 </ul>
 
                 <a class="navbar-brand">
-                    <img class="img-fluid" src="{{ strlen(Auth::user()->image) != 0? url('/storage/'.Auth::user()->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="{{ strlen(Auth::user()->image) != 0? '27':'35' }}" data-src="holder.js/25x25/auto">
+                    <img class="img-fluid" src="{{ strlen(Auth::user()->image) != 0? url('/storage/'.Auth::user()->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="{{ strlen(Auth::user()->image) != 0? '29':'35' }}" data-src="holder.js/25x25/auto">
                 </a>
-
+                
                 <div class="btn-group navbar-nav navbar-brand">
-                    <button type="button" class="btn btn-warning">{{ Auth::user()->firstname}}</button>
-                    <button type="button" class="btn btn-secondary" data-toggle="dropdown">
-                        <i class="fa fa-chevron-down"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}"><i class="fa fa-eye"></i> View Bio</a>
-<!--                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>-->
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a>
-                    </div>
+                    <form class="form-inline">
+                        <button type="button" class="btn btn-warning">{{ Auth::user()->firstname}}</button>
+                        <button type="button" class="btn btn-secondary" data-toggle="dropdown">
+                            <i class="fa fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}"><i class="fa fa-eye"></i> View Bio</a>
+    <!--                        <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>-->
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a>
+                        </div>
+                    </form>
                 </div>
                 
                 {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0','role' => 'form'))}}

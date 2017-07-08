@@ -19,7 +19,7 @@ class UserController extends Controller {
     public function index() {
         if (Auth::check()) {
             // The user is logged in...
-            return view('home');
+            return redirect('/home');
         }
         return view('index');
     }
@@ -56,6 +56,17 @@ class UserController extends Controller {
                             ->withErrors($validator)
                             ->withInput();
         } else {
+            //Authenticate using normal Auth ruteen and Always Remember Users
+//            $remember = true;
+//            
+//            if (Auth::attempt($request->only(['username', 'password']), $remember)) {
+//                        // Authentication passed...
+//                        return redirect()->intended('/home');
+//                    } else {
+//                        return back()->withInput()
+//                                        ->with('error', 'Username and Password Authentication Failed');
+//                    }
+            
             // Authenticating against your LDAP server.
             if (Adldap::auth()->attempt($request->username, $request->password)) {
                 // AD Authentication Passed!
