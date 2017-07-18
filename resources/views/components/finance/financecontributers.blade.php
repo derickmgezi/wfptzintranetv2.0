@@ -3,7 +3,9 @@ $department_staff = App\User::where('department', $department)->get();
 $staff_count = $department_staff->count();
 ?>
 @if($staff_count != 0)
-<h1 class="text-center featurette-heading">Page Editor</h1>
+<h1 class="text-center featurette-heading">
+    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Page Editor
+</h1>
 
 <!-- Three columns of text below the carousel -->
 <div class="row justify-content-md-center">

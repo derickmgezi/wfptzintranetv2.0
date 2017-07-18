@@ -17,7 +17,7 @@ $update_count = $updates->count();
         <button type="button" class="btn btn-primary float-left hidden-md-up invisible" onclick="location.href = '{{URL::to('/previous')}}'"><i class="fa fa-calendar" aria-hidden="true"></i> News</button>
         
         <h1 class="text-center featurette-heading">
-            <i class="fa fa-newspaper-o" aria-hidden="true"></i> {{ $department == 'Logistics'? 'Supply Chain':$department }} Updates
+            <i class="fa fa-newspaper-o" aria-hidden="true"></i> {{ (($department == 'Logistics')? 'Supply Chain':$department) }} Updates
         </h1>
     </div>
 </div>
@@ -107,7 +107,9 @@ $update_count = $updates->count();
             <button type="button" class="btn btn-primary float-left hidden-md-up invisible" onclick="location.href = '{{URL::to('/previous')}}'"><i class="fa fa-calendar" aria-hidden="true"></i> Add Update</button>
             @endif
             
-            <h1 class="text-center featurette-heading"><i class="fa fa-updatepaper-o" aria-hidden="true"></i> {{ $department }} Updates</h1>
+            <h1 class="text-center featurette-heading">
+                <i class="fa fa-newspaper-o" aria-hidden="true"></i> {{ (($department == 'Logistics')? 'Supply Chain':$department) }} Updates
+            </h1>
         </div>
         
         <div class="col-md-12">

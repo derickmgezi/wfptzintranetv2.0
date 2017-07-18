@@ -133,9 +133,9 @@
                     </li>
                 </ul>
 
-                <a class="navbar-brand">
+<!--                <a class="navbar-brand">
                     <img class="img-fluid" src="{{ strlen(Auth::user()->image) != 0? url('/storage/'.Auth::user()->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="{{ strlen(Auth::user()->image) != 0? '29':'35' }}" data-src="holder.js/25x25/auto">
-                </a>
+                </a>-->
                 
                 <div class="btn-group navbar-nav navbar-brand">
                     <form class="form-inline">
