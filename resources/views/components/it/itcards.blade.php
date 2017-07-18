@@ -14,7 +14,7 @@
     </div>
     <div class="card p-2 card-inverse card-success">
         <blockquote class="card-block card-blockquote">
-            <button type="l" class="btn btn-secondary btn-sm">View FAQ Document</button>
+            <button type="l" onclick="location.href='file:///C:/Users/Derick/Pictures/Saved%20Pictures/whatstrending_blogimage.jpg';" class="btn btn-secondary btn-sm">View FAQ Document</button>
         </blockquote>
     </div>
     <div class="card card-outline-success">

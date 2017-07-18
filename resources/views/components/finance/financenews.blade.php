@@ -114,7 +114,7 @@ $update_count = $updates->count();
         
         <div class="col-md-12">
             <div class="alert alert-info text-center" role="alert">
-                <strong>No Updates from {{ $department }} have been added.</strong> {{ Auth::user()->department == $department? 'To add updates, click the Add Update Button.':'' }}
+                <strong>No Updates from {{ (($department == 'Logistics')? 'Supply Chain':$department) }} have been added.</strong> {{ Auth::user()->department == $department? 'To add updates, click the Add Update Button.':'' }}
             </div>
         </div>
 

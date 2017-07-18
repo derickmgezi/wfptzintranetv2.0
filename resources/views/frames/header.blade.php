@@ -113,7 +113,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{((Request::is('administration'))? 'active':'')}}" href="{{URL::to('/administration')}}">
-                            | <i class="fa fa-cog fa-lg" aria-hidden="true"></i> <small>Administration</small>
+                            | <i class="fa fa-cog fa-lg" aria-hidden="true"></i> <small>Admin</small>
                         </a>
                     </li>
                     <li class="nav-item">
