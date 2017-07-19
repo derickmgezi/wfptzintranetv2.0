@@ -139,7 +139,7 @@
                 
                 <div class="btn-group navbar-nav navbar-brand">
                     <form class="form-inline">
-                        <button type="button" class="btn btn-warning">{{ Auth::user()->firstname}}</button>
+                        <button type="button" class="btn btn-warning"><i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> {{ Auth::user()->firstname}}</button>
                         <button type="button" class="btn btn-secondary" data-toggle="dropdown">
                             <i class="fa fa-chevron-down"></i>
                         </button>
