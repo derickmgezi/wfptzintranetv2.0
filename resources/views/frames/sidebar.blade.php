@@ -35,6 +35,7 @@
                 <i class="fa fa-cogs fa-lg" aria-hidden="true"></i> Administration
             </a>
         </li>-->
+        @if(Auth::user()->title != 'Administrator')
         <li class="nav-item">
             <a class="nav-link {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
                 <i class="fa fa-phone-square fa-lg" aria-hidden="true"></i> Phone Directory
@@ -44,6 +45,13 @@
         <li class="nav-item">
             <a class="nav-link {{((Request::is('search'))? 'active':'')}}" href="#">
                 <i class="fa fa-list fa-lg" aria-hidden="true"></i> Results
+            </a>
+        </li>
+        @endif
+        @else
+        <li class="nav-item">
+            <a class="nav-link {{((Request::is('manage'))? 'active':'')}}" href="{{URL::to('/manage')}}">
+                <i class="fa fa-users fa-lg" aria-hidden="true"></i> Users
             </a>
         </li>
         @endif

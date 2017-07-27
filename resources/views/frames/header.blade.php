@@ -96,6 +96,7 @@
                     <li class="nav-item active">
                         <a target="_blank" class="nav-link" href="http://info.wfp.org">WFP Info</a>
                     </li>-->
+                    @if(Auth::user()->title != 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link {{((Request::is('home'))? 'active':'')}}" href="{{URL::to('/home')}}">
                             | <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Communications</small> <span class="sr-only">(current)</span>
@@ -131,6 +132,7 @@
                             | <i class="fa fa-file-text fa-lg" aria-hidden="true"></i> <small>Programme</small>
                         </a>
                     </li>
+                    @endif
                 </ul>
 
 <!--                <a class="navbar-brand">
@@ -144,15 +146,18 @@
                             <i class="fa fa-chevron-down"></i>
                         </button>
                         <div class="dropdown-menu">
+                            @if(Auth::user()->title != 'Administrator')
                             <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}"><i class="fa fa-eye"></i> View Bio</a>
     <!--                        <a class="dropdown-item" href="#">Another action</a>
                             <a class="dropdown-item" href="#">Something else here</a>-->
                             <div class="dropdown-divider"></div>
+                            @endif
                             <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a>
                         </div>
                     </form>
                 </div>
                 
+                @if(Auth::user()->title != 'Administrator')
                 {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0','role' => 'form'))}}
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Search for...">
@@ -163,5 +168,6 @@
                         </span>
                     </div>
                 {{Form::close()}}
+                @endif
             </div>
         </nav>

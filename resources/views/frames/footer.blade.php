@@ -70,6 +70,10 @@
         @if(Session::has('view_user_bio') || Session::has('add_user_bio'))
         <script>$('#user-bio-modal').modal('show');</script>
         @endif
+        
+        @if(Session::has('add_user_error'))
+        <script>$('#addUserModal').modal('show');</script>
+        @endif
 
     </body>
 

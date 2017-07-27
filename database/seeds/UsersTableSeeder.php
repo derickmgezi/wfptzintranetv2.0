@@ -362,6 +362,20 @@ class UsersTableSeeder extends Seeder {
 //                )
 //        );
         
+        User::create(
+                array(
+                    'firstname' => 'Admin Derick',
+                    'secondname' => 'Ruganuza',
+                    'username' => 'admruganuzad',
+                    'email' => 'admruganuzad@wfp.org',
+                    'password' => bcrypt('Welcome@123'),
+                    'title' => 'Administrator',
+                    'department' => 'Administrators',
+                    'created_at' => $now,
+                    'updated_at' => $now
+                )
+        );
+        
     }
 
 }
