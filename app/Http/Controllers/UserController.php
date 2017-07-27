@@ -18,6 +18,10 @@ class UserController extends Controller {
      */
     public function index() {
         if (Auth::check()) {
+            if(Auth::user()->title == 'Administrator'){
+                //User is Administrator
+                return redirect('/manage');
+            }
             // The user is logged in...
             return redirect('/home');
         }
@@ -79,6 +83,10 @@ class UserController extends Controller {
 
                     if (Auth::attempt($request->only(['username', 'password']), $remember)) {
                         // Authentication passed...
+                        if(Auth::user()->title == 'Administrator'){
+                            //User is Administrator
+                            return redirect('/manage');
+                        }
                         return redirect()->intended('/home');
                     } else {
                         return back()->withInput()
