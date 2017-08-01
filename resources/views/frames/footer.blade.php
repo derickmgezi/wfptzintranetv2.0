@@ -71,7 +71,7 @@
         <script>$('#user-bio-modal').modal('show');</script>
         @endif
         
-        @if(Session::has('add_user_error'))
+        @if(Session::has('add_user') || Session::has('add_user_error') || Session::has('edit_user') || Session::has('edit_user_error'))
         <script>$('#addUserModal').modal('show');</script>
         @endif
 

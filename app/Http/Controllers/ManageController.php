@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Validator;
+use Illuminate\Validation\Rule;
 
 class ManageController extends Controller {
 
@@ -26,6 +27,7 @@ class ManageController extends Controller {
      */
     public function create() {
         //
+        return back()->with('add_user', 'Create new User');
     }
 
     /**
@@ -48,8 +50,23 @@ class ManageController extends Controller {
 
         if ($validator->fails()) {
             return back()->withErrors($validator)
-                         ->withInput()
-                         ->with('add_user_error','Validation Error');
+                            ->withInput()
+                            ->with('add_user_error', 'Validation Error');
+        } else {
+            //add new user into users Table
+            $user = new User;
+            $user->firstname = $request->firstname;
+            $user->secondname = $request->secondname;
+            $user->username = $request->username;
+            $user->email = $request->email;
+            $user->title = $request->title;
+            $user->title = $request->title;
+            $user->department = $request->department;
+            $user->dutystation = $request->dutystation;
+            $user->password = bcrypt('3@viruses');
+            $user->save();
+
+            return back()->with('add_user_status', 'User has been created successfuly');
         }
     }
 
@@ -71,6 +88,8 @@ class ManageController extends Controller {
      */
     public function edit($id) {
         //
+        $edit_user = User::find($id);
+        return back()->with('edit_user', $edit_user);
     }
 
     /**
@@ -82,6 +101,34 @@ class ManageController extends Controller {
      */
     public function update(Request $request, $id) {
         //
+        $validator = Validator::make($request->all(), [
+                    'firstname' => 'required',
+                    'secondname' => 'required',
+                    'username' => ['required', Rule::unique('users')->ignore($id),],
+                    'email' => 'required|email',
+                    'title' => 'required',
+                    'department' => 'required',
+                    'dutystation' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)
+                            ->withInput()
+                            ->with('edit_user_error', $id);
+        } else {
+            //edit user
+            $edit_user = User::find($id);
+            $edit_user->firstname = $request->firstname;
+            $edit_user->secondname = $request->secondname;
+            $edit_user->username = $request->username;
+            $edit_user->email = $request->email;
+            $edit_user->title = $request->title;
+            $edit_user->department = $request->department;
+            $edit_user->dutystation = $request->dutystation;
+            $edit_user->save();
+            
+            return back()->with('edit_user_status', 'User has been edited successfuly');
+        }
     }
 
     /**
