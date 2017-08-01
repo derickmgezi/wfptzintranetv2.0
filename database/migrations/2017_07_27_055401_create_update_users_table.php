@@ -16,6 +16,7 @@ class CreateUpdateUsersTable extends Migration {
         Schema::table('users', function($table) {
             $table->string('email', 50)->change();
             $table->string('dutystation', 40)->default('CO')->after('department');
+            $table->boolean('status')->default(1)->after('dutystation');
             $table->dropUnique('users_email_unique');
         });
     }

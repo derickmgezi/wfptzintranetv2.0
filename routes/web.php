@@ -113,7 +113,15 @@ Route::group(['middleware' => ['guest']], function () {
     
     Route::get('/manage', 'ManageController@index');
     
+     Route::get('/createuser', 'ManageController@create');
+    
     Route::post('/adduser', 'ManageController@store');
+    
+    Route::get('/edituser/{id}', 'ManageController@edit');
+    
+    Route::post('/edituser/{id}', 'ManageController@update');
+    
+    Route::get('/deleteuser/{id}', 'ManageController@destroy');
 });
 
 Auth::routes();
