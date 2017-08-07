@@ -75,7 +75,7 @@ class UserController extends Controller {
             if (Adldap::auth()->attempt($request->username, $request->password)) {
                 // AD Authentication Passed!
                 //Update User Table with AD Password
-                $user_password_update = User::where('username', $request->username)->update(['password' => bcrypt($request->password)]);
+                $user_password_update = User::where('username', $request->username)->where('status',1)->update(['password' => bcrypt($request->password)]);
 
                 if ($user_password_update) {
                     // Always Remember Users

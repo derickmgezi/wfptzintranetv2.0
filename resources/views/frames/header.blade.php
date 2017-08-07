@@ -34,14 +34,19 @@
             var editor_config = {
               path_absolute : "{{ URL::to('/') }}/",
               selector: "textarea",
-              menubar: false,
+              skin: 'charcoal',
+              height: 250,
+              menubar: true,
+              theme: 'modern',
+              browser_spellcheck: true,
               plugins: [
                 "advlist autolink lists link image charmap print preview hr anchor pagebreak",
                 "searchreplace wordcount visualblocks visualchars code fullscreen",
-                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "insertdatetime nonbreaking save table contextmenu directionality",
                 "emoticons template paste textcolor colorpicker textpattern"
               ],
-              toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+              toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+              toolbar2: "preview | forecolor backcolor | emoticons | codesample",
               relative_urls: true,
               file_browser_callback : function(field_name, url, type, win) {
                 var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
@@ -99,7 +104,7 @@
                     @if(Auth::user()->title != 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link {{((Request::is('home'))? 'active':'')}}" href="{{URL::to('/home')}}">
-                            | <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Communications</small> <span class="sr-only">(current)</span>
+                            | <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Comms</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
