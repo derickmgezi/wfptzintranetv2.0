@@ -16,9 +16,9 @@
             <div class="tab-pane fade show active" id="users" role="tabpanel">
                 <div class="card p-2">
                     <div class="">
-                        @if(Session::has('add_user_status') || Session::has('edit_user_status'))
+                        @if(Session::has('add_user_status') || Session::has('edit_user_status') || Session::has('user_status'))
                         <div class="alert alert-success" role="alert">
-                            <strong>Congratulations!</strong> {{ Session::has('edit_user_status')?Session::get('edit_user_status'):Session::get('add_user_status') }}
+                            <strong>{{ Session::has('edit_user_status')?Session::get('edit_user_status'):''}} {{Session::has('edit_user_status')?Session::get('add_user_status'):''}} {{Session::has('user_status')?Session::get('user_status'):'' }}</strong>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -154,7 +154,7 @@
                             <td><small><strong><i class="fa fa-building-o fa-2x" aria-hidden="true"></i><br><a href="#">Department</a></strong></small></td>
                             <td><small><strong><i class="fa fa-home fa-2x" aria-hidden="true"></i><br><a href="#">Station</a></strong></small></td>
                             <td><small><strong><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i><br>Edit</strong></small></td>
-                            <td><small><strong><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i><br>Delete</strong></small></td>
+                            <td><small><strong><i class="fa fa-unlock-alt fa-2x" aria-hidden="true"></i><br>Access</strong></small></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -172,8 +172,8 @@
                                     <td><small>{{ $user->title }}</small></td>
                                     <td><small>{{ $user->department }}</small></td>
                                     <td><small>{{ $user->dutystation }}</small></td>
-                                    <td><a role="button" href="{{ URL::to('/edituser/'.$user->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a></td>
-                                    <td><a role="button" href="{{ URL::to('/deleteuser/'.$user->id) }}" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a></td>
+                                    <td><a role="button" href="{{ URL::to('/edituser/'.$user->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
+                                    <td><a role="button" href="{{ URL::to('/deleteuser/'.$user->id) }}" class="btn btn-sm {{ $user->status?'btn-danger':'btn-success' }}"><i class="fa {{ $user->status?'fa-lock':'fa-unlock' }} fa-lg" aria-hidden="true"></i> {{ $user->status?'Lock':'Unlock' }}</a></td>
                         </tr>
                         <?php
                         ($color_id > 3) ? $color_id = 0 : ++$color_id;
@@ -187,8 +187,8 @@
                                     <td><small>{{ $user->title }}</small></td>
                                     <td><small>{{ $user->department }}</small></td>
                                     <td><small>{{ $user->dutystation }}</small></td>
-                                    <td><a role="button" href="{{ URL::to('/edituser/'.$user->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a></td>
-                                    <td><a role="button" href="{{ URL::to('/deleteuser/'.$user->id) }}" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a></td>
+                                    <td><a role="button" href="{{ URL::to('/edituser/'.$user->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
+                                    <td><a role="button" href="{{ URL::to('/deleteuser/'.$user->id) }}" class="btn btn-sm {{ $user->status?'btn-danger':'btn-success' }}"><i class="fa {{ $user->status?'fa-lock':'fa-unlock' }} fa-lg" aria-hidden="true"></i> {{ $user->status?'Lock':'Unlock' }}</a></td>
                         </tr>
                         <?php
                         $row_status = 1;

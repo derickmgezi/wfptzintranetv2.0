@@ -139,6 +139,17 @@ class ManageController extends Controller {
      */
     public function destroy($id) {
         //
+        $user = User::find($id);
+        if($user->status){
+            $user->status = 0;
+            $user->save();
+            $user_status = "User's access has been locked";
+        }else{
+            $user->status = 1;
+            $user->save();
+            $user_status = "User's access has been unlocked";
+        }
+        return back()->with('user_status', $user_status);
     }
 
 }
