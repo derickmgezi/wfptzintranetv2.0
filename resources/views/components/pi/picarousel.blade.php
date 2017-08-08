@@ -30,7 +30,7 @@
 
                     <p>
                         <a class="btn btn-lg btn-primary" href="{{URL::to('/read_post/'.$post->id)}}" role="button">
-                            <i class="fa fa-leanpub" aria-hidden="true"></i> Read more
+                            <i class="fa fa-book" aria-hidden="true"></i> Read More
                         </a>
                         @if(Auth::user()->department == 'PI')
                         <a class="btn btn-lg btn-warning" href="{{URL::to('/edit_post/'.$post->id)}}" role="button">

@@ -94,12 +94,14 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
-                            <h3 class="modal-title" id="exampleModalLabel">Please Log in</h3>
+                            <h3 class="modal-title" id="exampleModalLabel">
+                                <img class="img-fluid" src="{{ URL::to('image/wfp_logo08.png') }}" alt="Responsive image" alt="Generic placeholder image" width="50" data-src="holder.js/25x25/auto"> intranet.tz.net
+                            </h3>
                         </div>
                         <div class="modal-body" style="background-color: ">
                             {{ Form::open(array('url' => '/signin','class' => 'form-signin','role' => 'form')) }}
                             <label for="inputUsername" class="sr-only">Username</label>
-                            <input type="text" name="username" value="{{(old('username'))? e(old('username')):''}}" id="inputUserName" class="form-control" placeholder="Username" required autofocus>
+                            <input type="text" name="username" value="{{(old('username'))? e(old('username')):''}}" id="inputUserName" class="form-control" placeholder="Username eg. john.doe" required autofocus>
                             <label for="inputPassword" class="sr-only">Password</label>
                             <input type="password" name="password" value="{{(old('password'))? e(old('password')):''}}" id="inputPassword" class="form-control" placeholder="Password" required>
                             <button class="btn btn-lg btn-success btn-block" type="submit"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login</button>

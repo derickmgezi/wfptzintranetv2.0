@@ -52,7 +52,7 @@ $news_post_count = 1;
             <p class="lead text-left"> 
                 {{ substr(strip_tags($news_post->description),0,250) }}{{ strlen(strip_tags($news_post->description)) > 250 ? "...":"" }}
                 <a class="btn btn-success btn-sm" href="{{URL::to('/read_news_post/'.$news_post->id)}}" role="button">
-                    <i class="fa fa-leanpub" aria-hidden="true"></i> more ...
+                    <i class="fa fa-book" aria-hidden="true"></i> Read More
                 </a>
                 
                 @if(Auth::user()->department == 'PI')
@@ -82,9 +82,9 @@ $news_post_count = 1;
                 <span class="badge badge-pill badge-primary" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Liked By" data-content="@if($total_unique_like_count == 0) No Likes @else @foreach($unique_likes as $like) {{ App\User::find($like->liked_by)->firstname.' '.App\User::find($like->liked_by)->secondname }} <br>@endforeach @endif">
                     {{ $total_unique_like_count }} <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                 </span>
-                <span class="badge badge-pill badge-default">
+<!--                <span class="badge badge-pill badge-default">
                     {{ rand(0,20) }} <i class="fa fa-commenting-o" aria-hidden="true"></i>
-                </span>
+                </span>-->
             </p>
 
             <footer class="blockquote-footer">Source <cite title="Source Title">{{ $news_post->source }}</cite></footer>
