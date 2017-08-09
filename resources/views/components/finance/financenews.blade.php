@@ -298,7 +298,7 @@ $update_count = $updates->count();
                     <div class="col-12">
                         <br>
                         <blockquote class="blockquote blockquote-reverse">
-                            <p class="mb-0">By <em class="text-primary">{{ App\User::find(App\News::find(Session::get('read_update'))->created_by)->firstname.' '.App\User::find(App\News::find(Session::get('read_update'))->created_by)->secondname }}</em></p>
+                            <p class="mb-0">Uploaded By <em class="text-primary">{{ App\User::find(App\News::find(Session::get('read_update'))->created_by)->firstname.' '.App\User::find(App\News::find(Session::get('read_update'))->created_by)->secondname }}</em></p>
                             <footer class="blockquote-footer text-success"><cite title="Source Title">{{ App\News::find(Session::get('read_update'))->created_at }}</cite></footer>
                         </blockquote>
                     </div>

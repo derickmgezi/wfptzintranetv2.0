@@ -18,7 +18,9 @@
 
                 <!-- /END THE FEATURETTES -->
 
-                <h1 class="text-center featurette-heading">Contributers</h1>
+                <h1 class="text-center featurette-heading">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editor
+                </h1>
 
                 <!-- Three columns of text below the carousel -->
                 @include('components/pi/picontributers')
