@@ -8,7 +8,7 @@
                 FAQ document acts as a quick reference whenever you have 
                 small IT related issues hence saving your time and allow IT to 
                 serve you better<br>
-                <button type="l" class="btn btn-primary btn-sm">View FAQ Document</button>
+                <a target="_blank" href="https://box.wfp.org/public.php?service=files&t=8dbf5a7fdf447e53aa88cf29460a8acd" type="l" class="btn btn-primary btn-sm">View FAQ Document</a>
             </p>
             
             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
@@ -27,7 +27,7 @@
                 should protect information belonging to WFP in a manner 
                 consistent with its sensitivity as well as in accordance with 
                 all applicable agreements.<br>
-                <button type="l" class="btn btn-primary btn-sm">Read WFP IT Policy</button>
+                <a target="_blank" href="https://box.wfp.org/public.php?service=files&t=43aafa01dbdb6913b261d20008e5e285" type="l" class="btn btn-primary btn-sm">Read WFP IT Policy</a>
             </p>
             
             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
