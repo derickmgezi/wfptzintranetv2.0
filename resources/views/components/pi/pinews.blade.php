@@ -76,7 +76,7 @@ $news_post_count = 1;
                 $total_unique_like_count = $unique_likes->count();
                 $total_like_count = $total_views->count();
                 ?>
-                <span class="badge badge-pill badge-success" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($total_unique_view_count == 0) No Views @else @foreach($unique_views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif">
+                <span class="badge badge-pill badge-success" data-delay="300000" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($total_unique_view_count == 0) No Views @else @foreach($unique_views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif">
                     {{ $total_unique_view_count }} <i class="fa fa-eye" aria-hidden="true"></i>
                 </span>
                 <span class="badge badge-pill badge-primary" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Liked By" data-content="@if($total_unique_like_count == 0) No Likes @else @foreach($unique_likes as $like) {{ App\User::find($like->liked_by)->firstname.' '.App\User::find($like->liked_by)->secondname }} <br>@endforeach @endif">
