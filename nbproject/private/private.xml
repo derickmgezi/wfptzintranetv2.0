@@ -3,28 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/tzintranet/database/seeds/UsersTableSeeder.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/config/scout.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/administration.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/it/itcarousel.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/it/itcontributers.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/ITController.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/finance.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/config/auth.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/app/News.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/home.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/ManageController.php</file>
             <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/UserController.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/manage/users.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/sidebar.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/index.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/pi/pinews.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/.env</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/header.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/footer.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/routes/web.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/app/Http/Middleware/RedirectIfAuthenticated.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/finance/financenews.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/it/itcards.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/it.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/config/adldap_auth.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/header.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/ITController.php</file>
         </group>
     </open-files>
 </project-private>
