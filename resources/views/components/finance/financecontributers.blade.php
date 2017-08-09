@@ -4,7 +4,7 @@ $staff_count = $department_staff->count();
 ?>
 @if($staff_count != 0)
 <h1 class="text-center featurette-heading">
-    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Page Editor
+    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editor
 </h1>
 
 <!-- Three columns of text below the carousel -->
