@@ -7,6 +7,7 @@ use Validator;
 use Session;
 use Excel;
 use App\PhoneDirectory;
+use App\User;
 
 class PhoneDirectoryController extends Controller {
 
@@ -50,7 +51,7 @@ class PhoneDirectoryController extends Controller {
             $file_extension = $request->file->getClientOriginalExtension();
 
             //Check if extensions correspond to excel formats
-            if ($file_extension == 'xls') {
+            if ($file_extension == 'xls' || $file_extension == 'xlsx') {
                 Excel::load($request->file, function($reader) {
 
                     // Getting all results
@@ -61,37 +62,61 @@ class PhoneDirectoryController extends Controller {
                     foreach ($results as $result) {
                         // Get Sheet Titile
                         $sheet_title = $result->getTitle();
-
-                        if ($sheet_title == 'CO' || $sheet_title == 'Dodoma Main Office' || $sheet_title == 'Dodoma Warehouse') {
-                            foreach ($result as $row) {
-                                
-                                $mobile_type = 'Official';
-                                if(strlen($row->mobile_no) == 0)
-                                    $mobile_type = 'Personal';
-                                
-                                $update_phonedirectory = PhoneDirectory::where('ext_no', $row->ext_no)
+                        
+                        foreach ($result as $row) {
+                            //dd($row);
+                            
+                            $update_user = User::where('username', $row->username)
                                         ->update([
-                                    'name' => $row->staff_name,
-                                    'function' => $row->function,
+                                    'title' => $row->title,
                                     'department' => $row->department,
-                                    'number' => $row->mobile_no,
-                                    'type' => $mobile_type,
-                                    'location' => $sheet_title
+                                    'dutystation' => $row->dutystation,
                                 ]);
-
-                                if (!$update_phonedirectory) {
-                                    $phonedirectory = new PhoneDirectory;
-                                    $phonedirectory->name = $row->staff_name;
-                                    $phonedirectory->function = $row->function;
-                                    $phonedirectory->department = $row->department;
-                                    $phonedirectory->ext_no = $row->ext_no;
-                                    $phonedirectory->number = $row->mobile_no;
-                                    $phonedirectory->type = $mobile_type;
-                                    $phonedirectory->location = $sheet_title;
-                                    $phonedirectory->save();
+                            
+                            if (!$update_user) {
+                                    $user = new User;
+                                    $user->firstname = $row->firstname;
+                                    $user->secondname = $row->secondname;
+                                    $user->username = $row->username;
+                                    $user->email = $row->username.'@wfp.org';
+                                    $user->password = bcrypt('Welcome@123');
+                                    $user->title = $row->title;
+                                    $user->department = $row->department;
+                                    $user->dutystation = $row->dutystation;
+                                    $user->save();
                                 }
-                            }
                         }
+
+//                        if ($sheet_title == 'CO' || $sheet_title == 'Dodoma Main Office' || $sheet_title == 'Dodoma Warehouse') {
+//                            foreach ($result as $row) {
+//                                
+//                                $mobile_type = 'Official';
+//                                if(strlen($row->mobile_no) == 0)
+//                                    $mobile_type = 'Personal';
+//                                
+//                                $update_phonedirectory = PhoneDirectory::where('ext_no', $row->ext_no)
+//                                        ->update([
+//                                    'name' => $row->staff_name,
+//                                    'function' => $row->function,
+//                                    'department' => $row->department,
+//                                    'number' => $row->mobile_no,
+//                                    'type' => $mobile_type,
+//                                    'location' => $sheet_title
+//                                ]);
+//
+//                                if (!$update_phonedirectory) {
+//                                    $phonedirectory = new PhoneDirectory;
+//                                    $phonedirectory->name = $row->staff_name;
+//                                    $phonedirectory->function = $row->function;
+//                                    $phonedirectory->department = $row->department;
+//                                    $phonedirectory->ext_no = $row->ext_no;
+//                                    $phonedirectory->number = $row->mobile_no;
+//                                    $phonedirectory->type = $mobile_type;
+//                                    $phonedirectory->location = $sheet_title;
+//                                    $phonedirectory->save();
+//                                }
+//                            }
+//                        }
                     }
                 });
                 Session::flash('upload_message','File Uploaded Succesfully');
