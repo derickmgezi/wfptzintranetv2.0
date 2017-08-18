@@ -243,7 +243,7 @@ class PIController extends Controller {
         $view->view_id = $id;
         $view->viewed_by = Auth::id();
         $view->save();
-        
+
         $news_post = News::find($id);
         Session::flash('read_news_post', $id);
         return back();
@@ -321,7 +321,7 @@ class PIController extends Controller {
 
         return redirect('/home');
     }
-    
+
     public function like_news_post($id) {
         $like = new Like;
         $like->view_id = $id;
@@ -356,9 +356,19 @@ class PIController extends Controller {
                             ->withInput();
         } else {
             if ($request->image) {
-                //Upload the file in storage public folder
+                //Upload the file in storage/app/public/profile_pictures folder
                 $request->image->store('public/profile_pictures');
 
+                //Upload the file in storage thumbnail public folder
+                $request->image->store('public/thumbnails/profile_pictures');
+
+                //Get uploaded image name from the thumbnails
+                $image_name = $request->image->store('thumbnails/profile_pictures');
+
+                //Load the image into the Image Intervention Package for manipulation
+                $path = public_path('storage/' . $image_name);
+                Image::make('storage/' . $image_name)->fit(300, 300)->save($path);
+                
                 //Update User Bio
                 $Update_bio = User::find($id);
                 $Update_bio->image = $request->image->store('profile_pictures');
@@ -372,7 +382,7 @@ class PIController extends Controller {
                 $Update_bio = User::find($id);
                 $Update_bio->bio = Purifier::clean($request->bio);
                 $Update_bio->save();
-                
+
                 Session::flash('view_user_bio', $id);
                 return back();
             }

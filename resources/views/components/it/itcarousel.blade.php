@@ -155,17 +155,17 @@
                         <div class="form-group">
                             <label for="headerText"><strong>Description</strong></label>
                             @if(old('description'))
-                            <textarea class="form-control" name='description' id="exampleTextarea" rows="5">{{ (old('description')) }}</textarea>
+                            <textarea class="simple-tinymce form-control" name='description' rows="5">{{ (old('description')) }}</textarea>
                             @elseif(Session::has('post_id'))
-                            <textarea class="form-control" name='description' id="exampleTextarea" rows="5">{{ App\Post::find(Session::get('post_id'))->description }}</textarea>
+                            <textarea class="simple-tinymce form-control" name='description' rows="5">{{ App\Post::find(Session::get('post_id'))->description }}</textarea>
                             @endif
                         </div>
                         <div class="form-group">
                             <label for="headerText"><strong>Story</strong></label>
                             @if(old('story'))
-                            <textarea class="form-control" name='story' id="exampleTextarea" rows="10">{{ (old('story')) }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='story' id="exampleTextarea" rows="10">{{ (old('story')) }}</textarea>
                             @elseif(Session::has('post_id'))
-                            <textarea class="form-control" name='story' id="exampleTextarea" rows="10">{{ App\Post::find(Session::get('post_id'))->story }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='story' id="exampleTextarea" rows="10">{{ App\Post::find(Session::get('post_id'))->story }}</textarea>
                             @endif
                         </div>
                     </div>
@@ -217,11 +217,11 @@
                         </div>
                         <div class="form-group">
                             <label for="headerText"><strong>Description</strong></label>
-                            <textarea class="form-control" name='description' id="exampleTextarea" rows="5">{{ (old('description')) }}</textarea>
+                            <textarea class="simple-tinymce form-control" name='description' id="exampleTextarea" rows="5">{{ (old('description')) }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="headerText"><strong>Story</strong></label>
-                            <textarea class="form-control" name='story' id="exampleTextarea" rows="10">{{ (old('story')) }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='story' id="exampleTextarea" rows="10">{{ (old('story')) }}</textarea>
                         </div>
                     </div>
                     <div class="col-12 text-center">

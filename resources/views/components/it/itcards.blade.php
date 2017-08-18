@@ -1,59 +1,39 @@
-<div class="card-columns">
-    <div class="card card-outline-success">
-        <img class="card-img-top img-fluid" data-src="holder.js/100px160/" src="{{url('/image/8-preview-10.jpg')}}" alt="Card image cap">
-        <div class="card-block">
-            <h4 class="card-title text-center">Frequent Asked Questions</h4>
-            <h1></h1>
-            <p class="card-text text-justify">
-                FAQ document acts as a quick reference whenever you have 
-                small IT related issues hence saving your time and allow IT to 
-                serve you better<br>
-                <a target="_blank" href="https://box.wfp.org/public.php?service=files&t=8dbf5a7fdf447e53aa88cf29460a8acd" type="l" class="btn btn-primary btn-sm">View FAQ Document</a>
-            </p>
-            
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-    </div>
+<div class="card-group">
     <div class="card">
-        
-    </div>
-    <div class="card card-outline-success">
-        <img class="card-img-top img-fluid" data-src="holder.js/100px160/" src="{{url('/image/Policies-Procedures.jpg')}}" alt="Card image cap">
-        <div class="card-block">
-            <h4 class="card-title text-center">WFP IT Security Policy</h4>
-            <h1></h1>
-            <p class="card-text text-justify">
-                Anyone granted access to any WFP electronic information system 
-                should protect information belonging to WFP in a manner 
-                consistent with its sensitivity as well as in accordance with 
-                all applicable agreements.<br>
-                <a target="_blank" href="https://box.wfp.org/public.php?service=files&t=43aafa01dbdb6913b261d20008e5e285" type="l" class="btn btn-primary btn-sm">Read WFP IT Policy</a>
-            </p>
-            
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-    </div>
-    <div class="card">
-        
+        <a target="_blank" href="https://box.wfp.org/public.php?service=files&t=8dbf5a7fdf447e53aa88cf29460a8acd">
+            <img class="card-img-top img-fluid" data-src="holder.js/100px160/" src="{{url('/image/techsupportsm-e1461011435642.jpg')}}" alt="Card image cap">
+        </a>
     </div>
     
-    <div class="card card-outline-success">
-        <img class="card-img img-fluid" data-src="holder.js/100px260/" src="{{url('/image/whatstrending_blogimage.jpg')}}" alt="Card image">
-    </div>
-    <div class="card p-2 card-outline-success">
-        <div class="card-block">
-            <h4 class="card-title text-center">IT Trending issues</h4>
-            <h1></h1>
-            <p class="card-text text-justify">
-                Get access to updates from IT providing you with information on 
-                issues that are IT related aiming to keep you updated on matters 
-                that going on all in WFP and the world.<br>
-                <button type="l" class="btn btn-primary btn-sm">View Trending Issues</button>
-            </p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-    </div>
     <div class="card">
-        
+        <a target="_blank" href="https://box.wfp.org/public.php?service=files&t=8dbf5a7fdf447e53aa88cf29460a8acd">
+            <img class="card-img-top img-fluid" data-src="holder.js/100px160/" src="{{url('/image/8_preview_10.jpg')}}" alt="Card image cap">
+        </a>
+    </div>
+    
+    <div class="card">
+        <a target="_blank" href="https://box.wfp.org/public.php?service=files&t=43aafa01dbdb6913b261d20008e5e285">
+            <img class="card-img img-fluid" data-src="holder.js/100px260/" src="{{url('/image/Trending-Computer-HD.jpg')}}" alt="Card image">
+        </a>
+    </div>
+</div>
+
+<div class="card-group">
+    <div class="card mb-4">
+       <a>
+            <img class="card-img img-fluid" data-src="holder.js/100px260/" src="{{url('/image/14.jpg')}}" alt="Card image">
+        </a>
+    </div>
+    
+    <div class="card mb-4">
+        <a target="_blank" href="https://box.wfp.org/public.php?service=files&t=43aafa01dbdb6913b261d20008e5e285">
+            <img class="card-img img-fluid" data-src="holder.js/100px260/" src="{{url('/image/13.jpg')}}" alt="Card image">
+        </a>
+    </div>
+    
+    <div class="card mb-4">
+        <a>
+            <img class="card-img img-fluid" data-src="holder.js/100px260/" src="{{url('/image/14.jpg')}}" alt="Card image">
+        </a>
     </div>
 </div>

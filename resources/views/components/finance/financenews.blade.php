@@ -165,17 +165,17 @@ $update_count = $updates->count();
                         <div class="form-group">
                             <label for="descriptionTextarea"><strong>Description</strong></label>
                             @if(old('source'))
-                            <textarea class="form-control" name='description' id="descriptionTextarea" rows="5">{{ (old('description')) }}</textarea>
+                            <textarea class="simple-tinymce form-control" name='description' id="descriptionTextarea" rows="5">{{ (old('description')) }}</textarea>
                             @elseif(Session::has('update_id'))
-                            <textarea class="form-control" name='description' id="descriptionTextarea" rows="5">{{ App\News::find(Session::get('update_id'))->description }}</textarea>
+                            <textarea class="simple-tinymce form-control" name='description' id="descriptionTextarea" rows="5">{{ App\News::find(Session::get('update_id'))->description }}</textarea>
                             @endif
                         </div>
                         <div class="form-group">
                             <label for="storyTextarea"><strong>Story</strong></label>
                             @if(old('story'))
-                            <textarea class="form-control" name='story' id="storyTextarea" rows="10">{{ (old('story')) }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='story' id="storyTextarea" rows="10">{{ (old('story')) }}</textarea>
                             @elseif(Session::has('update_id'))
-                            <textarea class="form-control" name='story' id="storyTextarea" rows="10">{{ App\News::find(Session::get('update_id'))->story }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='story' id="storyTextarea" rows="10">{{ App\News::find(Session::get('update_id'))->story }}</textarea>
                             @endif
                         </div>
                     </div>
@@ -231,11 +231,11 @@ $update_count = $updates->count();
                         </div>
                         <div class="form-group">
                             <label for="headerText"><strong>Description</strong></label>
-                            <textarea class="form-control" name='description' id="exampleTextarea" rows="5">{{ (old('description')) }}</textarea>
+                            <textarea class="simple-tinymce form-control" name='description' id="exampleTextarea" rows="5">{{ (old('description')) }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="headerText"><strong>Story</strong></label>
-                            <textarea class="form-control" name='story' id="exampleTextarea" rows="10">{{ (old('story')) }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='story' id="exampleTextarea" rows="10">{{ (old('story')) }}</textarea>
                         </div>
                     </div>
                     <div class="col-12 text-center">
