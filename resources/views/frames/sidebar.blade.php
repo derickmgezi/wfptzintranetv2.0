@@ -41,6 +41,11 @@
                 <i class="fa fa-phone-square fa-lg" aria-hidden="true"></i> Phone Directory
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {{((Request::is('feedback'))? 'active':'')}}" href="{{URL::to('/feedback')}}">
+                <i class="fa fa-comments-o fa-lg" aria-hidden="true"></i> Feedback
+            </a>
+        </li>
         @if(Request::is('search'))
         <li class="nav-item">
             <a class="nav-link {{((Request::is('search'))? 'active':'')}}" href="#">

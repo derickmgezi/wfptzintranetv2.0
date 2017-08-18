@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE'),
 
     /*
     |--------------------------------------------------------------------------
@@ -175,6 +175,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
+        'Jenssegers\Date\DateServiceProvider',
 
         /*
          * Application Service Providers...
@@ -239,6 +240,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Adldap' => Adldap\Laravel\Facades\Adldap::class,
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
+        'Date' => Jenssegers\Date\Date::class,
 
     ],
 

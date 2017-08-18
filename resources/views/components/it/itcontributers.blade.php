@@ -2,7 +2,7 @@
 <div class="row justify-content-md-center">
     @foreach($pi_staff as $staff)
     <div class="col-lg-4">
-        <img class="img-fluid img-thumbnail rounded-circle" alt="Responsive image" src="{{ strlen(App\User::find($staff->id)->image) != 0? url('/storage/'.App\User::find($staff->id)->image):url('/image/default_profile_picture.jpg') }}" alt="Generic placeholder image" width="140" height="140" data-src="holder.js/140x140/auto">
+        <img class="img-fluid img-thumbnail rounded-circle" alt="Responsive image" src="{{ strlen(App\User::find($staff->id)->image) != 0? url('/storage/thumbnails/'.App\User::find($staff->id)->image):url('/image/default_profile_picture.jpg') }}" alt="Generic placeholder image" width="140" height="140" data-src="holder.js/140x140/auto">
         <h2>{{ $staff->firstname.' '.$staff->secondname }}</h2>
         <p>
             <a class="btn btn-warning"  href="{{URL::to('/view_user_bio/'.$staff->id)}}" role="button">
@@ -25,7 +25,7 @@
                 <div class="modal-body bg-inverse text-white">
                     <div class="row">
                         <div class="col-12 text-center">
-                            <img class="img-fluid img-thumbnail rounded-circle" src="{{ strlen(App\User::find(Session::get('view_user_bio'))->image) != 0? url('/storage/'.App\User::find(Session::get('view_user_bio'))->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" src="" alt="Generic placeholder image" width="140" height="140" data-src="holder.js/140x140/auto">
+                            <img class="img-fluid img-thumbnail rounded-circle" src="{{ strlen(App\User::find(Session::get('view_user_bio'))->image) != 0? url('/storage/thumbnails/'.App\User::find(Session::get('view_user_bio'))->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" src="" alt="Generic placeholder image" width="140" height="140" data-src="holder.js/140x140/auto">
                             <h6 class="display-4">{{ App\user::find(Session::get('view_user_bio'))->firstname.' '.App\user::find(Session::get('view_user_bio'))->secondname }}</h6>
                         </div>
                         <div class="col-12">
@@ -90,9 +90,9 @@
                             <div class="form-group">
                                 <label for="headerText"><strong>Update Bio</strong></label>
                                 @if(old('bio'))
-                                <textarea class="form-control" name='bio' id="exampleTextarea" rows="10">{{ (old('description')) }}</textarea>
+                                <textarea class="simple-tinymce form-control" name='bio' id="exampleTextarea" rows="10">{{ (old('description')) }}</textarea>
                                 @elseif(Session::has('add_user_bio'))
-                                <textarea class="form-control" name='bio' id="exampleTextarea" rows="10">{{ App\User::find(Session::get('add_user_bio'))->bio }}</textarea>
+                                <textarea class="simple-tinymce form-control" name='bio' id="exampleTextarea" rows="10">{{ App\User::find(Session::get('add_user_bio'))->bio }}</textarea>
                                 @endif
                             </div>
                             @if(Session::has('add_bio_error'))

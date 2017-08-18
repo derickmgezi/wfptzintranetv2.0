@@ -122,6 +122,10 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/edituser/{id}', 'ManageController@update');
     
     Route::get('/deleteuser/{id}', 'ManageController@destroy');
+    
+    Route::get('/feedback', 'FeedbackController@index');
+
+    Route::post('/feedback', 'FeedbackController@store');
 });
 
 Auth::routes();

@@ -29,49 +29,9 @@
         {{HTML::script("js/tinymce.min.js")}}
 
         <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=wyyhqvqudtv7t15hz9pi66r0w72zwogypai1cfhf1s7ba4co"></script>
-        
-        <script>
-            var editor_config = {
-              path_absolute : "{{ URL::to('/') }}/",
-              selector: "textarea",
-              skin: 'charcoal',
-              height: 250,
-              menubar: true,
-              theme: 'modern',
-              browser_spellcheck: true,
-              plugins: [
-                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                "searchreplace wordcount visualblocks visualchars code fullscreen",
-                "insertdatetime nonbreaking save table contextmenu directionality",
-                "emoticons template paste textcolor colorpicker textpattern"
-              ],
-              toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-              toolbar2: "preview | forecolor backcolor | emoticons | codesample",
-              relative_urls: true,
-              file_browser_callback : function(field_name, url, type, win) {
-                var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-                var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
 
-                var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-                if (type == 'image') {
-                  cmsURL = cmsURL + "&type=Images";
-                } else {
-                  cmsURL = cmsURL + "&type=Files";
-                }
-
-                tinyMCE.activeEditor.windowManager.open({
-                  file : cmsURL,
-                  title : 'Filemanager',
-                  width : x * 0.8,
-                  height : y * 0.8,
-                  resizable : "yes",
-                  close_previous : "no"
-                });
-              }
-            };
-
-            tinymce.init(editor_config);
-        </script>
+        <!-- Custom Java Script styles for My Tinymce Text Editor -->
+        {{HTML::script("js/mytinymce.js")}}
 
     </head>
 
@@ -86,21 +46,21 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
-<!--                    <li class="nav-item active">
-                        <a target="_blank" class="nav-link" href="http://go.wfp.org">WFP Go<span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item active">
-                        <a target="_blank" class="nav-link" href="http://mfapps.wfp.org">WINGS</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a target="_blank" class="nav-link" href="http://mail.wfp.org">WEB Mail</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a target="_blank" class="nav-link" href="http://pace.wfp.org">PACE</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a target="_blank" class="nav-link" href="http://info.wfp.org">WFP Info</a>
-                    </li>-->
+                    <!--                    <li class="nav-item active">
+                                            <a target="_blank" class="nav-link" href="http://go.wfp.org">WFP Go<span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <li class="nav-item active">
+                                            <a target="_blank" class="nav-link" href="http://mfapps.wfp.org">WINGS</a>
+                                        </li>
+                                        <li class="nav-item active">
+                                            <a target="_blank" class="nav-link" href="http://mail.wfp.org">WEB Mail</a>
+                                        </li>
+                                        <li class="nav-item active">
+                                            <a target="_blank" class="nav-link" href="http://pace.wfp.org">PACE</a>
+                                        </li>
+                                        <li class="nav-item active">
+                                            <a target="_blank" class="nav-link" href="http://info.wfp.org">WFP Info</a>
+                                        </li>-->
                     @if(Auth::user()->title != 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link {{((Request::is('home'))? 'active':'')}}" href="{{URL::to('/home')}}">
@@ -137,41 +97,35 @@
                             | <i class="fa fa-file-text fa-lg" aria-hidden="true"></i> <small>Programme</small>
                         </a>
                     </li>
-                    @endif
-                </ul>
-
-<!--                <a class="navbar-brand">
-                    <img class="img-fluid" src="{{ strlen(Auth::user()->image) != 0? url('/storage/'.Auth::user()->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="{{ strlen(Auth::user()->image) != 0? '29':'35' }}" data-src="holder.js/25x25/auto">
-                </a>-->
-                
-                <div class="btn-group navbar-nav navbar-brand">
-                    <form class="form-inline">
-                        <button type="button" class="btn btn-warning"><i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> {{ Auth::user()->firstname}}</button>
-                        <button type="button" class="btn btn-secondary" data-toggle="dropdown">
-                            <i class="fa fa-chevron-down"></i>
-                        </button>
-                        <div class="dropdown-menu">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            | <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> {{ Auth::user()->firstname}} <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             @if(Auth::user()->title != 'Administrator')
                             <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}"><i class="fa fa-eye"></i> View Bio</a>
-    <!--                        <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>-->
                             <div class="dropdown-divider"></div>
                             @endif
                             <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a>
                         </div>
-                    </form>
-                </div>
-                
+                    </li>
+                    @endif
+                </ul>
+
+                <!--                <a class="navbar-brand">
+                                    <img class="img-fluid" src="{{ strlen(Auth::user()->image) != 0? url('/storage/'.Auth::user()->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="{{ strlen(Auth::user()->image) != 0? '29':'35' }}" data-src="holder.js/25x25/auto">
+                                </a>-->
+
                 @if(Auth::user()->title != 'Administrator')
                 {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0','role' => 'form'))}}
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-success" type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
                 {{Form::close()}}
                 @endif
             </div>

@@ -99,9 +99,9 @@ $staff_count = $department_staff->count();
                             <div class="form-group">
                                 <label for="headerText"><strong>Update Bio</strong></label>
                                 @if(old('bio'))
-                                <textarea class="form-control" name='bio' id="exampleTextarea" rows="10">{{ (old('description')) }}</textarea>
+                                <textarea class="simple-tinymce form-control" name='bio' id="exampleTextarea" rows="10">{{ (old('description')) }}</textarea>
                                 @elseif(Session::has('add_user_bio'))
-                                <textarea class="form-control" name='bio' id="exampleTextarea" rows="10">{{ App\User::find(Session::get('add_user_bio'))->bio }}</textarea>
+                                <textarea class="simple-tinymce form-control" name='bio' id="exampleTextarea" rows="10">{{ App\User::find(Session::get('add_user_bio'))->bio }}</textarea>
                                 @endif
                             </div>
                             @if(Session::has('add_bio_error'))
