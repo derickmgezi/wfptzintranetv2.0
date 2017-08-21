@@ -30,7 +30,7 @@
                                 @foreach($feedback as $info)
                                 <a href="#" class="list-group-item list-group-item-action">
                                     <div class="media">
-                                        <img class="d-flex mr-3 rounded-circle" src="{{ url('/image/default_profile_picture.jpg') }}" width="45" height="45" alt="">
+                                        <img class="d-flex mr-3 rounded-circle" src="{{ strlen(App\User::find($info->feedback_by)->image) != 0? url('/storage/thumbnails/'.App\User::find($info->feedback_by)->image):url('/image/default_profile_picture.jpg') }}" width="45" height="45" alt="">
                                         <div class="media-body">
                                             <strong>{{ App\User::find($info->feedback_by)->firstname.' '.App\User::find($info->feedback_by)->secondname }}</strong>
                                             {!! $info->feedback !!}
