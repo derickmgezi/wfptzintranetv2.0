@@ -152,9 +152,9 @@ $news_post_count = 1;
                         <div class="form-group">
                             <label for="descriptionTextarea"><strong>Description</strong></label>
                             @if(old('source'))
-                            <textarea class="simple-tinymce form-control" name='description' id="descriptionTextarea" rows="5">{{ (old('description')) }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='description' id="descriptionTextarea" rows="5">{{ (old('description')) }}</textarea>
                             @elseif(Session::has('news_post_id'))
-                            <textarea class="simple-tinymce form-control" name='description' id="descriptionTextarea" rows="5">{{ App\News::find(Session::get('news_post_id'))->description }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='description' id="descriptionTextarea" rows="5">{{ App\News::find(Session::get('news_post_id'))->description }}</textarea>
                             @endif
                         </div>
                         <div class="form-group">
@@ -218,7 +218,7 @@ $news_post_count = 1;
                         </div>
                         <div class="form-group">
                             <label for="headerText"><strong>Description</strong></label>
-                            <textarea class="simple-tinymce form-control" name='description' id="exampleTextarea" rows="5">{{ (old('description')) }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='description' id="exampleTextarea" rows="5">{{ (old('description')) }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="headerText"><strong>Story</strong></label>
