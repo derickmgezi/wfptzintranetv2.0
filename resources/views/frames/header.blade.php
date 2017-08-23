@@ -24,6 +24,9 @@
 
         <!-- Custom styles for sticky footer template -->
         {{ Html::style('css/sticky-footer-navbar.css') }}
+        
+        <!-- Custom styles for SB Admin -->
+        {{ Html::style('css/sb-admin.css') }}
 
         <!-- Custom Java Script styles for Tinymce Text Editor -->
         {{HTML::script("js/tinymce.min.js")}}
