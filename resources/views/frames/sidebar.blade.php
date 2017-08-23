@@ -58,7 +58,7 @@
                     <a class="nav-link" target="_blank" class="nav-link" href="http://mail.wfp.org" style="padding-left: 2em;"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> WebMail</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" class="nav-link" href="http://info.wfp.org" style="padding-left: 2em;"><i class="fa fa-info fa-lg" aria-hidden="true"></i> INFO</a>
+                    <a class="nav-link" target="_blank" class="nav-link" href="http://info.wfp.org" style="padding-left: 2em;"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> INFO</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" target="_blank" class="nav-link" href="http://manuals.wfp.org" style="padding-left: 2em;"><i class="fa fa-book fa-lg" aria-hidden="true"></i> WFP Manuals</a>
