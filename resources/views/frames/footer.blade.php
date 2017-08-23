@@ -23,6 +23,9 @@
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         {{HTML::script("js/ie10-viewport-bug-workaround.js")}}
+        
+        <!-- Custom scripts for SB Admin template -->
+        {{HTML::script("js/sb-admin.min.js")}}
 
         <!-- Enable Pop-overs everywhere -->
         <script>
