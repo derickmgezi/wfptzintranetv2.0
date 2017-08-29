@@ -73,7 +73,7 @@ $update_count = $updates->count();
                     
                 </p>
                 <?php  $date = new Jenssegers\Date\Date($update->created_at); ?>
-                <footer class="card-text"><small class="text-muted"><strong>Posted </strong>{{ $date->ago() }}</small></footer>
+                <footer class="card-text"><small class="text-muted">{{ $date->ago() }}</small></footer>
                 
                 <footer class="blockquote-footer"><strong>Source </strong><cite title="Source Title">{{ $update->source }}</cite></footer>
             </blockquote>
