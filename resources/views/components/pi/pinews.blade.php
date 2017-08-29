@@ -87,7 +87,7 @@ $news_post_count = 1;
                 </span>-->
             </p>
             <?php $date = new Jenssegers\Date\Date($news_post->created_at); ?>
-            <footer class="card-text"><small class="text-muted"><strong>Posted </strong>{{ $date->ago() }}</small></footer>
+            <footer class="card-text"><small class="text-muted">{{ $date->ago() }}</small></footer>
 
             <footer class="blockquote-footer"><strong>Source </strong><cite title="Source Name">{{ $news_post->source }}</cite></footer>
         </blockquote>
