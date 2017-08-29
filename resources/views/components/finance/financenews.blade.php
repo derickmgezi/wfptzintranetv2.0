@@ -72,8 +72,10 @@ $update_count = $updates->count();
                     </span>-->
                     
                 </p>
-
-                <footer class="blockquote-footer">Source <cite title="Source Title">{{ $update->source }}</cite></footer>
+                <?php  $date = new Jenssegers\Date\Date($update->created_at); ?>
+                <footer class="card-text"><small class="text-muted"><strong>Posted </strong>{{ $date->ago() }}</small></footer>
+                
+                <footer class="blockquote-footer"><strong>Source </strong><cite title="Source Title">{{ $update->source }}</cite></footer>
             </blockquote>
         </div>
         <div class="col-md-6{{ ($update_count%2 == 1)?'':' pull-md-6' }} hidden-sm-down">
@@ -299,7 +301,8 @@ $update_count = $updates->count();
                         <br>
                         <blockquote class="blockquote blockquote-reverse">
                             <p class="mb-0">Uploaded By <em class="text-primary">{{ App\User::find(App\News::find(Session::get('read_update'))->created_by)->firstname.' '.App\User::find(App\News::find(Session::get('read_update'))->created_by)->secondname }}</em></p>
-                            <footer class="blockquote-footer text-success"><cite title="Source Title">{{ App\News::find(Session::get('read_update'))->created_at }}</cite></footer>
+                            <?php $date = new Jenssegers\Date\Date(App\News::find(Session::get('read_update'))->created_at); ?>
+                            <footer class="text-success"><small>{{ $date->format('l j F Y').' at '.$date->format('h:i A') }}</small></footer>
                         </blockquote>
                     </div>
                 </div>
