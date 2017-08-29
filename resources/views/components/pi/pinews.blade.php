@@ -86,8 +86,10 @@ $news_post_count = 1;
                     {{ rand(0,20) }} <i class="fa fa-commenting-o" aria-hidden="true"></i>
                 </span>-->
             </p>
+            <?php $date = new Jenssegers\Date\Date($news_post->created_at); ?>
+            <footer class="card-text"><small class="text-muted"><strong>Posted </strong>{{ $date->ago() }}</small></footer>
 
-            <footer class="blockquote-footer">Source <cite title="Source Title">{{ $news_post->source }}</cite></footer>
+            <footer class="blockquote-footer"><strong>Source </strong><cite title="Source Name">{{ $news_post->source }}</cite></footer>
         </blockquote>
     </div>
     <div class="col-md-6{{ ($news_post_count%2 == 1)? '':' pull-md-6' }} hidden-sm-down">
@@ -286,7 +288,8 @@ $news_post_count = 1;
                         <br>
                         <blockquote class="blockquote blockquote-reverse">
                             <p class="mb-0">Uploaded By <em class="text-primary">{{ App\User::find(App\News::find(Session::get('read_news_post'))->created_by)->firstname.' '.App\User::find(App\News::find(Session::get('read_news_post'))->created_by)->secondname }}</em></p>
-                            <footer class="blockquote-footer text-success"><cite title="Source Title">{{ App\News::find(Session::get('read_news_post'))->created_at }}</cite></footer>
+                            <?php $date = new Jenssegers\Date\Date(App\News::find(Session::get('read_news_post'))->created_at); ?>
+                            <footer class="text-success"><small>{{ $date->format('l j F Y').' at '.$date->format('h:i A') }}</small></footer>
                         </blockquote>
                     </div>
                 </div>
