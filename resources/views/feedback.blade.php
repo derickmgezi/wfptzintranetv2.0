@@ -8,7 +8,7 @@
 
             <div class="container-fluid marketing">
                 <div class="row">
-                    @if(Auth::user()->username == 'derick.ruganuza' || Auth::user()->username == 'daudi.kabalika' || Auth::user()->username == 'fizza.maloo' || Auth::user()->username == 'max.wohlgemuth')
+                    @if(Auth::user()->username == 'derick.ruganuza' || Auth::user()->username == 'daudi.kabalika' || Auth::user()->username == 'fizza.moloo' || Auth::user()->username == 'max.wohlgemuth')
                     <div class="col-8">
                         <!-- Example Notifications Card -->
                         <div class="card mb-3">
@@ -57,7 +57,7 @@
                     </div>
                     @endif
 
-                    @if(Auth::user()->username != 'daudi.kabalika' && Auth::user()->username != 'fizza.maloo' && Auth::user()->username != 'max.wohlgemuth')
+                    @if(Auth::user()->username != 'daudi.kabalika' && Auth::user()->username != 'fizza.moloo' && Auth::user()->username != 'max.wohlgemuth')
                     <div class="col-4">
                         <div class="card">
                             <div class="card-header">
