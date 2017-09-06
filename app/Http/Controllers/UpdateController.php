@@ -30,7 +30,7 @@ class UpdateController extends Controller {
         return back();
     }
 
-    public function store_update(Request $request,$department) {
+    public function store_update(Request $request,$department,$dutystation) {
         //
         $validator = Validator::make($request->all(), [
                     'header' => 'required',
@@ -67,6 +67,7 @@ class UpdateController extends Controller {
             $post->story = Purifier::clean($request->story);
             $post->source = $request->source;
             $post->type = $department;
+            $post->office = $dutystation;
             $post->image = $request->image->store('pi_news');
             $post->created_by = Auth::id();
             $post->edited_by = Auth::id();

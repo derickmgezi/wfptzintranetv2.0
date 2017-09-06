@@ -24,7 +24,7 @@
 
         <!-- Custom styles for sticky footer template -->
         {{ Html::style('css/sticky-footer-navbar.css') }}
-        
+
         <!-- Custom styles for SB Admin -->
         {{ Html::style('css/sb-admin.css') }}
 
@@ -34,89 +34,89 @@
         <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=wyyhqvqudtv7t15hz9pi66r0w72zwogypai1cfhf1s7ba4co"></script>
 
         <!-- Custom Java Script styles for My Tinymce Text Editor -->
-<!--        {{HTML::script("js/mytinymce.js")}}-->
+        <!--        {{HTML::script("js/mytinymce.js")}}-->
 
         <script>
-            var editor_config = {
-                path_absolute: "{{ URL::to('/') }}/",
-                selector: ".complete-tinymce",
-                skin: 'charcoal',
-                height: 300,
-                menubar: true,
-                theme: 'modern',
-                browser_spellcheck: true,
-                plugins: [
-                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                    "searchreplace wordcount visualblocks visualchars code fullscreen",
-                    "insertdatetime nonbreaking save table contextmenu directionality",
-                    "emoticons template paste textcolor colorpicker textpattern"
-                ],
-                toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-                toolbar2: "preview | forecolor backcolor | emoticons | codesample",
-                relative_urls: true,
-                file_browser_callback: function (field_name, url, type, win) {
-                    var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-                    var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+var editor_config = {
+    path_absolute: "{{ URL::to('/') }}/",
+    selector: ".complete-tinymce",
+    skin: 'charcoal',
+    height: 300,
+    menubar: true,
+    theme: 'modern',
+    browser_spellcheck: true,
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+    ],
+    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    toolbar2: "preview | forecolor backcolor | emoticons | codesample",
+    relative_urls: true,
+    file_browser_callback: function (field_name, url, type, win) {
+        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+        var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
-                    var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-                    if (type == 'image') {
-                        cmsURL = cmsURL + "&type=Images";
-                    } else {
-                        cmsURL = cmsURL + "&type=Files";
-                    }
+        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+        if (type == 'image') {
+            cmsURL = cmsURL + "&type=Images";
+        } else {
+            cmsURL = cmsURL + "&type=Files";
+        }
 
-                    tinyMCE.activeEditor.windowManager.open({
-                        file: cmsURL,
-                        title: 'Filemanager',
-                        width: x * 0.8,
-                        height: y * 0.8,
-                        resizable: "yes",
-                        close_previous: "no"
-                    });
-                }
-            };
+        tinyMCE.activeEditor.windowManager.open({
+            file: cmsURL,
+            title: 'Filemanager',
+            width: x * 0.8,
+            height: y * 0.8,
+            resizable: "yes",
+            close_previous: "no"
+        });
+    }
+};
 
-            tinymce.init(editor_config);
-            
-            var editor_config = {
-                path_absolute: "{{ URL::to('/') }}/",
-                selector: ".simple-tinymce",
-                skin: 'charcoal',
-                height: 100,
-                menubar: false,
-                theme: 'modern',
-                browser_spellcheck: true,
-                plugins: [
-                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                    "searchreplace wordcount visualblocks visualchars code fullscreen",
-                    "insertdatetime nonbreaking save table contextmenu directionality",
-                    "emoticons template paste textcolor colorpicker textpattern"
-                ],
-                toolbar1: "insertfile undo redo | alignleft aligncenter alignright alignjustify | outdent indent | bold italic | styleselect |  bullist numlist | emoticons | forecolor backcolor | codesample | link | preview",
-                relative_urls: true,
-                file_browser_callback: function (field_name, url, type, win) {
-                    var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-                    var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+tinymce.init(editor_config);
 
-                    var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-                    if (type == 'image') {
-                        cmsURL = cmsURL + "&type=Images";
-                    } else {
-                        cmsURL = cmsURL + "&type=Files";
-                    }
+var editor_config = {
+    path_absolute: "{{ URL::to('/') }}/",
+    selector: ".simple-tinymce",
+    skin: 'charcoal',
+    height: 100,
+    menubar: false,
+    theme: 'modern',
+    browser_spellcheck: true,
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+    ],
+    toolbar1: "insertfile undo redo | alignleft aligncenter alignright alignjustify | outdent indent | bold italic | styleselect |  bullist numlist | emoticons | forecolor backcolor | codesample | link | preview",
+    relative_urls: true,
+    file_browser_callback: function (field_name, url, type, win) {
+        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+        var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
-                    tinyMCE.activeEditor.windowManager.open({
-                        file: cmsURL,
-                        title: 'Filemanager',
-                        width: x * 0.8,
-                        height: y * 0.8,
-                        resizable: "yes",
-                        close_previous: "no"
-                    });
-                }
-            };
+        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+        if (type == 'image') {
+            cmsURL = cmsURL + "&type=Images";
+        } else {
+            cmsURL = cmsURL + "&type=Files";
+        }
 
-            tinymce.init(editor_config);
+        tinyMCE.activeEditor.windowManager.open({
+            file: cmsURL,
+            title: 'Filemanager',
+            width: x * 0.8,
+            height: y * 0.8,
+            resizable: "yes",
+            close_previous: "no"
+        });
+    }
+};
+
+tinymce.init(editor_config);
         </script>
 
     </head>
@@ -184,36 +184,63 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            | <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> {{ Auth::user()->firstname}} <i class="fa fa-angle-down"></i>
+                        <a class="nav-link {{((Request::is('dodoma') || Request::is('kibondo'))? 'active':'')}}" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            | <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> 
+                            @if(Request::is('dodoma')){{ 'Dodoma' }}@elseif(Request::is('kibondo')){{ 'Kibondo' }}@elseif(Request::is('kasulu')){{ 'Kasulu' }}@elseif(Request::is('kigoma')){{ 'Kigoma' }}@elseif(Request::is('isaka')){{ 'Isaka' }}@else {{ 'Suboffice' }} @endif <i class="fa fa-angle-down"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{{URL::to('/dodoma')}}">
+                                <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Dodoma
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{URL::to('/kibondo')}}">
+                                <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Kibondo
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{URL::to('/kasulu')}}">
+                                <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Kasulu
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{URL::to('/kigoma')}}">
+                                <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Kigoma
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{URL::to('/isaka')}}">
+                                <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Isaka
+                            </a>
+                        </div>
+                    </li>
+                    @endif
+                </ul>
+
+                <div class="navbar-brand">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="img-fluid rounded-circle" src="{{ strlen(Auth::user()->image) != 0? url('/storage/thumbnails/'.Auth::user()->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto"> 
+                            {{ Auth::user()->firstname.' '.Auth::user()->secondname}} <i class="fa fa-angle-down"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             @if(Auth::user()->title != 'Administrator')
                             <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}"><i class="fa fa-eye"></i> View Bio</a>
                             <div class="dropdown-divider"></div>
                             @endif
                             <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a>
                         </div>
-                    </li>
-                    @endif
-                </ul>
-
-                <!--                <a class="navbar-brand">
-                                    <img class="img-fluid" src="{{ strlen(Auth::user()->image) != 0? url('/storage/'.Auth::user()->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="{{ strlen(Auth::user()->image) != 0? '29':'35' }}" data-src="holder.js/25x25/auto">
-                                </a>-->
-
-                @if(Auth::user()->title != 'Administrator')
-                {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0','role' => 'form'))}}
-                <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-success" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
+                    </div>
                 </div>
-                {{Form::close()}}
-                @endif
+
+                <!--                @if(Auth::user()->title != 'Administrator')
+                                {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0','role' => 'form'))}}
+                                <div class="input-group">
+                                    <input type="text" name="search" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-success" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                                {{Form::close()}}
+                                @endif-->
             </div>
         </nav>
 
@@ -235,7 +262,7 @@
                             </div>
                             <div class="col-12">
                                 <hr style="background-color: white">
-                                    @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) == 0 &&  Auth::user()->id == Session::get('view_user_bio'))
+                                @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) == 0 &&  Auth::user()->id == Session::get('view_user_bio'))
                                 <div class="alert alert-info" role="alert">
                                     <strong>Heads up!</strong> Please update your Bio.
                                 </div>
@@ -310,15 +337,15 @@
                     </div>
                     <div class="modal-footer bg-faded">
                         @if(Auth::user()->id == Session::get('add_user_bio'))
-                            @if(strlen(strip_tags(App\user::find(Session::get('add_user_bio'))->bio)) == 0)
-                            <button type="submit" role="button" class="btn btn-success">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Add Bio
-                            </button>
-                            @else
-                            <button type="submit" role="button" class="btn btn-warning">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Bio
-                            </button>
-                            @endif
+                        @if(strlen(strip_tags(App\user::find(Session::get('add_user_bio'))->bio)) == 0)
+                        <button type="submit" role="button" class="btn btn-success">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Add Bio
+                        </button>
+                        @else
+                        <button type="submit" role="button" class="btn btn-warning">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Bio
+                        </button>
+                        @endif
                         @endif
                         <button type="button" class="btn btn-danger" data-dismiss="modal">
                             <i class="fa fa-close" aria-hidden="true"></i> Close

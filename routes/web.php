@@ -75,7 +75,7 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/create_update', 'UpdateController@create_update');
 
-    Route::post('/store_update/{department}', 'UpdateController@store_update');
+    Route::post('/store_update/{department}/{dutystation}', 'UpdateController@store_update');
 
     Route::get('/edit_update/{id}', 'UpdateController@edit_update');
 
@@ -86,34 +86,54 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/read_update/{id}', 'UpdateController@show_update');
 
     Route::get('/like_update/{id}', 'UpdateController@like_update');
-    
-    Route::get('/finance', function () {
-        return view('finance')->with('department','Finance');
-    });
 
     Route::get('/previous', function () {
         return view('previous');
     });
+    
+    Route::get('/finance', function () {
+        return view('finance')->with('department','Finance')->with('dutystation','CO');
+    });
 
     Route::get('/administration', function () {
-        return view('administration')->with('department','Admin');
+        return view('administration')->with('department','Admin')->with('dutystation','CO');
     });
 
     Route::get('/hr', function () {
-        return view('hr')->with('department','HR');
+        return view('hr')->with('department','HR')->with('dutystation','CO');
     });
 
     Route::get('/supplychain', function () {
-        return view('supplychain')->with('department','Logistics');
+        return view('supplychain')->with('department','Logistics')->with('dutystation','CO');
     });
 
     Route::get('/programme', function () {
-        return view('programme')->with('department','Programme');
+        return view('programme')->with('department','Programme')->with('dutystation','CO');
+    });
+    
+    Route::get('/dodoma', function () {
+        return view('dodoma')->with('department','Programme')->with('dutystation','Dodoma');
+    });
+    
+    Route::get('/kibondo', function () {
+        return view('kibondo')->with('department','Programme')->with('dutystation','Kibondo');
+    });
+    
+    Route::get('/kigoma', function () {
+        return view('kigoma')->with('department','Programme')->with('dutystation','Kigoma');
+    });
+    
+    Route::get('/kasulu', function () {
+        return view('kasulu')->with('department','Programme')->with('dutystation','Kasulu');
+    });
+    
+    Route::get('/isaka', function () {
+        return view('isaka')->with('department','Programme')->with('dutystation','Isaka');
     });
     
     Route::get('/manage', 'ManageController@index');
     
-     Route::get('/createuser', 'ManageController@create');
+    Route::get('/createuser', 'ManageController@create');
     
     Route::post('/adduser', 'ManageController@store');
     
@@ -122,6 +142,16 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/edituser/{id}', 'ManageController@update');
     
     Route::get('/deleteuser/{id}', 'ManageController@destroy');
+    
+    Route::get('/createeditor', 'ManageController@create');
+    
+    Route::post('/addeditor', 'EditorController@store');
+    
+    Route::get('/editpageeditor/{id}', 'EditorController@edit');
+    
+    Route::post('/editpageeditor/{id}', 'EditorController@update');
+    
+    Route::get('/deletepageeditor/{id}', 'EditorController@destroy');
     
     Route::get('/feedback', 'FeedbackController@index');
 

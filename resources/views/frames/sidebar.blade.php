@@ -33,6 +33,21 @@
         -->     
         @if(Auth::user()->title != 'Administrator')
         <li class="nav-item">
+            <a class="nav-link">
+                {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0','role' => 'form'))}}
+                <div class="input-group {{ old('search')?'has-success':'' }}">
+                    <input type="text" name="search" value="{{ old('search') }}" class="form-control form-control-sm form-control-success" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success btn-sm" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+                {{Form::close()}}
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
                 <i class="fa fa-phone-square fa-lg" aria-hidden="true"></i> Phone Directory
             </a>
@@ -63,19 +78,19 @@
                 <li class="nav-item">
                     <a class="nav-link" target="_blank" class="nav-link" href="http://manuals.wfp.org" style="padding-left: 2em;"><i class="fa fa-book fa-lg" aria-hidden="true"></i> WFP Manuals</a>
                 </li>
-<!--                <li class="nav-item">
-                    <a class="nav-link nav-link-collapse collapsed dropdown-toggle" data-toggle="collapse" href="#collapseMulti2" href="#" style="padding-left: 2em;">
-                        Login Page
-                    </a>
-                    <ul class="sidenav-third-level collapse" id="collapseMulti2" style="padding-left: 0;list-style: none;">
-                        <li>
-                            <a class="nav-link" href="#" style="padding-left: 3em;">Third Level Item</a>
-                        </li>
-                        <li>
-                            <a class="nav-link" href="#" style="padding-left: 3em;">Third Level Item</a>
-                        </li>
-                    </ul>
-                </li>-->
+                <!--                <li class="nav-item">
+                                    <a class="nav-link nav-link-collapse collapsed dropdown-toggle" data-toggle="collapse" href="#collapseMulti2" href="#" style="padding-left: 2em;">
+                                        Login Page
+                                    </a>
+                                    <ul class="sidenav-third-level collapse" id="collapseMulti2" style="padding-left: 0;list-style: none;">
+                                        <li>
+                                            <a class="nav-link" href="#" style="padding-left: 3em;">Third Level Item</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" href="#" style="padding-left: 3em;">Third Level Item</a>
+                                        </li>
+                                    </ul>
+                                </li>-->
             </ul>
         </li>
         <li class="nav-item">

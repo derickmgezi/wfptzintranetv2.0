@@ -31,6 +31,7 @@ class PIController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create_post() {
+        Session::flash('create_post', 'Create Post Message');
         Session::flash('create_finance_update', 'Create Post Message');
         return back();
     }

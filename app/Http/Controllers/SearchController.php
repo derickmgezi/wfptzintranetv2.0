@@ -45,7 +45,7 @@ class SearchController extends Controller {
                    ->withInput();
         } else {
             Session::put('search_string',$request->search);
-            return redirect('/search');
+            return redirect('/search')->withInput();
         }
     }
 

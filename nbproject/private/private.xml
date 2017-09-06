@@ -12,10 +12,13 @@
             <file>file:/C:/wamp64/www/tzintranet/resources/views/home.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/sidebar.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/index.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/pi/pinews.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/components/phonedirectories/internaldirectories.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/routes/web.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/header.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/finance/financenews.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/it.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/feedback.blade.php</file>
         </group>
     </open-files>
 </project-private>

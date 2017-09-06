@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Validator;
+use App\Editor;
 use Illuminate\Validation\Rule;
 
 class ManageController extends Controller {
@@ -17,7 +18,9 @@ class ManageController extends Controller {
     public function index() {
         //
         $users = User::all();
-        return view('manage')->with('users', $users);
+        $editors = Editor::all();
+        return view('manage')->withUsers($users)
+                            ->withEditors($editors);
     }
 
     /**

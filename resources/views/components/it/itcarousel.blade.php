@@ -1,7 +1,16 @@
 <?php 
-     $posts = App\Post::where('status',1)->where('type','IT_post')->orderBy('created_by','desc')->get();
-     $post_count = $posts->count();
-     $slide_id = 0;
+
+$posts = App\Post::where('status',1)->where('type','IT_post')->orderBy('created_by','desc')->get();
+$post_count = $posts->count();
+$slide_id = 0;
+
+$it_editor = DB::table('users')->join('editors','editors.editor','=','users.id')
+                               ->where('users.dutystation','CO')
+                               ->where('users.department','IT')
+                               ->where('editors.editor',Auth::id())
+                               ->where('editors.status',1)
+                               ->first();   
+     
 ?>
 @if($post_count != 0)
 <div id="myCarousel" class="container carousel slide" data-ride="carousel">
@@ -11,7 +20,7 @@
         <?php ++$slide_id ?>
         @endforeach
 
-        @if(Auth::user()->department=='IT')
+        @if($it_editor)
         <li data-target="#myCarousel" data-slide-to="{{$slide_id}}" class="{{($slide_id == 0)? 'active':''}}"></li>
         @endif
     </ol>
@@ -38,7 +47,7 @@
                         <a class="btn btn-lg btn-primary" href="{{URL::to('/read_post/'.$post->id)}}" role="button">
                             <i class="fa fa-book" aria-hidden="true"></i> Read More
                         </a>
-                        @if(Auth::user()->department == 'IT')
+                        @if($it_editor)
                         <a class="btn btn-lg btn-warning" href="{{URL::to('/edit_it_post/'.$post->id)}}" role="button">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Post
                         </a>
@@ -53,7 +62,7 @@
         <?php ++$slide_id;  $text_format_id != 3? ++$text_format_id:$text_format_id = 1; ?>
         @endforeach
 
-        @if(Auth::user()->department == 'IT')
+        @if($it_editor)
         <div class="carousel-item {{($slide_id == 0)? 'active':''}}">
             <img class="fourth-slide img-wraper" style="filter: brightness(60%);" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
             <div class="container">
@@ -81,7 +90,7 @@
     </a>
 </div>
 @else
-    @if(Auth::user()->department == 'IT')
+    @if($it_editor)
     <div id="myCarousel" class="container carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="{{$slide_id}}" class="{{($slide_id == 0)? 'active':''}}"></li>
@@ -155,9 +164,9 @@
                         <div class="form-group">
                             <label for="headerText"><strong>Description</strong></label>
                             @if(old('description'))
-                            <textarea class="simple-tinymce form-control" name='description' rows="5">{{ (old('description')) }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='description' rows="5">{{ (old('description')) }}</textarea>
                             @elseif(Session::has('post_id'))
-                            <textarea class="simple-tinymce form-control" name='description' rows="5">{{ App\Post::find(Session::get('post_id'))->description }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='description' rows="5">{{ App\Post::find(Session::get('post_id'))->description }}</textarea>
                             @endif
                         </div>
                         <div class="form-group">
@@ -217,7 +226,7 @@
                         </div>
                         <div class="form-group">
                             <label for="headerText"><strong>Description</strong></label>
-                            <textarea class="simple-tinymce form-control" name='description' id="exampleTextarea" rows="5">{{ (old('description')) }}</textarea>
+                            <textarea class="complete-tinymce form-control" name='description' id="exampleTextarea" rows="5">{{ (old('description')) }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="headerText"><strong>Story</strong></label>
