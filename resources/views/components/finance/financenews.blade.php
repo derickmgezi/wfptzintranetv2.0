@@ -24,7 +24,7 @@ $editor = DB::table('users')->join('editors', 'editors.editor', '=', 'users.id')
         <button type="button" class="btn btn-primary float-left hidden-md-up invisible" onclick="location.href = '{{URL::to('/previous')}}'"><i class="fa fa-calendar" aria-hidden="true"></i> News</button>
 
         <h1 class="text-center featurette-heading">
-            @if($dutystation == 'CO')
+            @if($dutystation == 'Country Office')
             <i class="fa fa-newspaper-o" aria-hidden="true"></i> {{ (($department == 'Logistics')? 'Supply Chain':$department) }} Updates
             @else
             <i class="fa fa-newspaper-o" aria-hidden="true"></i> {{ $dutystation }} Updates
@@ -121,7 +121,7 @@ $total_like_count = $total_views->count();
         @endif
 
         <h1 class="text-center featurette-heading">
-            @if($dutystation == 'CO')
+            @if($dutystation == 'Country Office')
             <i class="fa fa-newspaper-o" aria-hidden="true"></i> {{ (($department == 'Logistics')? 'Supply Chain':$department) }} Updates
             @else
             <i class="fa fa-newspaper-o" aria-hidden="true"></i> {{ $dutystation }} Updates

@@ -5,7 +5,7 @@ $post_count = $posts->count();
 $slide_id = 0;
 
 $it_editor = DB::table('users')->join('editors','editors.editor','=','users.id')
-                               ->where('users.dutystation','CO')
+                               ->where('users.dutystation','Country Office')
                                ->where('users.department','IT')
                                ->where('editors.editor',Auth::id())
                                ->where('editors.status',1)
