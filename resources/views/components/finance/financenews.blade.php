@@ -131,7 +131,7 @@ $total_like_count = $total_views->count();
 
     <div class="col-md-12">
         <div class="alert alert-info text-center" role="alert">
-            <strong>No Updates from {{ (($department == 'Logistics')? 'Supply Chain':$department) }} have been added.</strong> {{ $editor? 'To add updates, click the Add Update Button.':'' }}
+            <strong>No Updates from @if(Request::is('dodoma')){{ 'Dodoma' }}@elseif(Request::is('kibondo')){{ 'Kibondo' }}@elseif(Request::is('kasulu')){{ 'Kasulu' }}@elseif(Request::is('kigoma')){{ 'Kigoma' }}@elseif(Request::is('isaka')){{ 'Isaka' }}@elseif($department == 'Logistics'){{ 'Supply Chain' }}@else {{ $department }} @endif have been added.</strong> {{ $editor? 'To add updates, click the Add Update Button.':'' }}
         </div>
     </div>
 
