@@ -5,7 +5,7 @@ $news_count = App\News::where('status', 1)->orderBy('created_at', 'desc')->count
 $news_post_count = 1;
 
 $pi_editor = DB::table('users')->join('editors','editors.editor','=','users.id')
-                               ->where('users.dutystation','CO')
+                               ->where('users.dutystation','Country Office')
                                ->where('users.department','Communications')
                                ->where('editors.editor',Auth::id())
                                ->where('editors.status',1)

@@ -92,23 +92,23 @@ Route::group(['middleware' => ['guest']], function () {
     });
     
     Route::get('/finance', function () {
-        return view('finance')->with('department','Finance')->with('dutystation','CO');
+        return view('finance')->with('department','Finance')->with('dutystation','Country Office');
     });
 
     Route::get('/administration', function () {
-        return view('administration')->with('department','Admin')->with('dutystation','CO');
+        return view('administration')->with('department','Admin')->with('dutystation','Country Office');
     });
 
     Route::get('/hr', function () {
-        return view('hr')->with('department','HR')->with('dutystation','CO');
+        return view('hr')->with('department','HR')->with('dutystation','Country Office');
     });
 
     Route::get('/supplychain', function () {
-        return view('supplychain')->with('department','Logistics')->with('dutystation','CO');
+        return view('supplychain')->with('department','Logistics')->with('dutystation','Country Office');
     });
 
     Route::get('/programme', function () {
-        return view('programme')->with('department','Programme')->with('dutystation','CO');
+        return view('programme')->with('department','Programme')->with('dutystation','Country Office');
     });
     
     Route::get('/dodoma', function () {
