@@ -14,7 +14,7 @@ class CreateUpdateNewsTable extends Migration {
     public function up() {
         //
         Schema::table('news', function($table) {
-            $table->string('office', 40)->default('CO')->after('type');
+            $table->string('office', 40)->default('Country Office')->after('type');
             $table->integer('authorized_by')->nullable()->unsigned()->after('office');
             $table->timestamp('authorized_at')->nullable()->after('authorized_by');
             $table->boolean('authorization_status')->default(1)->after('authorized_at');
