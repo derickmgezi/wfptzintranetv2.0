@@ -1,16 +1,25 @@
 <?php
+
 $news_posts = App\News::where('status', 1)->where('type','PI_news')->orderBy('created_at', 'desc')->paginate(5);
 $news_count = App\News::where('status', 1)->orderBy('created_at', 'desc')->count();
 $news_post_count = 1;
+
+$pi_editor = DB::table('users')->join('editors','editors.editor','=','users.id')
+                               ->where('users.dutystation','CO')
+                               ->where('users.department','Communications')
+                               ->where('editors.editor',Auth::id())
+                               ->where('editors.status',1)
+                               ->first();
+
 ?>
 @if($news_count != 0)
 <div class="row">
     <div class="col-md-12" style="background-color:">
         
-        <a class="btn btn-success btn-lg float-right hidden-sm-down {{ Auth::user()->department == 'PI'? '':'invisible'}}" href="{{URL::to('/create_news_post')}}" role="button">
+        <a class="btn btn-success btn-lg float-right hidden-sm-down {{ $pi_editor? '':'invisible'}}" href="{{URL::to('/create_news_post')}}" role="button">
             <i class="fa fa-plus-square" aria-hidden="true"></i> Add News
         </a>
-        <a class="btn btn-success float-right hidden-md-up {{ Auth::user()->department == 'PI'? '':'invisible'}}" href="{{URL::to('/create_news_post')}}" role="button">
+        <a class="btn btn-success float-right hidden-md-up {{ $pi_editor? '':'invisible'}}" href="{{URL::to('/create_news_post')}}" role="button">
             <i class="fa fa-plus-square" aria-hidden="true"></i> Add News
         </a>
 
@@ -21,10 +30,10 @@ $news_post_count = 1;
     </div>
 </div>
 @else
-    @if(Auth::user()->department == 'PI')
+    @if($pi_editor)
         <div class="row">
             <div class="col-md-12" style="background-color:">
-                @if(Auth::user()->department == 'PI')
+                @if($pi_editor)
                 <a class="btn btn-success btn-lg float-right hidden-sm-down" href="{{URL::to('/create_news_post')}}" role="button">
                     <i class="fa fa-plus-square" aria-hidden="true"></i> Add News
                 </a>
@@ -55,7 +64,7 @@ $news_post_count = 1;
                     <i class="fa fa-book" aria-hidden="true"></i> Read More
                 </a>
                 
-                @if(Auth::user()->department == 'PI')
+                @if($pi_editor)
                 <a class="btn btn-warning btn-sm" href="{{URL::to('/edit_news_post/'.$news_post->id)}}" role="button">
                     <i class="fa fa-edit" aria-hidden="true"></i> Edit
                 </a>
@@ -301,7 +310,7 @@ $news_post_count = 1;
                 <a class="btn btn-secondary" href="{{URL::to('/like_news_post/'.App\News::find(Session::get('read_news_post'))->id)}}" role="button">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i> comment
                 </a>
-                @if(Auth::user()->department == 'PI')
+                @if($pi_editor)
                 <a class="btn btn-warning" href="{{URL::to('/edit_news_post/'.Session::get('read_news_post'))}}" role="button">
                     <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Edit News Post
                 </a>

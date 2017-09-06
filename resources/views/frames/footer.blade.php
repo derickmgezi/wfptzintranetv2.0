@@ -77,6 +77,10 @@
         @if(Session::has('add_user') || Session::has('add_user_error') || Session::has('edit_user') || Session::has('edit_user_error'))
         <script>$('#addUserModal').modal('show');</script>
         @endif
+        
+        @if(Session::has('add_editor') || Session::has('add_editor_error') || Session::has('edit_editor') || Session::has('edit_editor_error'))
+        <script>$('#addEditorModal').modal('show');</script>
+        @endif
 
     </body>
 

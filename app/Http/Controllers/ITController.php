@@ -19,7 +19,7 @@ class ITController extends Controller {
      */
     public function index() {
         //
-        return view('it');
+        return view('it')->with('dutystation','CO');
     }
 
     /**

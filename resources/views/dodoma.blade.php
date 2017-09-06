@@ -12,7 +12,7 @@
             ================================================== -->
             <!-- Wrap the rest of the page in another container to center all the content. -->
 
-            <div class="container-fluid marketing">         
+            <div class="container-fluid marketing">                        
 
                 @include('components/finance/financenews')
 
@@ -24,3 +24,4 @@
 
                 <!-- FOOTER -->
                 @include('frames/footer')
+
