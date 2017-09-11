@@ -81,10 +81,10 @@
 
                     </div>
                     <div class="col-md-3 col-xl-4 hidden-sm-down">
-                        <a class="twitter-timeline" data-height="500" href="https://twitter.com/WFP_Tanzania">
+<!--                        <a class="twitter-timeline" data-height="500" href="https://twitter.com/WFP_Tanzania">
                             Tweets by WFP_Tanzania
                         </a> 
-                        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>-->
                     </div>
                 </div>
             </div>
