@@ -17,16 +17,16 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h1 class="text-center featurette-heading">
-                            <i class="fa fa-newspaper-o" aria-hidden="true"></i> Latest Post
+                            <i class="fa fa-newspaper-o" aria-hidden="true"></i> Latest Posts
                         </h1>
                         <div class="card-deck">
                             @foreach($recent_posts as $recent_post)
                             <div class="card m-1">
                                 <img class="card-img-top img-fluid" src="{{ url('/storage/thumbnails/'.$recent_post->image) }}" alt="Card image cap">
                                 <div class="card-block">
-                                    <p class="card-text text-primary">
+                                    <a href="{{URL::to('/read_update/'.$recent_post->id)}}" class="card-text text-primary">
                                         <strong>{{ substr(strip_tags($recent_post->header),0,65) }}{{ strlen(strip_tags($recent_post->header)) > 65 ? "...":"" }}</strong>
-                                    </p>
+                                    </a>
                                     <?php $date = new Jenssegers\Date\Date($recent_post->created_at); ?>
                                     <p class="card-text"><small class="text-muted">Posted {{ $date->ago() }}</small></p>
                                 </div>
@@ -43,7 +43,7 @@
                         </div>
 
                         <h1 class="text-center featurette-heading">
-                            <i class="fa fa-eye" aria-hidden="true"></i> Most viewed Post
+                            <i class="fa fa-eye" aria-hidden="true"></i> Most viewed Posts
                         </h1>
                         
                         <div class="card-deck">
@@ -51,9 +51,9 @@
                             <div class="card m-1">
                                 <img class="card-img-top img-fluid" src="{{ url('/storage/thumbnails/'.$most_viewed_post->image) }}" alt="Card image cap">
                                 <div class="card-block">
-                                    <p class="card-text text-primary">
+                                    <a href="{{URL::to('/read_update/'.$most_viewed_post->view_id)}}" class="card-text text-primary">
                                         <strong>{{ substr(strip_tags($most_viewed_post->header),0,65) }}{{ strlen(strip_tags($most_viewed_post->header)) > 65 ? "...":"" }}</strong>
-                                    </p>
+                                    </a>
                                     <?php $date = new Jenssegers\Date\Date($most_viewed_post->created_at); ?>
                                     <p class="card-text"><small class="text-muted">Posted {{ $date->ago() }}</small></p>
                                 </div>
@@ -127,7 +127,7 @@
 
                     <div class="col-md-4">
                         <h1 class="text-center featurette-heading">
-                            <i class="fa fa-link" aria-hidden="true"></i> Usefull Links
+                            <i class="fa fa-link" aria-hidden="true"></i> Links
                         </h1>
 
                         <div class="card m-4">
