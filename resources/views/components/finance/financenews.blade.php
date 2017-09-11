@@ -316,7 +316,7 @@ $total_like_count = $total_views->count();
                         <br>
                         <blockquote class="blockquote blockquote-reverse">
                             <p class="mb-0">Uploaded By <em class="text-primary">{{ App\User::find(App\News::find(Session::get('read_update'))->created_by)->firstname.' '.App\User::find(App\News::find(Session::get('read_update'))->created_by)->secondname }}</em></p>
-<?php $date = new Jenssegers\Date\Date(App\News::find(Session::get('read_update'))->created_at); ?>
+                            <?php $date = new Jenssegers\Date\Date(App\News::find(Session::get('read_update'))->created_at); ?>
                             <footer class="text-success"><small>{{ $date->format('l j F Y').' at '.$date->format('h:i A') }}</small></footer>
                         </blockquote>
                     </div>
