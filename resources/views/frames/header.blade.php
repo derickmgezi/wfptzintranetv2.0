@@ -150,7 +150,12 @@ tinymce.init(editor_config);
                     @if(Auth::user()->title != 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link {{((Request::is('home'))? 'active':'')}}" href="{{URL::to('/home')}}">
-                            | <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Comms</small> <span class="sr-only">(current)</span>
+                            | <i class="fa fa-home fa-lg" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{((Request::is('communications'))? 'active':'')}}" href="{{URL::to('/communications')}}">
+                            | <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Comms</small>
                         </a>
                     </li>
                     <li class="nav-item">

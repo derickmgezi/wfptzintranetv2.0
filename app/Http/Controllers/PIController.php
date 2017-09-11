@@ -22,7 +22,7 @@ class PIController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        //
+        return view('communications')->with('dutystation', 'Country Office');
     }
 
     /**
