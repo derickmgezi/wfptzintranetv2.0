@@ -31,7 +31,7 @@
                                     <p class="card-text"><small class="text-muted">Posted {{ $date->ago() }}</small></p>
                                 </div>
                                 <?php
-                                $unique_views = App\View::select('viewed_by')->where('view_id',$recent_post->id)->groupBy('viewed_by')->get();
+                                $unique_views = App\View::select('viewed_by')->where('view_id', $recent_post->id)->groupBy('viewed_by')->get();
                                 $total_unique_view_count = $unique_views->count();
                                 ?>
                                 <div class="card-footer text-center">
@@ -45,7 +45,7 @@
                         <h1 class="text-center featurette-heading">
                             <i class="fa fa-eye" aria-hidden="true"></i> Most viewed Posts
                         </h1>
-                        
+
                         <div class="card-deck">
                             @foreach($most_viewed_posts as $most_viewed_post)
                             <div class="card m-1">
@@ -58,7 +58,7 @@
                                     <p class="card-text"><small class="text-muted">Posted {{ $date->ago() }}</small></p>
                                 </div>
                                 <?php
-                                $unique_views = App\View::select('viewed_by')->where('view_id',$most_viewed_post->view_id)->groupBy('viewed_by')->get();
+                                $unique_views = App\View::select('viewed_by')->where('view_id', $most_viewed_post->view_id)->groupBy('viewed_by')->get();
                                 $total_unique_view_count = $unique_views->count();
                                 ?>
                                 <div class="card-footer text-center">
@@ -68,7 +68,7 @@
                             </div>
                             @endforeach
                         </div>
-                        
+
                         @if(Session::has('read_update'))
                         <!-- start of News Pop Up Modal -->
                         <div class="modal fade read-update-modal" id='read-update-modal' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -123,6 +123,30 @@
                             </div>
                         </div><!-- /.end News Modal -->
                         @endif
+
+<!--                        <h1 class="text-center featurette-heading">
+                            <i class="fa fa-list" aria-hidden="true"></i> Canteen
+                        </h1>
+
+                        <div class="card-deck">
+                            <div class="card">
+                                <div class="card-block">
+                                    <h3 class="card-title">Break Fast</h3>
+                                </div>
+                                <a href="#">
+                                    <img class="card-img-bottom img-fluid" src="{{url('/image/breakfast-recipes-that-include-english-muffins.jpg')}}" alt="Card image cap">
+                                </a>
+                            </div>
+                            <div class="card">
+                                <a href="#">
+                                    <img class="card-img-top img-fluid" src="{{url('/image/pexels-photo-70497.jpeg')}}" alt="Card image cap">
+                                </a>
+                                <div class="card-block">
+                                    <h3 class="card-title">Lunch</h3>
+                                </div>
+                            </div>
+                        </div>-->
+
                     </div>
 
                     <div class="col-md-4">
@@ -146,7 +170,7 @@
                                 </li>
                             </ul>
                         </div>
-                        
+
                         <a class="twitter-timeline" data-height="500" href="https://twitter.com/WFP_Tanzania">
                             Tweets by WFP_Tanzania
                         </a> 
@@ -156,9 +180,9 @@
 
                 <!-- /END THE FEATURETTES -->
 
-<!--                <h1 class="text-center featurette-heading">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editor
-                </h1>-->
+                <!--                <h1 class="text-center featurette-heading">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editor
+                                </h1>-->
 
                 <!-- Three columns of text below the carousel -->
 
