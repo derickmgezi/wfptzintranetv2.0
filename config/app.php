@@ -176,6 +176,8 @@ return [
         Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         'Jenssegers\Date\DateServiceProvider',
+        Spatie\Backup\BackupServiceProvider::class,
+        BC\Laravel\DropboxDriver\ServiceProvider::class,
 
         /*
          * Application Service Providers...

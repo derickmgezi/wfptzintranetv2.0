@@ -46,7 +46,16 @@
                 {{Form::close()}}
             </a>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="http://newgo.wfp.org/collection/integrated-road-map-irm">
+                <i class="fa fa-flag-o fa-lg" aria-hidden="true"></i> IRM
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="http://newgo.wfp.org/documents/tanzania-country-strategic-plan-2017-2021">
+                <i class="fa fa-flag-checkered fa-lg" aria-hidden="true"></i> Tanzania CSP
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
                 <i class="fa fa-phone-square fa-lg" aria-hidden="true"></i> Phone Directory
@@ -58,25 +67,25 @@
             </a>
             <ul class="sidenav-second-level collapse" id="collapseSites" style="padding-left: 0;list-style: none;">
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" class="nav-link" href="http://go.wfp.org" style="padding-left: 2em;"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> NewGo</a>
+                    <a class="nav-link" target="_blank" href="http://go.wfp.org" style="padding-left: 2em;"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> NewGo</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" class="nav-link" href="http://mfapps.wfp.org" style="padding-left: 2em;"><i class="fa fa-paper-plane fa-lg" aria-hidden="true"></i> WINGSII</a>
+                    <a class="nav-link" target="_blank" href="http://mfapps.wfp.org" style="padding-left: 2em;"><i class="fa fa-paper-plane fa-lg" aria-hidden="true"></i> WINGSII</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" class="nav-link" href="http://welearn.wfp.org" style="padding-left: 2em;"><i class="fa fa-leanpub fa-lg" aria-hidden="true"></i> WeLearn</a>
+                    <a class="nav-link" target="_blank" href="http://welearn.wfp.org" style="padding-left: 2em;"><i class="fa fa-leanpub fa-lg" aria-hidden="true"></i> WeLearn</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" class="nav-link" href="http://pace.wfp.org" style="padding-left: 2em;"><i class="fa fa-tachometer fa-lg" aria-hidden="true"></i> PACE</a>
+                    <a class="nav-link" target="_blank" href="http://pace.wfp.org" style="padding-left: 2em;"><i class="fa fa-tachometer fa-lg" aria-hidden="true"></i> PACE</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" class="nav-link" href="http://mail.wfp.org" style="padding-left: 2em;"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> WebMail</a>
+                    <a class="nav-link" target="_blank" href="http://mail.wfp.org" style="padding-left: 2em;"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> WebMail</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" class="nav-link" href="http://info.wfp.org" style="padding-left: 2em;"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> INFO</a>
+                    <a class="nav-link" target="_blank" href="http://info.wfp.org" style="padding-left: 2em;"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> INFO</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" class="nav-link" href="http://manuals.wfp.org" style="padding-left: 2em;"><i class="fa fa-book fa-lg" aria-hidden="true"></i> WFP Manuals</a>
+                    <a class="nav-link" target="_blank" href="http://manuals.wfp.org" style="padding-left: 2em;"><i class="fa fa-book fa-lg" aria-hidden="true"></i> WFP Manuals</a>
                 </li>
                 <!--                <li class="nav-item">
                                     <a class="nav-link nav-link-collapse collapsed dropdown-toggle" data-toggle="collapse" href="#collapseMulti2" href="#" style="padding-left: 2em;">
