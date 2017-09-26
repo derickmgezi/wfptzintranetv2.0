@@ -129,21 +129,21 @@
                         </h1>
 
                         <div class="card-deck">
-                            <div class="card">
-                                <div class="card-block">
-                                    <h3 class="card-title">Break Fast</h3>
-                                </div>
-                                <a href="#">
-                                    <img class="card-img-bottom img-fluid" src="{{url('/image/breakfast-recipes-that-include-english-muffins.jpg')}}" alt="Card image cap">
+                            <div class="card card-inverse card-success">
+                                <a href="{{URL::to('/canteen/break_fast')}}" style="text-decoration: none;">
+                                    <div class="card-block">
+                                        <h3 class="card-title">Break Fast</h3>
+                                    </div>
                                 </a>
+                                <img class="card-img-bottom img-fluid" src="{{url('/image/breakfast-recipes-that-include-english-muffins.jpg')}}" alt="Card image cap">
                             </div>
-                            <div class="card">
-                                <a href="#">
-                                    <img class="card-img-top img-fluid" src="{{url('/image/pexels-photo-70497.jpeg')}}" alt="Card image cap">
+                            <div class="card card-inverse card-primary">
+                                <img class="card-img-top img-fluid" src="{{url('/image/pexels-photo-70497.jpeg')}}" alt="Card image cap">
+                                <a href="{{URL::to('/canteen/lunch')}}" style="text-decoration: none;">
+                                    <div class="card-block">
+                                        <h3 class="card-title">Lunch</h3>
+                                    </div>
                                 </a>
-                                <div class="card-block">
-                                    <h3 class="card-title">Lunch</h3>
-                                </div>
                             </div>
                         </div>-->
 
