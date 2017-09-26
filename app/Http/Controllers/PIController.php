@@ -58,17 +58,17 @@ class PIController extends Controller {
                             ->withInput();
         } else {
             //Upload the file in storage public folder
-            $request->image->store('public/pi_posts');
+            $image_name = (string) ($request->image->store('public/pi_posts'));
+            $image_name = str_replace('public/','',$image_name);
 
             //Upload the file in storage thumbnail public folder
-            $request->image->store('public/thumbnails/pi_posts');
+            $thumb_image_name = (string) ($request->image->store('public/thumbnails/pi_posts'));
 
-            //Get uploaded image name from the thumbnails
-            $image_name = $request->image->store('thumbnails/pi_posts');
+            //Get full path of uploaded image from the thumbnails
+            $path = storage_path('app/'.$thumb_image_name);
 
             //Load the image into Intervention Package for manipulation
-            $path = public_path('storage/' . $image_name);
-            Image::make('storage/' . $image_name)->fit(3840, 1920)->save($path);
+            Image::make($path)->fit(3840, 1920)->save($path);
 
 
             //store the post credentials in database
@@ -77,7 +77,7 @@ class PIController extends Controller {
             $post->description = Purifier::clean($request->description);
             $post->story = Purifier::clean($request->story);
             $post->type = 'PI_post';
-            $post->image = $request->image->store('pi_posts');
+            $post->image = $image_name;
             $post->created_by = Auth::id();
             $post->edited_by = Auth::id();
             $post->save();
@@ -135,24 +135,24 @@ class PIController extends Controller {
 
             if ($request->image) {
                 //Upload the file in storage public folder
-                $request->image->store('public/pi_posts');
+                $image_name = (string) ($request->image->store('public/pi_posts'));
+                $image_name = str_replace('public/','',$image_name);
 
                 //Upload the file in storage thumbnail public folder
-                $request->image->store('public/thumbnails/pi_posts');
+                $thumb_image_name = (string) ($request->image->store('public/thumbnails/pi_posts'));
 
-                //get uploaded image name
-                $image_name = $request->image->store('thumbnails/pi_posts');
+                //Get full path of uploaded image from thumbnail
+                $path = storage_path('app/'.$thumb_image_name);
 
                 //Get the uploaded image from the thumbnails into the Intervention Package for manipulation
-                $path = public_path('storage/' . $image_name);
-                Image::make('storage/' . $image_name)->fit(3840, 1920)->save($path);
+                Image::make($path)->fit(3840, 1920)->save($path);
 
                 //edit the the post credentials in database
                 $post = Post::find($id);
                 $post->header = $request->header;
                 $post->description = Purifier::clean($request->description);
                 $post->story = Purifier::clean($request->story);
-                $post->image = $request->image->store('pi_posts');
+                $post->image = $image_name;
                 $post->edited_by = Auth::id();
                 $post->save();
 
@@ -209,17 +209,17 @@ class PIController extends Controller {
                             ->withInput();
         } else {
             //Upload the file in storage/app/public/pi_news folder 
-            $request->image->store('public/pi_news');
+            $image_name = (string) ($request->image->store('public/pi_news'));
+            $image_name = str_replace('public/','',$image_name);
 
             //Upload the file in storage thumbnail public folder
-            $request->image->store('public/thumbnails/pi_news');
+            $thumb_image_name = (string) ($request->image->store('public/thumbnails/pi_news'));
 
-            //Get uploaded image name from the thumbnails
-            $image_name = $request->image->store('thumbnails/pi_news');
+            //Get full path of uploaded image from the thumbnails
+            $path = storage_path('app/'.$thumb_image_name);
 
             //Load the image into the Image Intervention Package for manipulation
-            $path = public_path('storage/' . $image_name);
-            Image::make('storage/' . $image_name)->fit(3840, 1920)->save($path);
+            Image::make($path)->fit(3840, 1920)->save($path);
 
 
             //store the post credentials in database
@@ -229,7 +229,7 @@ class PIController extends Controller {
             $post->story = Purifier::clean($request->story);
             $post->source = $request->source;
             $post->type = 'PI_news';
-            $post->image = $request->image->store('pi_news');
+            $post->image = $image_name;
             $post->created_by = Auth::id();
             $post->edited_by = Auth::id();
             $post->save();
@@ -275,17 +275,17 @@ class PIController extends Controller {
 
             if ($request->image) {
                 //Upload the file in storage/app/public/pi_news folder 
-                $request->image->store('public/pi_news');
+                $image_name = (string) ($request->image->store('public/pi_news'));
+                $image_name = str_replace('public/','',$image_name);
 
                 //Upload the file in storage thumbnail public folder
-                $request->image->store('public/thumbnails/pi_news');
+                $thumb_image_name = (string) ($request->image->store('public/thumbnails/pi_news'));
 
-                //Get uploaded image name from the thumbnails
-                $image_name = $request->image->store('thumbnails/pi_news');
+                //Get full path of uploaded image from the thumbnails
+                 $path = storage_path('app/'.$thumb_image_name);
 
                 //Load the image into the Image Intervention Package for manipulation
-                $path = public_path('storage/' . $image_name);
-                Image::make('storage/' . $image_name)->fit(3840, 1920)->save($path);
+                Image::make($path)->fit(3840, 1920)->save($path);
 
                 //edit the the post credentials in database
                 $post = News::find($id);
@@ -293,7 +293,7 @@ class PIController extends Controller {
                 $post->source = $request->source;
                 $post->description = Purifier::clean($request->description);
                 $post->story = Purifier::clean($request->story);
-                $post->image = $request->image->store('pi_news');
+                $post->image = $image_name;
                 $post->edited_by = Auth::id();
                 $post->save();
 
@@ -358,21 +358,21 @@ class PIController extends Controller {
         } else {
             if ($request->image) {
                 //Upload the file in storage/app/public/profile_pictures folder
-                $request->image->store('public/profile_pictures');
+                $image_name = (string) ($request->image->store('public/profile_pictures'));
+                $image_name = str_replace('public/','',$image_name);
 
                 //Upload the file in storage thumbnail public folder
-                $request->image->store('public/thumbnails/profile_pictures');
-
-                //Get uploaded image name from the thumbnails
-                $image_name = $request->image->store('thumbnails/profile_pictures');
+                $thumb_image_name = (string) ($request->image->store('public/thumbnails/profile_pictures'));
+                
+                //Get full path of uploaded image from the thumbnails
+                $path = storage_path('app/'.$thumb_image_name);
 
                 //Load the image into the Image Intervention Package for manipulation
-                $path = public_path('storage/' . $image_name);
-                Image::make('storage/' . $image_name)->fit(300, 300)->save($path);
+                Image::make($path)->fit(300, 300)->save($path);
                 
                 //Update User Bio
                 $Update_bio = User::find($id);
-                $Update_bio->image = $request->image->store('profile_pictures');
+                $Update_bio->image = $image_name;
                 $Update_bio->bio = Purifier::clean($request->bio);
                 $Update_bio->save();
 

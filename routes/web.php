@@ -158,6 +158,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/feedback', 'FeedbackController@index');
 
     Route::post('/feedback', 'FeedbackController@store');
+    
+    Route::get('/canteen/{meal}', 'CanteenController@index');
 });
 
 Auth::routes();

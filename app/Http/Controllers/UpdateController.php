@@ -30,7 +30,7 @@ class UpdateController extends Controller {
         return back();
     }
 
-    public function store_update(Request $request,$department,$dutystation) {
+    public function store_update(Request $request, $department, $dutystation) {
         //
         $validator = Validator::make($request->all(), [
                     'header' => 'required',
@@ -43,21 +43,21 @@ class UpdateController extends Controller {
         if ($validator->fails()) {
             Session::flash('new_update_error', 'News Post Creation Error');
             return back()
-                   ->withErrors($validator)
-                   ->withInput();
+                            ->withErrors($validator)
+                            ->withInput();
         } else {
             //Upload the file in storage/app/public/pi_news folder 
-            $request->image->store('public/pi_news');
+            $image_name = (string) ($request->image->store('public/pi_news'));
+            $image_name = str_replace('public/', '', $image_name);
 
             //Upload the file in storage thumbnail public folder
-            $request->image->store('public/thumbnails/pi_news');
+            $thumb_image_name = (string) ($request->image->store('public/thumbnails/pi_news'));
 
-            //Get uploaded image name from the thumbnails
-            $image_name = $request->image->store('thumbnails/pi_news');
+            //Get full path of uploaded image from the thumbnails
+            $path = storage_path('app/' . $thumb_image_name);
 
             //Load the image into the Image Intervention Package for manipulation
-            $path = public_path('storage/' . $image_name);
-            Image::make('storage/' . $image_name)->fit(3840, 1920)->save($path);
+            Image::make($path)->fit(3840, 1920)->save($path);
 
 
             //store the post credentials in database
@@ -68,7 +68,7 @@ class UpdateController extends Controller {
             $post->source = $request->source;
             $post->type = $department;
             $post->office = $dutystation;
-            $post->image = $request->image->store('pi_news');
+            $post->image = $image_name;
             $post->created_by = Auth::id();
             $post->edited_by = Auth::id();
             $post->save();
@@ -83,7 +83,7 @@ class UpdateController extends Controller {
         $view->view_id = $id;
         $view->viewed_by = Auth::id();
         $view->save();
-        
+
         $update = News::find($id);
         Session::flash('read_update', $id);
         return back();
@@ -114,17 +114,17 @@ class UpdateController extends Controller {
 
             if ($request->image) {
                 //Upload the file in storage/app/public/pi_news folder 
-                $request->image->store('public/pi_news');
+                $image_name = (string) ($request->image->store('public/pi_news'));
+                $image_name = str_replace('public/', '', $image_name);
 
                 //Upload the file in storage thumbnail public folder
-                $request->image->store('public/thumbnails/pi_news');
+                $thumb_image_name = (string) ($request->image->store('public/thumbnails/pi_news'));
 
-                //Get uploaded image name from the thumbnails
-                $image_name = $request->image->store('thumbnails/pi_news');
+                //Get full path of uploaded image from the thumbnails
+                $path = storage_path('app/' . $thumb_image_name);
 
                 //Load the image into the Image Intervention Package for manipulation
-                $path = public_path('storage/' . $image_name);
-                Image::make('storage/' . $image_name)->fit(3840, 1920)->save($path);
+                Image::make($path)->fit(3840, 1920)->save($path);
 
                 //edit the the post credentials in database
                 $post = News::find($id);
@@ -132,7 +132,7 @@ class UpdateController extends Controller {
                 $post->source = $request->source;
                 $post->description = Purifier::clean($request->description);
                 $post->story = Purifier::clean($request->story);
-                $post->image = $request->image->store('pi_news');
+                $post->image = $image_name;
                 $post->edited_by = Auth::id();
                 $post->save();
 
@@ -153,7 +153,7 @@ class UpdateController extends Controller {
             }
         }
     }
-    
+
     public function like_update($id) {
         $like = new Like;
         $like->view_id = $id;
@@ -196,12 +196,22 @@ class UpdateController extends Controller {
                             ->withInput();
         } else {
             if ($request->image) {
-                //Upload the file in storage public folder
-                $request->image->store('public/profile_pictures');
+                //Upload the file in storage/app/public/profile_pictures folder
+                $image_name = (string) ($request->image->store('public/profile_pictures'));
+                $image_name = str_replace('public/','',$image_name);
+
+                //Upload the file in storage thumbnail public folder
+                $thumb_image_name = (string) ($request->image->store('public/thumbnails/profile_pictures'));
+                
+                //Get full path of uploaded image from the thumbnails
+                $path = storage_path('app/'.$thumb_image_name);
+
+                //Load the image into the Image Intervention Package for manipulation
+                Image::make($path)->fit(300, 300)->save($path);
 
                 //Update User Bio
                 $Update_bio = User::find($id);
-                $Update_bio->image = $request->image->store('profile_pictures');
+                $Update_bio->image = $image_name;
                 $Update_bio->bio = Purifier::clean($request->bio);
                 $Update_bio->save();
 
@@ -212,7 +222,7 @@ class UpdateController extends Controller {
                 $Update_bio = User::find($id);
                 $Update_bio->bio = Purifier::clean($request->bio);
                 $Update_bio->save();
-                
+
                 Session::flash('view_user_bio', $id);
                 return back();
             }
