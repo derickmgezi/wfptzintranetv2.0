@@ -87,7 +87,7 @@ class PhoneDirectoryController extends Controller {
 //                                }
 //                        }
 
-                        if ($sheet_title == 'CO' || $sheet_title == 'Dar es salaam Port' || $sheet_title == 'Dodoma Main Office' || $sheet_title == 'Dodoma Warehouse' || $sheet_title == 'Kibondo' || $sheet_title == 'Isaka' || $sheet_title == 'Kasulu' || $sheet_title == 'Kigoma' || $sheet_title == 'Tanga') {
+                        if ($sheet_title == 'Country Office' || $sheet_title == 'Dar es salaam Port' || $sheet_title == 'Dodoma Main Office' || $sheet_title == 'Dodoma Warehouse' || $sheet_title == 'Kibondo' || $sheet_title == 'Isaka' || $sheet_title == 'Kasulu' || $sheet_title == 'Kigoma' || $sheet_title == 'Tanga') {
                             foreach ($result as $row) {
                                 
                                 $mobile_type = 'Official';
