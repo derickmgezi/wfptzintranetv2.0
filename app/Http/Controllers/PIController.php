@@ -204,9 +204,8 @@ class PIController extends Controller {
 
         if ($validator->fails()) {
             Session::flash('new_news_post_error', 'News Post Creation Error');
-            return redirect('/home')
-                            ->withErrors($validator)
-                            ->withInput();
+            return back()->withErrors($validator)
+                         ->withInput();
         } else {
             //Upload the file in storage/app/public/pi_news folder 
             $image_name = (string) ($request->image->store('public/pi_news'));
@@ -234,7 +233,7 @@ class PIController extends Controller {
             $post->edited_by = Auth::id();
             $post->save();
 
-            return redirect('/home');
+            return back();
         }
     }
 

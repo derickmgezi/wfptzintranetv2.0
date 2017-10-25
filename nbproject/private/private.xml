@@ -7,6 +7,7 @@
             <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/footer.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/ITController.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/components/finance/financecontributers.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/PhoneDirectoryController.php</file>
             <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/UserController.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/components/manage/users.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/home.blade.php</file>
@@ -19,6 +20,7 @@
             <file>file:/C:/wamp64/www/tzintranet/routes/web.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/header.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/components/finance/financenews.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/internaldirectory.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/it.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/feedback.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/canteen.blade.php</file>
