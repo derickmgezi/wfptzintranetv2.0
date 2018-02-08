@@ -27,7 +27,8 @@ class PhoneDirectoryController extends Controller {
                                                 ->orderBy('date','desc')
                                                 ->get();
         
-        $user_phone_bill = PhoneBill::where('user_name',Auth::user()->firstname.' '.Auth::user()->secondname)
+        $user_phone_bill = PhoneBill::select(DB::raw("id,user_name,number,type,date_time,duration,cost,created_at,DATE_FORMAT(date_time,'%M %Y') as date"))
+                                    ->where('user_name',Auth::user()->firstname.' '.Auth::user()->secondname)
                                     ->get();
         
         $user_phone_bill_total_cost = PhoneBill::select(DB::raw("user_name,DATE_FORMAT(date_time,'%M %Y') as date,SUM(cost) as total_cost"))

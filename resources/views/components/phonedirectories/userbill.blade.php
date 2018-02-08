@@ -27,7 +27,7 @@
         </div>
         <div id="userCollapse{{ str_replace(' ','',$month->date) }}" class="collapse {{ $show_user_month_bill }}" role="tabpanel" aria-labelledby="userHeading{{ str_replace(' ','',$month->date) }}">
             <div class="card-block">
-                @if($user_phone_bill->count() != 0)
+                @if($user_phone_bill->contains('date',$month->date))
                 <table class="table table-sm table-striped">
                     <thead class="thead-inverse">
                         <tr>
