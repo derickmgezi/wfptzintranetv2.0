@@ -46,7 +46,7 @@
                         
                         @if($most_viewed_posts->count() != 0)
                         <h1 class="text-center featurette-heading">
-                            <i class="fa fa-eye" aria-hidden="true"></i> Most viewed Posts {{ $most_viewed_posts->count() }}
+                            <i class="fa fa-eye" aria-hidden="true"></i> Most viewed Posts
                         </h1>
                         
                         <div class="card-deck">
