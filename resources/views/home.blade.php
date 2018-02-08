@@ -128,7 +128,7 @@
                         </div><!-- /.end News Modal -->
                         @endif
 
-                        <h1 class="text-center featurette-heading">
+<!--                        <h1 class="text-center featurette-heading">
                             <i class="fa fa-list" aria-hidden="true"></i> Canteen
                         </h1>
 
@@ -149,7 +149,7 @@
                                     </div>
                                 </a>
                             </div>
-                        </div>
+                        </div>-->
 
                     </div>
 
