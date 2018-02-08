@@ -12,13 +12,10 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#breakFast" role="tab">Break Fast</a>
+                                <a class="nav-link active" data-toggle="tab" href="#breakFast" role="tab">Canteen Menu</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#lunch" role="tab">Lunch</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#orders" role="tab">Orders</a>
+                                <a class="nav-link" data-toggle="tab" href="#orders" role="tab">Orders Made</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#manageMeals" role="tab">Manage Meals</a>
@@ -27,161 +24,100 @@
                     </div>
                     <div class="tab-content">
                         <div class="card-block tab-pane fade show active" id="breakFast" role="tabpanel">
-                            <div class="card-deck">
-                                <div class="card m-2" style="width: 20rem;">
-                                    <div class="card-header text-center">
-                                        <span class="row">
-                                            <label for="example-number-input" class="col-4 col-form-label">
-                                                <h6>Quantity</h6>
-                                            </label>
-                                            <input class="col-3 form-control" type="number" min="1" value="1" id="example-number-input">
-                                            <div class="col-5">
-                                                <a href="#" class="btn btn-success">
-                                                    <i class="fa fa-cart-plus" aria-hidden="true"></i> Order
-                                                </a>
-                                            </div>
-                                        </span>
-                                    </div>
-                                    <div class="card-header text-center">
-                                        <span class="row">
-                                            <label for="example-number-input" class="col-4 col-form-label">
-                                                <h6>Quantity</h6>
-                                            </label>
-                                            <a class="col-2 btn btn-secondary disabled">2</a>
-                                            <div class="col-6">
-                                                <a href="#" class="btn btn-warning">
-                                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Reorder
-                                                </a>
-                                            </div>
-                                        </span>
-                                    </div>
-                                    <img class="img-fluid" src="{{url('/image/20160726_085020_resized.jpg')}}" alt="Card image cap">
-                                    <div class="card-block">
-                                        <h5 class="card-title">Eggs with Tangarine and Pawpaw</h5>
-                                        <p class="card-text">
-                                            Price <button class="btn btn-sm btn-primary">2,000 Tzs</button> 
-                                        </p>
-                                        <p class="card-text">
-                                            <small class="text-muted">Posted 3 mins ago</small>
-                                        </p>
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <a href="#" class="btn btn-sm btn-success"><i class="fa fa-cart-arrow-down fa-lg" aria-hidden="true"></i> Order now</a>
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <h3><span class="badge badge-success">Total Price</span> <button class="btn btn-sm btn-primary">2,000 Tzs</button> </h3>
-                                    </div>
-                                </div>
-                                
-                                <div class="card m-2" style="width: 20rem;">
-                                    <div class="card-header text-center">
-                                        <span class="row">
-                                            <label for="example-number-input" class="col-4 col-form-label">
-                                                <h6>Quantity</h6>
-                                            </label>
-                                            <input class="col-2 form-control" type="number" min="1" value="2" id="example-number-input" readonly>
-                                            <div class="col-6">
-                                                <a href="#" class="btn btn-warning">
-                                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Reorder
-                                                </a>
-                                            </div>
-
-                                        </span>
-                                    </div>
-                                    <img class="card-img-top img-fluid" src="{{url('/image/20160720_094210_resized_1.jpg')}}" alt="Card image cap">
-                                    <div class="card-block">
-                                        <h5 class="card-title">Eggs with Tangerine and Watermelons</h5>
-                                        <p class="card-text">
-                                            Price <button class="btn btn-sm btn-primary">3,000 Tzs</button> 
-                                        </p>
-                                        <p class="card-text">
-                                            <small class="text-muted">Posted 3 mins ago</small>
-                                        </p>
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <h3><span class="badge badge-success">Total Price</span> <button class="btn btn-sm btn-primary">6,000 Tzs</button> </h3>
-                                    </div>
-                                </div>
-                                
-                                <div class="card m-2" style="width: 20rem;">
-                                    <img class="card-img-top img-fluid" src="{{url('/image/IMG_2787.jpg')}}" alt="Card image cap">
-                                    <div class="card-block">
-                                        <h5 class="card-title">Fruit Mixture</h5>
-                                        <p class="card-text">
-                                            Price <button class="btn btn-sm btn-primary">2,000 Tzs</button> 
-                                        </p>
-                                        <p class="card-text">
-                                            <small class="text-muted">Posted 3 mins ago</small>
-                                        </p>
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <a href="#" class="btn btn-sm btn-success"><i class="fa fa-cart-arrow-down fa-lg" aria-hidden="true"></i> Order now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-block tab-pane fade" id="lunch" role="tabpanel">
-                            <div class="card-deck">
-                                <div class="card m-2" style="width: 20rem;">
-                                    <img class="card-img-top img-fluid" src="{{url('/image/2016-10-21 12.20.10_resized.jpg')}}" alt="Card image cap">
-                                    <div class="card-block">
-                                        <h5 class="card-title">Roasted Bananas with Chicken Salad</h5>
-                                        <p class="card-text">
-                                            Price <button class="btn btn-sm btn-primary">5,000 Tzs</button> 
-                                        </p>
-                                        <p class="card-text">
-                                            <small class="text-muted">Posted 3 mins ago</small>
-                                        </p>
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <a href="#" class="btn btn-sm btn-success"><i class="fa fa-cart-arrow-down fa-lg" aria-hidden="true"></i> Order now</a>
-                                    </div>
-                                </div>
-                                <div class="card m-2" style="width: 20rem;">
-                                    <img class="card-img-top img-fluid" src="{{url('/image/20170531_130529_resized.png')}}" alt="Card image cap">
-                                    <div class="card-block">
-                                        <h5 class="card-title">Rice with roasted meat mixed with kachumbari and mchicha</h5>
-                                        <p class="card-text">
-                                            Price <button class="btn btn-sm btn-primary">5,000 Tzs</button> 
-                                        </p>
-                                        <p class="card-text">
-                                            <small class="text-muted">Posted 3 mins ago</small>
-                                        </p>
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <a href="#" class="btn btn-sm btn-success"><i class="fa fa-cart-arrow-down fa-lg" aria-hidden="true"></i> Order now</a>
-                                    </div>
-                                </div>
-                                <div class="card m-2" style="width: 20rem;">
-                                    <img class="card-img-top img-fluid" src="{{url('/image/20170428_125613.png')}}" alt="Card image cap">
-                                    <div class="card-block">
-                                        <h5 class="card-title">Potatoes with Goat Meat and salad</h5>
-                                        <p class="card-text">
-                                            Price <button class="btn btn-sm btn-primary">5,000 Tzs</button> 
-                                        </p>
-                                        <p class="card-text">
-                                            <small class="text-muted">Posted 3 mins ago</small>
-                                        </p>
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <a href="#" class="btn btn-sm btn-success"><i class="fa fa-cart-arrow-down fa-lg" aria-hidden="true"></i> Order now</a>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('components/canteen/menu')
                         </div>
                         <div class="card-block tab-pane fade" id="orders" role="tabpanel">
-                            <h4 class="card-title">Manage</h4>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            @include('components/canteen/orders')
                         </div>
                         <div class="card-block tab-pane fade" id="manageMeals" role="tabpanel">
-                            <h4 class="card-title">Manage</h4>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            @include('components/canteen/managemeals')
                         </div>
                     </div>
 
                 </div>
+
+                <!-- start of Add Meal Modal -->
+                <div class="modal fade addMealModal" id='addMealModal' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-success">Create New Meal</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body text-left">
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-3 col-form-label text-primary">Meal Picture</label>
+                                    <div class="col-9">
+                                        <label class="custom-file">
+                                            <input type="file" id="file" class="custom-file-input">
+                                            <span class="custom-file-control"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-3 col-form-label text-primary">Meal Name</label>
+                                    <div class="col-9">
+                                        <input class="form-control" type="text" placeholder="Enter Meal Descriptiop" id="example-text-input">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-3 col-form-label text-primary">Meal Type</label>
+                                    <div class="col-9">
+                                        <select class="custom-select">
+                                            <option selected>Choose...</option>
+                                            <option value="Break Fast">Break Fast</option>
+                                            <option value="Lunch">Lunch</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-3 col-form-label text-primary">Price in Tzs</label>
+                                    <div class="col-9">
+                                        <input class="form-control" type="number" placeholder="Enter Meal Price" id="example-text-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-save" aria-hidden="true"></i> save
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" aria-label="Close">
+                                    <i class="fa fa-close" aria-hidden="true"></i> close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.end Add Meal Modal -->
+
+                <!-- start of View Meal Modal -->
+                <div class="modal fade viewMealModal" id='viewMealModal' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width: 25rem;">
+                        <div class="modal-content">
+                            <div class="modal-content">
+                                <img class="card-img-top img-fluid" src="{{url('/image/2016-10-21 12.20.10_resized.jpg')}}" alt="Card image cap">
+                            </div>
+                            <div class="modal-body text-left">
+                                <h5 class="card-title">Roasted Bananas with Chicken Salad</h5>
+                                <p class="card-text">
+                                    Price <button class="btn btn-sm btn-primary">Tzs 5,000</button> 
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">Posted 3 mins ago</small>
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning btn-sm">
+                                    <i class="fa fa-edit" aria-hidden="true"></i> edit
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" aria-label="Close">
+                                    <i class="fa fa-close" aria-hidden="true"></i> close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.end View Meal Modal -->
 
                 <hr class="featurette-divider">
 

@@ -50,6 +50,10 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/internaldirectory', 'PhoneDirectoryController@index');
 
     Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts');
+    
+    Route::get('/private/{id}', 'PhoneDirectoryController@make_call_private');
+    
+    Route::get('/public/{id}', 'PhoneDirectoryController@make_call_public');
 
     Route::get('/view_user_bio/{id}', 'PIController@show_user_bio');
 

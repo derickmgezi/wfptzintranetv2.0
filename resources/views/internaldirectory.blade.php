@@ -12,7 +12,7 @@
 
                     <div class="container-fluid marketing">
 
-                        @include('components/phonedirectories/internaldirectories')
+                        @include('components/phonedirectories/phonedirectorytabs')
 
                     </div><!-- /.container-fluid -->
                     

@@ -16,6 +16,7 @@
 
                 <div class="row">
                     <div class="col-md-8">
+                        @if($recent_posts->count() != 0)
                         <h1 class="text-center featurette-heading">
                             <i class="fa fa-newspaper-o" aria-hidden="true"></i> Latest Posts
                         </h1>
@@ -35,17 +36,19 @@
                                 $total_unique_view_count = $unique_views->count();
                                 ?>
                                 <div class="card-footer text-center">
-                                    <a href="#" class="btn btn-sm btn-warning" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($total_unique_view_count == 0) No Views @else @foreach($unique_views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif"><i class="fa fa-eye" aria-hidden="true"></i> {{ $total_unique_view_count }} {{ $total_unique_view_count == 1?'view':'views' }}</a>
+                                    <a href="#" class="btn btn-sm btn-warning {{ Auth::user()->username == 'derick.ruganuza'? '':'disabled' }}" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($total_unique_view_count == 0) No Views @else @foreach($unique_views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif"><i class="fa fa-eye" aria-hidden="true"></i> {{ $total_unique_view_count }} {{ $total_unique_view_count == 1?'view':'views' }}</a>
                                     <a href="{{URL::to('/read_update/'.$recent_post->id)}}" class="btn btn-sm btn-success"><i class="fa fa-book" aria-hidden="true"></i> Read</a>
                                 </div>
                             </div>
                             @endforeach
                         </div>
-
+                        @endif
+                        
+                        @if($most_viewed_posts->count() != 0)
                         <h1 class="text-center featurette-heading">
-                            <i class="fa fa-eye" aria-hidden="true"></i> Most viewed Posts
+                            <i class="fa fa-eye" aria-hidden="true"></i> Most viewed Posts {{ $most_viewed_posts->count() }}
                         </h1>
-
+                        
                         <div class="card-deck">
                             @foreach($most_viewed_posts as $most_viewed_post)
                             <div class="card m-1">
@@ -62,12 +65,13 @@
                                 $total_unique_view_count = $unique_views->count();
                                 ?>
                                 <div class="card-footer text-center">
-                                    <a href="#" class="btn btn-sm btn-warning" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($total_unique_view_count == 0) No Views @else @foreach($unique_views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif"><i class="fa fa-eye" aria-hidden="true"></i> {{ $most_viewed_post->viewed_by }} {{ $most_viewed_post->viewed_by == 1?'view':'views' }}</a>
+                                    <a href="#" class="btn btn-sm btn-warning {{ Auth::user()->username == 'derick.ruganuza'? '':'disabled' }}" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($total_unique_view_count == 0) No Views @else @foreach($unique_views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif"><i class="fa fa-eye" aria-hidden="true"></i> {{ $most_viewed_post->viewed_by }} {{ $most_viewed_post->viewed_by == 1?'view':'views' }}</a>
                                     <a href="{{URL::to('/read_update/'.$most_viewed_post->view_id)}}" class="btn btn-sm btn-success"><i class="fa fa-book" aria-hidden="true"></i> Read</a>
                                 </div>
                             </div>
                             @endforeach
                         </div>
+                        @endif
 
                         @if(Session::has('read_update'))
                         <!-- start of News Pop Up Modal -->
@@ -124,7 +128,7 @@
                         </div><!-- /.end News Modal -->
                         @endif
 
-<!--                        <h1 class="text-center featurette-heading">
+                        <h1 class="text-center featurette-heading">
                             <i class="fa fa-list" aria-hidden="true"></i> Canteen
                         </h1>
 
@@ -145,7 +149,7 @@
                                     </div>
                                 </a>
                             </div>
-                        </div>-->
+                        </div>
 
                     </div>
 
