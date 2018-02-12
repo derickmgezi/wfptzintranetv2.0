@@ -4,7 +4,7 @@
     </button>
     <!--                        <h4 class="alert-heading">Billing of Private Calls</h4>-->
     <p>
-        Please identify your <stong>Official</stong> and <stong>Private</stong> calls by clicking on the respectable Type field button
+        Please identify your <stong>Official</stong> and <stong>Private</stong> calls by clicking on the respective Type field button
 </p>
 <p class="mb-0">
     <strong>
