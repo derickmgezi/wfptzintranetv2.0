@@ -34,7 +34,8 @@ class HomeController extends Controller {
                                ->groupBy('view_id','viewed_by')
                                ->orderBy('view_id');
         
-        $news = DB::table('news')->select('id','header','status','image','created_at')->whereRaw('timestampdiff(day,created_at,now()) < 30');
+        $news = DB::table('news')->select('id','header','status','image','created_at')
+                    ->whereRaw('timestampdiff(day,created_at,now()) <= 120');
         
         $most_viewed_posts = DB::table(DB::raw("({$unique_views->toSql()}) as views"))
                                ->join(DB::raw("({$news->toSql()}) as news"),'news.id','=','views.view_id')

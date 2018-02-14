@@ -23,37 +23,37 @@ class PhoneDirectoryController extends Controller {
      */
     public function index() {
         $months_of_user_phone_bill = PhoneBill::select(DB::raw("DATE_FORMAT(date_time,'%M %Y') as date"))
-                                                ->groupBy('date')
-                                                ->orderBy('date','desc')
-                                                ->get();
-        
+                ->groupBy('date')
+                ->orderBy('date', 'desc')
+                ->get();
+
         $user_phone_bill = PhoneBill::select(DB::raw("id,user_name,number,type,date_time,duration,cost,created_at,DATE_FORMAT(date_time,'%M %Y') as date"))
-                                    ->where('user_name',Auth::user()->firstname.' '.Auth::user()->secondname)
-                                    ->get();
-        
+                ->where('user_name', Auth::user()->firstname . ' ' . Auth::user()->secondname)
+                ->get();
+
         $user_phone_bill_total_cost = PhoneBill::select(DB::raw("user_name,DATE_FORMAT(date_time,'%M %Y') as date,SUM(cost) as total_cost"))
-                                                ->groupBy('user_name','date')
-                                                ->where('user_name',Auth::user()->firstname.' '.Auth::user()->secondname)
-                                                ->where('type',NULL)
-                                                ->orWhere('type','Private')
-                                                ->get();
-        
+                ->groupBy('user_name', 'date')
+                ->where('user_name', Auth::user()->firstname . ' ' . Auth::user()->secondname)
+                ->where('type', NULL)
+                ->orWhere('type', 'Private')
+                ->get();
+
         $all_users_phone_bill = PhoneBill::select(DB::raw("user_name,ext_no,DATE_FORMAT(date_time,'%M %Y') as date,SUM(cost) as total_cost"))
-                                        ->groupBy('user_name','date','ext_no')
-                                        ->whereRaw('timestampdiff(day,created_at,now()) > 14')
-                                        ->whereNull('type')
-                                        ->orWhere('type','Private')
-                                        ->orderBy('total_cost','desc')
-                                        ->get();
-        
+                ->groupBy('user_name', 'date', 'ext_no')
+                ->whereRaw('timestampdiff(day,created_at,now()) > 14')
+                ->whereNull('type')
+                ->orWhere('type', 'Private')
+                ->orderBy('total_cost', 'desc')
+                ->get();
+
         $all_users_phone_bill_total_cost = PhoneBill::select(DB::raw("DATE_FORMAT(date_time,'%M %Y') as date,SUM(cost) as total_cost"))
-                                                    ->whereRaw('timestampdiff(day,created_at,now()) > 14')
-                                                    ->whereNull('type')
-                                                    ->orWhere('type','Private')
-                                                    ->groupBy('date')
-                                                    ->get();
-        
-        return view('internaldirectory', compact('months_of_user_phone_bill','user_phone_bill','user_phone_bill_total_cost','all_users_phone_bill','all_users_phone_bill_total_cost'));
+                ->whereRaw('timestampdiff(day,created_at,now()) > 14')
+                ->whereNull('type')
+                ->orWhere('type', 'Private')
+                ->groupBy('date')
+                ->get();
+
+        return view('internaldirectory', compact('months_of_user_phone_bill', 'user_phone_bill', 'user_phone_bill_total_cost', 'all_users_phone_bill', 'all_users_phone_bill_total_cost'));
     }
 
     /**
@@ -127,7 +127,7 @@ class PhoneDirectoryController extends Controller {
                                     $phonebill->duration = trim($row->duration);
                                     $phonebill->cost = trim($row->cost);
                                     $phonebill->save();
-                                }catch (\Illuminate\Database\QueryException $ex) {
+                                } catch (\Illuminate\Database\QueryException $ex) {
                                     continue;
                                 }
                             }
@@ -154,15 +154,44 @@ class PhoneDirectoryController extends Controller {
                                 if (strlen($row->mobile_no) == 0)
                                     $mobile_type = 'Personal';
 
-                                $update_phonedirectory = PhoneDirectory::where('ext_no', $row->ext_no)
-                                        ->update([
-                                    'name' => $row->staff_name,
-                                    'function' => $row->function,
-                                    'department' => $row->department,
-                                    'number' => $row->mobile_no,
-                                    'type' => $mobile_type,
-                                    'location' => $sheet_title
-                                ]);
+                                if (strlen($row->ext_no) != 0) {
+                                    try{
+                                        $update_phonedirectory = PhoneDirectory::where('ext_no', $row->ext_no)
+                                                                                ->update([
+                                                                                            'name' => $row->staff_name,
+                                                                                            'function' => $row->function,
+                                                                                            'department' => $row->department,
+                                                                                            'number' => $row->mobile_no,
+                                                                                            'type' => $mobile_type,
+                                                                                            'location' => $sheet_title
+                                                                                        ]);
+                                    }catch(\Illuminate\Database\QueryException $ex){
+                                        $remove_duplicate_number = PhoneDirectory::where('number', $row->mobile_no)
+                                                                                ->update(['number' => NULL]);
+                                        if($remove_duplicate_number){
+                                            $update_phonedirectory = PhoneDirectory::where('ext_no', $row->ext_no)
+                                                                                    ->update([
+                                                                                                'name' => $row->staff_name,
+                                                                                                'function' => $row->function,
+                                                                                                'department' => $row->department,
+                                                                                                'number' => $row->mobile_no,
+                                                                                                'type' => $mobile_type,
+                                                                                                'location' => $sheet_title
+                                                                                            ]);
+                                        }
+                                    }
+                                        
+                                } elseif (strlen($row->mobile_no) != 0) {
+                                    $update_phonedirectory = PhoneDirectory::where('number', $row->mobile_no)
+                                                                            ->update([
+                                                                                        'name' => $row->staff_name,
+                                                                                        'function' => $row->function,
+                                                                                        'department' => $row->department,
+                                                                                        'ext_no' => $row->ext_no,
+                                                                                        'type' => $mobile_type,
+                                                                                        'location' => $sheet_title
+                                                                                    ]);
+                                }
 
                                 if (!$update_phonedirectory) {
                                     $phonedirectory = new PhoneDirectory;
@@ -187,31 +216,31 @@ class PhoneDirectoryController extends Controller {
             }
         }
     }
-    
-    public function make_call_private($id){
+
+    public function make_call_private($id) {
         $edit_call_type = PhoneBill::find($id);
         $date = new Date($edit_call_type->date_time);
         $date_month = $date->format('m');
         $date_year = $date->format('Y');
-        $edit_call_type_for_same_number = PhoneBill::whereMonth('date_time',$date_month)
-                                                    ->where('user_name',Auth::user()->firstname.' '.Auth::user()->secondname)
-                                                    ->whereYear('date_time',$date_year)
-                                                    ->where('number',$edit_call_type->number)
-                                                    ->update(['type' => 'Private']);
+        $edit_call_type_for_same_number = PhoneBill::whereMonth('date_time', $date_month)
+                ->where('user_name', Auth::user()->firstname . ' ' . Auth::user()->secondname)
+                ->whereYear('date_time', $date_year)
+                ->where('number', $edit_call_type->number)
+                ->update(['type' => 'Private']);
         Session::flash('edit_bill_message', 'Bill edited');
         return redirect('internaldirectory');
     }
-    
-    public function make_call_public($id){
+
+    public function make_call_public($id) {
         $edit_call_type = PhoneBill::find($id);
         $date = new Date($edit_call_type->date_time);
         $date_month = $date->format('m');
         $date_year = $date->format('Y');
-        $edit_call_type_for_same_number = PhoneBill::whereMonth('date_time',$date_month)
-                                                    ->where('user_name',Auth::user()->firstname.' '.Auth::user()->secondname)
-                                                    ->whereYear('date_time',$date_year)
-                                                    ->where('number',$edit_call_type->number)
-                                                    ->update(['type' => 'Official']);
+        $edit_call_type_for_same_number = PhoneBill::whereMonth('date_time', $date_month)
+                ->where('user_name', Auth::user()->firstname . ' ' . Auth::user()->secondname)
+                ->whereYear('date_time', $date_year)
+                ->where('number', $edit_call_type->number)
+                ->update(['type' => 'Official']);
         Session::flash('edit_bill_message', 'Bill edited');
         return redirect('internaldirectory');
     }
