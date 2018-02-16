@@ -20,6 +20,7 @@ return [
                 'include' => [
                     base_path('storage/app'),
                     base_path('public/image'),
+                     base_path('public/photos'),
                 ],
 
                 /*
