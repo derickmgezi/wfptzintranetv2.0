@@ -71,12 +71,14 @@ $editor = DB::table('users')->join('editors', 'editors.editor', '=', 'users.id')
 
                 <?php
                 $total_views = App\View::where('view_id', $update->id)->get();
-                $unique_views = App\View::select('viewed_by')->where('view_id', $update->id)->groupBy('viewed_by')->get();
+                $unique_views = App\View::select('viewed_by','created_at')->where('view_id', $update->id)->orderBy('created_at')->get();
+                $unique_views = $unique_views->unique('viewed_by');
                 $total_unique_view_count = $unique_views->count();
                 $total_view_count = $total_views->count();
 
                 $total_likes = App\Like::where('view_id', $update->id)->get();
-                $unique_likes = App\Like::select('liked_by')->where('view_id', $update->id)->groupBy('liked_by')->get();
+                $unique_likes = App\Like::select('liked_by','created_at')->where('view_id', $update->id)->orderBy('created_at')->get();
+                $unique_likes = $unique_likes->unique('liked_by');
                 $total_unique_like_count = $unique_likes->count();
                 $total_like_count = $total_views->count();
                 ?>
