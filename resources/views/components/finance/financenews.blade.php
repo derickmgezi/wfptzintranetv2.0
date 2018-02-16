@@ -1,5 +1,5 @@
 <?php
-$updates = App\News::where('status', 1)->where('type', $department)->where('office',$dutystation)->orderBy('created_at', 'desc')->paginate(5);
+$updates = App\News::where('status', 1)->where('type', $department)->where('office', $dutystation)->orderBy('created_at', 'desc')->paginate(5);
 $update_count = $updates->count();
 
 $editor = DB::table('users')->join('editors', 'editors.editor', '=', 'users.id')
@@ -37,14 +37,22 @@ $editor = DB::table('users')->join('editors', 'editors.editor', '=', 'users.id')
 @foreach ($updates as $update)
 <div class="row featurette align-items-center" style="background-color:">
     <div class="col-md-6{{ ($update_count%2 == 1)?'':' push-md-6' }}">
-        <h3 class="featurette-heading hidden-md-down text-primary">{{ substr(strip_tags($update->header),0,65) }}{{ strlen(strip_tags($update->header)) > 65 ? "...":"" }}</h3>
-        <h2 class="hidden-lg-up text-justify"><small class="text-primary">{{ substr(strip_tags($update->header),0,65) }}{{ strlen(strip_tags($update->header)) > 65 ? "...":"" }}</small></h2>
+        <a href="{{URL::to('/read_update/'.$update->id)}}" style="text-decoration: none;">
+            <h2 class="hidden-md-down">
+                {{ substr(strip_tags($update->header),0,65) }}{{ strlen(strip_tags($update->header)) > 65 ? "...":"" }}
+            </h2>
+        </a>
+        <a href="{{URL::to('/read_update/'.$update->id)}}" style="text-decoration: none;">
+            <h2 class="hidden-lg-up">
+                <small class="text-primary">{{ substr(strip_tags($update->header),0,65) }}{{ strlen(strip_tags($update->header)) > 65 ? "...":"" }}</small>
+            </h2>
+        </a>
 
         <img class="featurette-image img-fluid mx-auto hidden-md-up" src="{{url('/storage/thumbnails/'.$update->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
         <hr class="hidden-md-up">
 
         <blockquote class="blockquote{{ ($update_count%2 == 1)?' blockquote-reverse':'' }}">
-            <p class="lead text-left"> 
+            <p class="text-left"> 
                 {{ substr(strip_tags($update->description),0,250) }}{{ strlen(strip_tags($update->description)) > 250 ? "...":"" }}
                 <a class="btn btn-success btn-sm" href="{{URL::to('/read_update/'.$update->id)}}" role="button">
                     <i class="fa fa-book" aria-hidden="true"></i> Read More
@@ -61,17 +69,17 @@ $editor = DB::table('users')->join('editors', 'editors.editor', '=', 'users.id')
 
                 <br>
 
-<?php
-$total_views = App\View::where('view_id', $update->id)->get();
-$unique_views = App\View::select('viewed_by')->where('view_id', $update->id)->groupBy('viewed_by')->get();
-$total_unique_view_count = $unique_views->count();
-$total_view_count = $total_views->count();
+                <?php
+                $total_views = App\View::where('view_id', $update->id)->get();
+                $unique_views = App\View::select('viewed_by')->where('view_id', $update->id)->groupBy('viewed_by')->get();
+                $total_unique_view_count = $unique_views->count();
+                $total_view_count = $total_views->count();
 
-$total_likes = App\Like::where('view_id', $update->id)->get();
-$unique_likes = App\Like::select('liked_by')->where('view_id', $update->id)->groupBy('liked_by')->get();
-$total_unique_like_count = $unique_likes->count();
-$total_like_count = $total_views->count();
-?>
+                $total_likes = App\Like::where('view_id', $update->id)->get();
+                $unique_likes = App\Like::select('liked_by')->where('view_id', $update->id)->groupBy('liked_by')->get();
+                $total_unique_like_count = $unique_likes->count();
+                $total_like_count = $total_views->count();
+                ?>
                 <span class="badge badge-pill badge-success" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-placement="right" data-html="true" title="Viewed By" data-content="@if($total_unique_view_count == 0)No views @else @foreach($unique_views as $view){{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }}<br> @endforeach @endif">
                     {{ $total_unique_view_count }} <i class="fa fa-eye" aria-hidden="true"></i>
                 </span>
@@ -83,7 +91,7 @@ $total_like_count = $total_views->count();
                 </span>-->
 
             </p>
-<?php $date = new Jenssegers\Date\Date($update->created_at); ?>
+            <?php $date = new Jenssegers\Date\Date($update->created_at); ?>
             <footer class="card-text"><small class="text-muted">{{ $date->ago() }}</small></footer>
 
             <footer class="blockquote-footer"><strong>Source </strong><cite title="Source Title">{{ $update->source }}</cite></footer>

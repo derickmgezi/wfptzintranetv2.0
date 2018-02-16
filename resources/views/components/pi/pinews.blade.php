@@ -51,14 +51,22 @@ $pi_editor = DB::table('users')->join('editors','editors.editor','=','users.id')
 @foreach ($news_posts as $news_post)
 <div class="row featurette align-items-center" style="background-color:">
     <div class="col-md-6{{ ($news_post_count%2 == 1)? '':' push-md-6' }}">
-        <h3 class="featurette-heading hidden-md-down text-primary">{{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}</h3>
-        <h2 class="hidden-lg-up text-justify"><small class="text-primary">{{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}</small></h2>
+        <a href="{{URL::to('/read_news_post/'.$news_post->id)}}" style="text-decoration: none;">
+            <h2 class="hidden-md-down">
+                {{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}
+            </h2>
+        </a>
+        <a href="{{URL::to('/read_news_post/'.$news_post->id)}}" style="text-decoration: none;">
+            <h2 class="hidden-lg-up">
+                <small class="text-primary">{{ substr(strip_tags($news_post->header),0,65) }}{{ strlen(strip_tags($news_post->header)) > 65 ? "...":"" }}</small>
+            </h2>
+        </a>
 
         <img class="featurette-image img-fluid mx-auto hidden-md-up" src="{{url('/storage/thumbnails/'.$news_post->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
         <hr class="hidden-md-up">
 
         <blockquote class="blockquote{{ ($news_post_count%2 == 1)? ' blockquote-reverse':'' }}">
-            <p class="lead text-left"> 
+            <p class="text-left"> 
                 {{ substr(strip_tags($news_post->description),0,250) }}{{ strlen(strip_tags($news_post->description)) > 250 ? "...":"" }}
                 <a class="btn btn-success btn-sm" href="{{URL::to('/read_news_post/'.$news_post->id)}}" role="button">
                     <i class="fa fa-book" aria-hidden="true"></i> Read More
