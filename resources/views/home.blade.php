@@ -32,7 +32,8 @@
                                     <p class="card-text"><small class="text-muted">Posted {{ $date->ago() }}</small></p>
                                 </div>
                                 <?php
-                                $unique_views = App\View::select('viewed_by')->where('view_id', $recent_post->id)->groupBy('viewed_by')->get();
+                                $unique_views = App\View::select('viewed_by','created_at')->where('view_id', $recent_post->id)->orderBy('created_at')->get();
+                                $unique_views = $unique_views->unique('viewed_by');
                                 $total_unique_view_count = $unique_views->count();
                                 ?>
                                 <div class="card-footer text-center">
@@ -61,7 +62,8 @@
                                     <p class="card-text"><small class="text-muted">Posted {{ $date->ago() }}</small></p>
                                 </div>
                                 <?php
-                                $unique_views = App\View::select('viewed_by')->where('view_id', $most_viewed_post->view_id)->groupBy('viewed_by')->get();
+                                $unique_views = App\View::select('viewed_by','created_at')->where('view_id', $most_viewed_post->view_id)->orderBy('created_at')->get();
+                                $unique_views = $unique_views->unique('viewed_by');
                                 $total_unique_view_count = $unique_views->count();
                                 ?>
                                 <div class="card-footer text-center">
