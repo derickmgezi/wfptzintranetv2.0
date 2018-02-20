@@ -34,22 +34,28 @@ class PhoneDirectoryController extends Controller {
         $user_phone_bill_total_cost = PhoneBill::select(DB::raw("user_name,DATE_FORMAT(date_time,'%M %Y') as date,SUM(cost) as total_cost"))
                 ->groupBy('user_name', 'date')
                 ->where('user_name', Auth::user()->firstname . ' ' . Auth::user()->secondname)
-                ->where('type', NULL)
-                ->orWhere('type', 'Private')
+                ->where(function($query){
+                    $query->where('type', NULL)
+                          ->orWhere('type', 'Private');
+                })
                 ->get();
 
         $all_users_phone_bill = PhoneBill::select(DB::raw("user_name,ext_no,DATE_FORMAT(date_time,'%M %Y') as date,SUM(cost) as total_cost"))
                 ->groupBy('user_name', 'date', 'ext_no')
                 ->whereRaw('timestampdiff(day,created_at,now()) > 14')
-                ->whereNull('type')
-                ->orWhere('type', 'Private')
+                ->where(function($query){
+                    $query->where('type', NULL)
+                          ->orWhere('type', 'Private');
+                })
                 ->orderBy('total_cost', 'desc')
                 ->get();
 
         $all_users_phone_bill_total_cost = PhoneBill::select(DB::raw("DATE_FORMAT(date_time,'%M %Y') as date,SUM(cost) as total_cost"))
                 ->whereRaw('timestampdiff(day,created_at,now()) > 14')
-                ->whereNull('type')
-                ->orWhere('type', 'Private')
+                ->where(function($query){
+                    $query->where('type', NULL)
+                          ->orWhere('type', 'Private');
+                })
                 ->groupBy('date')
                 ->get();
 
