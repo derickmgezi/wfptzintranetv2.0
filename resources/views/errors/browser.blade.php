@@ -34,7 +34,7 @@
 	<body>
 		<div class="container">
 			<div class="content">
-				<div class="title">To access Wazo use <br><i class="fab fa-chrome"></i> Google Chrome <br>or <br><i class="fab fa-firefox"></i> Firefox.</div>
+				<div class="title">To access Wazo use <br><i class="fab fa-chrome"></i> Google Chrome <br>or <br><i class="fab fa-firefox"></i> Mozilla Firefox.</div>
 			</div>
 		</div>
 	</body>
