@@ -278,25 +278,28 @@ $it_editor = DB::table('users')->join('editors','editors.editor','=','users.id')
                     </div>
                     <div class="col-12">
                         <blockquote class="blockquote">
-                            <p class="text-justify">
+                            <p class="text-justify lead">
                                 {!! App\Post::find(Session::get('read_post'))->description !!}
                             </p>
-                            <footer class="blockquote-footer">By <cite title="Source Title" class="text-primary">{{ App\User::find(App\Post::find(Session::get('read_post'))->edited_by)->firstname.' '.App\User::find(App\Post::find(Session::get('read_post'))->edited_by)->secondname }}</cite></footer>
+                            <footer class="blockquote-footer">Source <cite title="Source Title" class=" text-primary">{{ App\News::find(Session::get('read_update'))->source }}</cite></footer>
+                        </blockquote>
+                    </div>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-block">
+                                {!! App\Post::find(Session::get('read_post'))->story !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <br>
+                        <blockquote class="blockquote blockquote-reverse">
+                            <p class="mb-0">Uploaded By <em class="text-primary">{{ App\User::find(App\Post::find(Session::get('read_post'))->created_by)->firstname.' '.App\User::find(App\Post::find(Session::get('read_post'))->created_by)->secondname }}</em></p>
+                            <?php $date = new Jenssegers\Date\Date(App\Post::find(Session::get('read_post'))->created_at); ?>
+                            <footer class="text-success"><small>{{ $date->format('l j F Y').' at '.$date->format('h:i A') }}</small></footer>
                         </blockquote>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer bg-inverse text-white">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="container-fluid">
-                            <p class="text-justify">
-                                {!! App\Post::find(Session::get('read_post'))->story !!}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
