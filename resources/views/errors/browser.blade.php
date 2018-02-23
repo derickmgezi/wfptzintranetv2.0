@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<link href='https://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
+                <link rel="shortcut icon" href="{{ asset('image/wfp_logo05.png') }}">
 
 		<style>
 			body {

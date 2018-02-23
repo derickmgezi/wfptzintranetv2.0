@@ -95,7 +95,7 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
                             <h3 class="modal-title" id="exampleModalLabel">
-                                <img class="img-fluid" src="{{ URL::to('image/wfp_logo08.png') }}" alt="Responsive image" alt="Generic placeholder image" width="50" data-src="holder.js/25x25/auto"> wazo.tz.net
+                                <img class="img-fluid" src="{{ URL::to('image/wfp_logo09.png') }}" alt="Responsive image" alt="Generic placeholder image" width="50" data-src="holder.js/25x25/auto"> wazo.tz.net
                             </h3>
                         </div>
                         <div class="modal-body" style="background-color: ">
