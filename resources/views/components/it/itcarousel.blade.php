@@ -281,7 +281,7 @@ $it_editor = DB::table('users')->join('editors','editors.editor','=','users.id')
                             <p class="text-justify lead">
                                 {!! App\Post::find(Session::get('read_post'))->description !!}
                             </p>
-                            <footer class="blockquote-footer">Source <cite title="Source Title" class=" text-primary">{{ App\News::find(Session::get('read_update'))->source }}</cite></footer>
+<!--                            <footer class="blockquote-footer">Source <cite title="Source Title" class=" text-primary">{{ App\News::find(Session::get('read_post'))->source }}</cite></footer>-->
                         </blockquote>
                     </div>
                     <div class="col-12">
