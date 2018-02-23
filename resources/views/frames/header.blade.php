@@ -226,7 +226,9 @@ tinymce.init(editor_config);
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             @if(Auth::user()->title != 'Administrator')
-                            <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}"><i class="fa fa-eye"></i> View Bio</a>
+                            <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}">
+                                <i class="fa fa-user-circle" aria-hidden="true"></i> Manage Profile
+                            </a>
                             <div class="dropdown-divider"></div>
                             @endif
                             <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a>

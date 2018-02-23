@@ -8,6 +8,7 @@ use Redirect;
 use Illuminate\Http\Request;
 use Adldap;
 use App\User;
+use Browser;
 
 class UserController extends Controller {
 
@@ -17,6 +18,10 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        if(Browser::isIE()){
+            return view('errors.browser');
+        }
+        
         if (Auth::check()) {
             if(Auth::user()->title == 'Administrator'){
                 //User is Administrator

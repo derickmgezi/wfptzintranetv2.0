@@ -178,6 +178,7 @@ return [
         'Jenssegers\Date\DateServiceProvider',
         Spatie\Backup\BackupServiceProvider::class,
         BC\Laravel\DropboxDriver\ServiceProvider::class,
+        \hisorange\BrowserDetect\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -243,6 +244,7 @@ return [
         'Adldap' => Adldap\Laravel\Facades\Adldap::class,
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
         'Date' => Jenssegers\Date\Date::class,
+        'Browser' => \hisorange\BrowserDetect\Facade::class,
 
     ],
 
