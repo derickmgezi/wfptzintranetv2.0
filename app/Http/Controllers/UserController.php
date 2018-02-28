@@ -90,7 +90,7 @@ class UserController extends Controller {
                     $remember = true;
 
 //                    if (Auth::attempt($request->only(['username', 'password']), $remember)) {
-                    if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+                    if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $remember)) {
                         // Authentication passed...
                         if(Auth::user()->title == 'Administrator'){
                             //User is Administrator
