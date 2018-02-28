@@ -75,7 +75,10 @@ class UserController extends Controller {
 //                        return back()->withInput()
 //                                        ->with('error', 'Username and Password Authentication Failed');
 //                    }
-            
+            //Check if string is WFP email address
+            if (str_contains($request->username, '@wfp.org')) {
+                $request->username = str_replace("@wfp.org","",$request->username);
+            }
             // Authenticating against your LDAP server.
             if (Adldap::auth()->attempt($request->username, $request->password)) {
                 // AD Authentication Passed!
@@ -86,7 +89,8 @@ class UserController extends Controller {
                     // Always Remember Users
                     $remember = true;
 
-                    if (Auth::attempt($request->only(['username', 'password']), $remember)) {
+//                    if (Auth::attempt($request->only(['username', 'password']), $remember)) {
+                    if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
                         // Authentication passed...
                         if(Auth::user()->title == 'Administrator'){
                             //User is Administrator
