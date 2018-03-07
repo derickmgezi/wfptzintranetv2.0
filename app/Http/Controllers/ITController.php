@@ -72,8 +72,8 @@ class ITController extends Controller {
             //store the post credentials in database
             $post = new Post;
             $post->header = $request->header;
-            $post->description = Purifier::clean($request->description);
-            $post->story = Purifier::clean($request->story);
+            $post->description = Purifier::clean($request->description, 'youtube');
+            $post->story = Purifier::clean($request->story, 'youtube');
             $post->type = 'IT_post';
             $post->image = $image_name;
             $post->created_by = Auth::id();
@@ -150,8 +150,8 @@ class ITController extends Controller {
                 //edit the the post credentials in database
                 $post = Post::find($id);
                 $post->header = $request->header;
-                $post->description = Purifier::clean($request->description);
-                $post->story = Purifier::clean($request->story);
+                $post->description = Purifier::clean($request->description, 'youtube');
+                $post->story = Purifier::clean($request->story, 'youtube');
                 $post->image = $image_name;
                 $post->edited_by = Auth::id();
                 $post->save();
@@ -162,8 +162,8 @@ class ITController extends Controller {
                 //edit the the post credentials in database
                 $post = Post::find($id);
                 $post->header = $request->header;
-                $post->description = Purifier::clean($request->description);
-                $post->story = Purifier::clean($request->story);
+                $post->description = Purifier::clean($request->description, 'youtube');
+                $post->story = Purifier::clean($request->story, 'youtube');
                 $post->edited_by = Auth::id();
                 $post->save();
 

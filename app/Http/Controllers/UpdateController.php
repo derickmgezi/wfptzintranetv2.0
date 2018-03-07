@@ -63,8 +63,8 @@ class UpdateController extends Controller {
             //store the post credentials in database
             $post = new News;
             $post->header = $request->header;
-            $post->description = Purifier::clean($request->description);
-            $post->story = Purifier::clean($request->story);
+            $post->description = Purifier::clean($request->description, 'youtube');
+            $post->story = Purifier::clean($request->story, 'youtube');
             $post->source = $request->source;
             $post->type = $department;
             $post->office = $dutystation;
@@ -130,8 +130,8 @@ class UpdateController extends Controller {
                 $post = News::find($id);
                 $post->header = $request->header;
                 $post->source = $request->source;
-                $post->description = Purifier::clean($request->description);
-                $post->story = Purifier::clean($request->story);
+                $post->description = Purifier::clean($request->description, 'youtube');
+                $post->story = Purifier::clean($request->story, 'youtube');
                 $post->image = $image_name;
                 $post->edited_by = Auth::id();
                 $post->save();
@@ -143,8 +143,8 @@ class UpdateController extends Controller {
                 $post = News::find($id);
                 $post->header = $request->header;
                 $post->source = $request->source;
-                $post->description = Purifier::clean($request->description);
-                $post->story = Purifier::clean($request->story);
+                $post->description = Purifier::clean($request->description, 'youtube');
+                $post->story = Purifier::clean($request->story, 'youtube');
                 $post->edited_by = Auth::id();
                 $post->save();
 
@@ -212,7 +212,7 @@ class UpdateController extends Controller {
                 //Update User Bio
                 $Update_bio = User::find($id);
                 $Update_bio->image = $image_name;
-                $Update_bio->bio = Purifier::clean($request->bio);
+                $Update_bio->bio = Purifier::clean($request->bio, 'youtube');
                 $Update_bio->save();
 
                 Session::flash('view_user_bio', $id);
@@ -220,7 +220,7 @@ class UpdateController extends Controller {
             } else {
                 //Update User Bio
                 $Update_bio = User::find($id);
-                $Update_bio->bio = Purifier::clean($request->bio);
+                $Update_bio->bio = Purifier::clean($request->bio, 'youtube');
                 $Update_bio->save();
 
                 Session::flash('view_user_bio', $id);
