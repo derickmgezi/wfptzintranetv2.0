@@ -49,7 +49,7 @@ class FeedbackController extends Controller {
             //store the post credentials in database
             $feedback = new Feedback;
             $feedback->feedback_by = Auth::id();
-            $feedback->feedback = Purifier::clean($request->feedback);
+            $feedback->feedback = Purifier::clean($request->feedback, 'youtube');
             $feedback->save();
 
             return back()->with('add_feedback','Your feedback has been received');

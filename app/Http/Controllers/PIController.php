@@ -74,8 +74,8 @@ class PIController extends Controller {
             //store the post credentials in database
             $post = new Post;
             $post->header = $request->header;
-            $post->description = Purifier::clean($request->description);
-            $post->story = Purifier::clean($request->story);
+            $post->description = Purifier::clean($request->description, 'youtube');
+            $post->story = Purifier::clean($request->story, 'youtube');
             $post->type = 'PI_post';
             $post->image = $image_name;
             $post->created_by = Auth::id();
@@ -150,8 +150,8 @@ class PIController extends Controller {
                 //edit the the post credentials in database
                 $post = Post::find($id);
                 $post->header = $request->header;
-                $post->description = Purifier::clean($request->description);
-                $post->story = Purifier::clean($request->story);
+                $post->description = Purifier::clean($request->description, 'youtube');
+                $post->story = Purifier::clean($request->story, 'youtube');
                 $post->image = $image_name;
                 $post->edited_by = Auth::id();
                 $post->save();
@@ -162,8 +162,8 @@ class PIController extends Controller {
                 //edit the the post credentials in database
                 $post = Post::find($id);
                 $post->header = $request->header;
-                $post->description = Purifier::clean($request->description);
-                $post->story = Purifier::clean($request->story);
+                $post->description = Purifier::clean($request->description, 'youtube');
+                $post->story = Purifier::clean($request->story, 'youtube');
                 $post->edited_by = Auth::id();
                 $post->save();
 
@@ -224,8 +224,8 @@ class PIController extends Controller {
             //store the post credentials in database
             $post = new News;
             $post->header = $request->header;
-            $post->description = Purifier::clean($request->description);
-            $post->story = Purifier::clean($request->story);
+            $post->description = Purifier::clean($request->description, 'youtube');
+            $post->story = Purifier::clean($request->story, 'youtube');
             $post->source = $request->source;
             $post->type = 'PI_news';
             $post->image = $image_name;
@@ -290,8 +290,8 @@ class PIController extends Controller {
                 $post = News::find($id);
                 $post->header = $request->header;
                 $post->source = $request->source;
-                $post->description = Purifier::clean($request->description);
-                $post->story = Purifier::clean($request->story);
+                $post->description = Purifier::clean($request->description, 'youtube');
+                $post->story = Purifier::clean($request->story, 'youtube');
                 $post->image = $image_name;
                 $post->edited_by = Auth::id();
                 $post->save();
@@ -303,8 +303,8 @@ class PIController extends Controller {
                 $post = News::find($id);
                 $post->header = $request->header;
                 $post->source = $request->source;
-                $post->description = Purifier::clean($request->description);
-                $post->story = Purifier::clean($request->story);
+                $post->description = Purifier::clean($request->description, 'youtube');
+                $post->story = Purifier::clean($request->story, 'youtube');
                 $post->edited_by = Auth::id();
                 $post->save();
 
@@ -372,7 +372,7 @@ class PIController extends Controller {
                 //Update User Bio
                 $Update_bio = User::find($id);
                 $Update_bio->image = $image_name;
-                $Update_bio->bio = Purifier::clean($request->bio);
+                $Update_bio->bio = Purifier::clean($request->bio, 'youtube');
                 $Update_bio->save();
 
                 Session::flash('view_user_bio', $id);
@@ -380,7 +380,7 @@ class PIController extends Controller {
             } else {
                 //Update User Bio
                 $Update_bio = User::find($id);
-                $Update_bio->bio = Purifier::clean($request->bio);
+                $Update_bio->bio = Purifier::clean($request->bio, 'youtube');
                 $Update_bio->save();
 
                 Session::flash('view_user_bio', $id);
