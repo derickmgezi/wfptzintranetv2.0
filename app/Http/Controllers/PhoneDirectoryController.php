@@ -22,10 +22,11 @@ class PhoneDirectoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $months_of_user_phone_bill = PhoneBill::select(DB::raw("DATE_FORMAT(date_time,'%M %Y') as date"))
-                ->groupBy('date')
-                ->orderBy('date', 'desc')
+        $months_of_user_phone_bill = PhoneBill::select(DB::raw("DATE_FORMAT(date_time,'%M %Y') as date,date_time"))
+                ->orderBy('date_time', 'desc')
                 ->get();
+        
+        $months_of_user_phone_bill = $months_of_user_phone_bill->unique('date');
 
         $user_phone_bill = PhoneBill::select(DB::raw("id,user_name,number,type,date_time,duration,cost,created_at,DATE_FORMAT(date_time,'%M %Y') as date"))
                 ->where('user_name', Auth::user()->firstname . ' ' . Auth::user()->secondname)
