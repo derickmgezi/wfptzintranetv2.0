@@ -33,6 +33,9 @@
             <li class="page-item disabled"><span class="page-link">Next</span></li>
         @endif
     </ul>
-
-    <hr class="hidden-sm-down">
+    @if(Request::is('home'))
+    @elseif(Request::is('storiyangu'))
+    @else
+    <hr class="hidden-md-up">
+    @endif
 @endif
