@@ -56,18 +56,23 @@
                 <i class="fa fa-flag-checkered fa-lg" aria-hidden="true"></i> Tanzania CSP
             </a>
         </li>-->
-        <li class="nav-item">
-            <a class="nav-link {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
-                <i class="fa fa-address-book-o" aria-hidden="true"></i> Phone Directory
+        <li class="nav-item faa-horizontal animated-hover">
+            <a class="nav-link" target="_blank" href="https://docs.google.com/spreadsheets/d/1YNeP4ltjH2tELuwxS_50cJYkAGbGhxCicmmrFnRGOO8/edit?usp=sharing">
+                <i class="fa fa-calendar" aria-hidden="true"></i> Mission Calender
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{((Request::is('resource'))? 'active':'')}}" href="{{URL::to('/resource')}}">
-                <i class="fa fa-bars" aria-hidden="true"></i> Resources
+            <a class="nav-link faa-horizontal animated-hover {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
+                <i class="fa fa-address-book-o {{((Request::is('internaldirectory'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Phone Directory
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link faa-horizontal animated-hover {{((Request::is('resource'))? 'active':'')}}" href="{{URL::to('/resource')}}">
+                <i class="fa fa-bars {{((Request::is('resource'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources
             </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right">
-            <a class="nav-link nav-link-collapse collapsed dropdown-toggle" data-toggle="collapse" href="#collapseSites">
+            <a class="nav-link nav-link-collapse collapsed dropdown-toggle faa-horizontal animated-hover" data-toggle="collapse" href="#collapseSites">
                 <i class="fa fa-external-link" aria-hidden="true"></i> <span class="nav-link-text">WFP Sites</span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseSites" style="padding-left: 0;list-style: none;">
@@ -107,42 +112,42 @@
                                 </li>-->
             </ul>
         </li>
-        <li class="nav-item">
+        <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link" target="_blank" href="http://newgo.wfp.org/documents/daily-subsistence-allowance-dsa?country=tanzania-united-rep-of-shilling#block--dsa-rates">
                 <i class="fa fa-bar-chart" aria-hidden="true"></i> DSA Rates
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link" target="_blank" href="https://treasury.un.org/operationalrates/OperationalRates.php#T">
                 <i class="fa fa-exchange" aria-hidden="true"></i> UN Exchange Rate
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link" target="_blank" href="https://trip.dss.un.org/dssweb/WelcometoUNDSS/tabid/105/Default.aspx?returnurl=%2fdssweb%2f">
                 <i class="fa fa-shield" aria-hidden="true"></i> Security Clearance
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link" target="_blank" href="https://wga.wfp.org/accounts/Reset">
                 <i class="fa fa-key" aria-hidden="true"></i> Reset Password
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link {{((Request::is('feedback'))? 'active':'')}}" href="{{URL::to('/feedback')}}">
-                <i class="fa fa-comments-o" aria-hidden="true"></i> Feedback
+                <i class="fa fa-comments-o {{((Request::is('feedback'))? 'faa-tada animated':'')}}" href="{{URL::to('/feedback')}}" aria-hidden="true"></i> Feedback
             </a>
         </li>
         @if(Request::is('search'))
         <li class="nav-item">
             <a class="nav-link {{((Request::is('search'))? 'active':'')}}" href="#">
-                <i class="fa fa-list" aria-hidden="true"></i> Results
+                <i class="fa fa-list {{((Request::is('search'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Results
             </a>
         </li>
         @endif
         @else
         <li class="nav-item">
             <a class="nav-link {{((Request::is('manage'))? 'active':'')}}" href="{{URL::to('/manage')}}">
-                <i class="fa fa-users" aria-hidden="true"></i> Users
+                <i class="fa fa-users {{((Request::is('manage'))? 'faa-tada animated':'')}}" href="{{URL::to('/manage')}}" aria-hidden="true"></i> Users
             </a>
         </li>
         @endif

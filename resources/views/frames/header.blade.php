@@ -24,6 +24,9 @@
 
         <!-- Custom styles for Font Awesome template -->
         {{ Html::style('css/font-awesome.min.css') }}
+        
+        <!-- Custom styles for Font Awesome animation template -->
+        {{ Html::style('css/font-awesome-animation.css') }}
 
         <!-- Custom styles for sticky footer template -->
         {{ Html::style('css/sticky-footer-navbar.css') }}
@@ -155,13 +158,13 @@ tinymce.init(editor_config);
                                         </li>-->
                     @if(Auth::user()->title != 'Administrator')
                     <li class="nav-item">
-                        <a class="nav-link {{((Request::is('home'))? 'active':'')}}" href="{{URL::to('/home')}}">
-                            | <i class="fa fa-home fa-lg" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span>
+                        <a class="nav-link active" href="{{URL::to('/home')}}">
+                            | <i class="fa fa-home fa-lg {{((Request::is('home'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{((Request::is('storiyangu'))? 'active':'')}}" href="{{URL::to('/storiyangu')}}">
-                            | <i class="fa fa-commenting-o fa-lg" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span>
+                        <a class="nav-link active" href="{{URL::to('/storiyangu')}}">
+                            | <i class="fa fa-commenting-o fa-lg {{((Request::is('storiyangu'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
 <!--                    <li class="nav-item">

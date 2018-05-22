@@ -23,7 +23,7 @@
 
                                 <div class="col-lg-3 col-md-4 text-right">
                                     <a class="btn btn-success" @if(Session::has('edit_story') || Session::has('edit_story_error')) href="{{URL::to('/addstory/')}}" @else data-toggle="modal" data-target="#add-story-modal" href="#"  @endif  role="button">
-                                       <i class="fa fa-plus" aria-hidden="true"></i> Add Your Story
+                                       <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add Your Story
                                     </a>
                                 </div>
                             </div>
