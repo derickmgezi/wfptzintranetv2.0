@@ -153,7 +153,7 @@
                             </div>
                             @endif
                             
-                            @if($recent_posts->hasMorePages())
+                            @if($recent_posts->hasPages())
                             <div class="col-12">
                                 <nav aria-label="Page navigation example">
                                     {{ $recent_posts->links('vendor.pagination.bootstrap-4') }}
