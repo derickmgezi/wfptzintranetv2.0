@@ -29,6 +29,11 @@ class UpdateController extends Controller {
         Session::flash('create_update', 'Create Update Message');
         return back();
     }
+    
+    public function add_update() {
+        Session::flash('add_update', 'Add an update Message');
+        return back();
+    }
 
     public function store_update(Request $request, $department, $dutystation) {
         //

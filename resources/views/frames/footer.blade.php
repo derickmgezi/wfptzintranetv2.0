@@ -1,6 +1,6 @@
                         <footer>
                             <p class="float-right"><a href="#">Back to top</a></p>
-                            <p>2017 &copy; World Food Programme, Inc. &middot; <a href="#">Donate</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms of Use</a></p>
+                            <p>2018 &copy; World Food Programme <!-- <a href="#">Donate</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms of Use</a> --></p>
                         </footer>
                     </div>
                 </div>
@@ -13,7 +13,7 @@
         <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-
+        
         <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
         {{HTML::script("js/holder.min.js")}}
 
@@ -26,6 +26,13 @@
         
         <!-- Custom scripts for SB Admin template -->
         {{HTML::script("js/sb-admin.min.js")}}
+        
+        <!-- Enable Scrollspy -->
+        <script>
+            $(document).ready(function(){
+                $('.scrollspy').scrollSpy();
+            });
+        </script>
 
         <!-- Enable Pop-overs everywhere -->
         <script>
@@ -62,7 +69,7 @@
         <script>$('#read-news-modal').modal('show');</script>
         @endif
 
-        @if(Session::has('create_update') || Session::has('new_update_error') || Session::has('update_id') || Session::has('edit_update_error'))
+        @if(Session::has('add_update') || Session::has('create_update') || Session::has('new_update_error') || Session::has('update_id') || Session::has('edit_update_error'))
         <script>$('#add-update-modal').modal('show');</script>
         @endif
 
@@ -80,6 +87,10 @@
         
         @if(Session::has('add_editor') || Session::has('add_editor_error') || Session::has('edit_editor') || Session::has('edit_editor_error'))
         <script>$('#addEditorModal').modal('show');</script>
+        @endif
+        
+        @if(Session::has('create_story') || Session::has('new_story_error') || Session::has('edit_story') || Session::has('edit_story_error'))
+        <script>$('#add-story-modal').modal('show');</script>
         @endif
 
     </body>

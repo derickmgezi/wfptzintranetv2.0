@@ -80,19 +80,47 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/remove_it_post/{id}', 'ITController@destroy_post');
 
     Route::get('/create_update', 'UpdateController@create_update');
+    
+    Route::get('/add_update', 'UpdateController@add_update');
 
     Route::post('/store_update/{department}/{dutystation}', 'UpdateController@store_update');
 
     Route::get('/edit_update/{id}', 'UpdateController@edit_update');
 
     Route::post('/edit_update/{id}', 'UpdateController@update_update');
+    
+    Route::get('/delete_update/{id}', 'UpdateController@delete_update');
 
     Route::get('/remove_update/{id}', 'UpdateController@delete_update');
 
     Route::get('/read_update/{id}', 'UpdateController@show_update');
 
     Route::get('/like_update/{id}', 'UpdateController@like_update');
+    
+    Route::get('/storiyangu', 'StoryController@index');
+    
+    Route::get('/addstory', 'StoryController@create');
+    
+    Route::get('/story/', 'StoryController@storyindex');
+    
+    Route::post('/store_story', 'StoryController@store');
+    
+    Route::get('/storiyangu/{id}', 'StoryController@show');
+    
+    Route::get('/likestory/{id}', 'StoryController@like');
+    
+    Route::get('/editstory/{id}', 'StoryController@edit');
+    
+    Route::get('/deletestory/{id}', 'StoryController@destroy');
+    
+    Route::post('/edit_story/{id}', 'StoryController@update');
+    
+    Route::post('/store_story_comment/{id}', 'StoryController@storecomment');
 
+    Route::get('/resource', 'ResourceController@index');
+    
+    Route::get('/resource/{url}', 'ResourceController@show');
+    
     Route::get('/previous', function () {
         return view('previous');
     });

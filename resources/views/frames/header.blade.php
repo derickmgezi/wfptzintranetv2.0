@@ -10,6 +10,9 @@
 
         <title>Dashboard Template for Bootstrap</title>
 
+        <!-- My CSS -->
+        {{ Html::style('css/my-css.css') }}
+        
         <!-- Bootstrap core CSS -->
         {{ Html::style('css/bootstrap.css') }}
 
@@ -21,12 +24,18 @@
 
         <!-- Custom styles for Font Awesome template -->
         {{ Html::style('css/font-awesome.min.css') }}
+        
+        <!-- Custom styles for Font Awesome animation template -->
+        {{ Html::style('css/font-awesome-animation.css') }}
 
         <!-- Custom styles for sticky footer template -->
         {{ Html::style('css/sticky-footer-navbar.css') }}
 
         <!-- Custom styles for SB Admin -->
         {{ Html::style('css/sb-admin.css') }}
+        
+        <!-- jQuery-->
+        {{HTML::script("js/jquery.min.js")}}
 
         <!-- Custom Java Script styles for Tinymce Text Editor -->
         {{HTML::script("js/tinymce.min.js")}}
@@ -37,86 +46,86 @@
         <!--        {{HTML::script("js/mytinymce.js")}}-->
 
         <script>
-                var editor_config = {
-                    path_absolute: "{{ URL::to('/') }}/",
-                    selector: ".complete-tinymce",
-                    skin: 'charcoal',
-                    height: 300,
-                    menubar: true,
-                    theme: 'modern',
-                    browser_spellcheck: true,
-                    plugins: [
-                        "advlist autolink lists link image media charmap print preview hr anchor pagebreak",
-                        "searchreplace wordcount visualblocks visualchars code fullscreen",
-                        "insertdatetime nonbreaking save table contextmenu directionality",
-                        "emoticons template paste textcolor colorpicker textpattern"
-                    ],
-                    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
-                    toolbar2: "preview | forecolor backcolor | emoticons | codesample",
-                    relative_urls: true,
-                    file_browser_callback: function (field_name, url, type, win) {
-                        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-                        var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+var editor_config = {
+    path_absolute: "{{ URL::to('/') }}/",
+    selector: ".complete-tinymce",
+    skin: 'charcoal',
+    height: 300,
+    menubar: true,
+    theme: 'modern',
+    browser_spellcheck: true,
+    plugins: [
+        "advlist autolink lists link image media charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+    ],
+    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+    toolbar2: "preview | forecolor backcolor | emoticons | codesample",
+    relative_urls: true,
+    file_browser_callback: function (field_name, url, type, win) {
+        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+        var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
-                        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-                        if (type == 'image') {
-                            cmsURL = cmsURL + "&type=Images";
-                        } else {
-                            cmsURL = cmsURL + "&type=Files";
-                        }
+        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+        if (type == 'image') {
+            cmsURL = cmsURL + "&type=Images";
+        } else {
+            cmsURL = cmsURL + "&type=Files";
+        }
 
-                        tinyMCE.activeEditor.windowManager.open({
-                            file: cmsURL,
-                            title: 'Filemanager',
-                            width: x * 0.8,
-                            height: y * 0.8,
-                            resizable: "yes",
-                            close_previous: "no"
-                        });
-                    }
-                };
+        tinyMCE.activeEditor.windowManager.open({
+            file: cmsURL,
+            title: 'Filemanager',
+            width: x * 0.8,
+            height: y * 0.8,
+            resizable: "yes",
+            close_previous: "no"
+        });
+    }
+};
 
-                tinymce.init(editor_config);
+tinymce.init(editor_config);
 
-                var editor_config = {
-                    path_absolute: "{{ URL::to('/') }}/",
-                    selector: ".simple-tinymce",
-                    skin: 'charcoal',
-                    height: 100,
-                    menubar: false,
-                    theme: 'modern',
-                    browser_spellcheck: true,
-                    plugins: [
-                        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                        "searchreplace wordcount visualblocks visualchars code fullscreen",
-                        "insertdatetime nonbreaking save table contextmenu directionality",
-                        "emoticons template paste textcolor colorpicker textpattern"
-                    ],
-                    toolbar1: "insertfile undo redo | alignleft aligncenter alignright alignjustify | outdent indent | bold italic | styleselect |  bullist numlist | emoticons | forecolor backcolor | codesample | link | preview",
-                    relative_urls: true,
-                    file_browser_callback: function (field_name, url, type, win) {
-                        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-                        var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+var editor_config = {
+    path_absolute: "{{ URL::to('/') }}/",
+    selector: ".simple-tinymce",
+    skin: 'charcoal',
+    height: 100,
+    menubar: false,
+    theme: 'modern',
+    browser_spellcheck: true,
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+    ],
+    toolbar1: "insertfile undo redo | alignleft aligncenter alignright alignjustify | outdent indent | bold italic | styleselect |  bullist numlist | emoticons | forecolor backcolor | codesample | link | preview",
+    relative_urls: true,
+    file_browser_callback: function (field_name, url, type, win) {
+        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+        var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
-                        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-                        if (type == 'image') {
-                            cmsURL = cmsURL + "&type=Images";
-                        } else {
-                            cmsURL = cmsURL + "&type=Files";
-                        }
+        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+        if (type == 'image') {
+            cmsURL = cmsURL + "&type=Images";
+        } else {
+            cmsURL = cmsURL + "&type=Files";
+        }
 
-                        tinyMCE.activeEditor.windowManager.open({
-                            file: cmsURL,
-                            title: 'Filemanager',
-                            width: x * 0.8,
-                            height: y * 0.8,
-                            resizable: "yes",
-                            close_previous: "no"
-                        });
-                    }
-                };
+        tinyMCE.activeEditor.windowManager.open({
+            file: cmsURL,
+            title: 'Filemanager',
+            width: x * 0.8,
+            height: y * 0.8,
+            resizable: "yes",
+            close_previous: "no"
+        });
+    }
+};
 
-                tinymce.init(editor_config);
+tinymce.init(editor_config);
         </script>
 
     </head>
@@ -149,11 +158,16 @@
                                         </li>-->
                     @if(Auth::user()->title != 'Administrator')
                     <li class="nav-item">
-                        <a class="nav-link {{((Request::is('home'))? 'active':'')}}" href="{{URL::to('/home')}}">
-                            | <i class="fa fa-home fa-lg" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span>
+                        <a class="nav-link active" href="{{URL::to('/home')}}">
+                            | <i class="fa fa-home fa-lg {{((Request::is('home'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link active" href="{{URL::to('/storiyangu')}}">
+                            | <i class="fa fa-commenting-o fa-lg {{((Request::is('storiyangu'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+<!--                    <li class="nav-item">
                         <a class="nav-link {{((Request::is('communications'))? 'active':'')}}" href="{{URL::to('/communications')}}">
                             | <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Comms</small>
                         </a>
@@ -187,34 +201,86 @@
                         <a class="nav-link {{((Request::is('programme'))? 'active':'')}}" href="{{URL::to('/programme')}}">
                             | <i class="fa fa-file-text fa-lg" aria-hidden="true"></i> <small>Programme</small>
                         </a>
+                    </li>-->
+<!--                    <li class="nav-item dropdown">
+                        <a class="nav-link {{((Request::is('communications') || Request::is('it') || Request::is('finance') || Request::is('administration') || Request::is('hr') || Request::is('supplychain') || Request::is('programme'))? 'active':'')}}" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            |  
+                            @if(Request::is('communications'))
+                            <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Comms</small>
+                            @elseif(Request::is('it'))
+                            <i class="fa fa-laptop fa-lg" aria-hidden="true"></i> <small>IT</small>
+                            @elseif(Request::is('finance'))
+                            <i class="fa fa-bank" aria-hidden="true"></i> <small>Finance</small>
+                            @elseif(Request::is('administration'))
+                            <i class="fa fa-cog fa-lg" aria-hidden="true"></i> <small>Admin</small>
+                            @elseif(Request::is('hr'))
+                            <i class="fa fa-male fa-lg" aria-hidden="true"></i> <small>HR</small>
+                            @elseif(Request::is('supplychain'))
+                            <i class="fa fa-truck fa-lg" aria-hidden="true"></i> <small>Supply Chain</small>
+                            @elseif(Request::is('programme'))
+                            <i class="fa fa-file-text fa-lg" aria-hidden="true"></i> <small>Programme</small>
+                            @else 
+                            <i class="fa fa-hospital-o fa-lg" aria-hidden="true"></i> <small>Country Office</small>
+                            @endif 
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item {{((Request::is('communications'))? 'active':'')}}" href="{{URL::to('/communications')}}">
+                                <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Comms</small>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item {{((Request::is('it'))? 'active':'')}}" href="{{URL::to('/it')}}">
+                                <i class="fa fa-laptop fa-lg" aria-hidden="true"></i> <small>IT</small>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item {{((Request::is('finance'))? 'active':'')}}" href="{{URL::to('/finance')}}">
+                                <i class="fa fa-bank" aria-hidden="true"></i> <small>Finance</small>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item {{((Request::is('administration'))? 'active':'')}}" href="{{URL::to('/administration')}}">
+                                <i class="fa fa-cog fa-lg" aria-hidden="true"></i> <small>Admin</small>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item {{((Request::is('hr'))? 'active':'')}}" href="{{URL::to('/hr')}}">
+                                <i class="fa fa-male fa-lg" aria-hidden="true"></i> <small>HR</small>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item {{((Request::is('supplychain'))? 'active':'')}}" href="{{URL::to('/supplychain')}}">
+                                <i class="fa fa-truck fa-lg" aria-hidden="true"></i> <small>Supply Chain</small>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item {{((Request::is('programme'))? 'active':'')}}" href="{{URL::to('/programme')}}">
+                                <i class="fa fa-file-text fa-lg" aria-hidden="true"></i> <small>Programme</small>
+                            </a>
+                        </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{((Request::is('dodoma') || Request::is('kibondo'))? 'active':'')}}" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{((Request::is('dodoma') || Request::is('kibondo') || Request::is('kigoma') || Request::is('kasulu') || Request::is('isaka'))? 'active':'')}}" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             | <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> 
                             @if(Request::is('dodoma')){{ 'Dodoma' }}@elseif(Request::is('kibondo')){{ 'Kibondo' }}@elseif(Request::is('kasulu')){{ 'Kasulu' }}@elseif(Request::is('kigoma')){{ 'Kigoma' }}@elseif(Request::is('isaka')){{ 'Isaka' }}@else {{ 'Suboffice' }} @endif <i class="fa fa-angle-down"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{{URL::to('/dodoma')}}">
+                            <a class="dropdown-item {{((Request::is('dodoma'))? 'active':'')}}" href="{{URL::to('/dodoma')}}">
                                 <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Dodoma
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{URL::to('/kibondo')}}">
+                            <a class="dropdown-item {{((Request::is('kibondo'))? 'active':'')}}" href="{{URL::to('/kibondo')}}">
                                 <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Kibondo
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{URL::to('/kasulu')}}">
+                            <a class="dropdown-item {{((Request::is('kasulu'))? 'active':'')}}" href="{{URL::to('/kasulu')}}">
                                 <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Kasulu
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{URL::to('/kigoma')}}">
+                            <a class="dropdown-item {{((Request::is('kigoma'))? 'active':'')}}" href="{{URL::to('/kigoma')}}">
                                 <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Kigoma
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{URL::to('/isaka')}}">
+                            <a class="dropdown-item {{((Request::is('isaka'))? 'active':'')}}" href="{{URL::to('/isaka')}}">
                                 <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Isaka
                             </a>
                         </div>
-                    </li>
+                    </li>-->
                     @endif
                 </ul>
 

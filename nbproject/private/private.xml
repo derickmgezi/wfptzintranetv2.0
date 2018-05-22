@@ -3,20 +3,35 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/footer.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/it/itcarousel.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/errors/browser.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/stori.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/updates.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/resources.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/storiyangu.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/UserController.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/home.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/config/imagecache.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/sidebar.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/index.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/.env</file>
-            <file>file:/C:/wamp64/www/tzintranet/routes/web.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/header.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/components/finance/financenews.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/config/filesystems.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/config/laravel-backup.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/config/app.php</file>
             <file>file:/C:/wamp64/www/tzintranet/config/mail.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/footer.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/it/itcarousel.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/PhoneDirectoryController.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/config/image.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/PIController.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/errors/browser.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/StoryController.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/resource.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/pi/pinews.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/.env</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Story.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/routes/web.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/header.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/config/laravel-backup.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/database/migrations/2018_03_26_230947_create_stories_table.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/ResourceController.php</file>
         </group>
     </open-files>
 </project-private>

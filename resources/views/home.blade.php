@@ -17,9 +17,10 @@
                 <div class="row">
                     <div class="col-md-8">
                         @if($recent_posts->count() != 0)
-                        <h1 class="text-center featurette-heading">
-                            <i class="fa fa-newspaper-o" aria-hidden="true"></i> Latest Posts
-                        </h1>
+                        <h2>
+                            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                            Latest Posts
+                        </h2>
                         <div class="card-deck">
                             @foreach($recent_posts as $recent_post)
                             <div class="card m-1">
@@ -46,9 +47,10 @@
                         @endif
                         
                         @if($most_viewed_posts->count() != 0)
-                        <h1 class="text-center featurette-heading">
-                            <i class="fa fa-eye" aria-hidden="true"></i> Most viewed Posts
-                        </h1>
+                        <h2>
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                            Most viewed Posts
+                        </h2>
                         
                         <div class="card-deck">
                             @foreach($most_viewed_posts as $most_viewed_post)
@@ -156,11 +158,12 @@
                     </div>
 
                     <div class="col-md-4">
-                        <h1 class="text-center featurette-heading">
-                            <i class="fa fa-link" aria-hidden="true"></i> Links
-                        </h1>
+                        <h2>
+                            <i class="fa fa-link" aria-hidden="true"></i> 
+                            Links
+                        </h2>
 
-                        <div class="card m-4">
+                        <div class="card m-2">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item" style="background-color: ">
                                     <a target="_blank" href="http://newgo.wfp.org/documents/daily-subsistence-allowance-dsa?country=tanzania-united-rep-of-shilling#block--dsa-rates" class="card-link"><i class="fa fa-link" aria-hidden="true"></i> DSA Rates</a>
@@ -183,12 +186,6 @@
                         <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                     </div>
                 </div>
-
-                <!-- /END THE FEATURETTES -->
-
-                <!--                <h1 class="text-center featurette-heading">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editor
-                                </h1>-->
 
                 <!-- Three columns of text below the carousel -->
 

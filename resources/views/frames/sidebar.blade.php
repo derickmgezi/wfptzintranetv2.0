@@ -46,7 +46,7 @@
                 {{Form::close()}}
             </a>
         </li>
-        <li class="nav-item">
+<!--        <li class="nav-item">
             <a class="nav-link" target="_blank" href="http://newgo.wfp.org/collection/integrated-road-map-irm">
                 <i class="fa fa-flag-o fa-lg" aria-hidden="true"></i> IRM
             </a>
@@ -55,37 +55,47 @@
             <a class="nav-link" target="_blank" href="http://newgo.wfp.org/documents/tanzania-country-strategic-plan-2017-2021">
                 <i class="fa fa-flag-checkered fa-lg" aria-hidden="true"></i> Tanzania CSP
             </a>
+        </li>-->
+        <li class="nav-item faa-horizontal animated-hover">
+            <a class="nav-link" target="_blank" href="https://docs.google.com/spreadsheets/d/1YNeP4ltjH2tELuwxS_50cJYkAGbGhxCicmmrFnRGOO8/edit?usp=sharing">
+                <i class="fa fa-calendar" aria-hidden="true"></i> Mission Calender
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
-                <i class="fa fa-phone-square fa-lg" aria-hidden="true"></i> Phone Directory
+            <a class="nav-link faa-horizontal animated-hover {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
+                <i class="fa fa-address-book-o {{((Request::is('internaldirectory'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Phone Directory
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link faa-horizontal animated-hover {{((Request::is('resource'))? 'active':'')}}" href="{{URL::to('/resource')}}">
+                <i class="fa fa-bars {{((Request::is('resource'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources
             </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right">
-            <a class="nav-link nav-link-collapse collapsed dropdown-toggle" data-toggle="collapse" href="#collapseSites">
-                <i class="fa fa-globe fa-lg" aria-hidden="true"></i> <span class="nav-link-text">WFP Sites</span>
+            <a class="nav-link nav-link-collapse collapsed dropdown-toggle faa-horizontal animated-hover" data-toggle="collapse" href="#collapseSites">
+                <i class="fa fa-external-link" aria-hidden="true"></i> <span class="nav-link-text">WFP Sites</span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseSites" style="padding-left: 0;list-style: none;">
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="http://go.wfp.org" style="padding-left: 2em;"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> NewGo</a>
+                    <a class="nav-link" target="_blank" href="http://go.wfp.org" style="padding-left: 2em;"><i class="fa fa-sign-out" aria-hidden="true"></i> NewGo</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="http://mfapps.wfp.org" style="padding-left: 2em;"><i class="fa fa-paper-plane fa-lg" aria-hidden="true"></i> WINGSII</a>
+                    <a class="nav-link" target="_blank" href="http://mfapps.wfp.org" style="padding-left: 2em;"><i class="fa fa-paper-plane" aria-hidden="true"></i> WINGSII</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="http://welearn.wfp.org" style="padding-left: 2em;"><i class="fa fa-leanpub fa-lg" aria-hidden="true"></i> WeLearn</a>
+                    <a class="nav-link" target="_blank" href="http://welearn.wfp.org" style="padding-left: 2em;"><i class="fa fa-leanpub" aria-hidden="true"></i> WeLearn</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="http://pace.wfp.org" style="padding-left: 2em;"><i class="fa fa-tachometer fa-lg" aria-hidden="true"></i> PACE</a>
+                    <a class="nav-link" target="_blank" href="http://pace.wfp.org" style="padding-left: 2em;"><i class="fa fa-tachometer" aria-hidden="true"></i> PACE</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="http://mail.wfp.org" style="padding-left: 2em;"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> WebMail</a>
+                    <a class="nav-link" target="_blank" href="http://mail.wfp.org" style="padding-left: 2em;"><i class="fa fa-envelope" aria-hidden="true"></i> WebMail</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="http://info.wfp.org" style="padding-left: 2em;"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> INFO</a>
+                    <a class="nav-link" target="_blank" href="http://info.wfp.org" style="padding-left: 2em;"><i class="fa fa-info-circle" aria-hidden="true"></i> INFO</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="http://manuals.wfp.org" style="padding-left: 2em;"><i class="fa fa-book fa-lg" aria-hidden="true"></i> WFP Manuals</a>
+                    <a class="nav-link" target="_blank" href="http://manuals.wfp.org" style="padding-left: 2em;"><i class="fa fa-book" aria-hidden="true"></i> WFP Manuals</a>
                 </li>
                 <!--                <li class="nav-item">
                                     <a class="nav-link nav-link-collapse collapsed dropdown-toggle" data-toggle="collapse" href="#collapseMulti2" href="#" style="padding-left: 2em;">
@@ -102,22 +112,42 @@
                                 </li>-->
             </ul>
         </li>
-        <li class="nav-item">
+        <li class="nav-item faa-horizontal animated-hover">
+            <a class="nav-link" target="_blank" href="http://newgo.wfp.org/documents/daily-subsistence-allowance-dsa?country=tanzania-united-rep-of-shilling#block--dsa-rates">
+                <i class="fa fa-bar-chart" aria-hidden="true"></i> DSA Rates
+            </a>
+        </li>
+        <li class="nav-item faa-horizontal animated-hover">
+            <a class="nav-link" target="_blank" href="https://treasury.un.org/operationalrates/OperationalRates.php#T">
+                <i class="fa fa-exchange" aria-hidden="true"></i> UN Exchange Rate
+            </a>
+        </li>
+        <li class="nav-item faa-horizontal animated-hover">
+            <a class="nav-link" target="_blank" href="https://trip.dss.un.org/dssweb/WelcometoUNDSS/tabid/105/Default.aspx?returnurl=%2fdssweb%2f">
+                <i class="fa fa-shield" aria-hidden="true"></i> Security Clearance
+            </a>
+        </li>
+        <li class="nav-item faa-horizontal animated-hover">
+            <a class="nav-link" target="_blank" href="https://wga.wfp.org/accounts/Reset">
+                <i class="fa fa-key" aria-hidden="true"></i> Reset Password
+            </a>
+        </li>
+        <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link {{((Request::is('feedback'))? 'active':'')}}" href="{{URL::to('/feedback')}}">
-                <i class="fa fa-comments-o fa-lg" aria-hidden="true"></i> Feedback
+                <i class="fa fa-comments-o {{((Request::is('feedback'))? 'faa-tada animated':'')}}" href="{{URL::to('/feedback')}}" aria-hidden="true"></i> Feedback
             </a>
         </li>
         @if(Request::is('search'))
         <li class="nav-item">
             <a class="nav-link {{((Request::is('search'))? 'active':'')}}" href="#">
-                <i class="fa fa-list fa-lg" aria-hidden="true"></i> Results
+                <i class="fa fa-list {{((Request::is('search'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Results
             </a>
         </li>
         @endif
         @else
         <li class="nav-item">
             <a class="nav-link {{((Request::is('manage'))? 'active':'')}}" href="{{URL::to('/manage')}}">
-                <i class="fa fa-users fa-lg" aria-hidden="true"></i> Users
+                <i class="fa fa-users {{((Request::is('manage'))? 'faa-tada animated':'')}}" href="{{URL::to('/manage')}}" aria-hidden="true"></i> Users
             </a>
         </li>
         @endif
