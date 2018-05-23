@@ -56,7 +56,7 @@ class ResourceController extends Controller {
         }
         
         return view('resource')->with('resource',$decrepted_url)->with('filetype',$filetype);
-        //echo '<iframe src="public/storage/resource/'.$decrepted_url.'" width="100%" style="height:100%"></iframe>';
+        //echo '<iframe src="public/resource/'.$decrepted_url.'" width="100%" style="height:100%"></iframe>';
     }
 
     /**
