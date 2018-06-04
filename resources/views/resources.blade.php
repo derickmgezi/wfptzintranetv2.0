@@ -16,6 +16,7 @@
                                     <li class="nav-item"><a class="nav-link" href="#security">Security</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#sop">SOPs</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#hr">HR</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#programme">Programme</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#finance">Finance</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#admin">Admin</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#it">IT</a></li>
@@ -53,6 +54,10 @@
                                     <a class="text-muted" href="{{URL::to('/resource/'.encrypt('SUPPLY CHAIN - CARGO ALLOCATION.pdf'))}}">Supply Chain - Cargo Allocation</a><br>
                                 </p>
                                 <h4 id="hr" class="text-primary">Human Resources</h4>
+                                <p>
+                                    
+                                </p>
+                                <h4 id="programme" class="text-primary">Programme</h4>
                                 <p>
                                     
                                 </p>

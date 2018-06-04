@@ -134,14 +134,10 @@ class StoryController extends Controller {
      */
     public function show($id) {
         //
-        $url = "http://localhost/tzintranet/public/storiyangu/" . $id;
-
-        if (URL::current() == $url) {
             $view = new Storyview;
             $view->story_id = $id;
             $view->viewed_by = Auth::id();
             $view->save();
-        }
 
         Session::flash('story_id', $id);
         return redirect('story');
