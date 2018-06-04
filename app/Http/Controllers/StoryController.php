@@ -27,7 +27,7 @@ class StoryController extends Controller {
         $stories = Story::where('status', 1)->orderBy('created_at', 'desc')->paginate(9);
         $likes = Storylike::select("story_id","liked_by")->orderBy('created_at')->get();
         $comments = Storycomment::select("story_id","comment_by")->get();
-        $views = Storyview::select("story_id", "viewed_by","created_at")->get();
+        $views = Storyview::select("story_id", "viewed_by","created_at")->orderBy('created_at', 'asc')->get();
 
         //dd($views->toArray());
 
@@ -39,7 +39,7 @@ class StoryController extends Controller {
         if (Session::has('story_id')) {
             $story = Story::find(Session::get('story_id'));
             $likes = Storylike::where('story_id', Session::get('story_id'))->count();
-            $comments = Storycomment::where('story_id', Session::get('story_id'))->orderBy('created_at', 'desc')->get();
+            $comments = Storycomment::where('story_id', Session::get('story_id'))->orderBy('created_at', 'asc')->get();
             $storyliked = Storylike::where('story_id', Session::get('story_id'))->where('liked_by', Auth::id())->get()->count();
             $views = Storyview::select('story_id', 'viewed_by','created_at')->where('story_id', Session::get('story_id'))->orderBy('created_at')->get();
 
