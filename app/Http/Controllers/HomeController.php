@@ -54,8 +54,8 @@ class HomeController extends Controller {
 //                           ->with('most_viewed_posts',$most_viewed_posts);
         
         $recent_posts = News::where('status',1)->orderBy('created_at','desc')->paginate(9);
-        $unique_likes = Like::select(DB::raw("view_id,liked_by"))->groupBy('view_id','liked_by')->get();
-        $unique_views = View::select('view_id','viewed_by')->groupBy('view_id','viewed_by')->get();
+        $unique_likes = Like::select('view_id','liked_by')->orderBy('created_at')->get();
+        $unique_views = View::select('view_id','viewed_by')->orderBy('created_at', 'asc')->get();
         $editors = Editor::where('status',1)->get();
         
         //dd($editors->toArray());
