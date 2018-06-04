@@ -114,7 +114,7 @@
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="btn-group btn-group-sm">
                                                     <?php
-                                                    $views = $unique_views->where('view_id', $recent_post->id);
+                                                    $views = $unique_views->where('view_id', $recent_post->id)->unique('viewed_by');
                                                     ?>
                                                     @if(Auth::user()->department == 'IT' || Auth::user()->department == 'Communications')
                                                     <a href="#" role="button" class="btn btn-success" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($views->count() == 0) No Views Yet @else @foreach($views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif">
@@ -197,7 +197,7 @@
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <div class="btn-group btn-group-sm">
                                                                 <?php
-                                                                $views = $unique_views->where('view_id', Session::get('read_update'));
+                                                                $views = $unique_views->where('view_id', Session::get('read_update'))->unique('viewed_by');
                                                                 ?>
                                                                 <a href="#" role="button" class="btn btn-success" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($views->count() == 0) No Views @else @foreach($views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif">
                                                                     <i class="fa fa-eye" aria-hidden="true"></i> {{ ($views->count() == 1)?$views->count().' Viewer':$views->count().' Viewers' }}
