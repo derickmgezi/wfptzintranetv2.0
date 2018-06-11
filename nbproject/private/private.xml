@@ -12,6 +12,7 @@
             <file>file:/C:/wamp64/www/tzintranet/config/imagecache.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/sidebar.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/index.blade.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/HomeController.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/components/finance/financenews.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/config/filesystems.php</file>
             <file>file:/C:/wamp64/www/tzintranet/config/app.php</file>
@@ -20,6 +21,7 @@
             <file>file:/C:/wamp64/www/tzintranet/resources/views/components/it/itcarousel.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/PhoneDirectoryController.php</file>
             <file>file:/C:/wamp64/www/tzintranet/config/image.php</file>
+            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/UpdateController.php</file>
             <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/PIController.php</file>
             <file>file:/C:/wamp64/www/tzintranet/resources/views/errors/browser.blade.php</file>
             <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/StoryController.php</file>
