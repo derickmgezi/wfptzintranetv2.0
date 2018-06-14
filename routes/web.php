@@ -99,6 +99,16 @@ Route::group(['middleware' => ['guest']], function () {
     
     Route::get('/storiyangu', 'StoryController@index');
     
+    Route::get('/lateststory', 'StoryController@index');
+    
+    Route::get('/storyviews', 'StoryController@index');
+    
+    Route::get('/storylikes', 'StoryController@index');
+    
+    Route::get('/storycomments', 'StoryController@index');
+    
+    Route::get('/mystory', 'StoryController@index');
+    
     Route::get('/addstory', 'StoryController@create');
     
     Route::get('/story/', 'StoryController@storyindex');
