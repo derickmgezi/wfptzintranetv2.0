@@ -12,6 +12,7 @@ use Auth;
 use Purifier;
 use Image;
 use Session;
+use Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 
@@ -24,7 +25,45 @@ class StoryController extends Controller {
      */
     public function index() {
         //
-        $stories = Story::where('status', 1)->orderBy('created_at', 'desc')->paginate(9);
+        if(Route::current()->uri == 'storyviews'){
+            $stories = DB::table('stories')->join('storyviews','storyviews.story_id', '=', 'stories.id')
+                                           ->select(DB::raw('stories.id,stories.caption,stories.posted_by,stories.image,stories.created_at,storyviews.story_id,storyviews.viewed_by'))
+                                           ->groupBy('storyviews.story_id','storyviews.viewed_by')
+                                           ->where('stories.status', 1);
+
+            $stories = DB::table(DB::raw("({$stories->toSql()}) as stories"))
+                         ->mergeBindings($stories)
+                         ->select(DB::raw('stories.id,stories.caption,stories.posted_by,stories.image,stories.created_at,count(stories.viewed_by) as views'))
+                         ->groupBy('stories.story_id')
+                         ->orderBy('views','desc')
+                         ->paginate(9);
+
+        }elseif(Route::current()->uri == 'storylikes'){
+            $stories = DB::table('stories')->join('storylikes','stories.id', '=', 'storylikes.story_id')
+                                           ->select(DB::raw('stories.*,count(storylikes.liked_by) as likes'))
+                                           ->groupBy('storylikes.story_id')
+                                           ->where('stories.status', 1)
+                                           ->orderBy('likes','desc')
+                                           ->paginate(9);
+
+        }elseif(Route::current()->uri == 'storycomments'){
+            $stories = DB::table('stories')->join('storycomments','stories.id', '=', 'storycomments.story_id')
+                                           ->select(DB::raw('stories.*,count(storycomments.comment_by) as comments'))
+                                           ->groupBy('storycomments.story_id')
+                                           ->where('stories.status', 1)
+                                           ->orderBy('comments','desc')
+                                           ->paginate(9);
+            
+        }elseif(Route::current()->uri == 'storiyangu'){
+            $stories = Story::where('status', 1)->orderBy('created_at', 'desc')
+                                                ->paginate(9);
+            
+        }elseif(Route::current()->uri == 'mystory'){
+            $stories = Story::where('status', 1)->where('posted_by',Auth::id())
+                                                ->orderBy('created_at', 'desc')
+                                                ->paginate(9);
+        }
+        
         $likes = Storylike::select("story_id","liked_by")->orderBy('created_at')->get();
         $comments = Storycomment::select("story_id","comment_by")->get();
         $views = Storyview::select("story_id", "viewed_by","created_at")->orderBy('created_at', 'asc')->get();
