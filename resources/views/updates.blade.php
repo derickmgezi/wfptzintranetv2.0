@@ -239,7 +239,7 @@
                                                     </a>
                                                     @endif
                                                     <?php
-                                                    $likes = $unique_likes->where('view_id', $recent_post->id);
+                                                    $likes = $unique_likes->where('view_id', $recent_post->id)->unique('liked_by');
                                                     ?>
                                                     <a href="#" role="button" class="btn btn-primary" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Liked By" data-content="@if($likes->count() == 0) No Likes Yet @else @foreach($likes as $like) {{ App\User::find($like->liked_by)->firstname.' '.App\User::find($like->liked_by)->secondname }} <br>@endforeach @endif">
                                                         {{ $likes->count() }} <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
@@ -320,7 +320,7 @@
                                                                     <i class="fa fa-eye" aria-hidden="true"></i> {{ ($views->count() == 1)?$views->count().' Viewer':$views->count().' Viewers' }}
                                                                 </a>
                                                                 <?php
-                                                                $likes = $unique_likes->where('view_id', Session::get('read_update'));
+                                                                $likes = $unique_likes->where('view_id', Session::get('read_update'))->unique('liked_by');
                                                                 ?>
                                                                 <a href="#" role="button" class="btn btn-primary" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Liked By" data-content="@if($likes->count() == 0) No Views @else @foreach($likes as $like) {{ App\User::find($like->liked_by)->firstname.' '.App\User::find($like->liked_by)->secondname }} <br>@endforeach @endif">
                                                                     <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ ($likes->count() == 1)?$likes->count().' Like':$likes->count().' Likes' }}
