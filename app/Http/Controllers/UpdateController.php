@@ -62,7 +62,7 @@ class UpdateController extends Controller {
             $path = storage_path('app/' . $thumb_image_name);
 
             //Load the image into the Image Intervention Package for manipulation
-            Image::make($path)->fit(3840, 1920)->save($path);
+            Image::make($path)->fit(1024, 576)->save($path);
 
 
             //store the post credentials in database
@@ -129,7 +129,7 @@ class UpdateController extends Controller {
                 $path = storage_path('app/' . $thumb_image_name);
 
                 //Load the image into the Image Intervention Package for manipulation
-                Image::make($path)->fit(3840, 1920)->save($path);
+                Image::make($path)->fit(1024, 576)->save($path);
 
                 //edit the the post credentials in database
                 $post = News::find($id);
