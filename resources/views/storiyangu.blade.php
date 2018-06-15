@@ -218,6 +218,7 @@
                     <div class="col-md-6 col-xl-4">
                         <div class="card card-outline-primary card-primary mb-4">
                             <a href="{{URL::to('/storiyangu/'.$story->id)}}">
+<!--                                imagecache/original/thumbnails/-->
                                 <img class="card-img-top img-fluid" src="{{ URL::to('imagecache/large/'.$story->image) }}" alt="Card image cap">
                             </a>
                             <div class="card-block">

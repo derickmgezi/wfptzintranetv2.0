@@ -131,7 +131,7 @@ class StoryController extends Controller {
             $path = storage_path('app/' . $thumb_image_name);
 
             //Load the image into Intervention Package for manipulation
-            Image::make($path)->fit(3840, 1920)->save($path);
+            Image::make($path)->fit(1080, 1080)->save($path);
 
 
             //store the post credentials in database
@@ -242,7 +242,7 @@ class StoryController extends Controller {
                 $path = storage_path('app/' . $thumb_image_name);
 
                 //Load the image into Intervention Package for manipulation
-                Image::make($path)->fit(3840, 1920)->save($path);
+                Image::make($path)->fit(1080, 1080)->save($path);
 
                 $story->image = $image_name;
             }
