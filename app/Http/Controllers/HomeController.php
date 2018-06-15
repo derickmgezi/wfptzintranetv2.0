@@ -69,11 +69,23 @@ class HomeController extends Controller {
 
         }elseif(Route::current()->uri == 'newsupdatelikes'){
             $recent_posts = DB::table('news')->join('likes','news.id', '=', 'likes.view_id')
-                                           ->select(DB::raw('news.*,count(likes.liked_by) as likes'))
-                                           ->groupBy('likes.view_id')
-                                           ->where('news.status', 1)
-                                           ->orderBy('likes','desc')
-                                           ->paginate(9);
+                                           ->select(DB::raw('news.id,news.header,news.description,news.story,news.image,news.source,news.type,news.created_by,news.created_at,likes.view_id,likes.liked_by'))
+                                           ->groupBy('likes.view_id','likes.liked_by')
+                                           ->where('news.status', 1);
+
+            $recent_posts = DB::table(DB::raw("({$recent_posts->toSql()}) as news"))
+                         ->mergeBindings($recent_posts)
+                         ->select(DB::raw('news.id,news.header,news.description,news.story,news.image,news.source,news.type,news.created_by,news.created_at,count(news.liked_by) as views'))
+                         ->groupBy('news.view_id')
+                         ->orderBy('views','desc')
+                         ->paginate(9);
+            
+//            $recent_posts = DB::table('news')->join('likes','news.id', '=', 'likes.view_id')
+//                                           ->select(DB::raw('news.*,count(likes.liked_by) as likes'))
+//                                           ->groupBy('likes.view_id')
+//                                           ->where('news.status', 1)
+//                                           ->orderBy('likes','desc')
+//                                           ->paginate(9);
 
         }elseif(Route::current()->uri == 'newsupdatecomments'){
             $recent_posts = DB::table('news')->join('comments','news.id', '=', 'comments.news_id')
@@ -93,7 +105,7 @@ class HomeController extends Controller {
                                                 ->paginate(9);
         }
         
-        $unique_likes = Like::select('view_id','liked_by')->orderBy('created_at')->get();
+        $unique_likes = Like::select('view_id','liked_by')->orderBy('created_at', 'asc')->get();
         $unique_views = View::select('view_id','viewed_by')->orderBy('created_at', 'asc')->get();
         $editors = Editor::where('status',1)->get();
         
