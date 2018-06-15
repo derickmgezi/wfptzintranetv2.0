@@ -81,7 +81,58 @@
                             </div>
                             <div class="row hidden-md-up">
                                 <div class="col-sm-9">
-                                    <i class="fa fa-commenting-o" aria-hidden="true"></i> Stori
+                                    <!--<i class="fa fa-commenting-o" aria-hidden="true"></i>--> Stori
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                                        <button type="button" class="btn btn-secondary">
+                                            Order By
+                                        </button>
+                                        
+                                        <div class="btn-group btn-group-sm" role="group">
+                                                @if(Request::is('storiyangu'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-clock-o faa-shake animated" aria-hidden="true"></i> Latest <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('storyviews'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-eye faa-shake animated" aria-hidden="true"></i> Views <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('storylikes'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-thumbs-up faa-shake animated" aria-hidden="true"></i> Likes <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('storycomments'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-comments faa-shake animated" aria-hidden="true"></i> Comments <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('mystory'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-user-circle-o faa-shake animated" aria-hidden="true"></i> My Stories <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @endif
+                                            
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                @if(!Request::is('storiyangu'))
+                                                <a class="dropdown-item" href="{{URL::to('/storiyangu')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Latest</a>
+                                                <div class="dropdown-divider"></div>
+                                                @endif
+                                                @if(!Request::is('storyviews'))
+                                                <a class="dropdown-item" href="{{URL::to('/storyviews')}}"><i class="fa fa-eye" aria-hidden="true"></i> Views</a>
+                                                <div class="dropdown-divider"></div>
+                                                @endif
+                                                @if(!Request::is('storylikes'))
+                                                <a class="dropdown-item" href="{{URL::to('/storylikes')}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a>
+                                                <div class="dropdown-divider"></div>
+                                                @endif
+                                                @if(!Request::is('storycomments'))
+                                                <a class="dropdown-item" href="{{URL::to('/storycomments')}}"><i class="fa fa-comments" aria-hidden="true"></i> Comments</a>
+                                                <div class="dropdown-divider"></div>
+                                                @endif
+                                                @if(!Request::is('mystory'))
+                                                <a class="dropdown-item" href="{{URL::to('/mystory')}}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My Stories</a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="col-sm-3 text-right">
