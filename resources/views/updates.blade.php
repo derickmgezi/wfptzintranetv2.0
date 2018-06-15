@@ -20,11 +20,128 @@
                             <div class="row  hidden-sm-down">
                                 <div class="col-lg-9 col-md-8">
                                     <!-- <i class="fa fa-newspaper-o" aria-hidden="true"></i> --> News
+                                    
+                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                        <button type="button" class="btn btn-secondary">
+                                            Order By
+                                        </button>
+                                        
+                                        <div class="btn-group" role="group">
+                                                @if(Request::is('home'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-clock-o faa-shake animated" aria-hidden="true"></i> Latest <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('newsupdateviews'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-eye faa-shake animated" aria-hidden="true"></i> Views <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('newsupdatelikes'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-thumbs-up faa-shake animated" aria-hidden="true"></i> Likes <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('newsupdatecomments'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-comments faa-shake animated" aria-hidden="true"></i> Comments <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('mynewsupdate'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-user-circle-o faa-shake animated" aria-hidden="true"></i> My News Posts <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @endif
+                                            
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                @if(!Request::is('home'))
+                                                <a class="dropdown-item" href="{{URL::to('/home')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Latest</a>
+                                                <div class="dropdown-divider"></div>
+                                                @endif
+                                                @if(!Request::is('newsupdateviews'))
+                                                <a class="dropdown-item" href="{{URL::to('/newsupdateviews')}}"><i class="fa fa-eye" aria-hidden="true"></i> Views</a>
+                                                <div class="dropdown-divider"></div>
+                                                @endif
+                                                @if(!Request::is('newsupdatelikes'))
+                                                <a class="dropdown-item" href="{{URL::to('/newsupdatelikes')}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a>
+                                                <div class="dropdown-divider"></div>
+                                                @endif
+                                                @if(!Request::is('newsupdatecomments'))
+<!--                                                <a class="dropdown-item" href="{{URL::to('/newsupdatecomments')}}"><i class="fa fa-comments" aria-hidden="true"></i> Comments</a>
+                                                <div class="dropdown-divider"></div>-->
+                                                @endif
+                                                @if(!Request::is('mynewsupdate') && $editors->contains('editor', Auth::id()))
+                                                <a class="dropdown-item" href="{{URL::to('/mynewsupdate')}}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My News Posts</a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-4 text-right">
                                     @if($editors->contains('editor', Auth::id()))
                                     <a class="btn btn-success" href="{{URL::to('/add_update')}}" role="button">
+                                        <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add News Post
+                                    </a>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row  hidden-md-up">
+                                <div class="col-sm-9">
+                                    <!-- <i class="fa fa-newspaper-o" aria-hidden="true"></i> --> News
+                                    
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                                        <button type="button" class="btn btn-secondary">
+                                            Order By
+                                        </button>
+                                        
+                                        <div class="btn-group btn-group-sm" role="group">
+                                                @if(Request::is('home'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-clock-o faa-shake animated" aria-hidden="true"></i> Latest <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('newsupdateviews'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-eye faa-shake animated" aria-hidden="true"></i> Views <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('newsupdatelikes'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-thumbs-up faa-shake animated" aria-hidden="true"></i> Likes <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('newsupdatecomments'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-comments faa-shake animated" aria-hidden="true"></i> Comments <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(Request::is('mynewsupdate'))
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-user-circle-o faa-shake animated" aria-hidden="true"></i> My News Posts <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @endif
+                                            
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                @if(!Request::is('home'))
+                                                <a class="dropdown-item" href="{{URL::to('/home')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Latest</a>
+                                                <div class="dropdown-divider"></div>
+                                                @endif
+                                                @if(!Request::is('newsupdateviews'))
+                                                <a class="dropdown-item" href="{{URL::to('/newsupdateviews')}}"><i class="fa fa-eye" aria-hidden="true"></i> Views</a>
+                                                <div class="dropdown-divider"></div>
+                                                @endif
+                                                @if(!Request::is('newsupdatelikes'))
+                                                <a class="dropdown-item" href="{{URL::to('/newsupdatelikes')}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a>
+                                                <div class="dropdown-divider"></div>
+                                                @endif
+                                                @if(!Request::is('newsupdatecomments'))
+<!--                                                <a class="dropdown-item" href="{{URL::to('/newsupdatecomments')}}"><i class="fa fa-comments" aria-hidden="true"></i> Comments</a>
+                                                <div class="dropdown-divider"></div>-->
+                                                @endif
+                                                @if(!Request::is('mynewsupdate'))
+                                                <a class="dropdown-item" href="{{URL::to('/mynewsupdate')}}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My News Posts</a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3 text-right">
+                                    @if($editors->contains('editor', Auth::id()))
+                                    <a class="btn btn-success btn-sm" href="{{URL::to('/add_update')}}" role="button">
                                         <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add News Post
                                     </a>
                                     @endif

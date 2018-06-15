@@ -19,6 +19,14 @@ Route::get('/signout', 'UserController@logout');
 Route::group(['middleware' => ['guest']], function () {
     Route::get('/home', 'HomeController@index');
     
+    Route::get('/newsupdateviews', 'HomeController@index');
+    
+    Route::get('/newsupdatelikes', 'HomeController@index');
+    
+    Route::get('/newsupdatecomments', 'HomeController@index');
+    
+    Route::get('/mynewsupdate', 'HomeController@index');
+    
     Route::get('/communications', 'PIController@index');
 
     Route::get('/create_post', 'PIController@create_post');
