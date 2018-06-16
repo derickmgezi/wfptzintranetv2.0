@@ -74,9 +74,9 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-4 text-right">
-                                    <a class="btn btn-warning" href="{{ URL::to('/resizethumbnails') }}">
+<!--                                    <a class="btn btn-warning" href="{{ URL::to('/resizethumbnails') }}">
                                        <i class="fa fa-expand" aria-hidden="true"></i>
-                                    </a>
+                                    </a>-->
                                     <a class="btn btn-success" @if(Session::has('edit_story') || Session::has('edit_story_error')) href="{{URL::to('/addstory/')}}" @else data-toggle="modal" data-target="#add-story-modal" href="#"  @endif  role="button">
                                        <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add Your Story
                                     </a>
@@ -221,8 +221,7 @@
                     <div class="col-md-6 col-xl-4">
                         <div class="card card-outline-primary card-primary mb-4">
                             <a href="{{URL::to('/storiyangu/'.$story->id)}}">
-<!--                                imagecache/original/thumbnails/-->
-                                <img class="card-img-top img-fluid" src="{{ URL::to('storage/thumbnails/'.$story->image) }}" alt="Card image cap">
+                                <img class="card-img-top img-fluid" src="{{ URL::to('imagecache/original/thumbnails/'.$story->image) }}" alt="Card image cap">
                             </a>
                             <div class="card-block">
                                 <div class="media">
