@@ -76,9 +76,9 @@
 
                                 <div class="col-lg-3 col-md-4 text-right">
                                     @if($editors->contains('editor', Auth::id()))
-                                    <a class="btn btn-warning" href="{{ URL::to('/resizenewsthumbnails') }}">
+<!--                                    <a class="btn btn-warning" href="{{ URL::to('/resizenewsthumbnails') }}">
                                        <i class="fa fa-expand" aria-hidden="true"></i>
-                                    </a>
+                                    </a>-->
                                     
                                     <a class="btn btn-success" href="{{URL::to('/add_update')}}" role="button">
                                         <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add News Post
