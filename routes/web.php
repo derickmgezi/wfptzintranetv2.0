@@ -89,6 +89,8 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/create_update', 'UpdateController@create_update');
     
+    Route::get('/resizenewsthumbnails', 'UpdateController@resizenewsthumbnails');
+    
     Route::get('/add_update', 'UpdateController@add_update');
 
     Route::post('/store_update/{department}/{dutystation}', 'UpdateController@store_update');

@@ -13,6 +13,7 @@ use Session;
 use App\User;
 use App\View;
 use App\Like;
+use Storage;
 
 class UpdateController extends Controller {
 
@@ -62,7 +63,7 @@ class UpdateController extends Controller {
             $path = storage_path('app/' . $thumb_image_name);
 
             //Load the image into the Image Intervention Package for manipulation
-            Image::make($path)->fit(1024, 576)->save($path);
+            Image::make($path)->fit(1080, 608)->save($path);
 
 
             //store the post credentials in database
@@ -129,7 +130,7 @@ class UpdateController extends Controller {
                 $path = storage_path('app/' . $thumb_image_name);
 
                 //Load the image into the Image Intervention Package for manipulation
-                Image::make($path)->fit(1024, 576)->save($path);
+                Image::make($path)->fit(1080, 608)->save($path);
 
                 //edit the the post credentials in database
                 $post = News::find($id);
@@ -232,6 +233,25 @@ class UpdateController extends Controller {
                 return back();
             }
         }
+    }
+    
+    public function resizenewsthumbnails() {
+        //Delete all news thumnails
+        $allimagethumbnails = Storage::files('public/thumbnails/pi_news');
+        foreach($allimagethumbnails as $imagethumbnail){
+            Storage::delete($imagethumbnail);
+        }
+        
+        //Create thumnails from original image folder
+        $allimages = Storage::files('public/pi_news');
+        foreach($allimages as $image){
+            $imagepath = storage_path('app/'.$image);
+            $imagename = Image::make($imagepath)->basename;
+            $imagethumbnailpath = storage_path('app/public/thumbnails/pi_news/' . $imagename);
+            Image::make($imagepath)->fit(1080, 608)->save($imagethumbnailpath);
+        }
+        
+        return back();
     }
 
 }
