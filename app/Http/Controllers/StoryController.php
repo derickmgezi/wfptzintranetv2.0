@@ -13,6 +13,7 @@ use Purifier;
 use Image;
 use Session;
 use Route;
+use Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 
@@ -251,6 +252,25 @@ class StoryController extends Controller {
 
             return redirect('/storiyangu/' . $id);
         }
+    }
+    
+    public function resizethumbnails() {
+        //Delete all image thumnails
+        $allimagethumbnails = Storage::files('public/thumbnails/stories');
+        foreach($allimagethumbnails as $imagethumbnail){
+            Storage::delete($imagethumbnail);
+        }
+        
+        //Create thumnails from original image folder
+        $allimages = Storage::files('public/stories');
+        foreach($allimages as $image){
+            $imagepath = storage_path('app/'.$image);
+            $imagename = Image::make($imagepath)->basename;
+            $imagethumbnailpath = storage_path('app/public/thumbnails/stories/' . $imagename);
+            Image::make($imagepath)->fit(1080, 1080)->save($imagethumbnailpath);
+        }
+        
+        return back();
     }
 
     /**
