@@ -94,7 +94,7 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => 'derick.ruganuza@wfp.org',
+            'to' => 'derick.ruganuza@wfp.org','daudi.kabalika@wfp.org','john.msocha@wfp.org','felister.massawe@wfp.org','marcus.falinzungu@wfp.org',
         ],
 
         'slack' => [
