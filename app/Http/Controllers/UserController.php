@@ -79,36 +79,56 @@ class UserController extends Controller {
             if (str_contains($request->username, '@wfp.org')) {
                 $request->username = str_replace("@wfp.org","",$request->username);
             }
-            // Authenticating against your LDAP server.
-            if (Adldap::auth()->attempt($request->username, $request->password)) {
-                // AD Authentication Passed!
-                //Update User Table with AD Password
-                $user_password_update = User::where('username', $request->username)->where('status',1)->update(['password' => bcrypt($request->password)]);
+            
+            //Catch exception if LDAP server is not available
+            try{
+                // Authenticating against your LDAP server.
+                if (Adldap::auth()->attempt($request->username, $request->password)) {
+                    // AD Authentication Passed!
+                    //Update User Table with AD Password
+                    $user_password_update = User::where('username', $request->username)->where('status',1)->update(['password' => bcrypt($request->password)]);
 
-                if ($user_password_update) {
-                    // Always Remember Users
-                    $remember = true;
+                    if ($user_password_update) {
+                        // Always Remember Users
+                        $remember = true;
 
-//                    if (Auth::attempt($request->only(['username', 'password']), $remember)) {
-                    if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $remember)) {
-                        // Authentication passed...
-                        if(Auth::user()->title == 'Administrator'){
-                            //User is Administrator
-                            return redirect('/manage');
+    //                    if (Auth::attempt($request->only(['username', 'password']), $remember)) {
+                        if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $remember)) {
+                            // Authentication passed...
+                            if(Auth::user()->title == 'Administrator'){
+                                //User is Administrator
+                                return redirect('/manage');
+                            }
+                            return redirect()->intended('/home');
+                        } else {
+                            return back()->withInput()
+                                            ->with('error', 'Username and Password Authentication Failed');
                         }
-                        return redirect()->intended('/home');
                     } else {
                         return back()->withInput()
-                                        ->with('error', 'Username and Password Authentication Failed');
+                                        ->with('error', 'Access Denied');
                     }
                 } else {
+                    // AD Authentication failled!
                     return back()->withInput()
-                                    ->with('error', 'Access Denied');
+                                    ->with('error', 'Username or Password Incorect');
                 }
-            } else {
-                // AD Authentication failled!
-                return back()->withInput()
-                                ->with('error', 'Username or Password Incorect');
+            //Try to Authenticate locally if Domain Server is not reachable
+            } catch(\Exception $e){
+                // Always Remember Users
+                $remember = true;
+
+                if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $remember)) {
+                    // Authentication passed...
+                    if(Auth::user()->title == 'Administrator'){
+                        //User is Administrator
+                        return redirect('/manage');
+                    }
+                    return redirect()->intended('/home');
+                } else {
+                    return back()->withInput()
+                                    ->with('error', 'Domain Server not reachable');
+                }
             }
         }
     }

@@ -18,7 +18,7 @@ return [
                  * The list of directories and files that will be included in the backup.
                  */
                 'include' => [
-                    base_path('storage/app'),
+                    base_path('storage/app/public'),
                     base_path('public/image'),
                      base_path('public/photos'),
                 ],
@@ -94,9 +94,9 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => 'derick.ruganuza@wfp.org','daudi.kabalika@wfp.org','john.msocha@wfp.org','felister.massawe@wfp.org','marcus.falinzungu@wfp.org',
+            'to' => 'derick.ruganuza@wfp.org',
         ],
-
+      
         'slack' => [
             'webhook_url' => '',
 
