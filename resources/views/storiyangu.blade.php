@@ -218,8 +218,8 @@
                     </div>
                     @else
                     @foreach($stories as $story)
-                    <div class="col-md-6 col-xl-4">
-                        <div class="card card-outline-primary card-primary mb-4">
+                    <div class="col-md-6 col-xl-4 mb-4">
+                        <div class="card card-outline-primary card-primary  h-100 d-inline-block">
                             <a href="{{URL::to('/storiyangu/'.$story->id)}}">
                                 <img class="card-img-top img-fluid" src="{{ URL::to('imagecache/original/thumbnails/'.$story->image) }}" alt="Card image cap">
                             </a>
