@@ -221,8 +221,8 @@
                         <div class="row align-items-center">
                             @if($recent_posts->count() != 0)
                                 @foreach($recent_posts as $recent_post)
-                                <div class="col-md-6 col-xl-4">
-                                    <div class="card card-outline-primary card-primary mb-4">
+                                <div class="col-md-6 col-xl-4 mb-4">
+                                    <div class="card card-outline-primary card-primary">
                                         <a href="{{URL::to('/read_update/'.$recent_post->id)}}">
                                             <img class="card-img-top img-fluid" src="{{ url('imagecache/original/thumbnails/'.$recent_post->image) }}" alt="Card image cap">
                                         </a>

@@ -55,6 +55,10 @@ $active_link_status = 1;
                             <button type="button" class="btn btn-warning btn-sm" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL Line 1</strong> dial <strong><em>+255282820156</em></strong><br>Via <strong>TTCL Line 2</strong> dial <strong><em>+255282820157</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
+                            @elseif($location->location == 'Isaka')
+                            <button type="button" class="btn btn-warning btn-sm" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>General TTCL Line </strong> dial <strong><em>+255282730003</em></strong><br>Via <strong>TTCL Line to HoSo</strong> dial <strong><em>+255282730002</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
+                                <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
+                            </button>
                             @endif
                             <strong><em>to view dialing instructions to {{ $location->location }}</em></strong>
                         </p>
