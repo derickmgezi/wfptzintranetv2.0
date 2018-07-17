@@ -52,7 +52,7 @@
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('SOP INVOICE MANAGEMENT TZCO.pdf'))}}">Invoice Management</a><br>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('SOP_MDR_COMET_LESS _ Invoice_ reconciliation - FINAL - 2018.04.18.pdf'))}}">MDR COMET LESS  Invoice reconciliation</a><br>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('C&V Working Group TORs_01Dec17.pdf'))}}">C&V Working Group TORs</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('SUPPLY CHAIN - CARGO ALLOCATION.pdf'))}}">Supply Chain - Cargo Allocation</a><br>
+                                    <!--<i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('SUPPLY CHAIN - CARGO ALLOCATION.pdf'))}}">Supply Chain - Cargo Allocation</a><br>-->
                                 </p>
                                 <h4 id="hr" class="text-primary">Human Resources</h4>
                                 <p>
