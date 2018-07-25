@@ -17,12 +17,12 @@
                 <div class="row justify-content-md-center">
                     <div class="col-md-8 col-md-offset-3">
                         <div class="card card-outline-primary card-primary mb-4">
-                            <div class="card-header font-weight-bold">
+                            <div class="card-header">
                                 <div class="media">
                                     <img class="d-flex mr-3 rounded-circle" src="{{ strlen(App\User::find($story->posted_by)->image) != 0? url('/storage/thumbnails/'.App\User::find($story->posted_by)->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="45" height="45" data-src="holder.js/25x25/auto"> 
                                     <div class="media-body">
                                         <strong class="text-primary">{{ App\User::find($story->posted_by)->firstname.' '.App\User::find($story->posted_by)->secondname }}</strong>
-                                        <p>{{ strip_tags($story->caption) }}</p>
+                                        {!! $story->caption !!}
                                     </div>
                                 </div>
 

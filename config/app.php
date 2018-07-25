@@ -173,7 +173,7 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+        UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         'Jenssegers\Date\DateServiceProvider',
         Spatie\Backup\BackupServiceProvider::class,
