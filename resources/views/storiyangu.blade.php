@@ -228,7 +228,7 @@
                                     <img class="d-flex mr-3 rounded-circle" src="{{ strlen(App\User::find($story->posted_by)->image) != 0? url('/storage/thumbnails/'.App\User::find($story->posted_by)->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="45" height="45" data-src="holder.js/25x25/auto"> 
                                     <div class="media-body">
                                         <em>{{ App\User::find($story->posted_by)->firstname.' '.App\User::find($story->posted_by)->secondname }}</em>
-                                        <p class="font-weight-bold">
+                                        <p>
                                             <a href="{{URL::to('/storiyangu/'.$story->id)}}" style="text-decoration: none;">
                                                 {{ substr(strip_tags($story->caption),0,65) }}{{ strlen(strip_tags($story->caption)) > 65 ? "...":"" }}
                                             </a>
