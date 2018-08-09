@@ -38,6 +38,7 @@
                                 <p>
                                     <i class="fa fa-shield" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('Security Plan - Tanzania 14 July 2017.pdf'))}}">Security Plan</a><br>
                                     <i class="fa fa-shield" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('Approved Residential Security Measures (RSM) - Tanzania 15 March 2018.pdf'))}}">Approved Residential Security Measures (RSM)</a><br>
+                                    <i class="fa fa-shield" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('WFP Warden.pdf'))}}">WFP Tanzania Warden System</a><br>
                                    
                                    
                                 </p>
@@ -50,13 +51,13 @@
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('SOP - USE OF WFP VEHICLES.pdf'))}}">Use of WFP Vehicles</a><br>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('Office committees 2018.pdf'))}}">Office committees 2018</a><br>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('SOP INVOICE MANAGEMENT TZCO.pdf'))}}">Invoice Management</a><br>
+                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('Cooperating Partners Committee SOPs.pdf'))}}">Cooperating Partners Committee</a><br>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('SOP_MDR_COMET_LESS _ Invoice_ reconciliation - FINAL - 2018.04.18.pdf'))}}">MDR COMET LESS  Invoice reconciliation</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('C&V Working Group TORs_01Dec17.pdf'))}}">C&V Working Group TORs</a><br>
-                                    <!--<i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('SUPPLY CHAIN - CARGO ALLOCATION.pdf'))}}">Supply Chain - Cargo Allocation</a><br>-->
+                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('C&V Working Group TORs_01Dec17.pdf'))}}">TORs for Cash and Voucher Working Group</a><br>
                                 </p>
                                 <h4 id="hr" class="text-primary">Human Resources</h4>
                                 <p>
-                                    
+                                   <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('Leave Application Form for All National Staff.doc'))}}">Leave Application Form for all National Staff</a><br> 
                                 </p>
                                 <h4 id="programme" class="text-primary">Programme</h4>
                                 <p>
@@ -74,6 +75,7 @@
                                 <h4 id="it" class="text-primary">IT</h4>
                                 <p>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('Corporate Information and IT Security Policy.pdf'))}}">Information and IT Security policy</a><br>
+                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('IT Loan Form.doc'))}}">Loan Form</a><br>
                                 </p>
                                 <h4 id="comms" class="text-primary">Communication</h4>
                                 <p>
