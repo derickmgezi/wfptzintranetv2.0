@@ -68,7 +68,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('resource'))? 'active':'')}}" href="{{URL::to('/resource')}}">
-                <i class="fa fa-bars {{((Request::is('resource'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources
+                <i class="fa fa-file-text {{((Request::is('resource'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources
             </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right">
