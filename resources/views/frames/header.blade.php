@@ -7,6 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="shortcut icon" href="{{ asset('image/wfp_logo05.png') }}">
+       <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
 
         <title>Dashboard Template for Bootstrap</title>
 
@@ -46,7 +47,7 @@
         <!--        {{HTML::script("js/mytinymce.js")}}-->
 
         <script>
-var editor_config = {
+    var editor_config = {
     path_absolute: "{{ URL::to('/') }}/",
     selector: ".complete-tinymce",
     skin: 'charcoal',
@@ -164,14 +165,25 @@ tinymce.init(editor_config);
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/storiyangu')}}">
-                            | <i class="fa fa-commenting-o fa-lg {{((Request::is('storiyangu'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span>
+                            | <i class="fa fa-commenting-o faa-shake animated fa-lg {{((Request::is('storiyangu'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
-<!--                    <li class="nav-item">
-                        <a class="nav-link {{((Request::is('communications'))? 'active':'')}}" href="{{URL::to('/communications')}}">
-                            | <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Comms</small>
+                     
+
+                      <li class="nav-item">
+                        <a class="nav-link active" href="{{URL::to('/newsalerts')}}">
+                            | <i class="fa fa-bullhorn faa-pulse animated fa-lg {{((Request::is('newsalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>News Alerts</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{URL::to('/innovation')}}">
+                            | <i class="fa fa-lightbulb-o faa-pulse animated fa-lg {{request::is('innovation')}} 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Innovation Corner</small> <span class="badge" style="background-color: red;">99+</span>
+                        </a>
+                    </li>
+                   
+
+<!--                    
                     <li class="nav-item">
                         <a class="nav-link {{((Request::is('it'))? 'active':'')}}" href="{{URL::to('/it')}}">
                             | <i class="fa fa-laptop fa-lg" aria-hidden="true"></i> <small>IT</small>
@@ -429,3 +441,5 @@ tinymce.init(editor_config);
             </div>
         </div>
         @endif
+
+        

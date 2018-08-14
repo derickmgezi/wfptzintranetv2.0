@@ -41,6 +41,7 @@
             })
         </script>
 
+
         <script>
             /**
              * this workaround makes magic happen

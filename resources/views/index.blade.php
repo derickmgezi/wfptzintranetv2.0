@@ -7,7 +7,7 @@
         <meta name="author" content="">
         <link rel="shortcut icon" href="{{ asset('image/wfp_logo05.png') }}">
 
-        <title>Cover Template for Bootstrap</title>
+        <title>World Food Programme.</title>
 
         <!-- Bootstrap core CSS -->
         {{ Html::style('css/bootstrap.css') }}

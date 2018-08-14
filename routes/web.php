@@ -16,9 +16,15 @@ Route::post('/signin', 'UserController@store');
 
 Route::get('/signout', 'UserController@logout');
 
+
 Route::group(['middleware' => ['guest']], function () {
+
     Route::get('/home', 'HomeController@index');
     
+    Route::get('/innovation', 'InnovationController@index');
+
+    Route::get('/newsalerts', 'NewsalertsController@index');
+
     Route::get('/newsupdateviews', 'HomeController@index');
     
     Route::get('/newsupdatelikes', 'HomeController@index');
