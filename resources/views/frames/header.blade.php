@@ -8,6 +8,17 @@
         <meta name="author" content="">
         <link rel="shortcut icon" href="{{ asset('image/wfp_logo05.png') }}">
        <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
+         <link rel="stylesheet" href="css/style.css">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" 
+        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" 
+        crossorigin="anonymous">
+</script>
+
+    <link href="/path/to/emojione.sprites.css" rel="stylesheet">
+<link href="/path/to/emojione.min.css" rel="stylesheet">
+...
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="/path/to/emojione.min.js"></script>
 
         <title>Dashboard Template for Bootstrap</title>
 
@@ -442,4 +453,23 @@ tinymce.init(editor_config);
         </div>
         @endif
 
-        
+     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+<script src="js/dnWaterfall.js"></script>
+<script>
+$(".dnWaterfall").dnWaterfall();
+</script>
+</body>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>   

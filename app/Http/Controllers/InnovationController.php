@@ -9,5 +9,7 @@ class InnovationController extends Controller
     public function index(){
         
          return view('innovation');
+
     }
+
 }

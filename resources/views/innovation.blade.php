@@ -267,16 +267,16 @@
             
             <style type="text/css">
               
-  .overlay {
+  /*.overlay {
   position: absolute;
-  bottom: 100%;
-  left: 5%;
+  bottom: 10px;
+  left: 8%;
   right: 0;
   border-radius: 16px;
   background-color: rgba(0, 0, 0, 0.8);
   opacity: 0.4;
   overflow: hidden;
-  width: 230px;
+  width: 160px;
   height:0;
   transition: .5s ease;
   
@@ -285,7 +285,7 @@
 .col-md-3:hover .overlay {
   bottom: 0;
   top: 22px;
-  height: 50%;
+  height: 48%;
 
 }
 
@@ -299,8 +299,40 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   text-align: center;
+}*/
+
+
+
+
+.overlay {
+  position: absolute;
+  top: 0px;
+  bottom: 0;
+  left: 6px;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 16px;
 }
 
+.col-md-3:hover .overlay {
+  opacity: 0.3;
+}
+
+.text a{
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
  </style>
                    
                       <div class="row">
@@ -485,155 +517,44 @@
             <div class="col-sm-5">
             <div class="row"> 
             <div class="container">
-            <div class="jumbotron" style = "height: 600px;margin-top: 24px;border-radius: 25px;">
-                 <div class="jumbotron" style = "background-color: black;height: 420px;border-radius: 25px;">
-                    <h3 style="font-family: 'Gloria Hallelujah', cursive;color: yellow;line-height:40px;">hellow there hhfjfgf hjfgdfg etyer hfhfgjfhy hgfgff tyurtuydsdz gjhfgdshh hgjhfghjgfgfjgjgfjhf gjhgfjhgfjhgjf ytrutruy jhfjhfgfh.</h3>
-              </div> 
+            <div class="jumbotron" style = "/*height: 600px;*/margin-top: 14px;border-radius: 25px;">
+                       
+                      <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="tool" title="Get to know the previous news" style="margin-bottom: 10px;"><h5><i class="fa fa-external-link faa-tada animated" aria-hidden="true"></i> 😍 Share your idea with us</h5></button>  
+                
+
+                 <div class="jumbotron" style = "background-color: black;height:430px;border-radius: 25px;">
+
+
+                  <script>
+                function myFunction() {
+                var x = document.getElementById("myInput").value;
+                document.getElementById("demo").innerHTML = " " + x;
+                  }
+               </script>  
+             <p id="demo" style="font-family: 'Gloria Hallelujah', cursive; font-size: 25px;color: yellow;line-height:40px;"></p>     
+              </div>
+
+
+              <form class="form-inline">
+
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="text" class="sr-only"></label>
+    <textarea class="form-control" rows="3"  id="myInput" oninput="myFunction()" placeholder="Share IDEAs"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary  mb-2" style="width: 170px;">Save</button>
+</form>
+
+
+
+
+
   
       </div>
     </div>
    </div>
 </div>
 </div>
-
-
-                              
-                         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-             
-
-                             <!--  <div class="row">
-            
-                              <div class="col-sm-3">
-                                <br>
-                              <img src="./image/p4.jpg" alt="picture" style="width: 230px;border-radius: 16px;">
-                              <br>
-                              </div>
-                            
-
-                                <div class="col-sm-3">
-                                <br>
-                              <img src="./image/p1.png" alt="picture1" style="width: 230px;border-radius: 16px;">
-                              <br>
-                              </div>
-                   
-
-                                 <div class="col-sm-3">
-                                <br>
-                              <img src="./image/p2.jpg" alt="picture" style="width: 230px;border-radius: 16px;">
-                              <br>
-                              </div>
-
-                               <div class="col-sm-3">
-                                <br>
-                              <img src="./image/p3.jpg" alt="picture" style="width: 230px;border-radius: 16px;">
-                              <br>
-                              </div>
-
-                                <div class="col-sm-3">
-                                <br>
-                              <img src="./image/p5.jpg" alt="picture" style="width: 230px;border-radius: 16px;">
-                              <br>
-                              </div>
-
-
-                                 <div class="col-sm-3">
-                                <br>
-                              <img src="./image/p4.jpg" alt="picture" style="width: 230px;border-radius: 16px;">
-                              <br>
-                              </div>
-
-                               <div class="col-sm-3">
-                                <br>
-                              <img src="./image/20170428_125613.png" alt="picture" style="width: 230px;border-radius: 16px;">
-                              <br>
-                              </div>
-
-
-                                <div class="col-sm-3">
-                                <br>
-                              <img src="./image/p7.jpg" alt="picture" style="width: 230px;border-radius: 16px;">
-                              <br>
-                              </div> -->
-
-                            
-
-
-
-                        <!--   <div class="col-sm-3">
-                               <div class="card">
-                       <div class="card-body">
-                       <h5 class="card-title"></h5>
-                       <h6 class="card-subtitle mb-2 text-muted"></h6>
-                       <p class="card-text"><img src="./image/wfp_logo05.png" alt="picture" style="width: 150px;"></p>
-                       <a href="#" class="card-link">Card link</a>
-                       <a href="#" class="card-link">Another link</a>
-                       </div>
-                       </div>
-                      </div>
-
-
-
-                          <div class="col-sm-3">
-                               <div class="card">
-                       <div class="card-body">
-                       <h5 class="card-title"></h5>
-                       <h6 class="card-subtitle mb-2 text-muted"></h6>
-                       <p class="card-text"><img src="./image/wfp_logo05.png" alt="picture" style="width: 150px;"></p>
-                       <a href="#" class="card-link">Card link</a>
-                       <a href="#" class="card-link">Another link</a>
-                       </div>
-                       </div>
-                      </div>
-
-
-                          <div class="col-sm-3">
-                               <div class="card">
-                       <div class="card-body">
-                       <h5 class="card-title"></h5>
-                       <h6 class="card-subtitle mb-2 text-muted"></h6>
-                       <p class="card-text"><img src="./image/wfp_logo05.png" alt="picture" style="width: 150px;"></p>
-                       <a href="#" class="card-link">Card link</a>
-                       <a href="#" class="card-link">Another link</a>
-                       </div>
-                       </div>
-                      </div>
-
-
-
-                          <div class="col-sm-3">
-                               <div class="card">
-                       <div class="card-body">
-                       <h5 class="card-title"></h5>
-                       <h6 class="card-subtitle mb-2 text-muted"></h6>
-                       <p class="card-text"><img src="./image/wfp_logo05.png" alt="picture" style="width: 150px;"></p>
-                       <a href="#" class="card-link">Card link</a>
-                       <a href="#" class="card-link">Another link</a>
-                       </div>
-                       </div>
-                      </div>
-                       -->
-                           
+       
 
                         <div class="col-12">
                         <nav aria-label="Page navigation example" style="margin: 5% auto;">
