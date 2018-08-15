@@ -517,9 +517,9 @@
             <div class="col-sm-5">
             <div class="row"> 
             <div class="container">
-            <div class="jumbotron" style = "/*height: 600px;*/margin-top: 14px;border-radius: 25px;">
+           <!--  <div class="jumbotron" style = "/*height: 600px;*/margin-top: 14px;border-radius: 25px;">
                        
-                      <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="tool" title="Get to know the previous news" style="margin-bottom: 10px;"><h5><i class="fa fa-external-link faa-tada animated" aria-hidden="true"></i> 😍 Share your idea with us</h5></button>  
+                      <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="tool" title="Get to know the previous news" style="margin-bottom: 10px;"><h5><i class="fa faa-pulse fa-lg  animated" aria-hidden="true">😍 Share your idea with us</i></h5></button>  
                 
 
                  <div class="jumbotron" style = "background-color: black;height:430px;border-radius: 25px;">
@@ -535,7 +535,7 @@
               </div>
 
 
-              <form class="form-inline">
+ <form class="form-inline">
 
   <div class="form-group mx-sm-3 mb-2">
     <label for="text" class="sr-only"></label>
@@ -544,8 +544,42 @@
   <button type="submit" class="btn btn-primary  mb-2" style="width: 170px;">Save</button>
 </form>
 
+</div>
+
+ -->
 
 
+<div class="card text-center">
+  <div class="card-header">
+    <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="tool" title="Get to know the previous news"><h5><i class="fa faa-pulse fa-lg  animated" aria-hidden="true">😍 Share your idea with us 😍</i></h5></button>  
+  </div>
+  <div class="card-body" style="background-color: black;height:500px;">
+    <div class="container">
+      <script>
+                function myFunction() {
+                var x = document.getElementById("myInput").value;
+                document.getElementById("demo").innerHTML = " " + x;
+                  }
+               </script>  
+             <p id="demo" style="font-family: 'Gloria Hallelujah', cursive; font-size: 25px;color: yellow;line-height:40px;"></p>     
+              </div>
+          </div>
+
+  </div>
+  <div class="card-footer text-muted">
+    
+   <form class="form-inline">
+
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="text" class="sr-only"></label>
+    <textarea class="form-control" rows="3"  id="myInput" oninput="myFunction()" placeholder="Share IDEAs"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary  mb-2" style="width: 170px;">Save</button>
+</form>
+
+  </div>
+</div>
+       
 
 
   
