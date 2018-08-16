@@ -203,8 +203,9 @@
                         {{Form::close()}}<!-- end Add Story Modal -->
                     </div>
                 </div>
-  <style>
 
+
+  <style>
  .hovereffect {
     width: 100%;
     height: 100%;
@@ -218,10 +219,9 @@
 
    /* background-color: black;*/
 }
-.hovereffect .overlay {
-  
 
-  
+.hovereffect .overlay {
+
     width: 100%;
     position: absolute;
     overflow: hidden;
@@ -311,15 +311,11 @@
 .hovereffect:hover p.icon-links a {
     -webkit-transform: translate3d(0,0,0);
     transform: translate3d(0,0,0);
-   
-
-
 }
 
 .hovereffect:hover h2 {
     -webkit-transition-delay: 0.05s;
     transition-delay: 0.05s;
-
 }
 
 .hovereffect:hover p.icon-links a:nth-child(3) {
@@ -336,178 +332,175 @@
     -webkit-transition-delay: 0.2s;
     transition-delay: 0.2s;
 }
-
-
-
 </style>
 
 <div class="container">
   <div class="row"> 
     <div class="col-sm-8"> 
-<!-- 16:9 aspect ratio -->
-<div class="panel panel-default" style="margin-bottom: 28%;">
-  <!-- Default panel contents -->
-  <div class="panel-heading" style="color:black;"><h5>Today's Media Alerts</h5></div>
-  <div class="panel-body">
+        <!-- 16:9 aspect ratio -->
+        <div class="panel panel-default" style="margin-bottom: 28%;">
+          <!-- Default panel contents -->
+          <div class="panel-heading" style="color:black;"><h5>Today's Media Alerts</h5></div>
+          <div class="panel-body">
 
-    <div class="accordion" id="accordionExample">
-  <div class="card">
-    <div class="card-header" id="headingOne">
-      <h5 class="mb-0">
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          WFP IS ABOUT TO SOLVE MALNUTRITION PROBLEM
-        </button>
-      </h5>
-    </div>
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      WFP IS ABOUT TO SOLVE MALNUTRITION PROBLEM
+                  </button>
+              </h5>
+          </div>
 
-    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-      <div class="card-body">
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div class="card-body">
 
-          <div class="hovereffect">
-        <img class="img-responsive" src="./image/nice.png" alt="picture" style="width: 100%;">
-            <div class="overlay">
+                  <div class="hovereffect">
+                    <img class="img-responsive" src="./image/nice.png" alt="picture" style="width: 100%;">
+                    <div class="overlay">
 
-                <h2><div class="btn-group btn-group-md" style="height: 45px;">
-  <button type="button" class="btn btn-success">
-80 <i class="fa fa-eye" aria-hidden="true"></i></button>
-  <button type="button" class="btn btn-primary">
-40 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
-  <button type="button" class="btn btn-warning">
-    <i class="fa fa-edit" aria-hidden="true"></i></button>
-  <button type="button" class="btn btn-default">
-    <i class="fa fa-comments" aria-hidden="true"></i></button>
-    <button type="button" class="btn btn-danger">
-    <i class="fa fa-trash-o" aria-hidden="true"></i></button>
-</div></h2>
+                        <h2><div class="btn-group btn-group-md" style="height: 45px;">
+                          <button type="button" class="btn btn-success">
+                            80 <i class="fa fa-eye" aria-hidden="true"></i></button>
+                            <button type="button" class="btn btn-primary">
+                                40 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+                                <button type="button" class="btn btn-warning">
+                                    <i class="fa fa-edit" aria-hidden="true"></i></button>
+                                    <button type="button" class="btn btn-default">
+                                        <i class="fa fa-comments" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-danger">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                        </div></h2>
 
-                <p class="icon-links">
-                    <a href="#">
-                        <span class="fa fa-twitter"></span>
-                    </a>
-                    <a href="#">
-                        <span class="fa fa-facebook"></span>
-                    </a>
-                    <a href="#">
-                        <span class="fa fa-instagram"></span>
-                    </a>
-                </p>
+                                        <p class="icon-links">
+                                            <a href="#">
+                                                <span class="fa fa-twitter"></span>
+                                            </a>
+                                            <a href="#">
+                                                <span class="fa fa-facebook"></span>
+                                            </a>
+                                            <a href="#">
+                                                <span class="fa fa-instagram"></span>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div class=""><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
+                                <div class="container">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                </div>
+
+                                
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                              MPINA FURIOUS OVER HIGH SPEED PRICES 
+                          </button>
+                      </h5>
+                  </div>
+                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                      <div class="card-body"><br>
+                       
+                      </div>
+                      <div class="test">
+                          <img src="./image/gazet.jpg" alt="picture" style="width: 100%;">
+                          
+                      </div>
+                      <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
+
+                  </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsethree" aria-expanded="false" aria-controls="collapseTwo">
+                        IRRIGATION STRESSED AS AGRICULTURAL DYNAMO.
+                    </button>
+                </h5>
             </div>
-    </div>
-      
-      <div class=""><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
-      <div class="container">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-     </div>
+            <div id="collapsethree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <div class="card-body">
 
-   
-      <br>
-      </div>
-    </div>
-  </div>
+               <div class="test">
+                  <img src="./image/gazet1.png" alt="picture" style="width: 100%;">
+                  <div class="overlay">My Name is John</div>
+              </div>
 
-  <div class="card">
-    <div class="card-header" id="headingTwo">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          MPINA FURIOUS OVER HIGH SPEED PRICES 
-        </button>
-      </h5>
-    </div>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-      <div class="card-body"><br>
-         
-     </div>
-       <div class="test">
-      <img src="./image/gazet.jpg" alt="picture" style="width: 100%;">
-    
-    </div>
-       <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
+              <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
+              
+              <div class="test">
+                <img src="./image/gazet2.jpg" alt="picture" style="width: 100%;border-radius: 6px;">
+                <div class="overlay">My Name is John</div>
+            </div>
 
-    </div>
-  </div>
-   <div class="card">
-    <div class="card-header" id="headingTwo">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsethree" aria-expanded="false" aria-controls="collapseTwo">
-            IRRIGATION STRESSED AS AGRICULTURAL DYNAMO.
-        </button>
-      </h5>
-    </div>
-    <div id="collapsethree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-      <div class="card-body">
+            <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
 
-     <div class="test">
-      <img src="./image/gazet1.png" alt="picture" style="width: 100%;">
-        <div class="overlay">My Name is John</div>
+        </div>
     </div>
-
-       <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
-       
-         <div class="test">
-        <img src="./image/gazet2.jpg" alt="picture" style="width: 100%;border-radius: 6px;">
-          <div class="overlay">My Name is John</div>
-      </div>
-
-       <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
-
-      </div>
-    </div>
-  </div>
-   <div class="card">
+</div>
+<div class="card">
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsenne" aria-expanded="false" aria-controls="collapseTwo">
-         ACACIA TEAMS UP WITH / SOON IN DODOMA
-        </button>
-      </h5>
-    </div>
-    <div id="collapsenne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-      <div class="card-body">
-        
-         <img src="./image/gazet3.jpg" alt="picture" style="width: 100%;">
-       <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
-       
-        <img src="./image/gazet4.jpg" alt="picture" style="width: 100%;border-radius: 6px;">
-       <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
-         <div class="container">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-  </div>
-    </div>
-  </div>
-   <div class="card">
+           ACACIA TEAMS UP WITH / SOON IN DODOMA
+       </button>
+   </h5>
+</div>
+<div id="collapsenne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+  <div class="card-body">
+    
+   <img src="./image/gazet3.jpg" alt="picture" style="width: 100%;">
+   <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
+   
+   <img src="./image/gazet4.jpg" alt="picture" style="width: 100%;border-radius: 6px;">
+   <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
+   <div class="container">
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+</div>
+</div>
+</div>
+</div>
+<div class="card">
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsefive" aria-expanded="false" aria-controls="collapseTwo">
-           WFP IS ABOUT TO SOLVE MALNUTRITION PROBLEM
-        </button>
-      </h5>
-    </div>
-    <div id="collapsefive" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
-   <div class="card">
+         WFP IS ABOUT TO SOLVE MALNUTRITION PROBLEM
+     </button>
+ </h5>
+</div>
+<div id="collapsefive" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+  <div class="card-body">
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+</div>
+</div>
+</div>
+<div class="card">
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsesix" aria-expanded="false" aria-controls="collapseTwo">
           WFP IS ABOUT TO SOLVE MALNUTRITION PROBLEM
-        </button>
-      </h5>
-    </div>
-    <div id="collapsesix" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
+      </button>
+  </h5>
+</div>
+<div id="collapsesix" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+  <div class="card-body">
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+</div>
+</div>
+</div>
 
 </div>
-    
 
-    </div>
+
+</div>
 
  <div class="panel-footer"></div>
 </div>
