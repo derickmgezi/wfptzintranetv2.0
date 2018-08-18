@@ -237,6 +237,7 @@
                                         </p>
                                     </div>
                                 </div>
+
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group btn-group-sm">
                                         <?php
@@ -274,6 +275,8 @@
                                     <?php $date = new Jenssegers\Date\Date($story->created_at); ?>
                                     <small class="text-muted">{{ $date->ago() }}</small>
                                 </div>
+
+                                
                             </div>
                         </div>
                     </div>
