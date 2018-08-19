@@ -86,6 +86,8 @@
                                     @endif
                                 </div>
                             </div>
+
+                            
                             <div class="row  hidden-md-up">
                                 <div class="col-sm-9">
                                     <!-- <i class="fa fa-newspaper-o" aria-hidden="true"></i> --> News

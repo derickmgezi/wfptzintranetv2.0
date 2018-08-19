@@ -50,7 +50,7 @@
                         <h2>
                             <i class="fa fa-eye" aria-hidden="true"></i>
                             Most viewed Posts
-                        </h2>
+                            </h2>
                         
                         <div class="card-deck">
                             @foreach($most_viewed_posts as $most_viewed_post)

@@ -13,6 +13,8 @@
             <!-- Wrap the rest of the page in another container to center all the content. -->
 
             <div class="container-fluid marketing"> 
+
+                
                 <div class="row">
                     <div class="col-12">
                         <h1>
@@ -235,6 +237,7 @@
                                         </p>
                                     </div>
                                 </div>
+
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group btn-group-sm">
                                         <?php
@@ -258,6 +261,7 @@
                                             {{ $storycomments->count() }}
                                             <i class="fa fa-comments" aria-hidden="true"></i>
                                         </button>
+
                                         @if($story->posted_by == Auth::id())
                                         <a role="button" class="btn btn-warning" href="{{URL::to('/editstory/'.$story->id)}}" data-toggle="tooltip" data-placement="top" title="Edit Story">
                                             <i class="fa fa-edit" aria-hidden="true"></i>
@@ -267,9 +271,12 @@
                                         </a>
                                         @endif
                                     </div>
+
                                     <?php $date = new Jenssegers\Date\Date($story->created_at); ?>
                                     <small class="text-muted">{{ $date->ago() }}</small>
                                 </div>
+
+                                
                             </div>
                         </div>
                     </div>
@@ -285,6 +292,7 @@
                         </nav>
                     </div>
                     @endif
+                    
                 </div>
 
                 <!-- /END THE FEATURETTES -->
