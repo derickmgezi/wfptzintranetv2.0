@@ -14,7 +14,7 @@
               <div class="row">
                 <div class="col-sm-6">
                    Innovation 
-                   <div class="btn-group" role="group" aria-label="Button group with nested dropdown" >
+                   <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                         <button type="button" class="btn btn-secondary" >
                              Order By
                         </button>
@@ -261,9 +261,9 @@
   <div class="row">
      <div class="container">
           <div class="grid">
-             <div class="block two"> <img src="./image/p1.png" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
+             <div class="block two"> <img src="./image/inno.png" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
                <div class="overlay">
-                    <div class="text1"><a href="#"><p>hellow innovation</p></a></div>
+                    <div class="text1"><a href="http://www1.wfp.org/"><p> How do you innovate to end hunger?.... </p></a></div>
                     <div class="text">
                          <div class="btn-group btn-group-md">
                              <button type="button" class="btn btn-success">
@@ -280,7 +280,7 @@
                           </div>
                      </div>
                 </div>
-                <div class="block two"> <img src="./image/p12.jpg" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
+                <div class="block two"> <img src="./image/learn.png" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
                     <div class="overlay">
                          <div class="text">
                               <div class="btn-group btn-group-md">
@@ -316,7 +316,7 @@
                                          </div>
                                     </div>                    </div>
                                </div>
-                               <div class="block two"> <img src="./image/p4.jpg" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
+                               <div class="block two"> <img src="./image/global.png" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
                                    <div class="overlay">
                                     <div class="text">
                                         <div class="btn-group btn-group-md">
@@ -334,7 +334,7 @@
                                          </div>
                                     </div>
                                </div>
-                               <div class="block two"> <img src="./image/p3.jpg" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
+                               <div class="block two"> <img src="./image/mandela.png" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
                                    <div class="overlay">
                                         <div class="text">
                                              <div class="btn-group btn-group-md">
@@ -441,7 +441,7 @@
                        }
                        .text1 a{
                             color: white;
-                            font-size: 20px;
+                            font-size: 15px;
                             position: absolute;
                             top: 10%;
                             left: 20%;
@@ -455,15 +455,15 @@
                       <div class="row"> 
                            <div class="container">
                               <div class="card text-center">
-                                 <div class="card-header">
-                                    <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="tool" title="Get to know the previous news"><h5><i class="fa faa-pulse fa-lg  animated" aria-hidden="true">😍 Share your idea with us 😍</i></h5></button>  
-                               </div>
-                               <div class="card-body" style="background-color: black;height:500px;">
-                                  <p id="demo" style="font-family: 'Gloria Hallelujah', cursive; font-size: 25px;color: yellow;line-height:40px;"></p>     
+                                <div class="card-header">
+                                  <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="tool" title="Get to know the previous news"><h5><i class="fa faa-pulse fa-lg  animated" aria-hidden="true">😍 Share your idea with us 😍</i></h5></button>  
                              </div>
-                        </div>
+                             <div class="card-body" style="background-color: black;height:500px;">
+                               <p id="demo" style="font-family: 'Gloria Hallelujah', cursive; font-size: 25px;color: yellow;line-height:40px;"></p>     
+                          </div>
+                     </div>
 
-                        <div class="card-footer text-muted">
+                     <div class="card-footer text-muted">
                          <form class="form-inline">
                             <div class="form-group mx-sm-3 mb-2">
                                 <label for="text" class="sr-only"></label>

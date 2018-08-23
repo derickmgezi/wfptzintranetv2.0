@@ -151,14 +151,14 @@
       </div>
       <div class="modal-body">
          <p>
-           
-             Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget  
-             Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-
-             Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-
-             na, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-
+           <ul type="1">
+              <li>
+             Did you know that Tanzania was ranked as having the leading innovation ecosystem compared to other countries with similar national income levels? Check out the latest figures from the Global Innovation Index! https://www.globalinnovationindex.org/Home (see attached screen shot with "Global Innovation Index" for photo) 
+             </li>
+              <li>
+             How does your work intersect with other development and humanitarian challenges? Consider writing a #blogpost to share on Wazo, medium and other platforms! contact Max or X for more guidance (see attached photo with Nelson Mandela) 
+             </li> 
+          </ul>
          </p>
      </div>
      <div class="modal-footer">
