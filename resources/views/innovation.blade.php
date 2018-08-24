@@ -261,7 +261,7 @@
   <div class="row">
      <div class="container">
           <div class="grid">
-             <div class="block two"> <img src="./image/inno.png" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
+             <div class="block two"> <img src="./image/inno.png" alt="picture" class="rounded" style="width: 100%;">
                <div class="overlay">
                     <div class="text1"><a href="http://www1.wfp.org/"><p> How do you innovate to end hunger?.... </p></a></div>
                     <div class="text">
@@ -280,7 +280,7 @@
                           </div>
                      </div>
                 </div>
-                <div class="block two"> <img src="./image/learn.png" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
+                <div class="block two"> <img src="./image/learn.png" alt="picture" class="rounded" style="width: 100%;">
                     <div class="overlay">
                          <div class="text">
                               <div class="btn-group btn-group-md">
@@ -299,7 +299,7 @@
                           </div>
                      </div>
                      
-                     <div class="block two"> <img src="./image/p8.jpg" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
+                     <div class="block two"> <img src="./image/p8.jpg" alt="picture" class="rounded" style="width: 100%;">
                          <div class="overlay">
                               <div class="text">
                                    <div class="btn-group btn-group-md">
@@ -316,7 +316,7 @@
                                          </div>
                                     </div>                    </div>
                                </div>
-                               <div class="block two"> <img src="./image/global.png" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
+                               <div class="block two"> <img src="./image/global.png" alt="picture" class="rounded" style="width: 100%;">
                                    <div class="overlay">
                                     <div class="text">
                                         <div class="btn-group btn-group-md">
@@ -334,7 +334,7 @@
                                          </div>
                                     </div>
                                </div>
-                               <div class="block two"> <img src="./image/mandela.png" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
+                               <div class="block two"> <img src="./image/mandela.png" alt="picture" class="rounded" style="width: 100%;">
                                    <div class="overlay">
                                         <div class="text">
                                              <div class="btn-group btn-group-md">
@@ -351,7 +351,7 @@
                                                    </div>
                                               </div>                    </div>
                                          </div>
-                                         <div class="block two"> <img src="./image/p5.jpg" alt="picture" class="image" style="width: 100%;border-radius: 16px;">
+                                         <div class="block two"> <img src="./image/p5.jpg" alt="picture" class="rounded" style="width: 100%;">
                                              <div class="overlay">
                                                   <div class="text">
                                                        <div class="btn-group btn-group-md">
@@ -379,23 +379,23 @@
                                <style>
 
                                .grid {
-                                -webkit-column-count: 3;
-                                -webkit-column-gap: 10px;
+                                -webkit-column-count: 2;
+                                -webkit-column-gap: 30px;
                                 -webkit-column-fill: auto;
-                                -moz-column-count: 3;
-                                -moz-column-gap: 10px;
+                                -moz-column-count: 2;
+                                -moz-column-gap: 30px;
                                 -moz-column-fill: auto;
                                 column-count: 2;
-                                column-gap: 15px;
+                                column-gap: 30px;
                                 column-fill: auto;
                            }
                            .block {
                                 background-color:#efe9e6;
                                 display: block;
                                 border-radius: 10px;
-                                padding: 15px;
+                                padding: 0;
                                 word-wrap: break-word;
-                                margin-bottom: 20px;
+                                margin-bottom: 30px;
                                 -webkit-column-break-inside: avoid;
                                 -moz-column-break-inside: avoid;
                                 column-break-inside: avoid;
@@ -403,11 +403,7 @@
                                 
                            }
 
-                           .image {
-                            display: block;
-                            width: 100%;
-                            height: auto;
-                       }
+                        
 
                        .overlay {
                             position: absolute;
@@ -418,7 +414,7 @@
                             width: 100%;
                             height:0;
                             transition: .5s ease;
-                            border-radius: 16px;
+                            border-radius: 4px;
                             opacity: 1;
                             background: rgba(39, 42, 43, 0.8);
                        }

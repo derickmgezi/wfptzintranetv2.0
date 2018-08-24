@@ -18,11 +18,11 @@
     <!-- My CSS -->
     {{ Html::style('css/my-css.css') }}
 
+    <!-- Custom style for zooming plugin -->
+    {{ Html::style('css/style.css') }}
+
     <!-- Bootstrap core CSS -->
     {{ Html::style('css/bootstrap.css') }}
-
-    <!-- Custom style for pinterest layout plugin -->
-    {{ Html::style('css/style.css') }}
 
     <!-- Custom styles for Dashboard Template -->
     {{ Html::style('css/dashboard.css') }}
@@ -43,16 +43,8 @@
 
     {{ Html::style('css/sb-admin.css') }}
 
-    <!-- for zooming image-->
-    {{ Html::style('css/xzoom.css') }}
-    
-    <!-- XZOOM JQUERY PLUGIN  -->
-    {{HTML::script("js/jquery.min.js")}}
-
     <!-- jQuery-->
     {{HTML::script("js/jquery.min.js")}}
-
-
 
     <script>
         var editor_config = {

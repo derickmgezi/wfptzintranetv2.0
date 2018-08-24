@@ -20,6 +20,8 @@
             <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous">
             </script>
 
+            <link href="css/style.css" rel="stylesheet">
+            <script src="js/lightzoom.js"></script>
 
             <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
             {{HTML::script("js/holder.min.js")}}
@@ -33,7 +35,12 @@
 
             <!-- Custom scripts for SB Admin template -->
             {{HTML::script("js/sb-admin.min.js")}}
+             
+            <!-- for zooming image-->
+            {{HTML::script("js/lightzoom.js")}}
 
+            
+            
             <!-- Enable Scrollspy -->
             <script>
                 $(document).ready(function(){
@@ -41,13 +48,13 @@
                 });
             </script>
 
-       <!-- script tag for the input field in the blackboard -->
+           <!-- script tag for the input field in the blackboard -->
             <script>
                 function myFunction() {
                    var x = document.getElementById("myInput").value;
                    document.getElementById("demo").innerHTML = " " + x;
                }
-           </script>
+            </script>
 
            <!-- Enable Pop-overs everywhere -->
            <script>
@@ -55,9 +62,19 @@
                 $('[data-toggle="popover"]').popover()
             })
            </script>
+         
+         <!-- Enable Zooming in every images in media alerts -->
+         <script type="text/javascript">
+          jQuery('.lightzoom').lightzoom({speed: 400,
+          viewTitle: true,
+          isOverlayClickClosing: false,
+          isWindowClickClosing: true,
+          isEscClosing: true
+        });
+        </script>
 
 
-         <script>
+       <script>
             /**
              * this workaround makes magic happen
              * thanks @harry: http://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
@@ -68,8 +85,6 @@
                 }
             });
         </script>
-
-
 
 
         @if(Session::has('create_post') || Session::has('new_post_error') || Session::has('post_id') || Session::has('edit_post_error'))
