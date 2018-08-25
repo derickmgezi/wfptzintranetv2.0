@@ -109,9 +109,7 @@ class HomeController extends Controller {
         $unique_views = View::select('view_id','viewed_by')->orderBy('created_at', 'asc')->get();
         $editors = Editor::where('status',1)->get();
         
-        //dd($editors->toArray());
-        
-        return view('updates', compact('recent_posts', 'editors', 'unique_likes', 'unique_views'));
+        return view('updates', compact('recent_posts', 'editors', 'unique_likes', 'unique_views', 'unreadstories'));
     }
 
 }

@@ -115,15 +115,19 @@ Route::group(['middleware' => ['guest']], function () {
     
     Route::get('/storiyangu', 'StoryController@index');
     
+    Route::get('/lateststory', 'StoryController@lateststory');
+    
     Route::get('/resizethumbnails', 'StoryController@resizethumbnails');
     
-    Route::get('/storyviews', 'StoryController@index');
+    Route::get('/unreadstory', 'StoryController@unreadstory');
     
-    Route::get('/storylikes', 'StoryController@index');
+    Route::get('/storyviews', 'StoryController@storyviews');
     
-    Route::get('/storycomments', 'StoryController@index');
+    Route::get('/storylikes', 'StoryController@storylikes');
     
-    Route::get('/mystory', 'StoryController@index');
+    Route::get('/storycomments', 'StoryController@storycomments');
+    
+    Route::get('/mystory', 'StoryController@mystory');
     
     Route::get('/addstory', 'StoryController@create');
     
