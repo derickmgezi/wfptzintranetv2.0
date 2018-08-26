@@ -231,8 +231,8 @@
                         <div class="alert alert-success" role="alert">
                             @if(session('storyurl') == 'unreadstory')
                             <h4 class="alert-heading">Congrats!</h4>
-                            <p>You have read all stories that have been posted</p>
-                            <p class="mb-0"><strong>To add your story please click on Add Your Story button above</strong></p>
+                            <p>You have read all stories</p>
+                            <p class="mb-0"><strong>Click on Add Your Story button above to add your story </strong></p>
                             @else
                             <h4 class="alert-heading">Welcome!</h4>
                             <p>You haven't posted any story yet</p>

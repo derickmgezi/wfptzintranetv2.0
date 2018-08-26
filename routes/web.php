@@ -24,14 +24,18 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/innovation', 'InnovationController@index');
 
     Route::get('/newsalerts', 'NewsalertsController@index');
+    
+    Route::get('/latestnewsupdates', 'HomeController@latestnewsupdates');
+    
+    Route::get('/unreadnewsupdate', 'HomeController@unreadnewsupdate');
 
-    Route::get('/newsupdateviews', 'HomeController@index');
+    Route::get('/newsupdateviews', 'HomeController@newsupdateviews');
     
-    Route::get('/newsupdatelikes', 'HomeController@index');
+    Route::get('/newsupdatelikes', 'HomeController@newsupdatelikes');
     
-    Route::get('/newsupdatecomments', 'HomeController@index');
+    Route::get('/newsupdatecomments', 'HomeController@newsupdatecomments');
     
-    Route::get('/mynewsupdate', 'HomeController@index');
+    Route::get('/mynewsupdate', 'HomeController@mynewsupdate');
     
     Route::get('/communications', 'PIController@index');
 

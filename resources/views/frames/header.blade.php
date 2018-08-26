@@ -52,6 +52,13 @@
         <!-- jQuery-->
         {{HTML::script("js/jquery.min.js")}}
 
+        <!-- Custom Java Script styles for Tinymce Text Editor -->
+        {{HTML::script("js/tinymce.min.js")}}
+
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.6/tinymce.min.js"></script> -->
+
+        <!-- Custom Java Script styles for My Tinymce Text Editor -->
+        <!-- <script src="http://wazo.wfp.org/js/mytinymce.js"></script> -->
 
 
         <script>
@@ -168,7 +175,7 @@
                     @if(Auth::user()->title != 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/home')}}">
-                            | <i class="fa fa-home fa-lg {{((Request::is('home'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span>
+                            | <i class="fa fa-home fa-lg {{((Request::is('home'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span> @if(session('unreadnewsupdates')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadnewsupdates') }} unread News Updat{{ session('unreadnewsupdates') != 1?"es":"e" }}">{{ session('unreadnewsupdates') }}+</span>@endif
                         </a>
                     </li>
                     <li class="nav-item">

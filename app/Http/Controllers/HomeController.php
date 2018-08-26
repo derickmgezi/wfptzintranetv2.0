@@ -54,7 +54,7 @@ class HomeController extends Controller {
 //                           ->with("recent_posts",$recent_posts)
 //                           ->with('most_viewed_posts',$most_viewed_posts);
         
-        if(Route::current()->uri == 'newsupdateviews'){            
+        if(session('newsurl') == 'newsupdateviews'){            
             $recent_posts = DB::table('news')->join('views','views.view_id', '=', 'news.id')
                                            ->select(DB::raw('news.id,news.header,news.description,news.story,news.image,news.source,news.type,news.created_by,news.created_at,views.view_id,views.viewed_by'))
                                            ->groupBy('views.view_id','views.viewed_by')
@@ -67,7 +67,7 @@ class HomeController extends Controller {
                          ->orderBy('views','desc')
                          ->paginate(9);
 
-        }elseif(Route::current()->uri == 'newsupdatelikes'){
+        }elseif(session('newsurl') == 'newsupdatelikes'){
             $recent_posts = DB::table('news')->join('likes','news.id', '=', 'likes.view_id')
                                            ->select(DB::raw('news.id,news.header,news.description,news.story,news.image,news.source,news.type,news.created_by,news.created_at,likes.view_id,likes.liked_by'))
                                            ->groupBy('likes.view_id','likes.liked_by')
@@ -87,7 +87,7 @@ class HomeController extends Controller {
 //                                           ->orderBy('likes','desc')
 //                                           ->paginate(9);
 
-        }elseif(Route::current()->uri == 'newsupdatecomments'){
+        }elseif(session('newsurl') == 'newsupdatecomments'){
             $recent_posts = DB::table('news')->join('comments','news.id', '=', 'comments.news_id')
                                            ->select(DB::raw('news.*,count(comments.comment_by) as comments'))
                                            ->groupBy('comments.news_id')
@@ -95,21 +95,58 @@ class HomeController extends Controller {
                                            ->orderBy('comments','desc')
                                            ->paginate(9);
             
-        }elseif(Route::current()->uri == 'home'){
+        }elseif(session('newsurl') == NULL || session('newsurl') == 'latestnewsupdates'){
             $recent_posts = News::where('status',1)->orderBy('created_at','desc')
                                                    ->paginate(9);
             
-        }elseif(Route::current()->uri == 'mynewsupdate'){
+        }elseif(session('newsurl') == 'mynewsupdate'){
             $recent_posts = News::where('status', 1)->where('created_by',Auth::id())
                                                 ->orderBy('created_at', 'desc')
                                                 ->paginate(9);
+        }elseif(session('newsurl') == 'unreadnewsupdate'){
+            $recent_posts = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
+            //$stories = Story::hydrate($stories);
+            $recent_posts = new \Illuminate\Support\Collection($recent_posts);
+            //dd($recent_posts->count());
         }
         
         $unique_likes = Like::select('view_id','liked_by')->orderBy('created_at', 'asc')->get();
         $unique_views = View::select('view_id','viewed_by')->orderBy('created_at', 'asc')->get();
         $editors = Editor::where('status',1)->get();
         
+        $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
+        session(['unreadnewsupdates' => count($unreadnewsupdates)]);
+        
         return view('updates', compact('recent_posts', 'editors', 'unique_likes', 'unique_views', 'unreadstories'));
     }
-
+    
+    public function latestnewsupdates() {
+        session(['newsurl' => 'latestnewsupdates']);
+        return $this->index();
+    }
+    
+    public function unreadnewsupdate(){
+        session(['newsurl' => 'unreadnewsupdate']);
+        return $this->index();
+    }
+    
+    public function newsupdateviews(){
+        session(['newsurl' => 'newsupdateviews']);
+        return $this->index();
+    }
+    
+    public function newsupdatelikes() {
+        session(['newsurl' => 'newsupdatelikes']);
+        return $this->index();
+    }
+    
+    public function newsupdatecomments(){
+        session(['newsurl' => 'newsupdatecomments']);
+        return $this->index();
+    }
+    
+    public function mynewsupdate(){
+        session(['newsurl' => 'mynewsupdate']);
+        return $this->index();
+    }
 }
