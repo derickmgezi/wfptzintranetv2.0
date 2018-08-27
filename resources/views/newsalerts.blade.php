@@ -1,7 +1,7 @@
 @include('frames/header')
 <div class="container-fluid">
     <div class="row">
-        
+
         @include('frames/sidebar')
 
         <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
@@ -206,6 +206,7 @@
 
 
     <style>
+
     .hovereffect {
         width: 100%;
         height: 100%;
@@ -215,9 +216,6 @@
         text-align: center;
         cursor: pointer;
         background: rgb(0, 0, 0);
-        
-
-        /* background-color: black;*/
     }
 
     .hovereffect .overlay {
@@ -257,7 +255,7 @@
         float: left;
         margin: 0px;
         display: inline-block;
-        /*margin-bottom: 7px;*/
+
 
 
     }
@@ -332,7 +330,104 @@
         -webkit-transition-delay: 0.2s;
         transition-delay: 0.2s;
     }
+
+
+/* CSS for zooming images */
+
+    a.lightzoom {
+      cursor: zoom-in;
+      cursor: -webkit-zoom-in;
+      cursor: -moz-zoom-in;
+  }
+
+  #lz-container {
+      display: block;
+      height: 100%;
+      width: 100%;
+      left: 0;
+      top: 0;
+      white-space: nowrap;
+      position: absolute;
+      z-index: 9999990 !important;
+  }
+
+  #lz-box {
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      line-height: 1px;
+      text-align: center;
+      display: inline-block;
+      z-index: 9999998 !important;
+  }
+
+  #lz-overlay {
+      display: block;
+      opacity: 0.6;
+      background: #000;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 9999991 !important;
+  }
+
+  #lz-box:before {
+      content: "";
+      display: inline-block;
+      height: 52%;
+      width: 1px;
+      margin-right: -1px;
+  }
+
+  #lz-box img {
+      float: none;
+      display: inline-block;
+      max-height: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      width: 90%;
+      height: 100%;
+      vertical-align: middle;
+      opacity: 0;
+      position: relative;
+      z-index: 9999995 !important;
+  }
+
+  #lz-box p {
+      position: relative;
+      bottom: 0;
+      margin-top: -30px;
+      margin-bottom: 0;
+      line-height: 20px;
+      font-size: 18px;
+      z-index: 9999997 !important;
+  }
+
+  #lz-close {
+      display: block;
+      position: absolute;
+      top: 2%;
+      right: 2%;
+      background: url("image/close.png") no-repeat 5px 5px;
+      width: 16px;
+      height: 16px;
+      text-indent: -9999px;
+      padding: 5px;
+      opacity: 0.5;
+      z-index: 9999998 !important;
+  }
+
+  #lz-close:hover {
+      opacity: 1;
+  }
+
+
+
 </style>
+
 
 <div class="container">
   <div class="row"> 
@@ -348,118 +443,122 @@
                 <div class="card-header" id="headingOne">
                   <h5 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                      WFP IS ABOUT TO SOLVE MALNUTRITION PROBLEM
+                     <h5>Wfp is about to solve malnutrition problem</h5>
+                 </button>
+             </h5>
+         </div>
+   
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+    <div class="card-body">
+     <div class="hovereffect">
+         <a href="./image/nice.png" class="lightzoom">
+          <img class="img-responsive" src="./image/nice.png" alt="Image Alt" style="width: 100%;">
+             </a>
+              <div class="overlay">
+                <h2><div class="btn-group btn-group-md" style="height: 45px;">
+                  <button type="button" class="btn btn-success">
+                    80 <i class="fa fa-eye" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-primary">
+                        40 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-warning">
+                            <i class="fa fa-edit" aria-hidden="true"></i></button>
+                            <button type="button" class="btn btn-default">
+                                <i class="fa fa-comments" aria-hidden="true"></i></button>
+                                <button type="button" class="btn btn-danger">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                </div></h2>
+
+                                <p class="icon-links">
+                                    <a href="#">
+                                        <span class="fa fa-twitter"></span>
+                                    </a>
+                                    <a href="#">
+                                        <span class="fa fa-facebook"></span>
+                                    </a>
+                                    <a href="#">
+                                        <span class="fa fa-instagram"></span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class=""><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
+                        <div class="container">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+
+
+                        <br>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <h5>Mpina furious over high speed prices</h5> 
                   </button>
               </h5>
           </div>
-
-          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-              <div class="card-body">
-
-                  <div class="hovereffect">
-                    <img class="img-responsive" src="./image/nice.png" alt="picture" style="width: 100%;">
-                    <div class="overlay">
-
-                        <h2><div class="btn-group btn-group-md" style="height: 45px;">
-                          <button type="button" class="btn btn-success">
-                            80 <i class="fa fa-eye" aria-hidden="true"></i></button>
-                            <button type="button" class="btn btn-primary">
-                                40 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
-                                <button type="button" class="btn btn-warning">
-                                    <i class="fa fa-edit" aria-hidden="true"></i></button>
-                                    <button type="button" class="btn btn-default">
-                                        <i class="fa fa-comments" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-danger">
-                                            <i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                        </div></h2>
-
-                                        <p class="icon-links">
-                                            <a href="#">
-                                                <span class="fa fa-twitter"></span>
-                                            </a>
-                                            <a href="#">
-                                                <span class="fa fa-facebook"></span>
-                                            </a>
-                                            <a href="#">
-                                                <span class="fa fa-instagram"></span>
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
-                                
-                                <div class=""><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
-                                <div class="container">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                </div>
-
-                                
-                                <br>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header" id="headingTwo">
-                          <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                              MPINA FURIOUS OVER HIGH SPEED PRICES 
-                          </button>
-                      </h5>
-                  </div>
-                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                      <div class="card-body"><br>
-                         
-                      </div>
-                      <div class="test">
-                          <img src="./image/gazet.jpg" alt="picture" style="width: 100%;">
-                          
-                      </div>
-                      <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
-
-                  </div>
-              </div>
-              <div class="card">
-                <div class="card-header" id="headingTwo">
-                  <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsethree" aria-expanded="false" aria-controls="collapseTwo">
-                        IRRIGATION STRESSED AS AGRICULTURAL DYNAMO.
-                    </button>
-                </h5>
-            </div>
-            <div id="collapsethree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-              <div class="card-body">
-
-                 <div class="test">
-                  <img src="./image/gazet1.png" alt="picture" style="width: 100%;">
-                  <div class="overlay">My Name is John</div>
-              </div>
-
-              <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <div class="card-body"><br>
               
               <div class="test">
-                <img src="./image/gazet2.jpg" alt="picture" style="width: 100%;border-radius: 6px;">
-                <div class="overlay">My Name is John</div>
+                  <a href="./image/gazet.jpg" class="lightzoom">
+          <img class="img-responsive" src="./image/gazet.jpg" alt="Image Alt" style="width: 100%;">
+             </a>
+              </div>
+              <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
             </div>
-
-            <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
-
-        </div>
+          </div>
+      </div>
+      <div class="card">
+        <div class="card-header" id="headingTwo">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsethree" aria-expanded="false" aria-controls="collapseTwo">
+                <h5>Irrigation stressed as agricultural dynamo.</h5>
+            </button>
+        </h5>
     </div>
+    <div id="collapsethree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+      <div class="card-body">
+
+         <div class="test">
+         <a href="./image/gazet1.png" class="lightzoom">
+          <img class="img-responsive" src="./image/gazet1.png" alt="Image Alt" style="width: 100%;">
+             </a>
+          <div class="overlay">My Name is John</div>
+      </div>
+
+      <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
+
+      <div class="test">
+        <a href="./image/gazet2.jpg" class="lightzoom">
+          <img class="img-responsive" src="./image/gazet2.jpg" alt="Image Alt" style="width: 100%;">
+             </a>
+        <div class="overlay">My Name is John</div>
+    </div>
+
+    <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
+
+</div>
+</div>
 </div>
 <div class="card">
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsenne" aria-expanded="false" aria-controls="collapseTwo">
-         ACACIA TEAMS UP WITH / SOON IN DODOMA
+         <h5>Acacia teams up with/soon in Dodoma</h5>
      </button>
  </h5>
 </div>
 <div id="collapsenne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
   <div class="card-body">
-    
+
      <img src="./image/gazet3.jpg" alt="picture" style="width: 100%;">
      <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
-     
+
      <img src="./image/gazet4.jpg" alt="picture" style="width: 100%;border-radius: 6px;">
      <div><i><b>Source: </b></i>   <a href="www.wfp.org">www.wfp.org</a></div><br>
      <div class="container">
@@ -472,7 +571,7 @@
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsefive" aria-expanded="false" aria-controls="collapseTwo">
-           WFP IS ABOUT TO SOLVE MALNUTRITION PROBLEM
+           <h5>Wfp is about to solve malnutrition problem</h5>
        </button>
    </h5>
 </div>
@@ -486,9 +585,9 @@
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsesix" aria-expanded="false" aria-controls="collapseTwo">
-          WFP IS ABOUT TO SOLVE MALNUTRITION PROBLEM
-      </button>
-  </h5>
+         <h5>Wfp is about to solve malnutrition problem</h5>
+     </button>
+ </h5>
 </div>
 <div id="collapsesix" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
   <div class="card-body">
@@ -496,19 +595,14 @@
 </div>
 </div>
 </div>
-
 </div>
-
-
 </div>
 
 <div class="panel-footer"></div>
 </div>
-
 </div>
 
 <div class="col-sm-4" style="margin-top: 3%;">
-
     <a class="twitter-timeline" data-height="500" href="https://twitter.com/WFP_Tanzania">
         Tweets by WFP_Tanzania
     </a> 
@@ -516,7 +610,7 @@
     
     <div class="jumbotron jumbotron-fluid" style="border-radius: 9px;padding-top: 16px;">
         <div class="container">
-         
+
          <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="tooltip" title="Get to know the previous news" style="margin-bottom: 10px;"><h5><i class="fa fa-external-link faa-tada animated" aria-hidden="true"></i>  Previous News</h5></button>
 
          <script>
@@ -548,15 +642,14 @@
           </marquee>
       </p>
       
-  </div>
-</div>
-</div>
-</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
 
-</div>
-</div>
-</div>
 
 <hr class="featurette-divider">
 
