@@ -24,14 +24,18 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/innovation', 'InnovationController@index');
 
     Route::get('/newsalerts', 'NewsalertsController@index');
+    
+    Route::get('/latestnewsupdates', 'HomeController@latestnewsupdates');
+    
+    Route::get('/unreadnewsupdate', 'HomeController@unreadnewsupdate');
 
-    Route::get('/newsupdateviews', 'HomeController@index');
+    Route::get('/newsupdateviews', 'HomeController@newsupdateviews');
     
-    Route::get('/newsupdatelikes', 'HomeController@index');
+    Route::get('/newsupdatelikes', 'HomeController@newsupdatelikes');
     
-    Route::get('/newsupdatecomments', 'HomeController@index');
+    Route::get('/newsupdatecomments', 'HomeController@newsupdatecomments');
     
-    Route::get('/mynewsupdate', 'HomeController@index');
+    Route::get('/mynewsupdate', 'HomeController@mynewsupdate');
     
     Route::get('/communications', 'PIController@index');
 
@@ -115,15 +119,19 @@ Route::group(['middleware' => ['guest']], function () {
     
     Route::get('/storiyangu', 'StoryController@index');
     
+    Route::get('/lateststory', 'StoryController@lateststory');
+    
     Route::get('/resizethumbnails', 'StoryController@resizethumbnails');
     
-    Route::get('/storyviews', 'StoryController@index');
+    Route::get('/unreadstory', 'StoryController@unreadstory');
     
-    Route::get('/storylikes', 'StoryController@index');
+    Route::get('/storyviews', 'StoryController@storyviews');
     
-    Route::get('/storycomments', 'StoryController@index');
+    Route::get('/storylikes', 'StoryController@storylikes');
     
-    Route::get('/mystory', 'StoryController@index');
+    Route::get('/storycomments', 'StoryController@storycomments');
+    
+    Route::get('/mystory', 'StoryController@mystory');
     
     Route::get('/addstory', 'StoryController@create');
     
