@@ -8,50 +8,84 @@
         </div>
 
         <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-        <script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-        
-        <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-        {{HTML::script("js/holder.min.js")}}
+            ================================================== -->
+            <!-- Placed at the end of the document so the pages load faster -->
+            <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 
-        {{HTML::script("js/tether.min.js")}}
+            <script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script>
 
-        {{HTML::script("js/bootstrap.min.js")}}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        {{HTML::script("js/ie10-viewport-bug-workaround.js")}}
-        
-        <!-- Custom scripts for SB Admin template -->
-        {{HTML::script("js/sb-admin.min.js")}}
-        
-        <!-- Enable Scrollspy -->
-        <script>
-            $(document).ready(function(){
-                $('.scrollspy').scrollSpy();
-            });
-        </script>
+            <!-- script tag for recalling pinterest plugin -->
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous">
+            </script>
 
-        <!-- Enable Pop-overs everywhere -->
-        <script>
+            <link href="css/style.css" rel="stylesheet">
+            <script src="js/lightzoom.js"></script>
+
+            <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+            {{HTML::script("js/holder.min.js")}}
+
+            {{HTML::script("js/tether.min.js")}}
+
+            {{HTML::script("js/bootstrap.min.js")}}
+
+            <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+            {{HTML::script("js/ie10-viewport-bug-workaround.js")}}
+
+            <!-- Custom scripts for SB Admin template -->
+            {{HTML::script("js/sb-admin.min.js")}}
+             
+            <!-- for zooming image-->
+            {{HTML::script("js/lightzoom.js")}}
+
+            
+            
+            <!-- Enable Scrollspy -->
+            <script>
+                $(document).ready(function(){
+                    $('.scrollspy').scrollSpy();
+                });
+            </script>
+
+           <!-- script tag for the input field in the blackboard -->
+            <script>
+                function myFunction() {
+                   var x = document.getElementById("myInput").value;
+                   document.getElementById("demo").innerHTML = " " + x;
+               }
+            </script>
+
+           <!-- Enable Pop-overs everywhere -->
+           <script>
             $(function () {
                 $('[data-toggle="popover"]').popover()
             })
+           </script>
+         
+         <!-- Enable Zooming in every images in media alerts -->
+         <script type="text/javascript">
+          jQuery('.lightzoom').lightzoom({speed: 400,
+          viewTitle: true,
+          isOverlayClickClosing: false,
+          isWindowClickClosing: true,
+          isEscClosing: true
+        });
         </script>
 
-        <script>
+
+       <script>
             /**
              * this workaround makes magic happen
              * thanks @harry: http://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
              */
-            $(document).on('focusin', function (e) {
+             $(document).on('focusin', function (e) {
                 if ($(e.target).closest(".mce-window").length || $(e.target).closest(".moxman-window").length) {
                     e.stopImmediatePropagation();
                 }
             });
         </script>
+
 
         @if(Session::has('create_post') || Session::has('new_post_error') || Session::has('post_id') || Session::has('edit_post_error'))
         <script>$('#add-post-modal').modal('show');</script>
@@ -93,6 +127,8 @@
         <script>$('#add-story-modal').modal('show');</script>
         @endif
 
-    </body>
-
+        @if(Request::is('innovation'))
+        <script>$('#announcement').modal('show');</script>
+        @endif
+</body>
 </html>

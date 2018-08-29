@@ -27,46 +27,54 @@
                                         </button>
                                         
                                         <div class="btn-group" role="group">
-                                                @if(Request::is('home'))
+                                                @if(session('newsurl') == NULL || session('newsurl') == 'latestnewsupdates')
                                                 <button id="btnGroupDrop1" type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-clock-o faa-shake animated" aria-hidden="true"></i> Latest <i class="fa fa-sort" aria-hidden="true"></i>
                                                 </button>
-                                                @elseif(Request::is('newsupdateviews'))
+                                                @elseif(session('newsurl') == 'unreadnewsupdate')
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-danger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-eye-slash faa-shake animated" aria-hidden="true"></i> Unread <i class="fa fa-sort" aria-hidden="true"></i>
+                                                </button>
+                                                @elseif(session('newsurl') == 'newsupdateviews')
                                                 <button id="btnGroupDrop1" type="button" class="btn btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-eye faa-shake animated" aria-hidden="true"></i> Views <i class="fa fa-sort" aria-hidden="true"></i>
                                                 </button>
-                                                @elseif(Request::is('newsupdatelikes'))
+                                                @elseif(session('newsurl') == 'newsupdatelikes')
                                                 <button id="btnGroupDrop1" type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-thumbs-up faa-shake animated" aria-hidden="true"></i> Likes <i class="fa fa-sort" aria-hidden="true"></i>
                                                 </button>
-                                                @elseif(Request::is('newsupdatecomments'))
+                                                @elseif(session('newsurl') == 'newsupdatecomments')
                                                 <button id="btnGroupDrop1" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-comments faa-shake animated" aria-hidden="true"></i> Comments <i class="fa fa-sort" aria-hidden="true"></i>
                                                 </button>
-                                                @elseif(Request::is('mynewsupdate'))
+                                                @elseif(session('newsurl') == 'mynewsupdate')
                                                 <button id="btnGroupDrop1" type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-user-circle-o faa-shake animated" aria-hidden="true"></i> My News Posts <i class="fa fa-sort" aria-hidden="true"></i>
                                                 </button>
                                                 @endif
                                             
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                @if(!Request::is('home'))
-                                                <a class="dropdown-item" href="{{URL::to('/home')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Latest</a>
+                                                @if(session('newsurl') != NULL && session('newsurl') != 'latestnewsupdates')
+                                                <a class="dropdown-item" href="{{URL::to('/latestnewsupdates')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Latest</a>
                                                 <div class="dropdown-divider"></div>
                                                 @endif
-                                                @if(!Request::is('newsupdateviews'))
+                                                @if(session('newsurl') != 'unreadnewsupdate')
+                                                <a class="dropdown-item" href="{{URL::to('/unreadnewsupdate')}}"><i class="fa fa-eye-slash" aria-hidden="true"></i> Unread</a>
+                                                <div class="dropdown-divider"></div>
+                                                @endif
+                                                @if(session('newsurl') != 'newsupdateviews')
                                                 <a class="dropdown-item" href="{{URL::to('/newsupdateviews')}}"><i class="fa fa-eye" aria-hidden="true"></i> Views</a>
                                                 <div class="dropdown-divider"></div>
                                                 @endif
-                                                @if(!Request::is('newsupdatelikes'))
+                                                @if(session('newsurl') != 'newsupdatelikes')
                                                 <a class="dropdown-item" href="{{URL::to('/newsupdatelikes')}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a>
                                                 <div class="dropdown-divider"></div>
                                                 @endif
-                                                @if(!Request::is('newsupdatecomments'))
+                                                @if(session('newsurl') != 'newsupdatecomments')
 <!--                                                <a class="dropdown-item" href="{{URL::to('/newsupdatecomments')}}"><i class="fa fa-comments" aria-hidden="true"></i> Comments</a>
                                                 <div class="dropdown-divider"></div>-->
                                                 @endif
-                                                @if(!Request::is('mynewsupdate') && $editors->contains('editor', Auth::id()))
+                                                @if(session('newsurl') != 'mynewsupdate' && $editors->contains('editor', Auth::id()))
                                                 <a class="dropdown-item" href="{{URL::to('/mynewsupdate')}}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My News Posts</a>
                                                 @endif
                                             </div>
@@ -86,6 +94,8 @@
                                     @endif
                                 </div>
                             </div>
+
+                            
                             <div class="row  hidden-md-up">
                                 <div class="col-sm-9">
                                     <!-- <i class="fa fa-newspaper-o" aria-hidden="true"></i> --> News
@@ -96,46 +106,46 @@
                                         </button>
                                         
                                         <div class="btn-group btn-group-sm" role="group">
-                                                @if(Request::is('home'))
+                                                @if(session('newsurl') == NULL || session('newsurl') == 'latestnewsupdates')
                                                 <button id="btnGroupDrop1" type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-clock-o faa-shake animated" aria-hidden="true"></i> Latest <i class="fa fa-sort" aria-hidden="true"></i>
                                                 </button>
-                                                @elseif(Request::is('newsupdateviews'))
+                                                @elseif(session('newsurl') == 'newsupdateviews')
                                                 <button id="btnGroupDrop1" type="button" class="btn btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-eye faa-shake animated" aria-hidden="true"></i> Views <i class="fa fa-sort" aria-hidden="true"></i>
                                                 </button>
-                                                @elseif(Request::is('newsupdatelikes'))
+                                                @elseif(session('newsurl') == 'newsupdatelikes')
                                                 <button id="btnGroupDrop1" type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-thumbs-up faa-shake animated" aria-hidden="true"></i> Likes <i class="fa fa-sort" aria-hidden="true"></i>
                                                 </button>
-                                                @elseif(Request::is('newsupdatecomments'))
+                                                @elseif(session('newsurl') == 'newsupdatecomments')
                                                 <button id="btnGroupDrop1" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-comments faa-shake animated" aria-hidden="true"></i> Comments <i class="fa fa-sort" aria-hidden="true"></i>
                                                 </button>
-                                                @elseif(Request::is('mynewsupdate'))
+                                                @elseif(session('newsurl') == 'mynewsupdate')
                                                 <button id="btnGroupDrop1" type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-user-circle-o faa-shake animated" aria-hidden="true"></i> My News Posts <i class="fa fa-sort" aria-hidden="true"></i>
                                                 </button>
                                                 @endif
                                             
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                @if(!Request::is('home'))
-                                                <a class="dropdown-item" href="{{URL::to('/home')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Latest</a>
+                                                @if(session('newsurl') != NULL && session('newsurl') != 'latestnewsupdates')
+                                                <a class="dropdown-item" href="{{URL::to('/latestnewsupdates')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Latest</a>
                                                 <div class="dropdown-divider"></div>
                                                 @endif
-                                                @if(!Request::is('newsupdateviews'))
+                                                @if(session('newsurl') != 'newsupdateviews')
                                                 <a class="dropdown-item" href="{{URL::to('/newsupdateviews')}}"><i class="fa fa-eye" aria-hidden="true"></i> Views</a>
                                                 <div class="dropdown-divider"></div>
                                                 @endif
-                                                @if(!Request::is('newsupdatelikes'))
+                                                @if(session('newsurl') != 'newsupdatelikes')
                                                 <a class="dropdown-item" href="{{URL::to('/newsupdatelikes')}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a>
                                                 <div class="dropdown-divider"></div>
                                                 @endif
-                                                @if(!Request::is('newsupdatecomments'))
+                                                @if(session('newsurl') != 'newsupdatecomments')
 <!--                                                <a class="dropdown-item" href="{{URL::to('/newsupdatecomments')}}"><i class="fa fa-comments" aria-hidden="true"></i> Comments</a>
                                                 <div class="dropdown-divider"></div>-->
                                                 @endif
-                                                @if(!Request::is('mynewsupdate'))
+                                                @if(session('newsurl') != 'mynewsupdate' && $editors->contains('editor', Auth::id()))
                                                 <a class="dropdown-item" href="{{URL::to('/mynewsupdate')}}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My News Posts</a>
                                                 @endif
                                             </div>
@@ -267,14 +277,18 @@
                             @else
                             <div class="col-12">
                                 <div class="alert alert-success" role="alert">
+                                    @if(session('newsurl') == 'unreadnewsupdate')
+                                    <h4 class="alert-heading">Congrats!</h4>
+                                    <p>You have read all News Updates</p>
+                                    @else
                                     <h4 class="alert-heading">Welcome!</h4>
                                     <p>No News Updates have been posted yet</p>
-                                    <p class="mb-0"><strong>Click on the Add Your Story button to post your story</strong></p>
+                                    @endif
                                 </div>
                             </div>
                             @endif
                             
-                            @if($recent_posts->hasPages())
+                            @if(session('newsurl') != 'unreadnewsupdate' && $recent_posts->hasPages())
                             <div class="col-12">
                                 <nav aria-label="Page navigation example">
                                     {{ $recent_posts->links('vendor.pagination.bootstrap-4') }}
@@ -304,7 +318,6 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="media">
-                                                    <?php $date = new Jenssegers\Date\Date(App\News::find(Session::get('read_update'))->created_at); ?>
                                                     <img class="d-flex mr-3 rounded-circle" src="{{ strlen(App\User::find(App\News::find(Session::get('read_update'))->created_by)->image) != 0? url('storage/thumbnails/'.App\User::find(App\News::find(Session::get('read_update'))->created_by)->image):url('/image/default_profile_picture.jpg') }}" width="45" height="45" alt="">
                                                     <div class="media-body">
                                                         <em>{{ App\User::find(App\News::find(Session::get('read_update'))->created_by)->firstname.' '.App\User::find(App\News::find(Session::get('read_update'))->created_by)->secondname }}</em>
@@ -335,7 +348,7 @@
                                                                 </a>
                                                                 @endif
                                                             </div>
-                                                            <?php $date = new Jenssegers\Date\Date($recent_post->created_at); ?>
+                                                            <?php $date = new Jenssegers\Date\Date(App\News::find(Session::get('read_update'))->created_at); ?>
                                                             <small class="text-muted">{{ $date->ago() }}</small>
                                                         </div>
                                                         <br>
