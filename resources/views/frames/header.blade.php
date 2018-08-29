@@ -6,15 +6,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
+
         <link rel="shortcut icon" href="{{ asset('image/wfp_logo05.png') }}">
+
+        <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
+
+<!--  <script src="//code.jquery.com/jquery.min.js"></script> -->
 
         <title>Dashboard Template for Bootstrap</title>
 
         <!-- My CSS -->
         {{ Html::style('css/my-css.css') }}
-        
+
         <!-- Bootstrap core CSS -->
         {{ Html::style('css/bootstrap.css') }}
+
+        <!-- Custom style for pinterest layout plugin -->
+        {{ Html::style('css/style.css') }}
 
         <!-- Custom styles for Dashboard Template -->
         {{ Html::style('css/dashboard.css') }}
@@ -24,7 +32,7 @@
 
         <!-- Custom styles for Font Awesome template -->
         {{ Html::style('css/font-awesome.min.css') }}
-        
+
         <!-- Custom styles for Font Awesome animation template -->
         {{ Html::style('css/font-awesome-animation.css') }}
 
@@ -32,100 +40,108 @@
         {{ Html::style('css/sticky-footer-navbar.css') }}
 
         <!-- Custom styles for SB Admin -->
+
         {{ Html::style('css/sb-admin.css') }}
-        
+
+        <!-- for zooming image-->
+        {{ Html::style('css/xzoom.css') }}
+
+        <!-- XZOOM JQUERY PLUGIN  -->
+        {{HTML::script("js/jquery.min.js")}}
+
         <!-- jQuery-->
         {{HTML::script("js/jquery.min.js")}}
 
         <!-- Custom Java Script styles for Tinymce Text Editor -->
         {{HTML::script("js/tinymce.min.js")}}
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.6/tinymce.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.6/tinymce.min.js"></script> -->
 
         <!-- Custom Java Script styles for My Tinymce Text Editor -->
-        <!--        {{HTML::script("js/mytinymce.js")}}-->
+        <!-- <script src="http://wazo.wfp.org/js/mytinymce.js"></script> -->
+
 
         <script>
-var editor_config = {
-    path_absolute: "{{ URL::to('/') }}/",
-    selector: ".complete-tinymce",
-    skin: 'charcoal',
-    height: 300,
-    menubar: true,
-    theme: 'modern',
-    browser_spellcheck: true,
-    plugins: [
-        "advlist autolink lists link image media charmap print preview hr anchor pagebreak",
-        "searchreplace wordcount visualblocks visualchars code fullscreen",
-        "insertdatetime nonbreaking save table contextmenu directionality",
-        "emoticons template paste textcolor colorpicker textpattern"
-    ],
-    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
-    toolbar2: "preview | forecolor backcolor | emoticons | codesample",
-    relative_urls: true,
-    file_browser_callback: function (field_name, url, type, win) {
-        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-        var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+            var editor_config = {
+                path_absolute: "{{ URL::to('/') }}/",
+                selector: ".complete-tinymce",
+                skin: 'charcoal',
+                height: 300,
+                menubar: true,
+                theme: 'modern',
+                browser_spellcheck: true,
+                plugins: [
+                    "advlist autolink lists link image media charmap print preview hr anchor pagebreak",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen",
+                    "insertdatetime nonbreaking save table contextmenu directionality",
+                    "emoticons template paste textcolor colorpicker textpattern"
+                ],
+                toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+                toolbar2: "preview | forecolor backcolor | emoticons | codesample",
+                relative_urls: true,
+                file_browser_callback: function (field_name, url, type, win) {
+                    var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+                    var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
-        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-        if (type == 'image') {
-            cmsURL = cmsURL + "&type=Images";
-        } else {
-            cmsURL = cmsURL + "&type=Files";
-        }
+                    var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+                    if (type == 'image') {
+                        cmsURL = cmsURL + "&type=Images";
+                    } else {
+                        cmsURL = cmsURL + "&type=Files";
+                    }
 
-        tinyMCE.activeEditor.windowManager.open({
-            file: cmsURL,
-            title: 'Filemanager',
-            width: x * 0.8,
-            height: y * 0.8,
-            resizable: "yes",
-            close_previous: "no"
-        });
-    }
-};
+                    tinyMCE.activeEditor.windowManager.open({
+                        file: cmsURL,
+                        title: 'Filemanager',
+                        width: x * 0.8,
+                        height: y * 0.8,
+                        resizable: "yes",
+                        close_previous: "no"
+                    });
+                }
+            };
 
-tinymce.init(editor_config);
+            tinymce.init(editor_config);
 
-var editor_config = {
-    path_absolute: "{{ URL::to('/') }}/",
-    selector: ".simple-tinymce",
-    skin: 'charcoal',
-    height: 100,
-    menubar: false,
-    theme: 'modern',
-    browser_spellcheck: true,
-    plugins: [
-        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-        "searchreplace wordcount visualblocks visualchars code fullscreen",
-        "insertdatetime nonbreaking save table contextmenu directionality",
-        "emoticons template paste textcolor colorpicker textpattern"
-    ],
-    toolbar1: "insertfile undo redo | alignleft aligncenter alignright alignjustify | outdent indent | bold italic | styleselect |  bullist numlist | emoticons | forecolor backcolor | codesample | link | preview",
-    relative_urls: true,
-    file_browser_callback: function (field_name, url, type, win) {
-        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-        var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+            var editor_config = {
+                path_absolute: "{{ URL::to('/') }}/",
+                selector: ".simple-tinymce",
+                skin: 'charcoal',
+                height: 100,
+                menubar: false,
+                theme: 'modern',
+                browser_spellcheck: true,
+                plugins: [
+                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen",
+                    "insertdatetime nonbreaking save table contextmenu directionality",
+                    "emoticons template paste textcolor colorpicker textpattern"
+                ],
+                toolbar1: "insertfile undo redo | alignleft aligncenter alignright alignjustify | outdent indent | bold italic | styleselect |  bullist numlist | emoticons | forecolor backcolor | codesample | link | preview",
+                relative_urls: true,
+                file_browser_callback: function (field_name, url, type, win) {
+                    var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+                    var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
-        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-        if (type == 'image') {
-            cmsURL = cmsURL + "&type=Images";
-        } else {
-            cmsURL = cmsURL + "&type=Files";
-        }
+                    var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+                    if (type == 'image') {
+                        cmsURL = cmsURL + "&type=Images";
+                    } else {
+                        cmsURL = cmsURL + "&type=Files";
+                    }
 
-        tinyMCE.activeEditor.windowManager.open({
-            file: cmsURL,
-            title: 'Filemanager',
-            width: x * 0.8,
-            height: y * 0.8,
-            resizable: "yes",
-            close_previous: "no"
-        });
-    }
-};
+                    tinyMCE.activeEditor.windowManager.open({
+                        file: cmsURL,
+                        title: 'Filemanager',
+                        width: x * 0.8,
+                        height: y * 0.8,
+                        resizable: "yes",
+                        close_previous: "no"
+                    });
+                }
+            };
 
-tinymce.init(editor_config);
+            tinymce.init(editor_config);
         </script>
 
     </head>
@@ -159,129 +175,31 @@ tinymce.init(editor_config);
                     @if(Auth::user()->title != 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/home')}}">
-                            | <i class="fa fa-home fa-lg {{((Request::is('home'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span>
+                            | <i class="fa fa-home fa-lg {{((Request::is('home'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span> @if(session('unreadnewsupdates')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadnewsupdates') }} unread News Updat{{ session('unreadnewsupdates') != 1?"es":"e" }}">{{ session('unreadnewsupdates') }}+</span>@endif
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/storiyangu')}}">
-                            | <i class="fa fa-commenting-o fa-lg {{((Request::is('storiyangu'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span>
+                            | <i class="fa fa-commenting-o fa-lg {{((Request::is('storiyangu'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span> @if(session('unreadstories')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadstories') }} unread Stor{{ session('unreadstories') != 1?"ies":"y" }}">{{ session('unreadstories') }}+</span>@endif
                         </a>
                     </li>
-<!--                    <li class="nav-item">
-                        <a class="nav-link {{((Request::is('communications'))? 'active':'')}}" href="{{URL::to('/communications')}}">
-                            | <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Comms</small>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{((Request::is('it'))? 'active':'')}}" href="{{URL::to('/it')}}">
-                            | <i class="fa fa-laptop fa-lg" aria-hidden="true"></i> <small>IT</small>
+                    <!--  <li class="nav-item">
+                        <a class="nav-link active" href="{{URL::to('/newsalerts')}}">
+                            | <i class="fa fa-bullhorn fa-lg {{((Request::is('newsalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>News Alerts</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{((Request::is('finance'))? 'active':'')}}" href="{{URL::to('/finance')}}">
-                            | <i class="fa fa-bank" aria-hidden="true"></i> <small>Finance</small>
+                        <a class="nav-link active" href="{{URL::to('/innovation')}}">
+                            | <i class="fa fa-lightbulb-o fa-lg {{Request::is('innovation')}} 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Innovation Corner</small> <span class="badge" style="background-color: red;">99+</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{((Request::is('administration'))? 'active':'')}}" href="{{URL::to('/administration')}}">
-                            | <i class="fa fa-cog fa-lg" aria-hidden="true"></i> <small>Admin</small>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{((Request::is('hr'))? 'active':'')}}" href="{{URL::to('/hr')}}">
-                            | <i class="fa fa-male fa-lg" aria-hidden="true"></i> <small>HR</small>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{((Request::is('supplychain'))? 'active':'')}}" href="{{URL::to('/supplychain')}}">
-                            | <i class="fa fa-truck fa-lg" aria-hidden="true"></i> <small>Supply Chain</small>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{((Request::is('programme'))? 'active':'')}}" href="{{URL::to('/programme')}}">
-                            | <i class="fa fa-file-text fa-lg" aria-hidden="true"></i> <small>Programme</small>
-                        </a>
-                    </li>-->
-<!--                    <li class="nav-item dropdown">
-                        <a class="nav-link {{((Request::is('communications') || Request::is('it') || Request::is('finance') || Request::is('administration') || Request::is('hr') || Request::is('supplychain') || Request::is('programme'))? 'active':'')}}" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            |  
-                            @if(Request::is('communications'))
-                            <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Comms</small>
-                            @elseif(Request::is('it'))
-                            <i class="fa fa-laptop fa-lg" aria-hidden="true"></i> <small>IT</small>
-                            @elseif(Request::is('finance'))
-                            <i class="fa fa-bank" aria-hidden="true"></i> <small>Finance</small>
-                            @elseif(Request::is('administration'))
-                            <i class="fa fa-cog fa-lg" aria-hidden="true"></i> <small>Admin</small>
-                            @elseif(Request::is('hr'))
-                            <i class="fa fa-male fa-lg" aria-hidden="true"></i> <small>HR</small>
-                            @elseif(Request::is('supplychain'))
-                            <i class="fa fa-truck fa-lg" aria-hidden="true"></i> <small>Supply Chain</small>
-                            @elseif(Request::is('programme'))
-                            <i class="fa fa-file-text fa-lg" aria-hidden="true"></i> <small>Programme</small>
-                            @else 
-                            <i class="fa fa-hospital-o fa-lg" aria-hidden="true"></i> <small>Country Office</small>
-                            @endif 
-                            <i class="fa fa-angle-down"></i>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item {{((Request::is('communications'))? 'active':'')}}" href="{{URL::to('/communications')}}">
-                                <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <small>Comms</small>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item {{((Request::is('it'))? 'active':'')}}" href="{{URL::to('/it')}}">
-                                <i class="fa fa-laptop fa-lg" aria-hidden="true"></i> <small>IT</small>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item {{((Request::is('finance'))? 'active':'')}}" href="{{URL::to('/finance')}}">
-                                <i class="fa fa-bank" aria-hidden="true"></i> <small>Finance</small>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item {{((Request::is('administration'))? 'active':'')}}" href="{{URL::to('/administration')}}">
-                                <i class="fa fa-cog fa-lg" aria-hidden="true"></i> <small>Admin</small>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item {{((Request::is('hr'))? 'active':'')}}" href="{{URL::to('/hr')}}">
-                                <i class="fa fa-male fa-lg" aria-hidden="true"></i> <small>HR</small>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item {{((Request::is('supplychain'))? 'active':'')}}" href="{{URL::to('/supplychain')}}">
-                                <i class="fa fa-truck fa-lg" aria-hidden="true"></i> <small>Supply Chain</small>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item {{((Request::is('programme'))? 'active':'')}}" href="{{URL::to('/programme')}}">
-                                <i class="fa fa-file-text fa-lg" aria-hidden="true"></i> <small>Programme</small>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link {{((Request::is('dodoma') || Request::is('kibondo') || Request::is('kigoma') || Request::is('kasulu') || Request::is('isaka'))? 'active':'')}}" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            | <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> 
-                            @if(Request::is('dodoma')){{ 'Dodoma' }}@elseif(Request::is('kibondo')){{ 'Kibondo' }}@elseif(Request::is('kasulu')){{ 'Kasulu' }}@elseif(Request::is('kigoma')){{ 'Kigoma' }}@elseif(Request::is('isaka')){{ 'Isaka' }}@else {{ 'Suboffice' }} @endif <i class="fa fa-angle-down"></i>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item {{((Request::is('dodoma'))? 'active':'')}}" href="{{URL::to('/dodoma')}}">
-                                <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Dodoma
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item {{((Request::is('kibondo'))? 'active':'')}}" href="{{URL::to('/kibondo')}}">
-                                <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Kibondo
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item {{((Request::is('kasulu'))? 'active':'')}}" href="{{URL::to('/kasulu')}}">
-                                <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Kasulu
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item {{((Request::is('kigoma'))? 'active':'')}}" href="{{URL::to('/kigoma')}}">
-                                <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Kigoma
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item {{((Request::is('isaka'))? 'active':'')}}" href="{{URL::to('/isaka')}}">
-                                <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Isaka
-                            </a>
-                        </div>
-                    </li>-->
+                    </li> -->
+                    <!--  <li class="nav-item">
+                         <a class="nav-link active" href="{{URL::to('/innovation')}}" data-toggle="modal" data-target="#exampleModalLong">
+                             | <i class="fa fa-lightbulb-o faa-pulse animated fa-lg {{request::is('innovation')}} 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Innovation Corner</small> <span class="badge" style="background-color: red;">99+</span>
+                         </a>
+                     </li> -->
                     @endif
+
                 </ul>
 
                 <div class="navbar-brand">
@@ -429,3 +347,33 @@ tinymce.init(editor_config);
             </div>
         </div>
         @endif
+        
+        <!-- Start of Innovation Cover Modal -->
+        <div class="modal hide fade in" id="announcement" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #0758ee; color: white;">
+                        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-thumb-tack faa-tada animated fa-lg" aria-hidden="true"></i> Unread Notifications</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+
+                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget  
+                            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+
+                            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+
+                            na, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save Announcements</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End of Innovation Cover Modal -->

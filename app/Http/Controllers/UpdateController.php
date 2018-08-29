@@ -14,6 +14,7 @@ use App\User;
 use App\View;
 use App\Like;
 use Storage;
+use DB;
 
 class UpdateController extends Controller {
 
@@ -89,6 +90,9 @@ class UpdateController extends Controller {
         $view->view_id = $id;
         $view->viewed_by = Auth::id();
         $view->save();
+        
+        $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
+        session(['unreadnewsupdates' => count($unreadnewsupdates)]);
 
         $update = News::find($id);
         Session::flash('read_update', $id);

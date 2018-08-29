@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Adldap;
 use App\User;
 use Browser;
+use DB;
 
 class UserController extends Controller {
 
@@ -99,6 +100,11 @@ class UserController extends Controller {
                                 //User is Administrator
                                 return redirect('/manage');
                             }
+                            $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
+                            session(['unreadnewsupdates' => count($unreadnewsupdates)]);
+                            
+                            $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = ".Auth::id()." GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
+                            session(['unreadstories' => count($unreadstories)]);
                             return redirect()->intended('/home');
                         } else {
                             return back()->withInput()
@@ -124,6 +130,8 @@ class UserController extends Controller {
                         //User is Administrator
                         return redirect('/manage');
                     }
+                    $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = ".Auth::id()." GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
+                    session(['unreadstories' => count($unreadstories)]);
                     return redirect()->intended('/home');
                 } else {
                     return back()->withInput()

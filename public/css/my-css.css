@@ -21,4 +21,227 @@
 	background: rgba(0,0,0,0.7); 
 }
 
+ #zerohunger img  {
+ 	   border-radius: 16px;
+
+ }
+
+
+
 .bd-footer{padding:4rem 0;margin-top:4rem;font-size:85%;text-align:center;background-color:#f7f7f7}.bd-footer a{font-weight:500;color:#464a4c}.bd-footer a:hover{color:#0275d8}.bd-footer p{margin-bottom:0}@media (min-width:576px){.bd-footer{text-align:left}}.bd-footer-links{padding-left:0;margin-bottom:1rem}.bd-footer-links li{display:inline-block}.bd-footer-links li+li{margin-left:1rem}
+
+
+/* ========================================================================*/
+/* ! VARIABLES */
+/* ========================================================================*/
+
+// BRICK DECLINAISON
+$color-brick: #FF8357;
+
+// BLUE DECLINAISON
+$color-blue: #4398b7;
+
+// YELLOW DECLINAISON
+$color-yellow: #FFDD57;
+
+// INDIGO DECLINAISON
+$color-indigo: #83C7D4;
+
+// ANTHRACITE DECLINAISON
+$color-anthracite: #414A53;
+
+// GREEN DECLINAISON
+$color-green: #87C97F;
+
+
+/* ========================================================================*/
+/* ! TYPO */
+/* ========================================================================*/
+
+
+/* --------------------------------------------*/
+/* ! COMPOSANTS */
+/*---------------------------------------------*/
+.bloc {
+  color: #FFF;
+}
+
+
+/* ========================================================================*/
+/* ! MIXINS & HELPER CLASS */
+/* ========================================================================*/
+
+/* --------------------------------------------*/
+/* ! HELPER CLASSES */
+/*---------------------------------------------*/
+.brick {
+  background-color: $color-brick;
+}
+
+.blue {
+  background-color: $color-blue
+}
+
+.yellow {
+  background-color: $color-yellow;
+}
+
+.indigo {
+  background-color: $color-indigo;
+}
+
+.anthracite {
+  background-color: $color-anthracite;
+}
+
+.green {
+  background-color: $color-green;
+}
+
+.no-padding {
+        padding: 0!important;
+}
+
+.no-padding-horizontal {
+        padding-left: 0!important;
+        padding-right: 0!important;
+}
+
+
+/* --------------------------------------------*/
+/* ! DECORATION & EFFECTS */
+/*---------------------------------------------*/
+@mixin box-shadow-blur($blur-value) {
+  box-shadow: 0px 0px $blur-value 0px rgba(0, 0, 0, 0.20);
+}
+
+
+
+
+/* ========================================================================*/
+/* ! LAYOUT */
+/* ========================================================================*/
+.section-mosaic {
+  margin-top: 35px;
+}
+
+.section-mosaic + .section-mosaic {
+  margin-top: 0;
+}
+
+/* ========================================================================*/
+/* ! COMPOSANTS */
+/* ========================================================================*/
+
+
+/* --------------------------------------------*/
+/* ! MOSAIC */
+/*---------------------------------------------*/
+.col-small-high-bloc {
+    .row .bloc-small {
+      bottom: 0;
+    }
+    .bloc-small-parent + .bloc-small-parent {
+      top:15px; bottom: 7.5px;
+    }
+    .row .bloc-small {
+      top:21.5px; bottom: 0;
+    }
+}
+
+/* --------------------------------------------*/
+/* ! BLOCS MOSAIC */
+/*---------------------------------------------*/
+.bloc {
+  @include box-shadow-blur(5px);
+}
+  .bloc-big-parent {
+    .bloc-big {
+      position: absolute;
+      top: 15px; right: 15px; bottom: 15px; left: 15px;
+    }
+  &::before {
+    content: "";
+    display: block;
+    height: 0;
+    padding-bottom: 68.8%;/*DEFINI LA HAUTEUR DU BLOC*/
+  }
+  }
+  .bloc-high-parent {
+    .bloc-high {
+      position: absolute;
+      top: 15px; right: 15px; bottom: 15px; left: 15px;
+    }
+    &::before {
+    content: "";
+    display: block;
+    height: 0;
+    padding-bottom: 145.5%;/*DEFINI LA HAUTEUR DU BLOC*/
+    }
+  }
+  .bloc-small-parent {
+    .bloc-small {
+      position: absolute;
+      top: 15px; right: 15px; bottom: 0; left: 15px;
+    }
+    &::before {
+    content: "";
+    display: block;
+    height: 0;
+    padding-bottom: 67%;/*DEFINI LA HAUTEUR DU BLOC*/
+    }
+  }
+
+
+  // SINGULARITES BLOCS RESPONSIVE LAPTOP
+@media (min-width: 992px) and (max-width: 1199px) {
+  .bloc-big-parent::before {
+    padding-bottom: 69.15%;/*DEFINI LA HAUTEUR DU BLOC*/
+  }
+  .bloc-high-parent::before {
+    padding-bottom: 148%;/*DEFINI LA HAUTEUR DU BLOC*/
+    }
+  .bloc-small-parent::before {
+    padding-bottom: 67%;/*DEFINI LA HAUTEUR DU BLOC*/
+  }
+}
+
+  // SINGULARITES BLOCS RESPONSIVE TABLETTE
+@media (min-width: 768px) and (max-width: 991px) {
+  .bloc-big-parent::before {
+      padding-bottom: 66.05%;/*DEFINI LA HAUTEUR DU BLOC*/
+  }
+
+  .bloc-high-parent {
+    .bloc-high {
+      top: 45px;
+    }
+    &::before {
+    padding-bottom: 93.6%/*DEFINI LA HAUTEUR DU BLOC*/
+    }
+  }
+  .bloc-small-parent::before {
+    padding-bottom: 64.92%;/*DEFINI LA HAUTEUR DU BLOC*/
+  }
+}
+
+  // SINGULARITES BLOCS RESPONSIVE SMARTPHONE
+@media (max-width: 767px) {
+  .bloc-big-parent::before {
+      padding-bottom: 66.05%;/*DEFINI LA HAUTEUR DU BLOC*/
+    }
+  .bloc-high-parent {
+    .bloc-high {
+      top: 45px;
+    }
+    &::before {
+    padding-bottom: 73.796%/*DEFINI LA HAUTEUR DU BLOC*/
+    }
+  }
+
+  .bloc-small-parent::before {
+    padding-bottom: 64.92%;/*DEFINI LA HAUTEUR DU BLOC*/
+  }
+}
+
+

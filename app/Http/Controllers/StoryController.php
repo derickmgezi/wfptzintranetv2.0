@@ -25,53 +25,88 @@ class StoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        //
-        if(Route::current()->uri == 'storyviews'){
-            $stories = DB::table('stories')->join('storyviews','storyviews.story_id', '=', 'stories.id')
-                                           ->select(DB::raw('stories.id,stories.caption,stories.posted_by,stories.image,stories.created_at,storyviews.story_id,storyviews.viewed_by'))
-                                           ->groupBy('storyviews.story_id','storyviews.viewed_by')
-                                           ->where('stories.status', 1);
+        //        
+        if (session('storyurl') == 'storyviews') {
+            $stories = DB::table('stories')->join('storyviews', 'storyviews.story_id', '=', 'stories.id')
+                    ->select(DB::raw('stories.id,stories.caption,stories.posted_by,stories.image,stories.created_at,storyviews.story_id,storyviews.viewed_by'))
+                    ->groupBy('storyviews.story_id', 'storyviews.viewed_by')
+                    ->where('stories.status', 1);
 
             $stories = DB::table(DB::raw("({$stories->toSql()}) as stories"))
-                         ->mergeBindings($stories)
-                         ->select(DB::raw('stories.id,stories.caption,stories.posted_by,stories.image,stories.created_at,count(stories.viewed_by) as views'))
-                         ->groupBy('stories.story_id')
-                         ->orderBy('views','desc')
-                         ->paginate(9);
-
-        }elseif(Route::current()->uri == 'storylikes'){
-            $stories = DB::table('stories')->join('storylikes','stories.id', '=', 'storylikes.story_id')
-                                           ->select(DB::raw('stories.*,count(storylikes.liked_by) as likes'))
-                                           ->groupBy('storylikes.story_id')
-                                           ->where('stories.status', 1)
-                                           ->orderBy('likes','desc')
-                                           ->paginate(9);
-
-        }elseif(Route::current()->uri == 'storycomments'){
-            $stories = DB::table('stories')->join('storycomments','stories.id', '=', 'storycomments.story_id')
-                                           ->select(DB::raw('stories.*,count(storycomments.comment_by) as comments'))
-                                           ->groupBy('storycomments.story_id')
-                                           ->where('stories.status', 1)
-                                           ->orderBy('comments','desc')
-                                           ->paginate(9);
-            
-        }elseif(Route::current()->uri == 'storiyangu'){
+                    ->mergeBindings($stories)
+                    ->select(DB::raw('stories.id,stories.caption,stories.posted_by,stories.image,stories.created_at,count(stories.viewed_by) as views'))
+                    ->groupBy('stories.story_id')
+                    ->orderBy('views', 'desc')
+                    ->paginate(9);
+        } elseif (session('storyurl') == 'storylikes') {
+            $stories = DB::table('stories')->join('storylikes', 'stories.id', '=', 'storylikes.story_id')
+                    ->select(DB::raw('stories.*,count(storylikes.liked_by) as likes'))
+                    ->groupBy('storylikes.story_id')
+                    ->where('stories.status', 1)
+                    ->orderBy('likes', 'desc')
+                    ->paginate(9);
+        } elseif (session('storyurl') == 'storycomments') {
+            $stories = DB::table('stories')->join('storycomments', 'stories.id', '=', 'storycomments.story_id')
+                    ->select(DB::raw('stories.*,count(storycomments.comment_by) as comments'))
+                    ->groupBy('storycomments.story_id')
+                    ->where('stories.status', 1)
+                    ->orderBy('comments', 'desc')
+                    ->paginate(9);
+        } elseif (session('storyurl') == NULL || session('storyurl') == 'lateststory') {
             $stories = Story::where('status', 1)->orderBy('created_at', 'desc')
-                                                ->paginate(9);
-            
-        }elseif(Route::current()->uri == 'mystory'){
-            $stories = Story::where('status', 1)->where('posted_by',Auth::id())
-                                                ->orderBy('created_at', 'desc')
-                                                ->paginate(9);
+                    ->paginate(9);
+        } elseif (session('storyurl') == 'mystory') {
+            $stories = Story::where('status', 1)->where('posted_by', Auth::id())
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(9);
+        } elseif (session('storyurl') == 'unreadstory') {
+            $stories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = " . Auth::id() . " GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
+            //$stories = Story::hydrate($stories);
+            $stories = new \Illuminate\Support\Collection($stories);
+            //dd($stories);
         }
+
+        $likes = Storylike::select("story_id", "liked_by")->orderBy('created_at')->get();
+        $comments = Storycomment::select("story_id", "comment_by")->get();
+        $views = Storyview::select("story_id", "viewed_by", "created_at")->orderBy('created_at', 'asc')->get();
+
+        $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
+        session(['unreadnewsupdates' => count($unreadnewsupdates)]);
         
-        $likes = Storylike::select("story_id","liked_by")->orderBy('created_at')->get();
-        $comments = Storycomment::select("story_id","comment_by")->get();
-        $views = Storyview::select("story_id", "viewed_by","created_at")->orderBy('created_at', 'asc')->get();
+        $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = " . Auth::id() . " GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
+        session(['unreadstories' => count($unreadstories)]);
 
-        //dd($views->toArray());
+        return view('storiyangu', compact('stories', 'likes', 'comments', 'views', 'unreadstories'));
+    }
+    
+    public function lateststory() {
+        session(['storyurl' => 'lateststory']);
+        return $this->index();
+    }
 
-        return view('storiyangu', compact('stories', 'likes', 'comments', 'views'));
+    public function unreadstory() {
+        session(['storyurl' => 'unreadstory']);
+        return $this->index();
+    }
+    
+    public function storyviews() {
+        session(['storyurl' => 'storyviews']);
+        return $this->index();
+    }
+    
+    public function storylikes() {
+        session(['storyurl' => 'storylikes']);
+        return $this->index();
+    }
+    
+    public function storycomments() {
+        session(['storyurl' => 'storycomments']);
+        return $this->index();
+    }
+    
+    public function mystory() {
+        session(['storyurl' => 'mystory']);
+        return $this->index();
     }
 
     public function storyindex() {
@@ -81,7 +116,7 @@ class StoryController extends Controller {
             $likes = Storylike::where('story_id', Session::get('story_id'))->count();
             $comments = Storycomment::where('story_id', Session::get('story_id'))->orderBy('created_at', 'asc')->get();
             $storyliked = Storylike::where('story_id', Session::get('story_id'))->where('liked_by', Auth::id())->get()->count();
-            $views = Storyview::select('story_id', 'viewed_by','created_at')->where('story_id', Session::get('story_id'))->orderBy('created_at')->get();
+            $views = Storyview::select('story_id', 'viewed_by', 'created_at')->where('story_id', Session::get('story_id'))->orderBy('created_at')->get();
 
             if ($storyliked != 0) {
                 $liked = 1;
@@ -89,7 +124,7 @@ class StoryController extends Controller {
                 $liked = 0;
             }
             Session::flash('story_id', Session::get('story_id'));
-            return view('stori' , compact('story', 'likes', 'liked', 'comments', 'views'));
+            return view('stori', compact('story', 'likes', 'liked', 'comments', 'views'));
         }
     }
 
@@ -174,11 +209,14 @@ class StoryController extends Controller {
      */
     public function show($id) {
         //
-            $view = new Storyview;
-            $view->story_id = $id;
-            $view->viewed_by = Auth::id();
-            $view->save();
+        $view = new Storyview;
+        $view->story_id = $id;
+        $view->viewed_by = Auth::id();
+        $view->save();
 
+        $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = " . Auth::id() . " GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
+
+        session(['unreadstories' => count($unreadstories)]);
         Session::flash('story_id', $id);
         return redirect('story');
     }
@@ -253,23 +291,23 @@ class StoryController extends Controller {
             return redirect('/storiyangu/' . $id);
         }
     }
-    
+
     public function resizethumbnails() {
         //Delete all image thumnails
         $allimagethumbnails = Storage::files('public/thumbnails/stories');
-        foreach($allimagethumbnails as $imagethumbnail){
+        foreach ($allimagethumbnails as $imagethumbnail) {
             Storage::delete($imagethumbnail);
         }
-        
+
         //Create thumnails from original image folder
         $allimages = Storage::files('public/stories');
-        foreach($allimages as $image){
-            $imagepath = storage_path('app/'.$image);
+        foreach ($allimages as $image) {
+            $imagepath = storage_path('app/' . $image);
             $imagename = Image::make($imagepath)->basename;
             $imagethumbnailpath = storage_path('app/public/thumbnails/stories/' . $imagename);
             Image::make($imagepath)->fit(1080, 1080)->save($imagethumbnailpath);
         }
-        
+
         return back();
     }
 
