@@ -183,7 +183,7 @@
                             | <i class="fa fa-commenting-o fa-lg {{((Request::is('storiyangu'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span> @if(session('unreadstories')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadstories') }} unread Stor{{ session('unreadstories') != 1?"ies":"y" }}">{{ session('unreadstories') }}+</span>@endif
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!--  <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/newsalerts')}}">
                             | <i class="fa fa-bullhorn fa-lg {{((Request::is('newsalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>News Alerts</small> <span class="sr-only">(current)</span>
                         </a>
@@ -192,7 +192,7 @@
                         <a class="nav-link active" href="{{URL::to('/innovation')}}">
                             | <i class="fa fa-lightbulb-o fa-lg {{Request::is('innovation')}} 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Innovation Corner</small> <span class="badge" style="background-color: red;">99+</span>
                         </a>
-                    </li>
+                    </li> -->
                     <!--  <li class="nav-item">
                          <a class="nav-link active" href="{{URL::to('/innovation')}}" data-toggle="modal" data-target="#exampleModalLong">
                              | <i class="fa fa-lightbulb-o faa-pulse animated fa-lg {{request::is('innovation')}} 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Innovation Corner</small> <span class="badge" style="background-color: red;">99+</span>

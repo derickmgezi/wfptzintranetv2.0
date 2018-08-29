@@ -70,6 +70,9 @@ class StoryController extends Controller {
         $comments = Storycomment::select("story_id", "comment_by")->get();
         $views = Storyview::select("story_id", "viewed_by", "created_at")->orderBy('created_at', 'asc')->get();
 
+        $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
+        session(['unreadnewsupdates' => count($unreadnewsupdates)]);
+        
         $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = " . Auth::id() . " GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
         session(['unreadstories' => count($unreadstories)]);
 
