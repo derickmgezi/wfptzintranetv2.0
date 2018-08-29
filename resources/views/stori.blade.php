@@ -12,11 +12,11 @@
             ================================================== -->
             <!-- Wrap the rest of the page in another container to center all the content. -->
 
-            <div class="container-fluid marketing">         
+            <div class="container marketing">         
 
-                <div class="row justify-content-md-center">
-                    <div class="col-md-8 col-md-offset-3">
-                        <div class="card card-outline-primary card-primary mb-4">
+                <div class="row no-gutters justify-content-md-center">
+                    <div class="col-md-5 mr-1"><!-- col-md-offset-3 -->
+                        <div class="card card-outline-primary card-primary">
                             <div class="card-header">
                                 <div class="media">
                                     <img class="d-flex mr-3 rounded-circle" src="{{ strlen(App\User::find($story->posted_by)->image) != 0? url('/storage/thumbnails/'.App\User::find($story->posted_by)->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="45" height="45" data-src="holder.js/25x25/auto"> 
@@ -25,7 +25,13 @@
                                         {!! $story->caption !!}
                                     </div>
                                 </div>
-
+                                
+                                <a class="btn btn-sm btn-primary {{ $liked?'disabled':'' }}" href="{{URL::to('/likestory/'.$story->id)}}">
+                                    <i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i> {{ $liked?'You Liked this Story':'like' }}
+                                </a>
+                            </div>
+                            <img class="img-fluid" src="{{ URL::to('imagecache/original/'.$story->image) }}" alt="Card image cap">
+                            <div class="card-footer">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group btn-group-sm">
                                         <?php $views = $views->unique('viewed_by'); ?>
@@ -53,14 +59,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <img class="img-fluid" src="{{ URL::to('imagecache/original/'.$story->image) }}" alt="Card image cap">
-                            <div @if($comments->count() > 4)style="height: 335px; overflow-y: scroll"@endif>
-                                <div class="card-footer">
-                                    <a class="btn btn-sm btn-primary float-right {{ $liked?'disabled':'' }}" href="{{URL::to('/likestory/'.$story->id)}}">
-                                        <i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i> {{ $liked?'You Liked this Story':'like' }}
-                                    </a>
-                                    <i class="fa fa-comments fa-lg"></i> Comments
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-5"><!-- col-md-offset-3 -->
+                        <div class="card card-outline-primary">
+                            <div class="card-header d-flex">
+                                <i class="p-2 fa fa-comments fa-lg"></i> Comments
+                                <div class="ml-auto p-2 text-muted smaller">
+                                    @if($comments->count() == 0)
+                                    No Comments
+                                    @elseif($comments->count() == 1)
+                                    1 Comment
+                                    @elseif($comments->count() > 1)
+                                    {{ $comments->count() }} Comments
+                                    @endif
                                 </div>
+                            </div>
+                            <div @if($comments->count() >= 4)style="height: 250px; overflow-y: scroll"@endif>
                                 <div class="list-group list-group-flush small">
                                     @if($comments->count() != 0)
                                     @foreach($comments as $comment)
