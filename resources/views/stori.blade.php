@@ -15,7 +15,7 @@
             <div class="container marketing">         
 
                 <div class="row no-gutters justify-content-md-center">
-                    <div class="col-md-5 mr-1"><!-- col-md-offset-3 -->
+                    <div class="col-md-5 mt-4 mr-3 ml-3"><!-- col-md-offset-3 -->
                         <div class="card card-outline-primary card-primary">
                             <div class="card-header">
                                 <div class="media">
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-5"><!-- col-md-offset-3 -->
+                    <div class="col-md-5 mt-4 mr-3 ml-3"><!-- col-md-offset-3 -->
                         <div class="card card-outline-primary">
                             <div class="card-header d-flex">
                                 <i class="p-2 fa fa-comments fa-lg"></i> Comments
