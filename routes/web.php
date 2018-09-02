@@ -23,7 +23,7 @@ Route::group(['middleware' => ['guest']], function () {
     
     Route::get('/innovation', 'InnovationController@index');
 
-    Route::get('/newsalerts', 'NewsalertsController@index');
+    Route::get('/mediaalerts', 'MediaalertController@index');
     
     Route::get('/latestnewsupdates', 'HomeController@latestnewsupdates');
     

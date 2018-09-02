@@ -60,10 +60,19 @@ class StoryController extends Controller {
                     ->orderBy('created_at', 'desc')
                     ->paginate(9);
         } elseif (session('storyurl') == 'unreadstory') {
-            $stories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = " . Auth::id() . " GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
+            //$stories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = " . Auth::id() . " GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
             //$stories = Story::hydrate($stories);
-            $stories = new \Illuminate\Support\Collection($stories);
+            //$stories = new \Illuminate\Support\Collection($stories);
             //dd($stories);
+            
+            $stories = DB::table('storyviews')->select('story_id')->where('viewed_by',Auth::id())->groupBy('story_id');
+            
+            $stories = DB::table('stories')->leftJoin(DB::raw("({$stories->toSql()}) as readstories"), 'readstories.story_id', 'stories.id')
+                                           ->mergeBindings($stories)
+                                           ->whereNull('readstories.story_id')
+                                           ->where('status',1)
+                                           ->orderBy('id','desc')
+                                           ->paginate(9);
         }
 
         $likes = Storylike::select("story_id", "liked_by")->orderBy('created_at')->get();
@@ -72,7 +81,7 @@ class StoryController extends Controller {
 
         $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
         session(['unreadnewsupdates' => count($unreadnewsupdates)]);
-        
+            
         $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = " . Auth::id() . " GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
         session(['unreadstories' => count($unreadstories)]);
 

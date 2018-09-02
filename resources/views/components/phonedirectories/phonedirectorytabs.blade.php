@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mt-2">
     <div class="card-header" style="background-color:">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs card-header-tabs" role="tablist">
