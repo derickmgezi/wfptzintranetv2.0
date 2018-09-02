@@ -108,6 +108,15 @@ class HomeController extends Controller {
             //$stories = Story::hydrate($stories);
             $recent_posts = new \Illuminate\Support\Collection($recent_posts);
             //dd($recent_posts->count());
+            
+            $recent_posts = DB::table('views')->select('view_id')->where('viewed_by',Auth::id())->groupBy('view_id');
+            
+            $recent_posts = DB::table('news')->leftJoin(DB::raw("({$recent_posts->toSql()}) as readposts"), 'readposts.view_id', 'news.id')
+                                             ->mergeBindings($recent_posts)
+                                             ->whereNull('readposts.view_id')
+                                             ->where('status',1)
+                                             ->orderBy('id','desc')
+                                             ->paginate(9);
         }
         
         $unique_likes = Like::select('view_id','liked_by')->orderBy('created_at', 'asc')->get();

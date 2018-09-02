@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Helper;
 
-class ResourceController extends Controller {
+class MediaalertController extends Controller {
 
     /**
      * Display a listing of the resource.
@@ -13,8 +12,7 @@ class ResourceController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        //
-        return view('resources');
+        return view('mediaalerts');
     }
 
     /**
@@ -42,21 +40,8 @@ class ResourceController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($url) {
+    public function show($id) {
         //
-        //$output = null;
-        //exec('"C:\Program Files (x86)\Adobe\Reader 10.0\Reader\AcroRd32.exe" \\10.11.74.12\Public\IT Unit\LTA-citizen_2CAD.pdf',$output);
-        //dd($output);
-        
-        $decrepted_url = (string) decrypt($url);
-        $filetype = 'pdf';
-        
-        if(!str_contains($decrepted_url, $filetype)){
-            $filetype = 'invalid';
-        }
-        
-        return view('resource')->with('resource',$decrepted_url)->with('filetype',$filetype);
-        //echo '<iframe src="public/resource/'.$decrepted_url.'" width="100%" style="height:100%"></iframe>';
     }
 
     /**
