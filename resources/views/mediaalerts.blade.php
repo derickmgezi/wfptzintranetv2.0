@@ -4,7 +4,7 @@
 
         @include('frames/sidebar')
 
-        <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+        <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" id="media-alerts">
 
             <!-- Marketing messaging and featurettes
                 ================================================== -->
@@ -19,7 +19,7 @@
                             </div>
 
                             <div class="col-lg-3 col-md-4 text-right">
-                                <a class="btn btn-success" @if(Session::has('edit_story') || Session::has('edit_story_error')) href="{{URL::to('/addstory/')}}" @else data-toggle="modal" data-target="#add-story-modal" href="#"  @endif  role="button">
+                                <a class="btn btn-success" @if(Session::has('edit_story') || Session::has('edit_story_error')) href="{{URL::to('/addstory/')}}" @else data-toggle="modal" data-target="#add-media-alert-modal" href="#"  @endif  role="button">
                                    <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add Media Post
                                 </a>
                             </div>
@@ -30,8 +30,8 @@
                             </div>
 
                             <div class="col-sm-3 text-right">
-                                <a class="btn btn-sm btn-success" @if(Session::has('edit_story') || Session::has('edit_story_error')) href="{{URL::to('/addstory/')}}" @else data-toggle="modal" data-target="#add-story-modal" href="#"  @endif  role="button">
-                                   <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add Story
+                                <a class="btn btn-sm btn-success" @if(Session::has('edit_story') || Session::has('edit_story_error')) href="{{URL::to('/addstory/')}}" @else data-toggle="modal" data-target="#add-media-alert-modal" href="#"  @endif  role="button">
+                                   <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add Media Post
                                 </a>
                             </div>
                         </div>
@@ -42,17 +42,17 @@
                     @elseif(Session::has('edit_story_error'))
                     {{Form::open(array('url' => '/edit_story/'.Session::get('edit_story_error')->id,'enctype' => "multipart/form-data",'role' => 'form'))}}
                     @else
-                    {{Form::open(array('url' => '/store_story','enctype' => "multipart/form-data",'role' => 'form'))}}
+                    {{Form::open(array('url' => '/store_media_alert','enctype' => "multipart/form-data",'role' => 'form'))}}
                     @endif
-                    <div class="modal fade add-story-modal" id="add-story-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade add-media-alert-modal" id="add-media-alert-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">
                                         @if(Session::has('edit_story') || Session::has('edit_story_error'))
-                                        Edit Your Story
+                                        Edit Media Alert
                                         @else
-                                        Add New Post
+                                        Add Media Alert
                                         @endif
                                     </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -61,24 +61,54 @@
                                 </div>
                                 <div class="modal-body">
 
-                                    <div class="form-group">
+                                    <div class="form-group @if($errors->has('header')){{ 'has-danger' }}@elseif(old('header')){{ 'has-success' }}@endif">
                                         <label for="headerText"><strong>Header</strong></label>
-                                        <input type="text" name='header' value="{{ Session::has('update_id')?App\News::find(Session::get('update_id'))->header:(old('header')) }}" class="form-control" id="headerText" aria-describedby="text" placeholder="Enter News Post Header">
+                                        <input class="form-control @if($errors->has('header')){{ 'form-control-danger' }}@elseif(old('header')){{ 'form-control-success' }}@endif" type="text" name='header' value="{{ Session::has('update_id')?App\News::find(Session::get('update_id'))->header:(old('header')) }}" id="headerText" aria-describedby="text" placeholder="Media alert header">
+                                        @if($errors->first('header'))<div class="form-control-feedback"><em>Header should be filled</em></div>
+                                        @elseif(old('header'))<div class="form-control-feedback"><em>Success! Header has been captured.</em></div>@endif
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group @if($errors->has('source')){{ 'has-danger' }}@elseif(old('source')){{ 'has-success' }}@endif">
                                         <label for="source"><strong>Source</strong></label>
-                                        <input type="text" name='source' value="{{ Session::has('update_id')?App\News::find(Session::get('update_id'))->source:(old('source')) }}" class="form-control" id="source" aria-describedby="text" placeholder="Enter Source">
+                                        <input class="form-control @if($errors->has('source')){{ 'form-control-danger' }}@elseif(old('source')){{ 'form-control-success' }}@endif" type="text" name='source' value="{{ Session::has('update_id')?App\News::find(Session::get('update_id'))->source:(old('source')) }}" placeholder="e.g The Guardian">
+                                        @if($errors->has('source'))<div class="form-control-feedback"><em>Source should be filled</em></div>
+                                        @elseif(old('source'))<div class="form-control-feedback"><em>Success! Source has been captured.</em></div>@endif
+                                    </div>
+                                    
+                                    <fieldset class="form-group row @if($errors->has('mediatype')){{ 'has-danger' }}@elseif(old('mediatype')){{ 'has-success' }}@endif">
+                                        <legend class="col-form-legend col-12"><strong>Media alert type</strong></legend>
+                                        <div class="col-sm-12">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" v-model="mediatype" name="mediatype" value="Link">
+                                                    External link
+                                                </label>
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" v-model="mediatype" name="mediatype" value="Image">
+                                                    Image
+                                                </label>
+                                            </div>
+                                        </div>
+                                        @if($errors->has('mediatype'))<div class="col-sm-12 form-control-feedback"><em>Please select Media alert type {{ $errors->first('mediatype') }}</em></div>
+                                        @elseif(old('mediatype'))<div class="col-sm-12 form-control-feedback"><em>Success! Media alert type selected</em></div>@endif
+                                    </fieldset>
+                                    
+                                    <div v-if ="mediatype == 'Link'" class="form-group @if($errors->has('mediacontent')){{ 'has-danger' }}@elseif(old('mediacontent')){{ 'has-success' }}@endif">
+                                        <label for="source"><strong>External Link</strong></label>
+                                        <input class="form-control @if($errors->has('mediacontent')){{ 'form-control-danger' }}@elseif(old('mediacontent')){{ 'form-control-success' }}@endif" type="url" name='mediacontent' value="{{ Session::has('update_id')?App\News::find(Session::get('update_id'))->source:(old('mediacontent')) }}" placeholder="https://example.com">
+                                        @if($errors->has('mediacontent') && old('mediatype') == 'Link')<div class="form-control-feedback"><em>Externa link should be filled</em></div>
+                                        @elseif(old('mediacontent'))<div class="form-control-feedback"><em>Success! Externa link has been captured</em></div>@endif
                                     </div>
 
-                                    <div class="form-group">
+                                    <div v-else-if ="mediatype == 'Image'" class="form-group {{ ($errors)?'has-danger':'' }}">
                                         <label for="recipient-name" class="form-control-label"><strong>Image</strong></label><br>
                                         @if(Session::has('edit_story'))
                                         <img class="card-img-top img-fluid" src="{{ URL::to('imagecache/large/'.Session::get('edit_story')->image) }}" alt="Card image cap">
                                         @elseif(Session::has('edit_story_error'))
                                         <img class="card-img-top img-fluid" src="{{ URL::to('imagecache/large/'.Session::get('edit_story_error')->image) }}" alt="Card image cap">
                                         @endif
-                                        <input type="file" name='image' value="{{ (old('image')) }}" id="image" class="form-control">
+                                        <input class="form-control form-control-danger" type="file" name='mediacontent' value="{{ (old('image')) }}" id="image">
+                                        @if($errors)<div class="form-control-feedback"><em>Please choose an image</em></div>@endif
                                     </div>
 
                                 </div>
@@ -102,69 +132,84 @@
 
                 <div class="row"> 
 
-                    <div class="col-sm-8"> 
+                    <div class="col-sm-8">
+                        @if($days_of_media_alerts->count() > 0)
+                            @foreach($days_of_media_alerts as $day)
+                            <div class="panel panel-default mb-4">
+                                <div class="panel-heading">
+                                    <?php $date = new Jenssegers\Date\Date($day->created_at); ?>
+                                    <!--  <h5>{{ $date->format('l j F Y, h:i A') }}</h5>-->
+                                    <h5>{{ $date->format('M j, Y') }}</h5>
+                                </div>
 
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h5>Today's Media Alerts</h5>
-                            </div>
-                            <div id="accordion" role="tablist" aria-multiselectable="true">
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingOne">
-                                        <h5 class="mb-0">
-                                            <a style="text-decoration: none" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                <small>Wfp is about to solve malnutrition problem</small>
-                                            </a>
-                                        </h5>
-                                    </div>
-                                    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                                        <div class="">
-                                            <div class="">
-                                                <a href="./image/nice.png" class="light-zoom">
-                                                    <img class="img-responsive light-zoom" src="./image/nice.png" alt="Image Alt" style="width: 100%;">
+                                <div id="media-alert-accordion" role="tablist" aria-multiselectable="true">
+                                    @foreach($mediaalerts as $mediaalert)
+                                        <?php $date = new Jenssegers\Date\Date($mediaalert->date); ?>
+                                        @if($date->format('d F Y') == $day->date)
+                                        <div class="card mb-1">
+                                            <div class="card-header d-flex" role="tab" id="heading{{ $mediaalert->id }}">
+                                                <h5 class="mb-0">
+                                                    <a style="text-decoration: none" data-toggle="collapse" data-parent="#media-alert-accordion" href="#collapse{{ $mediaalert->id }}" aria-expanded="true" aria-controls="collapse{{ $mediaalert->id }}">
+                                                        <small>{{ $mediaalert->header }}</small>
+                                                    </a>
+                                                    <br>
+                                                    <span class="badge badge-success smaller font-italic">{{ $mediaalert->source }}</span>
+                                                    @if($mediaalert->type == 'Link')
+                                                    <span class="badge badge-primary smaller font-italic">External link</span>
+                                                    @endif
+                                                </h5>
+                                            </div>
+                                            <div id="collapse{{ $mediaalert->id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ $mediaalert->id }}">
+                                                @if($mediaalert->type == 'Image')
+                                                <a role="button" v-on:click="showModal({{$mediaalert}})" data-toggle="modal" data-target="#media-alert-modal" >
+                                                    <img class="img-fluid img-responsive img-thumbnail" src="{{ URL::to('imagecache/original/'.$mediaalert->mediacontent) }}" alt="Image Alt" style="width: 100%;">
                                                 </a>
+                                                @elseif($mediaalert->type == 'Link')
+                                                <div class="card-block">
+                                                    <a class="btn btn-sm btn-primary" target="_blank" href='{{ $mediaalert->mediacontent }}'>
+                                                        Click to view external media link
+                                                    </a>
+                                                </div>
+                                                @endif
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingTwo">
-                                        <h5 class="mb-0">
-                                            <a style="text-decoration: none" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                <small>Mpina furious over high speed prices</small>
-                                            </a>
-                                        </h5>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                        <div class="">
-                                            <div class="test">
-                                                <a href="./image/gazet.jpg" class="light-zoom">
-                                                    <img class="img-responsive" src="./image/gazet.jpg" alt="Image Alt" style="width: 100%;">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingThree">
-                                        <h5 class="mb-0">
-                                            <a style="text-decoration: none" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                <small>Irrigation stressed as agricultural dynamo</small>
-                                            </a>
-                                        </h5>
-                                    </div>
-                                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                                        <div class="">
-                                            <div class="test">
-                                                <a href="./image/gazet1.png" class="light-zoom">
-                                                    <img class="img-responsive" src="./image/gazet1.png" alt="Image Alt" style="width: 100%;">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
+                            @endforeach
+                        @else
+                        <div class="alert alert-info" role="alert">
+                            <h4 class="alert-heading">Welcome to Media alerts Page</h4>
+                            <strong>Currently</strong> no media alerts have been posted yet.
+                            <a href="#" class="alert-link">Soon our communication unit</a>, will start posting news alerts daily.
                         </div>
+                        @endif
+                        
+                        <!-- Start of Media alert Popup Modal -->
+                        <div class="modal fade" id="media-alert-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title" id="exampleModalLabel">
+                                            @{{header}}
+                                            <span class="badge badge-success font-italic">@{{ source }}</span>
+                                        </h6>
+
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="">
+                                        <img class="img-fluid img-responsive img-thumbnail" v-bind:src="image" alt="Image Alt" style="width: 100%;">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End of Media alert Popup Modal -->
                     </div>
 
                     <div class="col-sm-4">

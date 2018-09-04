@@ -7,7 +7,7 @@
         <meta name="author" content="">
         <link rel="shortcut icon" href="{{ asset('image/wfp_logo05.png') }}">
 
-        <title>World Food Programme.</title>
+        <title>Login into Wazo</title>
 
         <!-- Bootstrap core CSS -->
         {{ Html::style('css/bootstrap.css') }}
@@ -20,6 +20,9 @@
 
         <!-- Custom styles for Font Awesome template -->
         {{ Html::style('css/font-awesome.min.css') }}
+        
+        <!-- Vue.js library -->
+        {{HTML::script("js/vue.js")}}
     </head>
 
     <body>
@@ -47,7 +50,7 @@
             </div>
         </div>
 
-        <div class="container-fluid">
+        <div class="container-fluid" id="index">
 
             <div class="inner cover">
                 <div class="row align-items-center">
@@ -95,25 +98,34 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
                             <h3 class="modal-title" id="exampleModalLabel">
-                                <img class="img-fluid" src="{{ URL::to('image/wfp_logo09.png') }}" alt="Responsive image" alt="Generic placeholder image" width="50" data-src="holder.js/25x25/auto"> wazo.tz.net
+                                <img class="img-fluid" src="{{ URL::to('image/wfp_logo09.png') }}" alt="Responsive image" alt="Generic placeholder image" width="50" data-src="holder.js/25x25/auto"> wazo.wfp.org
                             </h3>
                         </div>
                         <div class="modal-body" style="background-color: ">
-                            {{ Form::open(array('url' => '/signin','class' => 'form-signin','role' => 'form')) }}
+                            <i v-if="logingin" class="fa fa-spinner fa-pulse fa-4x fa-fw" style="color: black"></i>
+                            
+                            {{ Form::open(array('url' => '/signin','class' => 'form-signin','role' => 'form', 'v-else' => 'logingin')) }}
                             <label for="inputUsername" class="sr-only">Username</label>
-                            <input type="text" name="username" value="{{(old('username'))? e(old('username')):''}}" id="inputUserName" class="form-control" placeholder="Username eg. john.doe" required autofocus>
+                            <input type="text" name="username" value="{{(old('username'))? e(old('username')):''}}" id="inputUserName" class="form-control" placeholder="Username eg. john.doe" autofocus>
                             <label for="inputPassword" class="sr-only">Password</label>
-                            <input type="password" name="password" value="{{(old('password'))? e(old('password')):''}}" id="inputPassword" class="form-control" placeholder="Password" required>
-                            <button class="btn btn-lg btn-success btn-block" type="submit"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login</button>
+                            <input type="password" name="password" value="{{(old('password'))? e(old('password')):''}}" id="inputPassword" class="form-control" placeholder="Password">
+                            <button v-on:click="login()" class="btn btn-lg btn-success btn-block" type="submit"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login</button>
                             {{Form::token()}}
                             {{ Form::close() }}
 
                             @if(Session::has('error'))
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <div v-if="!logingin" class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
                                 </button>
                                 <i class="fa fa-exclamation " aria-hidden="true"></i> {{Session::get('error')}}
+                            </div>
+                            @elseif($errors->has('username') || $errors->has('password'))
+                            <div v-if="!logingin" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                                </button>
+                                <i class="fa fa-exclamation " aria-hidden="true"></i> Enter your Username and Password
                             </div>
                             @endif
 
@@ -142,6 +154,21 @@
         <script src="./js/bootstrap.min.js"></script>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="./js/ie10-viewport-bug-workaround.js"></script>
+        
+        <script>
+            var vm = new Vue ({
+                el:"#index",
+                data:{
+                    logingin:false
+                },
+                methods:{
+                    login: function(){
+                        this.logingin = true;
+                    }
+                }
+            });
+        </script>
+        
         @if(!Auth::check())
         <script>$('#loginModal').modal('show');</script>
         @endif

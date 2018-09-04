@@ -39,6 +39,26 @@
         <!-- for zooming image-->
         {{HTML::script("js/lightzoom.js")}}
         
+        <!-- Vue.js code for media alert -->
+        <script>
+            var vm = new Vue ({
+                el:"#media-alerts",
+                data:{
+                    mediatype:{!! json_encode(old('mediatype')) !!},
+                    header:'',
+                    source:'',
+                    image:''
+                },
+                methods:{
+                    showModal: function(media){
+                        this.header = media.header;
+                        this.image = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
+                        this.source = media.source;
+                    }
+                }
+            });
+        </script>
+        
         <!-- Enable Scrollspy -->
         <script>
             $(document).ready(function(){
@@ -128,5 +148,8 @@
         <script>$('#announcement').modal('show');</script>
         @endif
         
+        @if(Session::has('new_media_alert_error'))
+        <script>$('#add-media-alert-modal').modal('show');</script>
+        @endif
     </body>
 </html>
