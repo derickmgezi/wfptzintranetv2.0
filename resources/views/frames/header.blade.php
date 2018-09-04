@@ -13,16 +13,13 @@
 
 <!--  <script src="//code.jquery.com/jquery.min.js"></script> -->
 
-        <title>Dashboard Template for Bootstrap</title>
+        <title>Wazo</title>
 
         <!-- My CSS -->
         {{ Html::style('css/my-css.css') }}
 
         <!-- Bootstrap core CSS -->
         {{ Html::style('css/bootstrap.css') }}
-
-        <!-- Custom style for pinterest layout plugin -->
-        {{ Html::style('css/style.css') }}
 
         <!-- Custom styles for Dashboard Template -->
         {{ Html::style('css/dashboard.css') }}
@@ -54,6 +51,9 @@
 
         <!-- Custom Java Script styles for Tinymce Text Editor -->
         {{HTML::script("js/tinymce.min.js")}}
+        
+        <!-- Vue.js library -->
+        {{HTML::script("js/vue.js")}}
 
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.6/tinymce.min.js"></script> -->
 
@@ -185,7 +185,7 @@
                     </li>
                     <!--  <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/mediaalerts')}}">
-                            | <i class="fa fa-bullhorn fa-lg {{((Request::is('mediaalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Media Alerts</small> <span class="sr-only">(current)</span>
+                            | <i class="fa fa-newspaper-o fa-lg {{((Request::is('mediaalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Media Alerts</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">

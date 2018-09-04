@@ -22,8 +22,6 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/home', 'HomeController@index');
     
     Route::get('/innovation', 'InnovationController@index');
-
-    Route::get('/mediaalerts', 'MediaalertController@index');
     
     Route::get('/latestnewsupdates', 'HomeController@latestnewsupdates');
     
@@ -150,6 +148,10 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/edit_story/{id}', 'StoryController@update');
     
     Route::post('/store_story_comment/{id}', 'StoryController@storecomment');
+    
+    Route::get('/mediaalerts', 'MediaalertController@index');
+    
+    Route::post('/store_media_alert', 'MediaalertController@store');
 
     Route::get('/resource', 'ResourceController@index');
     
