@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
+use Session;
+use App\MediaAlert;
+use Auth;
+use Image;
+use DB;
 
 class MediaalertController extends Controller {
 
@@ -12,7 +18,16 @@ class MediaalertController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('mediaalerts');
+        $days_of_media_alerts = MediaAlert::select(DB::raw("DATE_FORMAT(created_at,'%d %M %Y') as date,created_at"))
+                                          ->where('status',1)
+                                          ->orderBy('created_at', 'desc')
+                                          ->get();
+        $days_of_media_alerts = $days_of_media_alerts->unique('date');
+        
+        $mediaalerts = MediaAlert::select(DB::raw("id,header,mediacontent,type,source,created_at,DATE_FORMAT(created_at,'%d %M %Y') as date"))->where('status',1)->get();
+        //dd($days_of_media_alerts);
+        
+        return view('mediaalerts', compact('mediaalerts', 'days_of_media_alerts'));
     }
 
     /**
@@ -32,6 +47,67 @@ class MediaalertController extends Controller {
      */
     public function store(Request $request) {
         //
+        if($request->mediatype == 'Link'){
+            $validator = Validator::make($request->all(), [
+                'header' => 'required',
+                'source' => 'required',
+                'mediatype' => 'required',
+                'mediacontent' => 'required|url',
+            ]);
+        }elseif($request->mediatype == 'Image'){
+            $validator = Validator::make($request->all(), [
+                'header' => 'required',
+                'source' => 'required',
+                'mediatype' => 'required',
+                'mediacontent' => 'required|image',
+            ]);
+        }else{
+            $validator = Validator::make($request->all(), [
+                'header' => 'required',
+                'source' => 'required',
+                'mediatype' => 'required',
+            ]);
+        }
+
+        if ($validator->fails()) {
+            Session::flash('new_media_alert_error', 'Media Alert Creation Error');
+            return back()->withErrors($validator)->withInput();
+        } else {
+            if($request->mediatype == 'Link'){
+                //store the media alert in database
+                $mediaalert = new MediaAlert;
+                $mediaalert->header = $request->header;
+                $mediaalert->mediacontent = $request->mediacontent;
+                $mediaalert->source = $request->source;
+                $mediaalert->type = $request->mediatype;
+                $mediaalert->created_by = Auth::id();
+                $mediaalert->save();
+            }elseif($request->mediatype == 'Image'){
+                //Upload the file in storage public folder
+                $image_name = (string) ($request->mediacontent->store('public/mediaalerts'));
+                $image_name = str_replace('public/', '', $image_name);
+
+                //Upload the file in storage thumbnail public folder
+                $thumb_image_name = (string) ($request->mediacontent->store('public/thumbnails/mediaalerts'));
+
+                //Get full path of uploaded image from the thumbnails
+                $path = storage_path('app/' . $thumb_image_name);
+
+                //Load the image into Intervention Package for manipulation
+                Image::make($path)->fit(1080, 1080)->save($path);
+
+
+                //store the media alert in database
+                $mediaalert = new MediaAlert;
+                $mediaalert->header = $request->header;
+                $mediaalert->mediacontent = $image_name;
+                $mediaalert->source = $request->source;
+                $mediaalert->type = $request->mediatype;
+                $mediaalert->created_by = Auth::id();
+                $mediaalert->save();
+            }
+            return back();
+        }
     }
 
     /**
