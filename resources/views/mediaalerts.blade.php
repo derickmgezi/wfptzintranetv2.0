@@ -149,7 +149,7 @@
                                         <div class="card mb-1">
                                             <div class="card-header d-flex" role="tab" id="heading{{ $mediaalert->id }}">
                                                 <h5 class="mb-0">
-                                                    <a style="text-decoration: none" data-toggle="collapse" data-parent="#media-alert-accordion" href="#collapse{{ $mediaalert->id }}" aria-expanded="true" aria-controls="collapse{{ $mediaalert->id }}">
+                                                    <a data-toggle="collapse" data-parent="#media-alert-accordion" href="#collapse{{ $mediaalert->id }}" aria-expanded="true" aria-controls="collapse{{ $mediaalert->id }}">
                                                         <small>{{ $mediaalert->header }}</small>
                                                     </a>
                                                     <br>
