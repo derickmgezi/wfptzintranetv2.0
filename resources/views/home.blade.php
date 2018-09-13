@@ -4,7 +4,7 @@
 
         @include('frames/sidebar')
 
-        <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+        <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" id="app">
 
             <!--            @include('components/pi/picarousel')-->
 
@@ -15,182 +15,170 @@
             <div class="container-fluid marketing">                        
 
                 <div class="row">
-                    <div class="col-md-8">
-                        @if($recent_posts->count() != 0)
-                        <h2>
-                            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-                            Latest Posts
-                        </h2>
-                        <div class="card-deck">
-                            @foreach($recent_posts as $recent_post)
-                            <div class="card m-1">
-                                <img class="card-img-top img-fluid" src="{{ url('/storage/thumbnails/'.$recent_post->image) }}" alt="Card image cap">
-                                <div class="card-block">
-                                    <a href="{{URL::to('/read_update/'.$recent_post->id)}}" class="card-text text-primary">
-                                        <strong>{{ substr(strip_tags($recent_post->header),0,65) }}{{ strlen(strip_tags($recent_post->header)) > 65 ? "...":"" }}</strong>
-                                    </a>
-                                    <?php $date = new Jenssegers\Date\Date($recent_post->created_at); ?>
-                                    <p class="card-text"><small class="text-muted">Posted {{ $date->ago() }}</small></p>
-                                </div>
-                                <?php
-                                $unique_views = App\View::select('viewed_by','created_at')->where('view_id', $recent_post->id)->orderBy('created_at')->get();
-                                $unique_views = $unique_views->unique('viewed_by');
-                                $total_unique_view_count = $unique_views->count();
-                                ?>
-                                <div class="card-footer text-center">
-                                    <a href="#" class="btn btn-sm btn-warning {{ Auth::user()->username == 'derick.ruganuza'? '':'disabled' }}" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($total_unique_view_count == 0) No Views @else @foreach($unique_views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif"><i class="fa fa-eye" aria-hidden="true"></i> {{ $total_unique_view_count }} {{ $total_unique_view_count == 1?'viewer':'viewers' }}</a>
-                                    <a href="{{URL::to('/read_update/'.$recent_post->id)}}" class="btn btn-sm btn-success"><i class="fa fa-book" aria-hidden="true"></i> Read</a>
-                                </div>
-                            </div>
-                            @endforeach
+                    <div class="col-md-9">
+                        @if($news->count() != 0)
+                        <div class="d-flex justify-content-start">
+                            <h1>
+                                <span class="small">News</span>
+                            </h1>
+                            <h1 class="ml-auto mr-3">
+                                <span class="smaller font-weight-bold">Recently posted</span>
+                            </h1>
                         </div>
-                        @endif
                         
-                        @if($most_viewed_posts->count() != 0)
-                        <h2>
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                            Most viewed Posts
-                            </h2>
-                        
-                        <div class="card-deck">
-                            @foreach($most_viewed_posts as $most_viewed_post)
-                            <div class="card m-1">
-                                <img class="card-img-top img-fluid" src="{{ url('/storage/thumbnails/'.$most_viewed_post->image) }}" alt="Card image cap">
-                                <div class="card-block">
-                                    <a href="{{URL::to('/read_update/'.$most_viewed_post->view_id)}}" class="card-text text-primary">
-                                        <strong>{{ substr(strip_tags($most_viewed_post->header),0,65) }}{{ strlen(strip_tags($most_viewed_post->header)) > 65 ? "...":"" }}</strong>
+                        <div class="row no-gutters align-items-center">
+                            @foreach($news as $news_update)
+                            <div class="col-md-4">
+                                <div v-on:mouseover="changenewscolor" v-on:mouseleave="changebacknewscolor" class="card card-primary mr-3 mb-3" v-bind:class="[ newscardcolor ]">
+                                    <a href="{{URL::to('/news')}}">
+                                        <img class="card-img-top img-fluid" src="{{ url('/storage/thumbnails/'.$news_update->image) }}" alt="Card image cap">
                                     </a>
-                                    <?php $date = new Jenssegers\Date\Date($most_viewed_post->created_at); ?>
-                                    <p class="card-text"><small class="text-muted">Posted {{ $date->ago() }}</small></p>
-                                </div>
-                                <?php
-                                $unique_views = App\View::select('viewed_by','created_at')->where('view_id', $most_viewed_post->view_id)->orderBy('created_at')->get();
-                                $unique_views = $unique_views->unique('viewed_by');
-                                $total_unique_view_count = $unique_views->count();
-                                ?>
-                                <div class="card-footer text-center">
-                                    <a href="#" class="btn btn-sm btn-warning {{ Auth::user()->username == 'derick.ruganuza'? '':'disabled' }}" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($total_unique_view_count == 0) No Views @else @foreach($unique_views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif"><i class="fa fa-eye" aria-hidden="true"></i> {{ $most_viewed_post->viewed_by }} {{ $most_viewed_post->viewed_by == 1?'viewer':'viewers' }}</a>
-                                    <a href="{{URL::to('/read_update/'.$most_viewed_post->view_id)}}" class="btn btn-sm btn-success"><i class="fa fa-book" aria-hidden="true"></i> Read</a>
+                                    <div class="card-block">
+                                        <a href="{{URL::to('/news')}}" class="card-text" v-bind:class="[ newstextcolor ]">
+                                            <strong>{{ substr(strip_tags($news_update->header),0,35) }}{{ strlen(strip_tags($news_update->header)) > 35 ? "...":"" }}</strong>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                             @endforeach
                         </div>
                         @endif
 
-                        @if(Session::has('read_update'))
-                        <!-- start of News Pop Up Modal -->
-                        <div class="modal fade read-update-modal" id='read-update-modal' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
+                        @if($stories->count() != 0)
+                        <div class="d-flex justify-content-start">
+                            <h1>
+                                <span class="small">Stories</span>
+                            </h1>
+                            <h1 class="ml-auto mr-3">
+                                <span class="smaller font-weight-bold">Recently posted</span>
+                            </h1>
+                        </div>
+
+                        <div class="row no-gutters align-items-center">
+                            @foreach($stories as $story)
+                            <div class="col-md-4">
+                                <div v-on:mouseover="changestorycolor" v-on:mouseleave="changebackstorycolor" class="card card-primary mr-3 mb-3" v-bind:class="[ storycardcolor ]">
+                                    <a href="{{URL::to('/storiyangu')}}">
+                                        <img class="card-img-top img-fluid" src="{{ url('/storage/thumbnails/'.$story->image) }}" alt="Card image cap">
+                                    </a>
+                                    <div class="card-block">
+                                        <a href="{{URL::to('/storiyangu')}}" class="card-text" v-bind:class="[ storytextcolor ]">
+                                            <strong>{{ substr(strip_tags($story->caption),0,35) }}{{ strlen(strip_tags($story->caption)) > 35 ? "...":"" }}</strong>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @endif
+                        
+                        @if($recent_media_alerts_date->count() > 0)
+                        <div class="d-flex justify-content-start">
+                            <h1>
+                                <span class="small">Media Alerts</span>
+                            </h1>
+                            <h1 class="ml-auto">
+                                <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
+                                <?php $date = new Jenssegers\Date\Date($recent_media_alerts_date->date); ?>
+                                <span class="smaller"><strong>Posted on</strong> {{ $date->format('M j, Y') }}</span>
+                            </h1>
+                        </div>
+                        
+                            <div class="panel panel-default mb-4">
+
+                                <div id="media-alert-accordion" role="tablist" aria-multiselectable="true">
+                                    @foreach($mediaalerts as $mediaalert)
+                                        <?php $date = new Jenssegers\Date\Date($mediaalert->date); ?>
+                                        @if($date->format('d F Y') == $recent_media_alerts_date->date)
+                                        <div class="card mb-1">
+                                            <div class="card-header d-flex" role="tab" id="heading{{ $mediaalert->id }}">
+                                                <h5 class="mb-0">
+                                                    <a data-toggle="collapse" data-parent="#media-alert-accordion" href="#collapse{{ $mediaalert->id }}" aria-expanded="true" aria-controls="collapse{{ $mediaalert->id }}">
+                                                        <small>{{ $mediaalert->header }}</small>
+                                                    </a>
+                                                    <br>
+                                                    <span class="badge badge-success smaller font-italic">{{ $mediaalert->source }}</span>
+                                                    @if($mediaalert->type == 'Link')
+                                                    <span class="badge badge-primary smaller font-italic">External link</span>
+                                                    @endif
+                                                </h5>
+                                            </div>
+                                            <div id="collapse{{ $mediaalert->id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ $mediaalert->id }}">
+                                                @if($mediaalert->type == 'Image')
+                                                <a role="button" v-on:click="showModal({{$mediaalert}})" data-toggle="modal" data-target="#media-alert-modal" >
+                                                    <img class="img-fluid img-responsive img-thumbnail" src="{{ URL::to('imagecache/original/'.$mediaalert->mediacontent) }}" alt="Image Alt" style="width: 100%;">
+                                                </a>
+                                                @elseif($mediaalert->type == 'Link')
+                                                <div class="card-block">
+                                                    <a class="btn btn-sm btn-primary" target="_blank" href='{{ $mediaalert->mediacontent }}'>
+                                                        Click to view external media link
+                                                    </a>
+                                                </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        <!-- Start of Media alert Popup Modal -->
+                        <div class="modal fade" id="media-alert-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-xl" role="document">
                                 <div class="modal-content">
-                                    <div class="modal-header bg-primary text-white">
-                                        <h5 class="modal-title" id="exampleModalLabel">{{ App\News::find(Session::get('read_update'))->header }}</h5>
+                                    <div class="modal-header">
+                                        <h6 class="modal-title" id="exampleModalLabel">
+                                            @{{header}}
+                                            <span class="badge badge-success font-italic">@{{ source }}</span>
+                                        </h6>
+
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <img class="featurette-image img-fluid mx-auto d-flex justify-content-center" src="{{url('/storage/'.App\News::find(Session::get('read_update'))->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-                                                <hr>
-                                            </div>
-                                            <div class="col-12">
-                                                <blockquote class="blockquote">
-                                                    <p class="text-justify lead">
-                                                        {!! App\News::find(Session::get('read_update'))->description !!}
-                                                    </p>
-                                                    <footer class="blockquote-footer">Source <cite title="Source Title" class=" text-primary">{{ App\News::find(Session::get('read_update'))->source }}</cite></footer>
-                                                </blockquote>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="card">
-                                                    <div class="card-block">
-                                                        {!! App\News::find(Session::get('read_update'))->story !!}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <br>
-                                                <blockquote class="blockquote blockquote-reverse">
-                                                    <p class="mb-0">Uploaded By <em class="text-primary">{{ App\User::find(App\News::find(Session::get('read_update'))->created_by)->firstname.' '.App\User::find(App\News::find(Session::get('read_update'))->created_by)->secondname }}</em></p>
-                                                    <?php $date = new Jenssegers\Date\Date(App\News::find(Session::get('read_update'))->created_at); ?>
-                                                    <footer class="text-success"><small>{{ $date->format('l j F Y').' at '.$date->format('h:i A') }}</small></footer>
-                                                </blockquote>
-                                            </div>
-                                        </div>
+                                    <div class="">
+                                        <img class="img-fluid img-responsive img-thumbnail" v-bind:src="image" alt="Image Alt" style="width: 100%;">
                                     </div>
-                                    <div class="modal-footer bg-inverse text-white">
-                                        <a class="btn btn-primary" href="{{URL::to('/like_update/'.App\News::find(Session::get('read_update'))->id)}}" role="button">
-                                            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> like
-                                        </a>
-                                        <a class="btn btn-danger" data-dismiss="modal" role="button">
-                                            <i class="fa fa-close fa-lg" aria-hidden="true"></i> Close
-                                        </a>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- /.end News Modal -->
-                        @endif
-
-<!--                        <h1 class="text-center featurette-heading">
-                            <i class="fa fa-list" aria-hidden="true"></i> Canteen
-                        </h1>
-
-                        <div class="card-deck">
-                            <div class="card card-inverse card-success">
-                                <a href="{{URL::to('/canteen/break_fast')}}" style="text-decoration: none;">
-                                    <div class="card-block">
-                                        <h3 class="card-title">Break Fast</h3>
-                                    </div>
-                                </a>
-                                <img class="card-img-bottom img-fluid" src="{{url('/image/breakfast-recipes-that-include-english-muffins.jpg')}}" alt="Card image cap">
-                            </div>
-                            <div class="card card-inverse card-primary">
-                                <img class="card-img-top img-fluid" src="{{url('/image/pexels-photo-70497.jpeg')}}" alt="Card image cap">
-                                <a href="{{URL::to('/canteen/lunch')}}" style="text-decoration: none;">
-                                    <div class="card-block">
-                                        <h3 class="card-title">Lunch</h3>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>-->
-
+                        </div><!-- End of Media alert Popup Modal -->
                     </div>
 
-                    <div class="col-md-4">
-                        <h2>
-                            <i class="fa fa-link" aria-hidden="true"></i> 
-                            Links
-                        </h2>
-
-                        <div class="card m-2">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item" style="background-color: ">
-                                    <a target="_blank" href="http://newgo.wfp.org/documents/daily-subsistence-allowance-dsa?country=tanzania-united-rep-of-shilling#block--dsa-rates" class="card-link"><i class="fa fa-link" aria-hidden="true"></i> DSA Rates</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a target="_blank" href="https://treasury.un.org/operationalrates/OperationalRates.php#T" class="card-link"><i class="fa fa-link" aria-hidden="true"></i> UN Exchange Rates</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a target="_blank" href="https://trip.dss.un.org/dssweb/WelcometoUNDSS/tabid/105/Default.aspx?returnurl=%2fdssweb%2f" class="card-link"><i class="fa fa-link" aria-hidden="true"></i> Security Clearance</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a target="_blank" href="https://wga.wfp.org/accounts/Reset" class="card-link"><i class="fa fa-link" aria-hidden="true"></i> Reset your Password</a>
-                                </li>
-                            </ul>
+                    <div class="col-md-3">
+                         <div class="d-flex justify-content-start">
+                            <h1>
+                                <span class="small">Links</span>
+                            </h1>
+                            <h1 class="ml-auto">
+                                <span class="smaller font-weight-bold">Most visited</span>
+                            </h1>
                         </div>
-
-                        <a class="twitter-timeline" data-height="500" href="https://twitter.com/WFP_Tanzania">
-                            Tweets by WFP_Tanzania
-                        </a> 
-                        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        <div class="list-group">
+                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/internaldirectory')}}" class="card-link">
+                                Telephone Bills
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/resource#hr')}}" class="card-link">
+                                HR Forms
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/resource#sop')}}" class="card-link">
+                                SOPs
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/resource#sop')}}" class="card-link">
+                                WFPgo
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/resource#sop')}}" class="card-link">
+                                WINGSII
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Three columns of text below the carousel -->
-
-
-                <hr class="featurette-divider">
+                <hr>
 
                 <!-- FOOTER -->
                 @include('frames/footer')

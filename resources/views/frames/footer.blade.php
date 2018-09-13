@@ -42,18 +42,61 @@
         <!-- Vue.js code for media alert -->
         <script>
             var vm = new Vue ({
-                el:"#media-alerts",
+                el:"#app",
                 data:{
                     mediatype:{!! json_encode(old('mediatype')) !!},
-                    header:'',
-                    source:'',
-                    image:''
+                    type:{!! ($errors->has('type'))?json_encode(Session::get('mediatype')):json_encode(old('type')) !!},
+                    mediaisimage:false,
+                    mediaislink:false,
+                    header:{!! ($errors->has('header'))?json_encode(Session::get('header')):json_encode(old('header')) !!},
+                    source:{!! ($errors->has('source'))?json_encode(Session::get('source')):json_encode(old('source')) !!},
+                    mediacontent:{!! ($errors->has('mediacontent'))?json_encode(Session::get('mediacontent')):json_encode(Session::get('mediacontent')) !!},
+                    mediaid:'edit_media_alert/' + {!! ($errors->any())?json_encode(Session::get('mediaid')):json_encode('') !!},
+                    newscardcolor:'card-outline-primary',
+                    newstextcolor:'text-primary',
+                    storycardcolor:'card-outline-primary',
+                    storytextcolor:'text-primary'
+                },
+                mounted: function(){
+                    if(this.type == 'Image'){
+                        this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + this.mediacontent;
+                        this.mediaisimage = true;
+                    }
                 },
                 methods:{
                     showModal: function(media){
                         this.header = media.header;
-                        this.image = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
+                        this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
                         this.source = media.source;
+                    },
+                    editModal: function(media){
+                        this.mediaid = 'edit_media_alert/' + media.id;
+                        this.header = media.header;
+                        this.type = media.type;
+                        this.source = media.source;
+                        if(this.type == 'Image'){
+                            this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
+                            this.mediaisimage = true;
+                        }else{
+                            this.mediacontent = media.mediacontent;
+                            this.mediaislink = true;
+                        }
+                    },
+                    changenewscolor: function(){
+                        this.newscardcolor = '';
+                        this.newstextcolor = 'text-white';
+                    },
+                    changebacknewscolor: function(){
+                        this.newscardcolor = 'card-outline-primary';
+                        this.newstextcolor = 'text-primary';
+                    },
+                    changestorycolor: function(){
+                        this.storycardcolor = '';
+                        this.storytextcolor = 'text-white';
+                    },
+                    changebackstorycolor: function(){
+                        this.storycardcolor = 'card-outline-primary';
+                        this.storytextcolor = 'text-primary';
                     }
                 }
             });
@@ -150,6 +193,10 @@
         
         @if(Session::has('new_media_alert_error'))
         <script>$('#add-media-alert-modal').modal('show');</script>
+        @endif
+        
+        @if(Session::has('edit_media_alert_error'))
+        <script>$('#edit-media-alert-modal').modal('show');</script>
         @endif
     </body>
 </html>

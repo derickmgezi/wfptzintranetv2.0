@@ -18,22 +18,22 @@ Route::get('/signout', 'UserController@logout');
 
 
 Route::group(['middleware' => ['guest']], function () {
-
+    
     Route::get('/home', 'HomeController@index');
-    
-    Route::get('/innovation', 'InnovationController@index');
-    
-    Route::get('/latestnewsupdates', 'HomeController@latestnewsupdates');
-    
-    Route::get('/unreadnewsupdate', 'HomeController@unreadnewsupdate');
 
-    Route::get('/newsupdateviews', 'HomeController@newsupdateviews');
+    Route::get('/news', 'UpdateController@index');
     
-    Route::get('/newsupdatelikes', 'HomeController@newsupdatelikes');
+    Route::get('/latestnewsupdates', 'UpdateController@latestnewsupdates');
     
-    Route::get('/newsupdatecomments', 'HomeController@newsupdatecomments');
+    Route::get('/unreadnewsupdate', 'UpdateController@unreadnewsupdate');
+
+    Route::get('/newsupdateviews', 'UpdateController@newsupdateviews');
     
-    Route::get('/mynewsupdate', 'HomeController@mynewsupdate');
+    Route::get('/newsupdatelikes', 'UpdateController@newsupdatelikes');
+    
+    Route::get('/newsupdatecomments', 'UpdateController@newsupdatecomments');
+    
+    Route::get('/mynewsupdate', 'UpdateController@mynewsupdate');
     
     Route::get('/communications', 'PIController@index');
 
@@ -152,6 +152,10 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/mediaalerts', 'MediaalertController@index');
     
     Route::post('/store_media_alert', 'MediaalertController@store');
+    
+    Route::post('/edit_media_alert/{id}', 'MediaalertController@update');
+    
+    Route::get('/innovation', 'InnovationController@index');
 
     Route::get('/resource', 'ResourceController@index');
     

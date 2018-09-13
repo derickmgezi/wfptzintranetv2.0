@@ -14,45 +14,45 @@
 
             <div class="container-fluid marketing"> 
 
-                
+
                 <div class="row">
                     <div class="col-12">
                         <h1>
                             <div class="d-flex justify-content-between hidden-md-down">
                                 <div class="">
-                                    <!-- <i class="fa fa-commenting-o" aria-hidden="true"></i> --> Stories
+                                    <!-- <i class="fa fa-commenting-o" aria-hidden="true"></i> --> <span class="small">Stories</span>
                                 </div>
-                                    
+
                                 <div class="">
                                     <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                                        <a href="#" class="btn btn-secondary">
+                                        <!-- <a href="#" class="btn btn-secondary">
                                             <i class="fa fa-sort" aria-hidden="true"></i> Arrange by
-                                        </a>
-                                        <a id="btnGroupDrop1" href="{{URL::to('/lateststory')}}" class="btn btn-info {{ (session('storyurl') == NULL || session('storyurl') == 'lateststory')?'disabled':'' }}" data-toggle="tooltip" data-placement="top" title="Most recent stories">
+                                        </a> -->
+                                        <a id="btnGroupDrop1" href="{{URL::to('/lateststory')}}" class="btn {{ (session('storyurl') == NULL || session('storyurl') == 'lateststory')?'disabled btn-primary':'btn-secondary' }}" data-toggle="tooltip" data-placement="top" title="Most recent stories">
                                             <i class="fa fa-clock-o {{ (session('storyurl') == NULL || session('storyurl') == 'lateststory')?'faa-shake animated':'' }}" aria-hidden="true"></i> Recent
                                         </a>
-                                        <a id="btnGroupDrop1" href="{{URL::to('/unreadstory')}}" class="btn btn-danger {{ (session('storyurl') == 'unreadstory')?'disabled':'' }}" data-toggle="tooltip" data-placement="top" title="Unread stories">
+                                        <a id="btnGroupDrop1" href="{{URL::to('/unreadstory')}}" class="btn {{ (session('storyurl') == 'unreadstory')?'disabled btn-primary':'btn-secondary' }}" data-toggle="tooltip" data-placement="top" title="Unread stories">
                                             <i class="fa fa-eye-slash {{ (session('storyurl') == 'unreadstory')?'disabled faa-shake animated':'' }}" aria-hidden="true"></i> Unread
                                         </a>
-                                        <a id="btnGroupDrop1" href="{{URL::to('/storyviews')}}" class="btn btn-warning {{ (session('storyurl') == 'storyviews')?'disabled':'' }}" data-toggle="tooltip" data-placement="top" title="Most read stories">
-                                            <i class="fa fa-eye {{ (session('storyurl') == 'storyviews')?'faa-shake animated':'' }}" aria-hidden="true"></i> Most viewed
+                                        <a id="btnGroupDrop1" href="{{URL::to('/storyviews')}}" class="btn {{ (session('storyurl') == 'storyviews')?'disabled btn-primary':'btn-secondary' }}" data-toggle="tooltip" data-placement="top" title="Most read stories">
+                                            <i class="fa fa-eye {{ (session('storyurl') == 'storyviews')?'faa-shake animated':'' }}" aria-hidden="true"></i> Views
                                         </a>
-                                        <a id="btnGroupDrop1" href="{{URL::to('/storylikes')}}" class="btn btn-primary {{ (session('storyurl') == 'storylikes')?'disabled':'' }}" data-toggle="tooltip" data-placement="top" title="Most liked stories">
-                                            <i class="fa fa-thumbs-up {{ (session('storyurl') == 'storylikes')?'faa-shake animated':'' }}" aria-hidden="true"></i> Most liked
+                                        <a id="btnGroupDrop1" href="{{URL::to('/storylikes')}}" class="btn {{ (session('storyurl') == 'storylikes')?'disabled btn-primary':'btn-secondary' }}" data-toggle="tooltip" data-placement="top" title="Most liked stories">
+                                            <i class="fa fa-thumbs-up {{ (session('storyurl') == 'storylikes')?'faa-shake animated':'' }}" aria-hidden="true"></i> Likes
                                         </a>
-                                        <a id="btnGroupDrop1" href="{{URL::to('/storycomments')}}" class="btn btn-secondary {{ (session('storyurl') == 'storycomments')?'disabled':'' }}" data-toggle="tooltip" data-placement="top" title="Most commented stories">
-                                            <i class="fa fa-comments {{ (session('storyurl') == 'storycomments')?'faa-shake animated':'' }}" aria-hidden="true"></i> Most commented
+                                        <a id="btnGroupDrop1" href="{{URL::to('/storycomments')}}" class="btn {{ (session('storyurl') == 'storycomments')?'disabled btn-primary':'btn-secondary' }}" data-toggle="tooltip" data-placement="top" title="Most commented stories">
+                                            <i class="fa fa-comments {{ (session('storyurl') == 'storycomments')?'faa-shake animated':'' }}" aria-hidden="true"></i> Comments
                                         </a>
-                                        <a id="btnGroupDrop1" href="{{URL::to('/mystory')}}" class="btn btn-success {{ (session('storyurl') == 'mystory')?'disabled':'' }}" data-toggle="tooltip" data-placement="top" title="Stories you posted">
+                                        <a id="btnGroupDrop1" href="{{URL::to('/mystory')}}" class="btn {{ (session('storyurl') == 'mystory')?'disabled btn-primary':'btn-secondary' }}" data-toggle="tooltip" data-placement="top" title="Stories you posted">
                                             <i class="fa fa-user-circle-o {{ (session('storyurl') == 'mystory')?'faa-shake animated':'' }}" aria-hidden="true"></i> My Stories
                                         </a>
                                     </div>
                                 </div>
 
                                 <div class="">
-<!--                                    <a class="btn btn-warning" href="{{ URL::to('/resizethumbnails') }}">
-                                       <i class="fa fa-expand" aria-hidden="true"></i>
-                                    </a>-->
+                                    <!--                                    <a class="btn btn-warning" href="{{ URL::to('/resizethumbnails') }}">
+                                                                           <i class="fa fa-expand" aria-hidden="true"></i>
+                                                                        </a>-->
                                     <a class="btn btn-success btn-sm" @if(Session::has('edit_story') || Session::has('edit_story_error')) href="{{URL::to('/addstory/')}}" @else data-toggle="modal" data-target="#add-story-modal" href="#"  @endif  role="button">
                                        <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add Your Story
                                     </a>
@@ -60,71 +60,66 @@
                             </div>
                             <div class="d-flex justify-content-start hidden-lg-up">
                                 <div class="">
-                                    <!--<i class="fa fa-commenting-o" aria-hidden="true"></i>--> Stori
-                                    <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                                        <button type="button" class="btn btn-secondary">
-                                            Order By
+                                    <!--<i class="fa fa-commenting-o" aria-hidden="true"></i>--> <span class="small">Story</span>
+
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        @if(session('storyurl') == NULL || session('storyurl') == 'lateststory')
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-clock-o faa-shake animated" aria-hidden="true"></i> Latest <i class="fa fa-sort" aria-hidden="true"></i>
                                         </button>
-                                        
-                                        <div class="btn-group btn-group-sm" role="group">
-                                                @if(session('storyurl') == NULL || session('storyurl') == 'lateststory')
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-clock-o faa-shake animated" aria-hidden="true"></i> Latest <i class="fa fa-sort" aria-hidden="true"></i>
-                                                </button>
-                                                @elseif(session('storyurl') == 'unreadstory')
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-danger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-eye-slash" aria-hidden="true"></i> Unread <i class="fa fa-sort" aria-hidden="true"></i>
-                                                </button>
-                                                @elseif(session('storyurl') == 'storyviews')
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-eye faa-shake animated" aria-hidden="true"></i> Views <i class="fa fa-sort" aria-hidden="true"></i>
-                                                </button>
-                                                @elseif(session('storyurl') == 'storylikes')
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-thumbs-up faa-shake animated" aria-hidden="true"></i> Likes <i class="fa fa-sort" aria-hidden="true"></i>
-                                                </button>
-                                                @elseif(session('storyurl') == 'storycomments')
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-comments faa-shake animated" aria-hidden="true"></i> Comments <i class="fa fa-sort" aria-hidden="true"></i>
-                                                </button>
-                                                @elseif(session('storyurl') == 'mystory')
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-user-circle-o faa-shake animated" aria-hidden="true"></i> My Stories <i class="fa fa-sort" aria-hidden="true"></i>
-                                                </button>
-                                                @endif
-                                            
-                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                @if(session('storyurl') != NULL && session('storyurl') != 'lateststory')
-                                                <a class="dropdown-item" href="{{URL::to('/storiyangu')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Latest</a>
-                                                <div class="dropdown-divider"></div>
-                                                @endif
-                                                @if(session('storyurl') != 'unreadstory')
-                                                <a class="dropdown-item" href="{{URL::to('/unreadstory')}}"><i class="fa fa-eye-slash" aria-hidden="true"></i> Unread</a>
-                                                <div class="dropdown-divider"></div>
-                                                @endif
-                                                @if(session('storyurl') != 'storyviews')
-                                                <a class="dropdown-item" href="{{URL::to('/storyviews')}}"><i class="fa fa-eye" aria-hidden="true"></i> Views</a>
-                                                <div class="dropdown-divider"></div>
-                                                @endif
-                                                @if(session('storyurl') != 'storylikes')
-                                                <a class="dropdown-item" href="{{URL::to('/storylikes')}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a>
-                                                <div class="dropdown-divider"></div>
-                                                @endif
-                                                @if(session('storyurl') != 'storycomments')
-                                                <a class="dropdown-item" href="{{URL::to('/storycomments')}}"><i class="fa fa-comments" aria-hidden="true"></i> Comments</a>
-                                                <div class="dropdown-divider"></div>
-                                                @endif
-                                                @if(session('storyurl') != 'mystory')
-                                                <a class="dropdown-item" href="{{URL::to('/mystory')}}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My Stories</a>
-                                                @endif
-                                            </div>
+                                        @elseif(session('storyurl') == 'unreadstory')
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-danger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-eye-slash" aria-hidden="true"></i> Unread <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </button>
+                                        @elseif(session('storyurl') == 'storyviews')
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-eye faa-shake animated" aria-hidden="true"></i> Views <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </button>
+                                        @elseif(session('storyurl') == 'storylikes')
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-thumbs-up faa-shake animated" aria-hidden="true"></i> Likes <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </button>
+                                        @elseif(session('storyurl') == 'storycomments')
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-comments faa-shake animated" aria-hidden="true"></i> Comments <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </button>
+                                        @elseif(session('storyurl') == 'mystory')
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-user-circle-o faa-shake animated" aria-hidden="true"></i> My Stories <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </button>
+                                        @endif
+
+                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                            @if(session('storyurl') != NULL && session('storyurl') != 'lateststory')
+                                            <a class="dropdown-item" href="{{URL::to('/storiyangu')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Latest</a>
+                                            <div class="dropdown-divider"></div>
+                                            @endif
+                                            @if(session('storyurl') != 'unreadstory')
+                                            <a class="dropdown-item" href="{{URL::to('/unreadstory')}}"><i class="fa fa-eye-slash" aria-hidden="true"></i> Unread</a>
+                                            <div class="dropdown-divider"></div>
+                                            @endif
+                                            @if(session('storyurl') != 'storyviews')
+                                            <a class="dropdown-item" href="{{URL::to('/storyviews')}}"><i class="fa fa-eye" aria-hidden="true"></i> Views</a>
+                                            <div class="dropdown-divider"></div>
+                                            @endif
+                                            @if(session('storyurl') != 'storylikes')
+                                            <a class="dropdown-item" href="{{URL::to('/storylikes')}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a>
+                                            <div class="dropdown-divider"></div>
+                                            @endif
+                                            @if(session('storyurl') != 'storycomments')
+                                            <a class="dropdown-item" href="{{URL::to('/storycomments')}}"><i class="fa fa-comments" aria-hidden="true"></i> Comments</a>
+                                            <div class="dropdown-divider"></div>
+                                            @endif
+                                            @if(session('storyurl') != 'mystory')
+                                            <a class="dropdown-item" href="{{URL::to('/mystory')}}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My Stories</a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="ml-auto" style="background-color: yellow">
+                                <div class="ml-auto">
                                     <a class="btn btn-sm btn-success" @if(Session::has('edit_story') || Session::has('edit_story_error')) href="{{URL::to('/addstory/')}}" @else data-toggle="modal" data-target="#add-story-modal" href="#"  @endif  role="button">
-                                       <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add Story
+                                       <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Story
                                     </a>
                                 </div>
                             </div>
@@ -264,7 +259,7 @@
                                     <small class="text-muted">{{ $date->ago() }}</small>
                                 </div>
 
-                                
+
                             </div>
                         </div>
                     </div>
@@ -280,7 +275,7 @@
                         </nav>
                     </div>
                     @endif
-                    
+
                 </div>
 
                 <!-- /END THE FEATURETTES -->

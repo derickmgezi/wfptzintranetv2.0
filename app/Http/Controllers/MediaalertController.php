@@ -128,6 +128,7 @@ class MediaalertController extends Controller {
      */
     public function edit($id) {
         //
+        
     }
 
     /**
@@ -138,7 +139,48 @@ class MediaalertController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        $mediaalert = Mediaalert::find($id);
+        //dd("Selection Media type: ".$request->type." Original Media Type: ".$mediaalert->type);
+
+        if($request->type == 'Link'){
+            $validator = Validator::make($request->all(), [
+                'header' => 'required',
+                'source' => 'required',
+                'type' => 'required',
+                'mediacontent' => 'required|url',
+            ]);
+        }elseif($request->type == 'Image' && $mediaalert->type == "Link"){
+            $validator = Validator::make($request->all(), [
+                'header' => 'required',
+                'source' => 'required',
+                'type' => 'required',
+                'mediacontent' => 'required|image',
+            ]);
+        }elseif($request->hasFile('mediacontent')){
+            $validator = Validator::make($request->all(), [
+                'header' => 'required',
+                'source' => 'required',
+                'type' => 'required',
+                'mediacontent' => 'required|image',
+            ]);
+        }else{
+            $validator = Validator::make($request->all(), [
+                'header' => 'required',
+                'source' => 'required',
+                'type' => 'required',
+            ]);
+        }
+        
+        if ($validator->fails()) {
+            //dd("Return to Media Page");
+            Session::flash('edit_media_alert_error', 'Media Alert Edit Error');
+            Session::flash('mediaid',$id);
+            Session::flash('mediatype',$mediaalert->type);
+            Session::flash('mediacontent',$mediaalert->mediacontent);
+            return back()->withErrors($validator)->withInput();
+        }
+        //dd("Return to Media Page");
+        return back();
     }
 
     /**

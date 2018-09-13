@@ -157,49 +157,33 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
-                    <!--                    <li class="nav-item active">
-                                            <a target="_blank" class="nav-link" href="http://go.wfp.org">WFP Go<span class="sr-only">(current)</span></a>
-                                        </li>
-                                        <li class="nav-item active">
-                                            <a target="_blank" class="nav-link" href="http://mfapps.wfp.org">WINGS</a>
-                                        </li>
-                                        <li class="nav-item active">
-                                            <a target="_blank" class="nav-link" href="http://mail.wfp.org">WEB Mail</a>
-                                        </li>
-                                        <li class="nav-item active">
-                                            <a target="_blank" class="nav-link" href="http://pace.wfp.org">PACE</a>
-                                        </li>
-                                        <li class="nav-item active">
-                                            <a target="_blank" class="nav-link" href="http://info.wfp.org">WFP Info</a>
-                                        </li>-->
                     @if(Auth::user()->title != 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/home')}}">
-                            | <i class="fa fa-home fa-lg {{((Request::is('home'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span> @if(session('unreadnewsupdates')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadnewsupdates') }} unread News Updat{{ session('unreadnewsupdates') != 1?"es":"e" }}">{{ session('unreadnewsupdates') }}+</span>@endif
+                            | <i class="fa fa-home fa-lg {{((Request::is('home'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{URL::to('/news')}}">
+                            | <i class="fa fa-television fa-lg {{((Request::is('news'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>News</small> <span class="sr-only">(current)</span> @if(session('unreadnewsupdates')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadnewsupdates') }} unread News Updat{{ session('unreadnewsupdates') != 1?"es":"e" }}"><i class="fa fa-bell faa-shake animated" aria-hidden="true"></i> {{ session('unreadnewsupdates') }}+</span>@endif
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/storiyangu')}}">
-                            | <i class="fa fa-commenting-o fa-lg {{((Request::is('storiyangu'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span> @if(session('unreadstories')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadstories') }} unread Stor{{ session('unreadstories') != 1?"ies":"y" }}">{{ session('unreadstories') }}+</span>@endif
+                            | <i class="fa fa-commenting-o fa-lg {{((Request::is('storiyangu'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span> @if(session('unreadstories')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadstories') }} unread Stor{{ session('unreadstories') != 1?"ies":"y" }}"><i class="fa fa-bell faa-shake animated" aria-hidden="true"></i> {{ session('unreadstories') }}+</span>@endif
                         </a>
                     </li>
-                    <!--  <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/mediaalerts')}}">
                             | <i class="fa fa-newspaper-o fa-lg {{((Request::is('mediaalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Media Alerts</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/innovation')}}">
                             | <i class="fa fa-lightbulb-o fa-lg {{Request::is('innovation')}} 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Innovation Corner</small> <span class="badge" style="background-color: red;">99+</span>
                         </a>
                     </li> -->
-                    <!--  <li class="nav-item">
-                         <a class="nav-link active" href="{{URL::to('/innovation')}}" data-toggle="modal" data-target="#exampleModalLong">
-                             | <i class="fa fa-lightbulb-o faa-pulse animated fa-lg {{request::is('innovation')}} 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Innovation Corner</small> <span class="badge" style="background-color: red;">99+</span>
-                         </a>
-                     </li> -->
                     @endif
-
                 </ul>
 
                 <div class="navbar-brand">
