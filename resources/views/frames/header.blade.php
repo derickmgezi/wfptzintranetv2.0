@@ -11,7 +11,7 @@
 
         <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
 
-<!--  <script src="//code.jquery.com/jquery.min.js"></script> -->
+        <!--  <script src="//code.jquery.com/jquery.min.js"></script> -->
 
         <title>Wazo</title>
 
@@ -42,6 +42,9 @@
 
         <!-- for zooming image-->
         {{ Html::style('css/xzoom.css') }}
+
+        <!-- Animated CSS Library from https://daneden.github.io/animate.css/ -->
+        {{ Html::style('css/animate.css') }}
 
         <!-- XZOOM JQUERY PLUGIN  -->
         {{HTML::script("js/jquery.min.js")}}
@@ -165,17 +168,17 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/news')}}">
-                            | <i class="fa fa-television fa-lg {{((Request::is('news'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>News</small> <span class="sr-only">(current)</span> @if(session('unreadnewsupdates')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadnewsupdates') }} unread News Updat{{ session('unreadnewsupdates') != 1?"es":"e" }}"><i class="fa fa-bell faa-shake animated" aria-hidden="true"></i> {{ session('unreadnewsupdates') }}+</span>@endif
+                            | <i class="fa fa-television fa-lg {{((Request::is('news'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>WFP Updates</small> <span class="sr-only">(current)</span> @if(session('unreadnewsupdates')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadnewsupdates') }} unread News Updat{{ session('unreadnewsupdates') != 1?"es":"e" }}">{{ session('unreadnewsupdates') }}+</span>@endif
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/storiyangu')}}">
-                            | <i class="fa fa-commenting-o fa-lg {{((Request::is('storiyangu'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span> @if(session('unreadstories')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadstories') }} unread Stor{{ session('unreadstories') != 1?"ies":"y" }}"><i class="fa fa-bell faa-shake animated" aria-hidden="true"></i> {{ session('unreadstories') }}+</span>@endif
+                            | <i class="fa fa-commenting-o fa-lg {{((Request::is('storiyangu'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Stori Yangu</small> <span class="sr-only">(current)</span> @if(session('unreadstories')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadstories') }} unread Stor{{ session('unreadstories') != 1?"ies":"y" }}">{{ session('unreadstories') }}+</span>@endif
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/mediaalerts')}}">
-                            | <i class="fa fa-newspaper-o fa-lg {{((Request::is('mediaalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Media Alerts</small> <span class="sr-only">(current)</span>
+                            | <i class="fa fa-newspaper-o fa-lg {{((Request::is('mediaalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>News Alerts</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <!-- <li class="nav-item">

@@ -178,9 +178,43 @@ class MediaalertController extends Controller {
             Session::flash('mediatype',$mediaalert->type);
             Session::flash('mediacontent',$mediaalert->mediacontent);
             return back()->withErrors($validator)->withInput();
+        }else{
+            
+            if($request->type == 'Link'){
+                //Update the media alert in database
+                $mediaalert = MediaAlert::find($id);
+                $mediaalert->header = $request->header;
+                $mediaalert->mediacontent = $request->mediacontent;
+                $mediaalert->source = $request->source;
+                $mediaalert->type = $request->type;
+                $mediaalert->save();
+            }elseif($request->type == 'Image'){
+                if($request->hasFile('mediacontent')){
+                    //Upload the file in storage public folder
+                    $image_name = (string) ($request->mediacontent->store('public/mediaalerts'));
+                    $image_name = str_replace('public/', '', $image_name);
+
+                    //Upload the file in storage thumbnail public folder
+                    $thumb_image_name = (string) ($request->mediacontent->store('public/thumbnails/mediaalerts'));
+
+                    //Get full path of uploaded image from the thumbnails
+                    $path = storage_path('app/' . $thumb_image_name);
+
+                    //Load the image into Intervention Package for manipulation
+                    Image::make($path)->fit(1080, 1080)->save($path);
+                }
+
+                //Update the media alert in database
+                $mediaalert = MediaAlert::find($id);
+                $mediaalert->header = $request->header;
+                if($request->hasFile('mediacontent'))
+                $mediaalert->mediacontent = $image_name;
+                $mediaalert->source = $request->source;
+                $mediaalert->type = $request->type;
+                $mediaalert->save();
+            }
+            return back();
         }
-        //dd("Return to Media Page");
-        return back();
     }
 
     /**
@@ -189,8 +223,13 @@ class MediaalertController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function delete($id) {
         //
+        $mediaalert = Mediaalert::find($id);
+        $mediaalert->status = 0;
+        $mediaalert->save();
+
+        return back();
     }
 
 }

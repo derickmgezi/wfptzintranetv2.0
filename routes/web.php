@@ -154,6 +154,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/store_media_alert', 'MediaalertController@store');
     
     Route::post('/edit_media_alert/{id}', 'MediaalertController@update');
+
+    Route::get('/delete_media_alert/{id}', 'MediaalertController@delete');
     
     Route::get('/innovation', 'InnovationController@index');
 

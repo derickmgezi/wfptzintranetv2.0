@@ -15,25 +15,27 @@
                     <h1>
                         <div class="d-flex justify-content-start  hidden-sm-down">
                             <div class="">
-                                <span class="small">Media Alerts</span>
+                                <span class="small">News Alerts</span>
                             </div>
-
+                            @if(Auth::user()->department == "Communications")
                             <div class="ml-auto">
                                 <a class="btn btn-success" data-toggle="modal" data-target="#add-media-alert-modal" href="#" role="button">
                                    <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add Media Post
                                 </a>
                             </div>
+                            @endif
                         </div>
                         <div class="d-flex justify-content-start hidden-md-up">
                             <div class="">
-                                <span class="small">Media Alerts</span>
+                                <span class="small">News Alerts</span>
                             </div>
-
+                            @if(Auth::user()->department == "Communications")
                             <div class="ml-auto">
                                 <a class="btn btn-sm btn-success" data-toggle="modal" data-target="#add-media-alert-modal" href="#"  role="button">
                                    <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Media Post
                                 </a>
                             </div>
+                            @endif
                         </div>
                     </h1>
                     <!-- Add Media Alert Modal -->
@@ -128,14 +130,14 @@
 
                                     <div class="form-group @if($errors->has('header')){{ 'has-danger' }}@elseif(old('header')){{ 'has-success' }}@endif">
                                         <label for="headerText"><strong>Header</strong></label>
-                                        <input class="form-control @if($errors->has('header')){{ 'form-control-danger' }}@elseif(old('header')){{ 'form-control-success' }}@endif" type="text" name='header' value="{{ old('header') }}" v-bind:value="[header]" id="headerText" aria-describedby="text" placeholder="Media alert header">
+                                        <input class="form-control @if($errors->has('header')){{ 'form-control-danger' }}@elseif(old('header')){{ 'form-control-success' }}@endif" type="text" name='header' v-model="header" id="headerText" aria-describedby="text" placeholder="Media alert header">
                                         @if($errors->first('header'))<div class="form-control-feedback"><em>Header should be filled</em></div>
                                         @elseif(old('header'))<div class="form-control-feedback"><em>Success! Header has been captured.</em></div>@endif
                                     </div>
 
                                     <div class="form-group @if($errors->has('source')){{ 'has-danger' }}@elseif(old('source')){{ 'has-success' }}@endif">
                                         <label for="source"><strong>Source</strong></label>
-                                        <input class="form-control @if($errors->has('source')){{ 'form-control-danger' }}@elseif(old('source')){{ 'form-control-success' }}@endif" type="text" name='source' v-bind:value="[source]" value="{{ old('source') }}" placeholder="e.g The Guardian">
+                                        <input class="form-control @if($errors->has('source')){{ 'form-control-danger' }}@elseif(old('source')){{ 'form-control-success' }}@endif" type="text" name='source' v-model="source" placeholder="e.g The Guardian">
                                         @if($errors->has('source'))<div class="form-control-feedback"><em>Source should be filled</em></div>
                                         @elseif(old('source'))<div class="form-control-feedback"><em>Success! Source has been captured.</em></div>@endif
                                     </div>
@@ -163,7 +165,7 @@
                                             <strong>External Link</strong>
                                         </label>
 
-                                        <input class="form-control @if($errors->has('mediacontent')){{ 'form-control-danger' }}@elseif(old('mediacontent')){{ 'form-control-success' }}@endif" type="url" name='mediacontent' v-bind:value="[mediacontent]" placeholder="https://example.com">
+                                        <input class="form-control @if($errors->has('mediacontent')){{ 'form-control-danger' }}@elseif(old('mediacontent')){{ 'form-control-success' }}@endif" type="url" name='mediacontent' v-model="mediacontent" placeholder="https://example.com">
 
                                         @if($errors->has('mediacontent') && old('type') == 'Link')
                                         <div class="form-control-feedback">
@@ -209,6 +211,36 @@
                     </div>
                     {{Form::token()}}
                     {{Form::close()}}<!-- end Edit Media Alert Modal -->
+
+                    <!-- Start Delete Medial Alert Modal -->
+                    <div class="modal fade delete-media-alert-modal" id="delete-media-alert-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete Media Alert</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5 class="card-title ">
+                                    <a v-if="mediaislink" :href="mediacontent" target="_blank">@{{ header }}</a>
+                                    <a v-if="mediaisimage" href="">@{{ header }}</a>
+                                </h5>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                        @{{ source }}
+                                </h6>
+                                <p class="card-text">
+                                    <img v-if="mediaisimage" class="card-img-top img-fluid mb-1" v-bind:src="mediacontent" alt="Card image cap">
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i> No</button>
+                              <a :href="mediaid" class="btn btn-sm btn-danger"><i class="fa fa-check-square-o" aria-hidden="true"></i> Yes</a>
+                            </div>
+                          </div>
+                        </div>
+                    </div><!-- End Delete Medial Alert Modal -->
                 </div>
             </div>
 
@@ -222,7 +254,7 @@
                             <div class="panel panel-default mb-4">
                                 <div class="panel-heading">
                                     <?php $date = new Jenssegers\Date\Date($day->created_at); ?>
-                                    <!--  <h5>{{ $date->format('l j F Y, h:i A') }}</h5>-->
+                                    <!--  <h5>{{ $date->format('l j F Y, h:i A') }}</h5> -->
                                     <h5>{{ $date->format('M j, Y') }}</h5>
                                 </div>
 
@@ -233,22 +265,26 @@
                                         <div class="card mb-1">
                                             <div class="card-header" role="tab" id="heading{{ $mediaalert->id }}">
                                                 <h5 class="mb-0">
+                                                    @if($mediaalert->type == 'Link')
+                                                    <i class="fa fa-external-link" aria-hidden="true"></i>
+                                                    @else
+                                                    <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                                                    @endif
                                                     <a data-toggle="collapse" data-parent="#media-alert-accordion" href="#collapse{{ $mediaalert->id }}" aria-expanded="true" aria-controls="collapse{{ $mediaalert->id }}">
                                                         <small>{{ $mediaalert->header }}</small>
                                                     </a>
                                                     <br>
-                                                    <span class="badge badge-success smaller font-italic">{{ $mediaalert->source }}</span>
-                                                    @if($mediaalert->type == 'Link')
-                                                    <span class="badge badge-primary smaller font-italic">External link</span>
-                                                    @endif
+                                                    <span class="badge badge-default smaller font-italic">{{ $mediaalert->source }}</span>
+                                                    @if(Auth::user()->department == "Communications")
                                                     <div class="float-right">
                                                         <a v-on:click="editModal({{$mediaalert}})" role="button" class="text-warning" data-toggle="modal" data-target="#edit-media-alert-modal">
                                                             <i class="fa fa-pencil-square" aria-hidden="true"></i>
                                                         </a>
-                                                        <a v-on:click="deleteModal({{$mediaalert}})" role="button" class="text-danger">
+                                                        <a v-on:click="deleteModal({{$mediaalert}})" role="button" class="text-danger" data-toggle="modal" data-target="#delete-media-alert-modal">
                                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                                         </a>
                                                     </div>
+                                                    @endif
                                                 </h5>
                                             </div>
                                             <div id="collapse{{ $mediaalert->id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ $mediaalert->id }}">
@@ -257,9 +293,9 @@
                                                     <img class="img-fluid img-responsive img-thumbnail" src="{{ URL::to('imagecache/original/'.$mediaalert->mediacontent) }}" alt="Image Alt" style="width: 100%;">
                                                 </a>
                                                 @elseif($mediaalert->type == 'Link')
-                                                <div class="card-block">
-                                                    <a class="btn btn-sm btn-primary" target="_blank" href='{{ $mediaalert->mediacontent }}'>
-                                                        Click to view external media link
+                                                <div class="">
+                                                    <a class="badge badge-success m-3" target="_blank" href='{{ $mediaalert->mediacontent }}'>
+                                                        {{ substr(strip_tags($mediaalert->mediacontent),0,35) }}{{ strlen(strip_tags($mediaalert->mediacontent)) > 35 ? "...":"" }}
                                                     </a>
                                                 </div>
                                                 @endif
@@ -272,8 +308,8 @@
                             @endforeach
                         @else
                         <div class="alert alert-info" role="alert">
-                            <h4 class="alert-heading">Welcome to Media alerts Page</h4>
-                            <strong>Currently</strong> no media alerts have been posted yet.
+                            <h4 class="alert-heading">Welcome to News Alerts Page</h4>
+                            <strong>Currently</strong> no news alerts have been posted yet.
                             <a href="#" class="alert-link">Soon our communication unit</a>, will start posting news alerts daily.
                         </div>
                         @endif

@@ -21,6 +21,7 @@
         </script>
 
         <link href="css/style.css" rel="stylesheet">
+
         <script src="js/lightzoom.js"></script>
 
         <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
@@ -52,15 +53,23 @@
                     source:{!! ($errors->has('source'))?json_encode(Session::get('source')):json_encode(old('source')) !!},
                     mediacontent:{!! ($errors->has('mediacontent'))?json_encode(Session::get('mediacontent')):json_encode(Session::get('mediacontent')) !!},
                     mediaid:'edit_media_alert/' + {!! ($errors->any())?json_encode(Session::get('mediaid')):json_encode('') !!},
+                    
+                    @if(Request::is('home'))
+                    news:{!! json_encode($news) !!},
+                    stories:{!! json_encode($stories) !!},
+                    showNewsBlock:'',
                     newscardcolor:'card-outline-primary',
                     newstextcolor:'text-primary',
+                    showStoryBlock:'',
                     storycardcolor:'card-outline-primary',
                     storytextcolor:'text-primary'
+                    @endif
                 },
                 mounted: function(){
                     if(this.type == 'Image'){
                         this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + this.mediacontent;
                         this.mediaisimage = true;
+                        this.mediaislink = false;
                     }
                 },
                 methods:{
@@ -77,24 +86,45 @@
                         if(this.type == 'Image'){
                             this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
                             this.mediaisimage = true;
+                            this.mediaislink = false;
                         }else{
                             this.mediacontent = media.mediacontent;
                             this.mediaislink = true;
+                            this.mediaisimage = false;
                         }
                     },
-                    changenewscolor: function(){
+                    deleteModal: function(media){
+                        this.mediaid = 'delete_media_alert/' + media.id;
+                        this.header = media.header;
+                        this.type = media.type;
+                        this.source = media.source;
+                        if(this.type == 'Image'){
+                            this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
+                            this.mediaisimage = true;
+                            this.mediaislink = false;
+                        }else{
+                            this.mediacontent = media.mediacontent;
+                            this.mediaislink = true;
+                            this.mediaisimage = false;
+                        }
+                    },
+                    changenewscolor: function(news_update){
+                        this.showNewsBlock = news_update;
                         this.newscardcolor = '';
                         this.newstextcolor = 'text-white';
                     },
-                    changebacknewscolor: function(){
+                    changebacknewscolor: function(news_update){
+                        this.showNewsBlock = '';
                         this.newscardcolor = 'card-outline-primary';
                         this.newstextcolor = 'text-primary';
                     },
-                    changestorycolor: function(){
+                    changestorycolor: function(story){
+                        this.showStoryBlock = story;
                         this.storycardcolor = '';
                         this.storytextcolor = 'text-white';
                     },
-                    changebackstorycolor: function(){
+                    changebackstorycolor: function(story){
+                        this.showStoryBlock = '';
                         this.storycardcolor = 'card-outline-primary';
                         this.storytextcolor = 'text-primary';
                     }

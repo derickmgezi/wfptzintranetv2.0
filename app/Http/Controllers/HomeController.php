@@ -34,9 +34,9 @@ class HomeController extends Controller {
      */
     public function index() {
         //Old home Page code
-        $news = News::where('status',1)->orderBy('created_at','desc')->take(3)->get();
+        $news = News::where('status',1)->orderBy('created_at','desc')->take(6)->get();
         
-        $stories = Story::where('status', 1)->orderBy('created_at', 'desc')->take(3)->get();
+        $stories = Story::where('status', 1)->orderBy('created_at', 'desc')->take(6)->get();
         
         $recent_media_alerts_date = MediaAlert::select(DB::raw("DATE_FORMAT(created_at,'%d %M %Y') as date"))
                                           ->where('status',1)
