@@ -22,6 +22,7 @@
                                     <li class="nav-item"><a class="nav-link" href="#it">IT</a></li>
                                     <li class="nav-item"><a class="nav-link active" href="#comms">Communication</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#supplychain">Supply Chain</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#dashboard">Dashboard</a></li>
 <!--                                    <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                                         <div class="dropdown-menu">
@@ -86,6 +87,11 @@
                                 <h4 id="supplychain" class="text-primary">Supply Chain</h4>
                                 <p>
                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('SUPPLY CHAIN STRATEGY Jun18.pdf'))}}">Supply Chain Strategy</a><br>
+                                </p>
+                                <h4 id="dashboard" class="text-primary">Dashboard</h4>
+                                <p>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('TZCO Monthly Dashboard JULY 20.08.2018.pdf'))}}">Monthly Dashboard JULY</a><br>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.encrypt('TZCO Monthly Dashboard APR 18.pdf'))}}">Monthly Dashboard APR</a><br>
                                 </p>
                             </div>
                         </div>

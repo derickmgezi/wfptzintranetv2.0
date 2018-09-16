@@ -10,6 +10,9 @@ use Adldap;
 use App\User;
 use Browser;
 use DB;
+use App\AccessLog;
+use Route;
+use Session;
 
 class UserController extends Controller {
 
@@ -19,19 +22,56 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        if(Browser::isIE()){
-            return view('errors.browser');
+
+        if(!Session::has('error')){
+            $access_log = new AccessLog;
+            $access_log->link_accessed = Route::current()->uri;
+            $access_log->action_taken = "Access Login Page";
         }
-        
+
         if (Auth::check()) {
-            if(Auth::user()->title == 'Administrator'){
+            if(!Session::has('error'))
+            $access_log->user = Auth::user()->username;
+
+            if(Browser::isIE()){
+                if(!Session::has('error')){
+                    $access_log->action_details = "Redirected to Internet Explorer error page";
+                    $access_log->action_status = "Failed";
+                    $access_log->save();
+                }
+                return view('errors.browser');
+            }elseif(Auth::user()->title == 'Administrator'){
+                $access_log->action_details = "Redirected to Admin page";
+                $access_log->save();
                 //User is Administrator
+
                 return redirect('/manage');
+            }else{
+                // The user has already logged in...
+                if(!Session::has('error')){
+                    $access_log->action_details = "Redirected to Home page";
+                    $access_log->save();
+                }
+                return redirect('/home');
             }
-            // The user is logged in...
-            return redirect('/home');
+        }else{
+            // User has not logged in
+            if(Browser::isIE()){
+                if(!Session::has('error')){
+                    $access_log->action_details = "Redirected to Internet Explorer error page";
+                    $access_log->action_status = "Failed";
+                    $access_log->save();
+                }
+                return view('errors.browser');
+            }else{
+                //Redirect to Login Page
+                if(!Session::has('error')){
+                    $access_log->action_details = "Redirected to Login page";
+                    $access_log->save();
+                }
+                return view('index');
+            }
         }
-        return view('index');
     }
 
     /**
@@ -44,9 +84,15 @@ class UserController extends Controller {
     }
 
     public function logout() {
-        //
+        $access_log = new AccessLog;
+        $access_log->user = Auth::user()->username;
+        $access_log->link_accessed = Route::current()->uri;
+        $access_log->action_taken = "Sign out of Wazo";
+        $access_log->action_details = "Redirected to Sign in Page";
+        $access_log->save();
+
         Auth::logout();
-        return redirect('/');
+        return view('index');
     }
 
     /**
@@ -56,26 +102,34 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+        $access_log = new AccessLog;
+        $access_log->link_accessed = Route::current()->uri;
+        $access_log->action_taken = "Sign in to Wazo";
+
         $validator = Validator::make($request->all(), [
                     'username' => 'required',
                     'password' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return redirect('/')
-                            ->withErrors($validator)
-                            ->withInput();
+            $access_log->user = $request->username;
+            $access_log->action_details = "Redirected back to Sign in Page due to validation errors";
+            $access_log->action_status = "Failed";
+            $access_log->save();
+
+            return back()->withErrors($validator)->withInput()->with('error', 'Enter your Username and Password');
         } else {
             //Authenticate using normal Auth ruteen and Always Remember Users
-//            $remember = true;
-//            
-//            if (Auth::attempt($request->only(['username', 'password']), $remember)) {
-//                        // Authentication passed...
-//                        return redirect()->intended('/home');
-//                    } else {
-//                        return back()->withInput()
-//                                        ->with('error', 'Username and Password Authentication Failed');
-//                    }
+            //$remember = true;
+            //
+            //if (Auth::attempt($request->only(['username', 'password']), $remember)) {
+            //            // Authentication passed...
+            //            return redirect()->intended('/home');
+            //        } else {
+            //            return back()->withInput()
+            //                            ->with('error', 'Username and Password Authentication Failed');
+            //        }
+
             //Check if string is WFP email address
             if (str_contains($request->username, '@wfp.org')) {
                 $request->username = str_replace("@wfp.org","",$request->username);
@@ -98,26 +152,49 @@ class UserController extends Controller {
                             // Authentication passed...
                             if(Auth::user()->title == 'Administrator'){
                                 //User is Administrator
+                                $access_log->user = Auth::user()->username;
+                                $access_log->action_details = "Redirected to Admin Page";
+                                $access_log->save();
+
                                 return redirect('/manage');
+                            }else{
+                                $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
+                                session(['unreadnewsupdates' => count($unreadnewsupdates)]);
+                                
+                                $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = ".Auth::id()." GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
+                                session(['unreadstories' => count($unreadstories)]);
+                                
+                                $access_log->user = Auth::user()->username;
+                                $access_log->action_details = "Redirected to Home Page";
+                                $access_log->save();
+
+                                return redirect()->intended('home');
                             }
-                            $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
-                            session(['unreadnewsupdates' => count($unreadnewsupdates)]);
                             
-                            $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = ".Auth::id()." GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
-                            session(['unreadstories' => count($unreadstories)]);
-                            return redirect()->intended('home');
                         } else {
-                            return back()->withInput()
-                                            ->with('error', 'Username and Password Authentication Failed');
+                            $access_log->user = $request->username;
+                            $access_log->action_details = "Redirected back to Sign in Page due to failed Wazo database authentication after LDAP Authentication was passed";
+                            $access_log->action_status = "Failed";
+                            $access_log->save();
+
+                            return back()->withInput()->with('error', 'Username and Password Authentication Failed');
                         }
                     } else {
-                        return back()->withInput()
-                                        ->with('error', 'Access Denied');
+                        $access_log->user = $request->username;
+                        $access_log->action_details = "Redirected back to Sign in Page; Access Denied";
+                        $access_log->action_status = "Failed";
+                        $access_log->save();
+
+                        return back()->withInput()->with('error', 'Access Denied');
                     }
                 } else {
                     // AD Authentication failled!
-                    return back()->withInput()
-                                    ->with('error', 'Username or Password Incorect');
+                    $access_log->user = $request->username;
+                    $access_log->action_details = "Redirected back to Sign in Page due to failed LDAP Authentication";
+                    $access_log->action_status = "Failed";
+                    $access_log->save();
+
+                    return back()->withInput()->with('error', 'Username or Password Incorect');
                 }
             //Try to Authenticate locally if Domain Server is not reachable
             } catch(\Exception $e){
@@ -128,14 +205,30 @@ class UserController extends Controller {
                     // Authentication passed...
                     if(Auth::user()->title == 'Administrator'){
                         //User is Administrator
+                        $access_log->user = Auth::user()->username;
+                        $access_log->action_details = "Redirected to Admin Page after Wazo database Authentication. LDAP Server was not reachable";
+                        $access_log->save();
+                        
                         return redirect('/manage');
                     }
+                    $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
+                    session(['unreadnewsupdates' => count($unreadnewsupdates)]);
+                    
                     $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = ".Auth::id()." GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
                     session(['unreadstories' => count($unreadstories)]);
+                    
+                    $access_log->user = Auth::user()->username;
+                    $access_log->action_details = "Redirected to Home Page after Wazo database Authentication. LDAP Server was not reachable";
+                    $access_log->save();
+                    
                     return redirect()->intended('home');
                 } else {
-                    return back()->withInput()
-                                    ->with('error', 'Domain Server not reachable');
+                    $access_log->user = $request->username;
+                    $access_log->action_details = "Redirected back to Sign in Page due to failed Wazo database Authentication after LDAP Server was not reachable";
+                    $access_log->action_status = "Failed";
+                    $access_log->save();
+
+                    return back()->withInput()->with('error', 'Domain Server not reachable');
                 }
             }
         }

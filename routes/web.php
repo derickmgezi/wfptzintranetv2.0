@@ -16,7 +16,6 @@ Route::post('/signin', 'UserController@store');
 
 Route::get('/signout', 'UserController@logout');
 
-
 Route::group(['middleware' => ['guest']], function () {
     
     Route::get('/home', 'HomeController@index');
