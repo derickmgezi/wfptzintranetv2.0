@@ -83,7 +83,7 @@ class UpdateController extends Controller {
                                            ->paginate(9);
             
         }elseif(session('newsurl') == NULL || session('newsurl') == 'latestnewsupdates'){
-            $access_log->action_details = "Recent News Updates dsplayed";
+            $access_log->action_details = "Recent WFP Updates displayed";
 
             $recent_posts = News::where('status',1)->orderBy('created_at','desc')
                                                    ->paginate(9);

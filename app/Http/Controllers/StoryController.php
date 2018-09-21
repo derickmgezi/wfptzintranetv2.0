@@ -65,7 +65,7 @@ class StoryController extends Controller {
                     ->orderBy('comments', 'desc')
                     ->paginate(9);
         } elseif (session('storyurl') == NULL || session('storyurl') == 'lateststory') {
-            $access_log->action_details = "Recent Stories displayed";
+            $access_log->action_details = "Recent Story Yangu displayed";
 
             $stories = Story::where('status', 1)->orderBy('created_at', 'desc')
                     ->paginate(9);
