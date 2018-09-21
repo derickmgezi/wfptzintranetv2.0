@@ -20,6 +20,7 @@
                         <div class="justify-content-start">
                             <h1 class="mr-3">
                                 <span class="small">WFP Updates</span>
+                                <span class="smaller font-weight-bold">Recently Posted</span>
                             </h1>
                         </div>
                         
@@ -35,8 +36,8 @@
                                     leave-active-class="animated flipOutX">
                                         <div v-if="showNewsBlock == news_update.id" class="card-block">
                                             <a href="{{URL::to('/news')}}" class="card-text text-primary">
-                                                <strong v-if="news_update.header.length > 35">@{{ news_update.header.substring(0,35) + '...' }}</strong>
-                                                <strong v-else>@{{ news_update.header }}</strong>
+                                                <strong v-if="news_update.header.length > 35" v-html="news_update.header.substring(0,35) + '...'"></strong>
+                                                <strong v-else v-html="news_update.header"></strong>
                                             </a>
                                         </div>
                                     </transition>
@@ -49,6 +50,7 @@
                         <div class="justify-content-start">
                             <h1 class="mr-3">
                                 <span class="small">Stori Yangu</span>
+                                <span class="smaller font-weight-bold">Recently Posted</span>
                             </h1>
                         </div>
 
@@ -84,52 +86,45 @@
                             </h1>
                         </div>
                         
-                            <div class="panel panel-default mb-4 mr-3">
-                                <div id="media-alert-accordion" role="tablist" aria-multiselectable="true">
-                                    @foreach($mediaalerts as $mediaalert)
-                                        <?php $date = new Jenssegers\Date\Date($mediaalert->date); ?>
-                                        @if($date->format('d F Y') == $recent_media_alerts_date->date)
-                                        <div class="card mb-1">
-                                            <div class="card-header" role="tab" id="heading{{ $mediaalert->id }}">
-                                                <h5 class="mb-0">
+                        <div class="panel panel-default mb-4 mr-3">
+                            <div id="media-alert-accordion" role="tablist" aria-multiselectable="true">
+                                @foreach($mediaalerts as $mediaalert)
+                                    <?php $date = new Jenssegers\Date\Date($mediaalert->date); ?>
+                                    @if($date->format('d F Y') == $recent_media_alerts_date->date)
+                                    <div class="card mb-1">
+                                        <div class="card-header" role="tab" id="heading{{ $mediaalert->id }}">
+                                            <h5 class="mb-0">
+                                                <div class="d-flex">
                                                     @if($mediaalert->type == 'Link')
-                                                    <i class="fa fa-external-link" aria-hidden="true"></i>
+                                                    <span><i class="fa fa-external-link p-1" aria-hidden="true"></i></span>
                                                     @else
-                                                    <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                                                    <span><i class="fa fa-newspaper-o p-1" aria-hidden="true"></i></span>
                                                     @endif
                                                     <a data-toggle="collapse" data-parent="#media-alert-accordion" href="#collapse{{ $mediaalert->id }}" aria-expanded="true" aria-controls="collapse{{ $mediaalert->id }}">
                                                         <small>{{ $mediaalert->header }}</small>
                                                     </a>
-                                                    <br>
-                                                    <span class="badge badge-default smaller font-italic">{{ $mediaalert->source }}</span>
-                                                    <div class="float-right">
-                                                        <a v-on:click="editModal({{$mediaalert}})" role="button" class="text-warning" data-toggle="modal" data-target="#edit-media-alert-modal">
-                                                            <i class="fa fa-pencil-square" aria-hidden="true"></i>
-                                                        </a>
-                                                        <a v-on:click="deleteModal({{$mediaalert}})" role="button" class="text-danger" data-toggle="modal" data-target="#delete-media-alert-modal">
-                                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                    </div>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse{{ $mediaalert->id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ $mediaalert->id }}">
-                                                @if($mediaalert->type == 'Image')
-                                                <a role="button" v-on:click="showModal({{$mediaalert}})" data-toggle="modal" data-target="#media-alert-modal" >
-                                                    <img class="img-fluid img-responsive img-thumbnail" src="{{ URL::to('imagecache/original/'.$mediaalert->mediacontent) }}" alt="Image Alt" style="width: 100%;">
-                                                </a>
-                                                @elseif($mediaalert->type == 'Link')
-                                                <div class="">
-                                                    <a class="badge badge-success m-3" target="_blank" href='{{ $mediaalert->mediacontent }}'>
-                                                        {{ substr(strip_tags($mediaalert->mediacontent),0,35) }}{{ strlen(strip_tags($mediaalert->mediacontent)) > 35 ? "...":"" }}
-                                                    </a>
                                                 </div>
-                                                @endif
-                                            </div>
+                                                <span class="badge badge-default smaller font-italic">{{ $mediaalert->source }}</span>
+                                            </h5>
                                         </div>
-                                        @endif
-                                    @endforeach
-                                </div>
+                                        <div id="collapse{{ $mediaalert->id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ $mediaalert->id }}">
+                                            @if($mediaalert->type == 'Image')
+                                            <a role="button" v-on:click="showModal({{$mediaalert}})" data-toggle="modal" data-target="#media-alert-modal" >
+                                                <img class="img-fluid img-responsive img-thumbnail" src="{{ URL::to('imagecache/original/'.$mediaalert->mediacontent) }}" alt="Image Alt" style="width: 100%;">
+                                            </a>
+                                            @elseif($mediaalert->type == 'Link')
+                                            <div class="">
+                                                <a class="badge badge-success m-3" target="_blank" href='{{ $mediaalert->mediacontent }}'>
+                                                    {{ substr(strip_tags($mediaalert->mediacontent),0,35) }}{{ strlen(strip_tags($mediaalert->mediacontent)) > 35 ? "...":"" }}
+                                                </a>
+                                            </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    @endif
+                                @endforeach
                             </div>
+                        </div>
                         @endif
                         <!-- Start of Media alert Popup Modal -->
                         <div class="modal fade" id="media-alert-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -158,30 +153,45 @@
                     </div>
 
                     <div class="col-md-3">
-                         <div class="d-flex justify-content-start">
-                            <h1>
+                        <div class="justify-content-start">
+                            <h1 class="mr-3">
                                 <span class="small">Links</span>
-                            </h1>
-                            <h1 class="ml-auto">
-                                <span class="smaller font-weight-bold">Most visited</span>
+                                <span class="smaller font-weight-bold">Frequently visited</span>
                             </h1>
                         </div>
                         <div class="list-group">
+                            @if($links->count() >= 5)
+                                @foreach($links as $link)
+                                    @foreach($accessed_links as $accessed_link)
+                                        @if($accessed_link->action_details == $link->action_details)
+                                        <a class="list-group-item list-group-item-action active mb-1" @if($accessed_link->link_type == "External")target="_blank"@endif href="{{URL::to($accessed_link->link_accessed)}}" class="card-link">
+                                            <?php 
+                                                $strings_to_be_replace = array("Redirected ", "to ", " Page", " displayed", "Accessed ");
+                                                $link->action_details = str_replace($strings_to_be_replace, "", $link->action_details);
+                                            ?>
+                                            {{ $link->action_details }}
+                                        </a>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            @else
                             <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/internaldirectory')}}" class="card-link">
-                                Telephone Bills
+                                Telephone Directory
                             </a>
-                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/resource#hr')}}" class="card-link">
-                                HR Forms
-                            </a>
-                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/resource#sop')}}" class="card-link">
-                                SOPs
-                            </a>
-                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/resource#sop')}}" class="card-link">
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/NewGo/'.encrypt('http://go.wfp.org'))}}" class="card-link">
                                 WFPgo
                             </a>
-                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/resource#sop')}}" class="card-link">
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/WINGSII/'.encrypt('http://mfapps.wfp.org'))}}" class="card-link">
                                 WINGSII
                             </a>
+                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/mediaalerts')}}" class="card-link">
+                                News Alerts
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/resource#sop')}}" class="card-link">
+                                Resources
+                            </a>
+                            
+                            @endif
                         </div>
                     </div>
                 </div>

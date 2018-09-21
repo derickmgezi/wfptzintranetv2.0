@@ -1,11 +1,4 @@
-<?php
-$news_search_results = App\News::search(Session::get('search_string'))->paginate(5);
-$news_search_results_count = $news_search_results->total();
-//$news_search_results_count = $news_search_results->count();
-//dd($news_search_results_count);
-$news_search_count = 1;
-?>
-@if($news_search_results_count != 0)
+@if($news_search_results->total() != 0)
     <!-- START THE FEATURETTES -->
     @foreach ($news_search_results as $news_search_result)
         @if($news_search_count%2 == 1)

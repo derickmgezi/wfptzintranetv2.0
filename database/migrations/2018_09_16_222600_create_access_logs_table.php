@@ -15,9 +15,9 @@ class CreateAccessLogsTable extends Migration
         Schema::create('access_logs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user')->nullable();
-            $table->string('link_accessed');
+            $table->text('link_accessed');
             $table->string('action_taken');
-            $table->string('action_details');
+            $table->text('action_details');
             $table->string('action_status')->default('Success');
             $table->string('link_type')->default('Internal');
             $table->timestamps();

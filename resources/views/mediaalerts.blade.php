@@ -265,15 +265,16 @@
                                         <div class="card mb-1">
                                             <div class="card-header" role="tab" id="heading{{ $mediaalert->id }}">
                                                 <h5 class="mb-0">
-                                                    @if($mediaalert->type == 'Link')
-                                                    <i class="fa fa-external-link" aria-hidden="true"></i>
-                                                    @else
-                                                    <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-                                                    @endif
-                                                    <a data-toggle="collapse" data-parent="#media-alert-accordion" href="#collapse{{ $mediaalert->id }}" aria-expanded="true" aria-controls="collapse{{ $mediaalert->id }}">
-                                                        <small>{{ $mediaalert->header }}</small>
-                                                    </a>
-                                                    <br>
+                                                    <div class="d-flex">
+                                                            @if($mediaalert->type == 'Link')
+                                                            <span><i class="fa fa-external-link p-1" aria-hidden="true"></i></span>
+                                                            @else
+                                                            <span><i class="fa fa-newspaper-o p-1" aria-hidden="true"></i></span>
+                                                            @endif
+                                                            <a data-toggle="collapse" data-parent="#media-alert-accordion" href="#collapse{{ $mediaalert->id }}" aria-expanded="true" aria-controls="collapse{{ $mediaalert->id }}">
+                                                                <small>{{ $mediaalert->header }}</small>
+                                                            </a>
+                                                    </div>
                                                     <span class="badge badge-default smaller font-italic">{{ $mediaalert->source }}</span>
                                                     @if(Auth::user()->department == "Communications")
                                                     <div class="float-right">

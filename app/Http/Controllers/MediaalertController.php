@@ -9,6 +9,8 @@ use App\MediaAlert;
 use Auth;
 use Image;
 use DB;
+use App\AccessLog;
+use Route;
 
 class MediaalertController extends Controller {
 
@@ -27,6 +29,14 @@ class MediaalertController extends Controller {
         $mediaalerts = MediaAlert::select(DB::raw("id,header,mediacontent,type,source,created_at,DATE_FORMAT(created_at,'%d %M %Y') as date"))->where('status',1)->get();
         //dd($days_of_media_alerts);
         
+        $access_log = new AccessLog;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+        $access_log->action_taken = "Access News Alerts Page";
+        $access_log->action_details = "Redirected to News Alerts Page";
+        $access_log->user = Auth::user()->username;
+        if(!Session::has('new_media_alert_error') && !Session::has('new_media_alert') && !Session::has('edit_media_alert_error') && !Session::has('edit_media_alert') && !Session::has('delete_media_alert'))
+        $access_log->save();
+
         return view('mediaalerts', compact('mediaalerts', 'days_of_media_alerts'));
     }
 
@@ -71,6 +81,15 @@ class MediaalertController extends Controller {
 
         if ($validator->fails()) {
             Session::flash('new_media_alert_error', 'Media Alert Creation Error');
+
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Store News Alert";
+            $access_log->action_details = "Storing of new News Alert interrupted due to validation errors";
+            $access_log->action_status = "Failed";
+            $access_log->save();
+
             return back()->withErrors($validator)->withInput();
         } else {
             if($request->mediatype == 'Link'){
@@ -106,6 +125,15 @@ class MediaalertController extends Controller {
                 $mediaalert->created_by = Auth::id();
                 $mediaalert->save();
             }
+            Session::flash('new_media_alert', 'Media Alert stored');
+
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Store News Alert";
+            $access_log->action_details = "New News Alert stored";
+            $access_log->save();
+
             return back();
         }
     }
@@ -177,6 +205,15 @@ class MediaalertController extends Controller {
             Session::flash('mediaid',$id);
             Session::flash('mediatype',$mediaalert->type);
             Session::flash('mediacontent',$mediaalert->mediacontent);
+
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Edit News Alert";
+            $access_log->action_details = 'Editing News Alert with id "'.$id.'" interrupted due to validation errors';
+            $access_log->action_status = "Failed";
+            $access_log->save();
+
             return back()->withErrors($validator)->withInput();
         }else{
             
@@ -213,6 +250,15 @@ class MediaalertController extends Controller {
                 $mediaalert->type = $request->type;
                 $mediaalert->save();
             }
+            Session::flash('edit_media_alert', 'News Alert Edited');
+
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Edit News Alert";
+            $access_log->action_details = 'News Alert with id "'.$id.'" edited';
+            $access_log->save();
+
             return back();
         }
     }
@@ -228,6 +274,15 @@ class MediaalertController extends Controller {
         $mediaalert = Mediaalert::find($id);
         $mediaalert->status = 0;
         $mediaalert->save();
+
+        Session::flash('delete_media_alert', 'News Alert Deleted');
+
+        $access_log = new AccessLog;
+        $access_log->user = Auth::user()->username;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+        $access_log->action_taken = "Delete News Alert";
+        $access_log->action_details = 'News Alert with id "'.$id.'" deleted';
+        $access_log->save();
 
         return back();
     }

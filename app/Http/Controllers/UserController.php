@@ -22,53 +22,50 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-
-        if(!Session::has('error')){
-            $access_log = new AccessLog;
-            $access_log->link_accessed = Route::current()->uri;
-            $access_log->action_taken = "Access Login Page";
-        }
+        //
+        $access_log = new AccessLog;
+        $access_log->link_accessed = str_replace(url('/'),"/",url()->current());
+        $access_log->action_taken = "Access Login Page";
 
         if (Auth::check()) {
-            if(!Session::has('error'))
             $access_log->user = Auth::user()->username;
 
             if(Browser::isIE()){
-                if(!Session::has('error')){
-                    $access_log->action_details = "Redirected to Internet Explorer error page";
-                    $access_log->action_status = "Failed";
-                    $access_log->save();
-                }
+                $access_log->action_details = "Redirected to Internet Explorer error page";
+                $access_log->action_status = "Failed";
+                if(!Session::has('error'))
+                $access_log->save();
+
                 return view('errors.browser');
             }elseif(Auth::user()->title == 'Administrator'){
+                // User is Administrator
                 $access_log->action_details = "Redirected to Admin page";
                 $access_log->save();
-                //User is Administrator
 
                 return redirect('/manage');
             }else{
                 // The user has already logged in...
-                if(!Session::has('error')){
-                    $access_log->action_details = "Redirected to Home page";
-                    $access_log->save();
-                }
+                $access_log->action_details = "Redirected to Home page";
+                if(!Session::has('error'))
+                $access_log->save();
+
                 return redirect('/home');
             }
         }else{
             // User has not logged in
             if(Browser::isIE()){
-                if(!Session::has('error')){
-                    $access_log->action_details = "Redirected to Internet Explorer error page";
-                    $access_log->action_status = "Failed";
-                    $access_log->save();
-                }
+                $access_log->action_details = "Redirected to Internet Explorer error page";
+                $access_log->action_status = "Failed";
+                if(!Session::has('error'))
+                $access_log->save();
+
                 return view('errors.browser');
             }else{
-                //Redirect to Login Page
-                if(!Session::has('error')){
-                    $access_log->action_details = "Redirected to Login page";
-                    $access_log->save();
-                }
+                // Redirect to Login Page
+                $access_log->action_details = "Redirected to Login page";
+                if(!Session::has('error'))
+                $access_log->save();
+
                 return view('index');
             }
         }
@@ -85,8 +82,9 @@ class UserController extends Controller {
 
     public function logout() {
         $access_log = new AccessLog;
+        if(Auth::check())
         $access_log->user = Auth::user()->username;
-        $access_log->link_accessed = Route::current()->uri;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
         $access_log->action_taken = "Sign out of Wazo";
         $access_log->action_details = "Redirected to Sign in Page";
         $access_log->save();
@@ -101,9 +99,9 @@ class UserController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function signin(Request $request) {
         $access_log = new AccessLog;
-        $access_log->link_accessed = Route::current()->uri;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
         $access_log->action_taken = "Sign in to Wazo";
 
         $validator = Validator::make($request->all(), [
@@ -116,8 +114,8 @@ class UserController extends Controller {
             $access_log->action_details = "Redirected back to Sign in Page due to validation errors";
             $access_log->action_status = "Failed";
             $access_log->save();
-
-            return back()->withErrors($validator)->withInput()->with('error', 'Enter your Username and Password');
+            
+            return redirect('/')->withErrors($validator)->withInput()->with('error', 'Enter your Username and Password');
         } else {
             //Authenticate using normal Auth ruteen and Always Remember Users
             //$remember = true;
@@ -130,28 +128,28 @@ class UserController extends Controller {
             //                            ->with('error', 'Username and Password Authentication Failed');
             //        }
 
-            //Check if string is WFP email address
+            // Check if string is WFP email address
             if (str_contains($request->username, '@wfp.org')) {
                 $request->username = str_replace("@wfp.org","",$request->username);
             }
             
-            //Catch exception if LDAP server is not available
+            // Catch exception if LDAP server is not available
             try{
                 // Authenticating against your LDAP server.
                 if (Adldap::auth()->attempt($request->username, $request->password)) {
                     // AD Authentication Passed!
-                    //Update User Table with AD Password
+                    // Update User Table with AD Password
                     $user_password_update = User::where('username', $request->username)->where('status',1)->update(['password' => bcrypt($request->password)]);
 
                     if ($user_password_update) {
                         // Always Remember Users
                         $remember = true;
 
-    //                    if (Auth::attempt($request->only(['username', 'password']), $remember)) {
+                        // if (Auth::attempt($request->only(['username', 'password']), $remember)) {
                         if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $remember)) {
                             // Authentication passed...
                             if(Auth::user()->title == 'Administrator'){
-                                //User is Administrator
+                                // User is Administrator
                                 $access_log->user = Auth::user()->username;
                                 $access_log->action_details = "Redirected to Admin Page";
                                 $access_log->save();
@@ -196,7 +194,7 @@ class UserController extends Controller {
 
                     return back()->withInput()->with('error', 'Username or Password Incorect');
                 }
-            //Try to Authenticate locally if Domain Server is not reachable
+            // Try to Authenticate locally if Domain Server is not reachable
             } catch(\Exception $e){
                 // Always Remember Users
                 $remember = true;
@@ -204,7 +202,7 @@ class UserController extends Controller {
                 if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $remember)) {
                     // Authentication passed...
                     if(Auth::user()->title == 'Administrator'){
-                        //User is Administrator
+                        // User is Administrator
                         $access_log->user = Auth::user()->username;
                         $access_log->action_details = "Redirected to Admin Page after Wazo database Authentication. LDAP Server was not reachable";
                         $access_log->save();
