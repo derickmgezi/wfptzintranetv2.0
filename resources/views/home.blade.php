@@ -20,7 +20,7 @@
                         <div class="justify-content-start">
                             <h1 class="mr-3">
                                 <span class="small">WFP Updates</span>
-                                <span class="smaller font-weight-bold">Recently Posted</span>
+                                <span class="smaller font-weight-bold text-primary">recently posted</span>
                             </h1>
                         </div>
                         
@@ -50,7 +50,7 @@
                         <div class="justify-content-start">
                             <h1 class="mr-3">
                                 <span class="small">Stori Yangu</span>
-                                <span class="smaller font-weight-bold">Recently Posted</span>
+                                <span class="smaller font-weight-bold text-primary">recently posted</span>
                             </h1>
                         </div>
 
@@ -82,7 +82,7 @@
                                 <span class="small">News Alerts</span>
                                 <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
                                 <?php $date = new Jenssegers\Date\Date($recent_media_alerts_date->date); ?>
-                                <span class="smaller"><strong>Posted on</strong> {{ $date->format('M j, Y') }}</span>
+                                <span class="smaller text-primary"><strong>posted on</strong> {{ $date->format('M j, Y') }}</span>
                             </h1>
                         </div>
                         
@@ -156,7 +156,7 @@
                         <div class="justify-content-start">
                             <h1 class="mr-3">
                                 <span class="small">Links</span>
-                                <span class="smaller font-weight-bold">Frequently visited</span>
+                                <span class="smaller font-weight-bold text-primary">you frequently access</span>
                             </h1>
                         </div>
                         <div class="list-group">
@@ -166,7 +166,7 @@
                                         @if($accessed_link->action_details == $link->action_details)
                                         <a class="list-group-item list-group-item-action active mb-1" @if($accessed_link->link_type == "External")target="_blank"@endif href="{{URL::to($accessed_link->link_accessed)}}" class="card-link">
                                             <?php 
-                                                $strings_to_be_replace = array("Redirected ", "to ", " Page", " displayed", "Accessed ");
+                                                $strings_to_be_replace = array("Redirected ", "to ", " Page", " displayed", "Accessed ", "");
                                                 $link->action_details = str_replace($strings_to_be_replace, "", $link->action_details);
                                             ?>
                                             {{ $link->action_details }}

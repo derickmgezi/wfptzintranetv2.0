@@ -58,7 +58,8 @@ class HomeController extends Controller {
 
         $frequent_visited_links = DB::table('access_logs')->select('id','action_details')
                                        ->where('user',Auth::user()->username)
-                                       ->whereNotIn('action_details', ['Redirected to Home Page'])
+                                       ->whereNotIn('action_details', ['Redirected to Home Page','Personal Biography update modal accessed','Biography plus profile picture changed','Biography plus profile picture not changed'])
+                                       //->whereNotIn('action_taken', ['Edit Personal Biography','Update Personal Biography'])
                                        ->where('action_status','Success');
                                        //->groupBy('action_taken')
          
@@ -98,7 +99,7 @@ class HomeController extends Controller {
         $access_log->user = Auth::user()->username;
         $access_log->link_accessed = str_replace(url('/'),"",url()->current());
         $access_log->action_taken = "Access Personal Biography";
-        $access_log->action_details = "Personal Biography viewed";
+        $access_log->action_details = "Personal Biography displayed";
         $access_log->save();
 
         Session::flash('view_user_bio', $id);
