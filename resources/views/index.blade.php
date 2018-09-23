@@ -120,13 +120,6 @@
                                 </button>
                                 <i class="fa fa-exclamation " aria-hidden="true"></i> {{Session::get('error')}}
                             </div>
-                            @elseif($errors->has('username') || $errors->has('password'))
-                            <div v-if="!logingin" class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
-                                </button>
-                                <i class="fa fa-exclamation " aria-hidden="true"></i> Enter your Username and Password
-                            </div>
                             @endif
 
                         </div>
