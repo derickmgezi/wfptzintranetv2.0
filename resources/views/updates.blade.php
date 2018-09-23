@@ -19,29 +19,29 @@
                         <h1>
                             <div class="d-flex justify-content-between hidden-md-down">
                                 <div class="">
-                                    <!-- <i class="fa fa-newspaper-o" aria-hidden="true"></i> --> News
+                                    <!-- <i class="fa fa-newspaper-o" aria-hidden="true"></i> --> <span class="small">News</span>
                                 </div>
-                                
+
                                 <div class="">    
                                     <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                                        <a href="#" class="btn btn-secondary">
+                                        <!-- <a href="#" class="btn btn-secondary">
                                             <i class="fa fa-sort" aria-hidden="true"></i> Arrange by
-                                        </a>
-                                        <a href="{{URL::to('/latestnewsupdates')}}" class="btn btn-info {{ (session('newsurl') == NULL || session('newsurl') == 'latestnewsupdates')?"disabled":"" }}" data-toggle="tooltip" data-placement="top" title="Most recent news">
+                                        </a> -->
+                                        <a href="{{URL::to('/latestnewsupdates')}}" class="btn {{ (session('newsurl') == NULL || session('newsurl') == 'latestnewsupdates')?'disabled btn-primary':'btn-secondary' }}" data-toggle="tooltip" data-placement="top" title="Most recent news">
                                             <i class="fa fa-clock-o {{ (session('newsurl') == NULL || session('newsurl') == 'latestnewsupdates')?"faa-shake animated":"" }}" aria-hidden="true"></i> Recent
                                         </a>
-                                        <a href="{{URL::to('/unreadnewsupdate')}}" class="btn btn-danger {{ (session('newsurl') == 'unreadnewsupdate')?"disabled":"" }}" data-toggle="tooltip" data-placement="top" title="Unread news">
+                                        <a href="{{URL::to('/unreadnewsupdate')}}" class="btn {{ (session('newsurl') == 'unreadnewsupdate')?'disabled btn-primary':'btn-secondary' }}" data-toggle="tooltip" data-placement="top" title="Unread news">
                                             <i class="fa fa-eye-slash {{ (session('newsurl') == 'unreadnewsupdate')?"faa-shake animated":"" }}" aria-hidden="true"></i> Unread
                                         </a>
-                                        <a href="{{URL::to('/newsupdateviews')}}" class="btn btn-warning {{ (session('newsurl') == 'newsupdateviews')?"disabled":"" }}" data-toggle="tooltip" data-placement="top" title="Most viewed news">
-                                            <i class="fa fa-eye {{ (session('newsurl') == 'newsupdateviews')?"faa-shake animated":"" }}" aria-hidden="true"></i> Most viewed
+                                        <a href="{{URL::to('/newsupdateviews')}}" class="btn {{ (session('newsurl') == 'newsupdateviews')?'disabled btn-primary':'btn-secondary' }}" data-toggle="tooltip" data-placement="top" title="Most viewed news">
+                                            <i class="fa fa-eye {{ (session('newsurl') == 'newsupdateviews')?"faa-shake animated":"" }}" aria-hidden="true"></i> Views
                                         </a>
-                                        <a href="{{URL::to('/newsupdatelikes')}}" class="btn btn-primary {{ (session('newsurl') == 'newsupdatelikes')?"disabled":"" }}"  data-toggle="tooltip" data-placement="top" title="Most liked news">
-                                            <i class="fa fa-thumbs-up {{ (session('newsurl') == 'newsupdatelikes')?"faa-shake animated":"" }}" aria-hidden="true"></i> Most Liked
+                                        <a href="{{URL::to('/newsupdatelikes')}}" class="btn {{ (session('newsurl') == 'newsupdatelikes')?'disabled btn-primary':'btn-secondary' }}"  data-toggle="tooltip" data-placement="top" title="Most liked news">
+                                            <i class="fa fa-thumbs-up {{ (session('newsurl') == 'newsupdatelikes')?"faa-shake animated":"" }}" aria-hidden="true"></i> Likes
                                         </a>
                                         @if($editors->contains('editor', Auth::id()))
-                                        <a href="{{URL::to('/mynewsupdate')}}" class="btn btn-success {{ (session('newsurl') == 'mynewsupdate')?"disabled":"" }}"  data-toggle="tooltip" data-placement="top" title="Your news posts">
-                                            <i class="fa fa-user-circle-o {{ (session('newsurl') == 'mynewsupdate')?"faa-shake animated":"" }}" aria-hidden="true"></i> My News Posts
+                                        <a href="{{URL::to('/mynewsupdate')}}" class="btn {{ (session('newsurl') == 'mynewsupdate')?'disabled btn-primary':'btn-secondary' }}"  data-toggle="tooltip" data-placement="top" title="Your news posts">
+                                            <i class="fa fa-user-circle-o {{ (session('newsurl') == 'mynewsupdate')?"faa-shake animated":"" }}" aria-hidden="true"></i> My Posts
                                         </a>
                                         @endif
                                     </div>
@@ -49,10 +49,10 @@
 
                                 <div class="">
                                     @if($editors->contains('editor', Auth::id()))
-<!--                                    <a class="btn btn-warning" href="{{ URL::to('/resizenewsthumbnails') }}">
-                                       <i class="fa fa-expand" aria-hidden="true"></i>
-                                    </a>-->
-                                    
+                                    <!--                                    <a class="btn btn-warning" href="{{ URL::to('/resizenewsthumbnails') }}">
+                                                                           <i class="fa fa-expand" aria-hidden="true"></i>
+                                                                        </a>-->
+
                                     <a class="btn btn-success btn-sm" href="{{URL::to('/add_update')}}" role="button">
                                         <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add News Post
                                     </a>
@@ -60,60 +60,54 @@
                                 </div>
                             </div>
 
-                            
+
                             <div class="d-flex justify-content-start hidden-lg-up">
                                 <div class="">
-                                    <!-- <i class="fa fa-newspaper-o" aria-hidden="true"></i> --> News
-                                    
-                                    <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                                        <button type="button" class="btn btn-secondary">
-                                            Order By
+                                    <!-- <i class="fa fa-newspaper-o" aria-hidden="true"></i> --> <span class="small">News</span>
+
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        @if(session('newsurl') == NULL || session('newsurl') == 'latestnewsupdates')
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-clock-o faa-shake animated" aria-hidden="true"></i> Latest <i class="fa fa-sort" aria-hidden="true"></i>
                                         </button>
-                                        
-                                        <div class="btn-group btn-group-sm" role="group">
-                                                @if(session('newsurl') == NULL || session('newsurl') == 'latestnewsupdates')
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-clock-o faa-shake animated" aria-hidden="true"></i> Latest <i class="fa fa-sort" aria-hidden="true"></i>
-                                                </button>
-                                                @elseif(session('newsurl') == 'newsupdateviews')
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-eye faa-shake animated" aria-hidden="true"></i> Views <i class="fa fa-sort" aria-hidden="true"></i>
-                                                </button>
-                                                @elseif(session('newsurl') == 'newsupdatelikes')
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-thumbs-up faa-shake animated" aria-hidden="true"></i> Likes <i class="fa fa-sort" aria-hidden="true"></i>
-                                                </button>
-                                                @elseif(session('newsurl') == 'newsupdatecomments')
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-comments faa-shake animated" aria-hidden="true"></i> Comments <i class="fa fa-sort" aria-hidden="true"></i>
-                                                </button>
-                                                @elseif(session('newsurl') == 'mynewsupdate')
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-user-circle-o faa-shake animated" aria-hidden="true"></i> My News Posts <i class="fa fa-sort" aria-hidden="true"></i>
-                                                </button>
-                                                @endif
-                                            
-                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                @if(session('newsurl') != NULL && session('newsurl') != 'latestnewsupdates')
-                                                <a class="dropdown-item" href="{{URL::to('/latestnewsupdates')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Latest</a>
-                                                <div class="dropdown-divider"></div>
-                                                @endif
-                                                @if(session('newsurl') != 'newsupdateviews')
-                                                <a class="dropdown-item" href="{{URL::to('/newsupdateviews')}}"><i class="fa fa-eye" aria-hidden="true"></i> Views</a>
-                                                <div class="dropdown-divider"></div>
-                                                @endif
-                                                @if(session('newsurl') != 'newsupdatelikes')
-                                                <a class="dropdown-item" href="{{URL::to('/newsupdatelikes')}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a>
-                                                <div class="dropdown-divider"></div>
-                                                @endif
-                                                @if(session('newsurl') != 'newsupdatecomments')
+                                        @elseif(session('newsurl') == 'newsupdateviews')
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-eye faa-shake animated" aria-hidden="true"></i> Views <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </button>
+                                        @elseif(session('newsurl') == 'newsupdatelikes')
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-thumbs-up faa-shake animated" aria-hidden="true"></i> Likes <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </button>
+                                        @elseif(session('newsurl') == 'newsupdatecomments')
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-comments faa-shake animated" aria-hidden="true"></i> Comments <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </button>
+                                        @elseif(session('newsurl') == 'mynewsupdate')
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-user-circle-o faa-shake animated" aria-hidden="true"></i> My Posts <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </button>
+                                        @endif
+
+                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                            @if(session('newsurl') != NULL && session('newsurl') != 'latestnewsupdates')
+                                            <a class="dropdown-item" href="{{URL::to('/latestnewsupdates')}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Latest</a>
+                                            <div class="dropdown-divider"></div>
+                                            @endif
+                                            @if(session('newsurl') != 'newsupdateviews')
+                                            <a class="dropdown-item" href="{{URL::to('/newsupdateviews')}}"><i class="fa fa-eye" aria-hidden="true"></i> Views</a>
+                                            <div class="dropdown-divider"></div>
+                                            @endif
+                                            @if(session('newsurl') != 'newsupdatelikes')
+                                            <a class="dropdown-item" href="{{URL::to('/newsupdatelikes')}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a>
+                                            <div class="dropdown-divider"></div>
+                                            @endif
+                                            @if(session('newsurl') != 'newsupdatecomments')
 <!--                                                <a class="dropdown-item" href="{{URL::to('/newsupdatecomments')}}"><i class="fa fa-comments" aria-hidden="true"></i> Comments</a>
-                                                <div class="dropdown-divider"></div>-->
-                                                @endif
-                                                @if(session('newsurl') != 'mynewsupdate' && $editors->contains('editor', Auth::id()))
-                                                <a class="dropdown-item" href="{{URL::to('/mynewsupdate')}}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My News Posts</a>
-                                                @endif
-                                            </div>
+                                            <div class="dropdown-divider"></div>-->
+                                            @endif
+                                            @if(session('newsurl') != 'mynewsupdate' && $editors->contains('editor', Auth::id()))
+                                            <a class="dropdown-item" href="{{URL::to('/mynewsupdate')}}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My News Posts</a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +115,7 @@
                                 <div class="ml-auto">
                                     @if($editors->contains('editor', Auth::id()))
                                     <a class="btn btn-success btn-sm" href="{{URL::to('/add_update')}}" role="button">
-                                        <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add News Post
+                                        <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> News Post
                                     </a>
                                     @endif
                                 </div>
@@ -195,50 +189,50 @@
 
                         <div class="row align-items-center">
                             @if($recent_posts->count() != 0)
-                                @foreach($recent_posts as $recent_post)
-                                <div class="col-md-6 col-xl-4 mb-4">
-                                    <div class="card card-outline-primary card-primary">
-                                        <a href="{{URL::to('/read_update/'.$recent_post->id)}}">
-                                            <img class="card-img-top img-fluid" src="{{ url('imagecache/original/thumbnails/'.$recent_post->image) }}" alt="Card image cap">
-                                        </a>
-                                        <div class="card-block">
-                                            <p>
-                                                <a href="{{URL::to('/read_update/'.$recent_post->id)}}" class="card-text text-primary" style="text-decoration: none">
-                                                    <strong>{{ substr(strip_tags($recent_post->header),0,65) }}{{ strlen(strip_tags($recent_post->header)) > 65 ? "...":"" }}</strong>
+                            @foreach($recent_posts as $recent_post)
+                            <div class="col-md-6 col-xl-4 mb-4">
+                                <div class="card card-outline-primary card-primary">
+                                    <a href="{{URL::to('/read_update/'.$recent_post->id)}}">
+                                        <img class="card-img-top img-fluid" src="{{ url('imagecache/original/thumbnails/'.$recent_post->image) }}" alt="Card image cap">
+                                    </a>
+                                    <div class="card-block">
+                                        <p>
+                                            <a href="{{URL::to('/read_update/'.$recent_post->id)}}" class="card-text text-primary" style="text-decoration: none">
+                                                <strong>{{ substr(strip_tags($recent_post->header),0,65) }}{{ strlen(strip_tags($recent_post->header)) > 65 ? "...":"" }}</strong>
+                                            </a>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group btn-group-sm">
+                                                <?php
+                                                $views = $unique_views->where('view_id', $recent_post->id)->unique('viewed_by');
+                                                ?>
+                                                @if(Auth::user()->department == 'IT' || Auth::user()->department == 'Communications')
+                                                <a href="#" role="button" class="btn btn-success" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($views->count() == 0) No Views Yet @else @foreach($views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif">
+                                                    {{ $views->count() }} <i class="fa fa-eye" aria-hidden="true"></i>
                                                 </a>
-                                            </p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="btn-group btn-group-sm">
-                                                    <?php
-                                                    $views = $unique_views->where('view_id', $recent_post->id)->unique('viewed_by');
-                                                    ?>
-                                                    @if(Auth::user()->department == 'IT' || Auth::user()->department == 'Communications')
-                                                    <a href="#" role="button" class="btn btn-success" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($views->count() == 0) No Views Yet @else @foreach($views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif">
-                                                        {{ $views->count() }} <i class="fa fa-eye" aria-hidden="true"></i>
-                                                    </a>
-                                                    @endif
-                                                    <?php
-                                                    $likes = $unique_likes->where('view_id', $recent_post->id)->unique('liked_by');
-                                                    ?>
-                                                    <a href="#" role="button" class="btn btn-primary" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Liked By" data-content="@if($likes->count() == 0) No Likes Yet @else @foreach($likes as $like) {{ App\User::find($like->liked_by)->firstname.' '.App\User::find($like->liked_by)->secondname }} <br>@endforeach @endif">
-                                                        {{ $likes->count() }} <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                                                    </a>
-                                                    @if($editors->contains('editor', Auth::id()) && $recent_post->type == Auth::user()->department)
-                                                    <a role="button" class="btn btn-warning" href="{{URL::to('/edit_update/'.$recent_post->id)}}" data-toggle="tooltip" data-placement="top" title="Edit News Post">
-                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                    </a>
-                                                    <a role="button" class="btn btn-danger" href="{{URL::to('/delete_update/'.$recent_post->id)}}" data-toggle="tooltip" data-placement="top" title="Delete News Post">
-                                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                                    </a>
-                                                    @endif
-                                                </div>
-                                                <?php $date = new Jenssegers\Date\Date($recent_post->created_at); ?>
-                                                <small class="text-muted">{{ $date->ago() }}</small>
+                                                @endif
+                                                <?php
+                                                $likes = $unique_likes->where('view_id', $recent_post->id)->unique('liked_by');
+                                                ?>
+                                                <a href="#" role="button" class="btn btn-primary" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Liked By" data-content="@if($likes->count() == 0) No Likes Yet @else @foreach($likes as $like) {{ App\User::find($like->liked_by)->firstname.' '.App\User::find($like->liked_by)->secondname }} <br>@endforeach @endif">
+                                                    {{ $likes->count() }} <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                                </a>
+                                                @if($editors->contains('editor', Auth::id()) && $recent_post->type == Auth::user()->department)
+                                                <a role="button" class="btn btn-warning" href="{{URL::to('/edit_update/'.$recent_post->id)}}" data-toggle="tooltip" data-placement="top" title="Edit News Post">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </a>
+                                                <a role="button" class="btn btn-danger" href="{{URL::to('/delete_update/'.$recent_post->id)}}" data-toggle="tooltip" data-placement="top" title="Delete News Post">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </a>
+                                                @endif
                                             </div>
+                                            <?php $date = new Jenssegers\Date\Date($recent_post->created_at); ?>
+                                            <small class="text-muted">{{ $date->ago() }}</small>
                                         </div>
                                     </div>
                                 </div>
-                                @endforeach
+                            </div>
+                            @endforeach
                             @else
                             <div class="col-12">
                                 <div class="alert alert-success" role="alert">
@@ -252,7 +246,7 @@
                                 </div>
                             </div>
                             @endif
-                            
+
                             @if($recent_posts->hasPages())
                             <div class="col-12">
                                 <nav aria-label="Page navigation example">
