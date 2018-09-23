@@ -34,7 +34,8 @@
                                     name="news-block-appear" 
                                     enter-active-class="animated flipInX"
                                     leave-active-class="animated flipOutX">
-                                        <div v-if="showNewsBlock == news_update.id" class="card-block">
+                                        <!-- <div v-if="showNewsBlock == news_update.id" class="card-block"> -->
+                                        <div class="card-block">
                                             <a href="{{URL::to('/news')}}" class="card-text text-primary">
                                                 <strong v-if="news_update.header.length > 35" v-html="news_update.header.substring(0,35) + '...'"></strong>
                                                 <strong v-else v-html="news_update.header"></strong>
@@ -64,7 +65,8 @@
                                     name="story-block-appear" 
                                     enter-active-class="animated flipInX"
                                     leave-active-class="animated flipOutX">
-                                        <div v-if="showStoryBlock == story.id" class="card-block">
+                                        <!-- <div v-if="showStoryBlock == story.id" class="card-block"> -->
+                                        <div class="card-block">
                                             <a href="{{URL::to('/storiyangu')}}" class="card-text text-primary">
                                                 <strong v-if="story.caption.length > 45" v-html="story.caption.substring(0,45) + '...'"></strong>
                                                 <strong v-else v-html="story.caption"></strong>
@@ -156,7 +158,7 @@
                         <div class="justify-content-start">
                             <h1 class="mr-3">
                                 <span class="small">Links</span>
-                                <span class="smaller font-weight-bold text-primary">you frequently access</span>
+                                <span class="smaller font-weight-bold text-primary">your top clicks</span>
                             </h1>
                         </div>
                         <div class="list-group">

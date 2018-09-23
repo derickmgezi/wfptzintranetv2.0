@@ -288,7 +288,7 @@
                                                     @endif
                                                 </h5>
                                             </div>
-                                            <div id="collapse{{ $mediaalert->id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ $mediaalert->id }}">
+                                            <div id="collapse{{ $mediaalert->id }}" class="collapse show" role="tabpanel" aria-labelledby="heading{{ $mediaalert->id }}">
                                                 @if($mediaalert->type == 'Image')
                                                 <a role="button" v-on:click="showModal({{$mediaalert}})" data-toggle="modal" data-target="#media-alert-modal" >
                                                     <img class="img-fluid img-responsive img-thumbnail" src="{{ URL::to('imagecache/original/'.$mediaalert->mediacontent) }}" alt="Image Alt" style="width: 100%;">
@@ -296,7 +296,7 @@
                                                 @elseif($mediaalert->type == 'Link')
                                                 <div class="">
                                                     <a class="badge badge-success m-3" target="_blank" href='{{ $mediaalert->mediacontent }}'>
-                                                        {{ substr(strip_tags($mediaalert->mediacontent),0,35) }}{{ strlen(strip_tags($mediaalert->mediacontent)) > 35 ? "...":"" }}
+                                                        {{ substr(strip_tags($mediaalert->mediacontent),0,40) }}{{ strlen(strip_tags($mediaalert->mediacontent)) > 40 ? "...":"" }}
                                                     </a>
                                                 </div>
                                                 @endif
