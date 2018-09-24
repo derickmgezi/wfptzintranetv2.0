@@ -28,7 +28,7 @@
                             <div v-for="news_update in news" v-on:mouseover="changenewscolor(news_update.id)" v-on:mouseleave="changebacknewscolor(news_update.id)" class="col-md-4">
                                 <div class="card card-primary m-1 card-outline-primary">
                                     <a href="{{URL::to('/news')}}">
-                                        <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('storage/thumbnails')) }} + '/' + news_update.image" alt="Card image cap">
+                                        <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + news_update.image" alt="Card image cap">
                                     </a>
                                     <transition
                                     name="news-block-appear" 
@@ -59,7 +59,7 @@
                             <div v-for="story in stories" v-on:mouseover="changestorycolor(story.id)" v-on:mouseleave="changebackstorycolor(story.id)" class="col-md-4">
                                 <div class="card card-primary mr-3 mb-3 card-outline-primary">
                                     <a href="{{URL::to('/storiyangu')}}">
-                                        <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('storage/thumbnails')) }} + '/' + story.image" alt="Card image cap">
+                                        <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + story.image" alt="Card image cap">
                                     </a>
                                     <transition
                                     name="story-block-appear" 
