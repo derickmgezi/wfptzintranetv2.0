@@ -187,21 +187,21 @@
                         {{Form::close()}}
                         @endif<!-- end Update Modal -->
 
-                        <div class="row align-items-center">
+                        <div class="row no-gutters align-items-stretch">
                             @if($recent_posts->count() != 0)
                             @foreach($recent_posts as $recent_post)
-                            <div class="col-md-6 col-xl-4 mb-4">
-                                <div class="card card-outline-primary card-primary">
+                            <div class="col-md-6 col-xl-4 p-2">
+                                <div class="card card-outline-primary card-primary h-100">
                                     <a href="{{URL::to('/read_update/'.$recent_post->id)}}">
                                         <img class="card-img-top img-fluid" src="{{ url('imagecache/original/thumbnails/'.$recent_post->image) }}" alt="Card image cap">
                                     </a>
-                                    <div class="card-block">
+                                    <div class="card-block d-flex flex-column">
                                         <p>
                                             <a href="{{URL::to('/read_update/'.$recent_post->id)}}" class="card-text text-primary" style="text-decoration: none">
                                                 <strong>{{ substr(strip_tags($recent_post->header),0,65) }}{{ strlen(strip_tags($recent_post->header)) > 65 ? "...":"" }}</strong>
                                             </a>
                                         </p>
-                                        <div class="d-flex justify-content-between align-items-center">
+                                        <div class="mt-auto d-flex justify-content-start">
                                             <div class="btn-group btn-group-sm">
                                                 <?php
                                                 $views = $unique_views->where('view_id', $recent_post->id)->unique('viewed_by');
@@ -227,7 +227,7 @@
                                                 @endif
                                             </div>
                                             <?php $date = new Jenssegers\Date\Date($recent_post->created_at); ?>
-                                            <small class="text-muted">{{ $date->ago() }}</small>
+                                            <small class="text-muted  ml-auto">{{ $date->ago() }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -343,7 +343,7 @@
                 <!-- Three columns of text below the carousel -->
 
 
-                <hr class="featurette-divider">
+                <hr>
 
                 <!-- FOOTER -->
                 @include('frames/footer')
