@@ -70,13 +70,15 @@
                                 </p>
                                 <h4 id="admin" class="text-primary">Administration</h4>
                                 <p>
-                                   <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Waiver of Liability.pdf'))}}">Waiver of Liability Form</a><br> 
-                                   <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Private Use of Office Vehicle 15.doc'))}}">Private Use of Office Vehicle Form</a><br> 
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Report of loss or damage or unserviceability of property.doc'))}}">Loss or Damage Form</a><br>
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Waiver of Liability.pdf'))}}">Waiver of Liability Form</a><br>
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Private Use of Office Vehicle 15.doc'))}}">Private Use of Office Vehicle Form</a><br>
                                 </p>
                                 <h4 id="it" class="text-primary">IT</h4>
                                 <p>
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/IT/'.encrypt('Request Form for Mobile or thuraya phones.doc'))}}">Request Form for Mobile or thuraya phones</a><br>
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/IT/'.encrypt('IT Loan Form.doc'))}}">Loan Form</a><br>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/IT/'.encrypt('Corporate Information and IT Security Policy.pdf'))}}">Information and IT Security policy</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/IT/'.encrypt('IT Loan Form.doc'))}}">Loan Form</a><br>
                                 </p>
                                 <h4 id="comms" class="text-primary">Communication</h4>
                                 <p>
