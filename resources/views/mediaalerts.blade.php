@@ -273,6 +273,7 @@
                                                             @endif
                                                             <a data-toggle="collapse" data-parent="#media-alert-accordion" href="#collapse{{ $mediaalert->id }}" aria-expanded="true" aria-controls="collapse{{ $mediaalert->id }}">
                                                                 <small>{{ $mediaalert->header }}</small>
+                                                                <!-- <small class="font-weight-bold">{{ $mediaalert->header }}</small> -->
                                                             </a>
                                                     </div>
                                                     <span class="badge badge-default smaller font-italic">{{ $mediaalert->source }}</span>
@@ -295,6 +296,9 @@
                                                 </a>
                                                 @elseif($mediaalert->type == 'Link')
                                                 <div class="">
+                                                    <!-- <iframe class="embed-responsive-item" src="{{ $mediaalert->mediacontent }}">
+                                                        alternative content for browsers which do not support iframe.
+                                                    </iframe> -->
                                                     <a class="badge badge-success m-3" target="_blank" href='{{ $mediaalert->mediacontent }}'>
                                                         {{ substr(strip_tags($mediaalert->mediacontent),0,40) }}{{ strlen(strip_tags($mediaalert->mediacontent)) > 40 ? "...":"" }}
                                                     </a>

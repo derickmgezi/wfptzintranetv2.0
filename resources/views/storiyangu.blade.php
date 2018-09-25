@@ -186,7 +186,7 @@
                     </div>
                 </div>
 
-                <div class="row align-items-center">
+                <div class="row align-items-stretch">
                     @if($stories->count() == 0)
                     <div class="col-12">
                         <div class="alert alert-success" role="alert">
@@ -203,12 +203,12 @@
                     </div>
                     @else
                     @foreach($stories as $story)
-                    <div class="col-md-6 col-xl-4 mb-4">
-                        <div class="card card-outline-primary card-primary  h-100 d-inline-block">
+                    <div class="col-md-6 col-xl-4 p-2">
+                        <div class="card card-outline-primary card-primary  h-100">
                             <a href="{{URL::to('/storiyangu/'.$story->id)}}">
                                 <img class="card-img-top img-fluid" src="{{ URL::to('imagecache/original/thumbnails/'.$story->image) }}" alt="Card image cap">
                             </a>
-                            <div class="card-block">
+                            <div class="card-block d-flex flex-column">
                                 <div class="media">
                                     <img class="d-flex mr-3 rounded-circle" src="{{ strlen(App\User::find($story->posted_by)->image) != 0? url('/storage/thumbnails/'.App\User::find($story->posted_by)->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="45" height="45" data-src="holder.js/25x25/auto"> 
                                     <div class="media-body">
@@ -221,7 +221,7 @@
                                     </div>
                                 </div>
 
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="mt-auto d-flex justify-content-start">
                                     <div class="btn-group btn-group-sm">
                                         <?php
                                         $storyviews = $views->where('story_id', $story->id)->unique('viewed_by');
@@ -239,12 +239,10 @@
                                             {{ $storylikes->count() }}
                                             <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                                         </button>
-
                                         <button type="button" class="btn btn-secondary"  data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Comments From" data-content="@if($uniquestorycomments->count() == 0) No Likes Yet @else @foreach($uniquestorycomments as $storycomment) {{ App\User::find($storycomment->comment_by)->firstname.' '.App\User::find($storycomment->comment_by)->secondname }} <br>@endforeach @endif">
                                             {{ $storycomments->count() }}
                                             <i class="fa fa-comments" aria-hidden="true"></i>
                                         </button>
-
                                         @if($story->posted_by == Auth::id())
                                         <a role="button" class="btn btn-warning" href="{{URL::to('/editstory/'.$story->id)}}" data-toggle="tooltip" data-placement="top" title="Edit Story">
                                             <i class="fa fa-edit" aria-hidden="true"></i>
@@ -254,12 +252,9 @@
                                         </a>
                                         @endif
                                     </div>
-
                                     <?php $date = new Jenssegers\Date\Date($story->created_at); ?>
-                                    <small class="text-muted">{{ $date->ago() }}</small>
+                                    <small class="text-muted ml-auto">{{ $date->ago() }}</small>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -282,7 +277,7 @@
 
 
 
-                <hr class="featurette-divider">
+                <hr>
 
                 <!-- FOOTER -->
                 @include('frames/footer')
