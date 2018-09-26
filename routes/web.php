@@ -118,7 +118,7 @@ Route::group(['middleware' => ['guest']], function () {
     
     Route::get('/lateststory', 'StoryController@lateststory');
     
-    Route::get('/resizethumbnails', 'StoryController@resizethumbnails');
+    Route::get('/resizestorythumbnails', 'StoryController@resizestorythumbnails');
     
     Route::get('/unreadstory', 'StoryController@unreadstory');
     
