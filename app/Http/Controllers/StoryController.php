@@ -223,7 +223,7 @@ class StoryController extends Controller {
             $path = storage_path('app/' . $thumb_image_name);
 
             //Load the image into Intervention Package for manipulation
-            Image::make($path)->fit(1080, 1080)->save($path);
+            Image::make($path)->fit(432, 432)->save($path);
 
 
             //store the post credentials in database
@@ -389,7 +389,7 @@ class StoryController extends Controller {
                 $path = storage_path('app/' . $thumb_image_name);
 
                 //Load the image into Intervention Package for manipulation
-                Image::make($path)->fit(1080, 1080)->save($path);
+                Image::make($path)->fit(432, 432)->save($path);
 
                 $story->image = $image_name;
             }
@@ -422,7 +422,7 @@ class StoryController extends Controller {
             $imagepath = storage_path('app/' . $image);
             $imagename = Image::make($imagepath)->basename;
             $imagethumbnailpath = storage_path('app/public/thumbnails/stories/' . $imagename);
-            Image::make($imagepath)->fit(1080, 1080)->save($imagethumbnailpath);
+            Image::make($imagepath)->fit(432, 432)->save($imagethumbnailpath);
         }
 
         return back();

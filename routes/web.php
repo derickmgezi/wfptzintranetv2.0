@@ -148,7 +148,7 @@ Route::group(['middleware' => ['guest']], function () {
     
     Route::post('/store_story_comment/{id}', 'StoryController@storecomment');
     
-    Route::get('/mediaalerts', 'MediaalertController@index');
+    Route::get('/newsalerts', 'MediaalertController@index');
     
     Route::post('/store_media_alert', 'MediaalertController@store');
     
