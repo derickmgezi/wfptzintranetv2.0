@@ -177,8 +177,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{URL::to('/mediaalerts')}}">
-                            | <i class="fa fa-newspaper-o fa-lg {{((Request::is('mediaalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>News Alerts</small> <span class="sr-only">(current)</span>
+                        <a class="nav-link active" href="{{URL::to('/newsalerts')}}">
+                            | <i class="fa fa-newspaper-o fa-lg {{((Request::is('newsalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>News Alerts</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <!-- <li class="nav-item">
