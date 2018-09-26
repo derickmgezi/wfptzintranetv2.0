@@ -50,9 +50,9 @@
                                 </div>
 
                                 <div class="">
-                                    <!--                                    <a class="btn btn-warning" href="{{ URL::to('/resizethumbnails') }}">
-                                                                           <i class="fa fa-expand" aria-hidden="true"></i>
-                                                                        </a>-->
+                                    <!-- <a class="btn btn-warning" href="{{ URL::to('/resizestorythumbnails') }}">
+                                        <i class="fa fa-expand" aria-hidden="true"></i>
+                                    </a>-->
                                     <a class="btn btn-success btn-sm" @if(Session::has('edit_story') || Session::has('edit_story_error')) href="{{URL::to('/addstory/')}}" @else data-toggle="modal" data-target="#add-story-modal" href="#"  @endif  role="button">
                                        <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add Your Story
                                     </a>
