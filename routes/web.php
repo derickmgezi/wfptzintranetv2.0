@@ -68,6 +68,8 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/like_news_post/{id}', 'PIController@like_news_post');
 
+    Route::get('/previous', 'PIController@picalender');
+
     Route::get('/internaldirectory', 'PhoneDirectoryController@index');
 
     Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts');
@@ -161,10 +163,6 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/resource', 'ResourceController@index');
     
     Route::get('/resource/{type}/{url}', 'ResourceController@show');
-    
-    Route::get('/previous', function () {
-        return view('previous');
-    });
     
     Route::get('/finance', function () {
         return view('finance')->with('department','Finance')->with('dutystation','Country Office');

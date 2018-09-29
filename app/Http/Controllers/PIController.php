@@ -15,6 +15,8 @@ use App\View;
 use App\Like;
 use App\AccessLog;
 use Route;
+use Date;
+use Illuminate\Database\Eloquent\Collection;
 
 class PIController extends Controller {
 
@@ -321,5 +323,31 @@ class PIController extends Controller {
         Session::flash('read_news_post', $id);
         return back();
     }
+
+    public function picalender() {
+        $today = new Date('now');
+        $date = $today;
+        $days_in_month = cal_days_in_month(CAL_GREGORIAN,$date->month,$date->year);
+        $month = collect();
+        $weeks = Collection::make();
+        $dates = new Collection;
+
+
+        for($day = 1; $day <= $days_in_month; $day++){
+            $date = Date::createFromDate($date->year, $date->month, $day);
+            
+            $weeks->push(['week'=>$date->weekNumberInMonth]);
+
+            $dates->push(['date'=>$date->day,'day'=>$date->format('l'), 'week'=>$date->weekNumberInMonth, 'month'=>$date->month, 'year'=>$date->year, 'timestamp'=>$date->timestamp]);
+
+            //array_push($dates, array('date'=>$date->day, 'day'=>$date->format('l'), 'week'=>$date->weekNumberInMonth, 'month'=>$date->month, 'year'=>$date->year));
+
+        }
+        $month = collect(['month'=>$date->format('M'),'year'=>$date->year]);
+        $weeks = $weeks->unique('week');
+        //dd($month);
+        return view('previous')->with('month',$month)->with('weeks',$weeks)->with('dates',$dates)->with('today',$today);
+    }
+    
 
 }
