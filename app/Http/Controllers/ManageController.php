@@ -66,7 +66,7 @@ class ManageController extends Controller {
             $user->title = $request->title;
             $user->department = $request->department;
             $user->dutystation = $request->dutystation;
-            $user->password = bcrypt('3@viruses');
+            $user->password = bcrypt('Welcome@123');
             $user->save();
 
             return back()->with('add_user_status', 'User has been created successfuly');

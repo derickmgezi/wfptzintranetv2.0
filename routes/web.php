@@ -70,6 +70,10 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/previous', 'PIController@picalender');
 
+    Route::get('/previousmonth/{timestamp}', 'PIController@previousmonth');
+
+    Route::get('/nextmonth/{timestamp}', 'PIController@nextmonth');
+
     Route::get('/internaldirectory', 'PhoneDirectoryController@index');
 
     Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts');

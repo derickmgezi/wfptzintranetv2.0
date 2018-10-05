@@ -255,7 +255,9 @@
                                 <div class="panel-heading">
                                     <?php $date = new Jenssegers\Date\Date($day->created_at); ?>
                                     <!--  <h5>{{ $date->format('l j F Y, h:i A') }}</h5> -->
-                                    <h5>{{ $date->format('M j, Y') }}</h5>
+                                    <h5>
+                                        <span class="badge badge-default">{{ $date->format('l jS F, Y') }}</span>
+                                    </h5>
                                 </div>
 
                                 <div id="media-alert-accordion" role="tablist" aria-multiselectable="true">
@@ -267,16 +269,16 @@
                                                 <h5 class="mb-0">
                                                     <div class="d-flex">
                                                             @if($mediaalert->type == 'Link')
-                                                            <span><i class="fa fa-external-link p-1" aria-hidden="true"></i></span>
+                                                            <span><i class="fa fa-external-link p-1 text-primary" aria-hidden="true"></i></span>
                                                             @else
-                                                            <span><i class="fa fa-newspaper-o p-1" aria-hidden="true"></i></span>
+                                                            <span><i class="fa fa-newspaper-o p-1  text-primary" aria-hidden="true"></i></span>
                                                             @endif
                                                             <a data-toggle="collapse" data-parent="#media-alert-accordion" href="#collapse{{ $mediaalert->id }}" aria-expanded="true" aria-controls="collapse{{ $mediaalert->id }}">
                                                                 <small>{{ $mediaalert->header }}</small>
                                                                 <!-- <small class="font-weight-bold">{{ $mediaalert->header }}</small> -->
                                                             </a>
                                                     </div>
-                                                    <span class="badge badge-default smaller font-italic">{{ $mediaalert->source }}</span>
+                                                    <span class="badge badge-primary smaller font-italic">{{ $mediaalert->source }}</span>
                                                     @if(Auth::user()->department == "Communications")
                                                     <div class="float-right">
                                                         <a v-on:click="editModal({{$mediaalert}})" role="button" class="text-warning" data-toggle="modal" data-target="#edit-media-alert-modal">

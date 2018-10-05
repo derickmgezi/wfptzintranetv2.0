@@ -22,7 +22,14 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        //
+        if(!Session::has('intended_url')){
+            session(['intended_url' => str_replace(url('/'),"",url()->previous())]);
+        }else{
+            if(str_replace(url('/'),"",url()->previous()) != '' && str_replace(url('/'),"",url()->previous()) != '/'){
+                session(['intended_url' => str_replace(url('/'),"",url()->previous())]);
+            }
+        }
+
         $access_log = new AccessLog;
         $access_log->link_accessed = str_replace(url('/'),"/",url()->current());
         $access_log->action_taken = "Access Login Page";
@@ -90,7 +97,8 @@ class UserController extends Controller {
         $access_log->save();
 
         Auth::logout();
-        return view('index');
+        session()->flush();
+        return redirect('/');
     }
 
     /**
@@ -100,6 +108,9 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function signin(Request $request) {
+        //if(Session::get('intended_url') == '')
+        //session(['intended_url' => '/']);
+
         $access_log = new AccessLog;
         $access_log->link_accessed = str_replace(url('/'),"",url()->current());
         $access_log->action_taken = "Sign in to Wazo";
@@ -166,7 +177,8 @@ class UserController extends Controller {
                                 $access_log->action_details = "Redirected to Home Page";
                                 $access_log->save();
 
-                                return redirect()->intended('home');
+                                //dd(Session::get('intended_url'));
+                                return redirect()->intended(Session::get('intended_url'));
                             }
                             
                         } else {
@@ -219,13 +231,13 @@ class UserController extends Controller {
                     $access_log->action_details = "Redirected to Home Page after Wazo database Authentication. LDAP Server was not reachable";
                     $access_log->save();
                     
-                    return redirect()->intended('home');
+                    //dd(Session::get('intended_url'));
+                    return redirect()->intended(Session::get('intended_url'));
                 } else {
                     $access_log->user = $request->username;
-                    $access_log->action_details = "Redirected back to Sign in Page due to failed Wazo database Authentication after LDAP Server was not reachable";
+                    $access_log->action_details = "Redirected back to Sign in Page due to failed Wazo database Authentication after LDAP Server was not reachable or Adm credentials are invalid.";
                     $access_log->action_status = "Failed";
                     $access_log->save();
-
                     return back()->withInput()->with('error', 'Domain Server not reachable');
                 }
             }
