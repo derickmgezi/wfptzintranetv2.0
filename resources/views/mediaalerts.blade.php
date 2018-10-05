@@ -253,7 +253,7 @@
                             @foreach($days_of_media_alerts as $day)
                             <div class="panel panel-default mb-4">
                                 <div class="panel-heading">
-                                    <?php $date = new Jenssegers\Date\Date($day->created_at); ?>
+                                    <?php $date = new Jenssegers\Date\Date($day->date); ?>
                                     <!--  <h5>{{ $date->format('l j F Y, h:i A') }}</h5> -->
                                     <h5>
                                         <span class="badge badge-default">{{ $date->format('l jS F, Y') }}</span>
@@ -314,10 +314,19 @@
                             </div>
                             @endforeach
                         @else
-                        <div class="alert alert-info" role="alert">
+                        <div class="alert alert-info mb-4" role="alert">
                             <h4 class="alert-heading">Welcome to News Alerts Page</h4>
                             <strong>Currently</strong> no news alerts have been posted yet.
                             <a href="#" class="alert-link">Soon our communication unit</a>, will start posting news alerts daily.
+                        </div>
+                        @endif
+
+                        @if($days_of_media_alerts->hasPages())
+                        <div class="col-12 mb-4">
+                            <nav aria-label="Page navigation example">
+                                {{ $days_of_media_alerts->links('vendor.pagination.bootstrap-4') }}
+                                {{ $days_of_media_alerts->links('vendor.pagination.bootstrap-4-small') }}
+                            </nav>
                         </div>
                         @endif
                         
