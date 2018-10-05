@@ -16,12 +16,6 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 
-        <!-- script tag for recalling pinterest plugin -->
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous">
-        </script>
-
-        <link href="css/style.css" rel="stylesheet">
-
         <script src="js/lightzoom.js"></script>
 
         <!-- Just to make our placeholder images work. Don't actually copy the next line! -->

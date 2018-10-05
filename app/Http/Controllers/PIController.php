@@ -15,6 +15,8 @@ use App\View;
 use App\Like;
 use App\AccessLog;
 use Route;
+use Date;
+use Illuminate\Database\Eloquent\Collection;
 
 class PIController extends Controller {
 
@@ -322,4 +324,46 @@ class PIController extends Controller {
         return back();
     }
 
+    public function picalender() {
+        $today = new Date('today');
+        if(Session::has('date')){
+            $date = Session::get('date');
+        }else{
+            $date = $today;
+        }
+        $days_in_month = cal_days_in_month(CAL_GREGORIAN,$date->month,$date->year);
+        $month = collect();
+        $weeks = Collection::make();
+        $dates = new Collection;
+
+
+        for($day = 1; $day <= $days_in_month; $day++){
+            $date_in_month = Date::createFromDate($date->year, $date->month, $day);
+            
+            $weeks->push(['week'=>$date_in_month->weekNumberInMonth]);
+
+            $dates->push(['date'=>$date_in_month->day,'day'=>$date_in_month->format('l'), 'week'=>$date_in_month->weekNumberInMonth, 'month'=>$date_in_month->month, 'year'=>$date_in_month->year, 'timestamp'=>$date_in_month->timestamp]);
+
+            //array_push($dates, array('date'=>$date_in_month->day, 'day'=>$date_in_month->format('l'), 'week'=>$date_in_month->weekNumberInMonth, 'month'=>$date_in_month->month, 'year'=>$date_in_month->year));
+
+        }
+        $month = collect(['month'=>$date->format('M'),'year'=>$date->year]);
+        $weeks = $weeks->unique('week');
+        //dd($today->timestamp);
+        return view('previous')->with('month',$month)->with('weeks',$weeks)->with('dates',$dates)->with('today',$today)->with('timestamp',$date->timestamp);
+    }
+    
+    public function previousmonth($timestamp) {
+        $previous_month_timestamp = (new Date((int)$timestamp))->sub('1 month');
+        //dd($previous_month_timestamp);
+        Session::flash('date', $previous_month_timestamp);
+        return redirect('/previous');
+    }
+
+    public function nextmonth($timestamp) {
+        $next_month_timestamp = (new Date((int)$timestamp))->add('1 month');
+        //dd($next_month_timestamp);
+        Session::flash('date', $next_month_timestamp);
+        return redirect('/previous');
+    }
 }

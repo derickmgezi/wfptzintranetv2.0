@@ -234,7 +234,7 @@ class UpdateController extends Controller {
             $access_log->action_details = 'New WFP update stored';
             $access_log->save();
 
-            return back();
+            return redirect('news');
         }
     }
 
@@ -258,7 +258,7 @@ class UpdateController extends Controller {
         $access_log->action_details = 'Wfp update with id "'.$id.'" displayed';
         $access_log->save();
 
-        return back();
+        return redirect('news');
     }
 
     public function edit_update($id) {
