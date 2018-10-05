@@ -21,17 +21,15 @@ class MediaalertController extends Controller {
      */
     public function index() {
         $days_of_media_alerts = DB::table('mediaalerts')->select(DB::raw("DATE_FORMAT(created_at,'%d %M %Y') as date"))
-                                          ->where('status',1)
-                                          ->orderBy('created_at', 'desc');
+                                          ->where('status',1);
 
         $days_of_media_alerts = DB::table(DB::raw("({$days_of_media_alerts->toSql()}) as mediaalerts"))
                         ->mergeBindings($days_of_media_alerts)
-                        ->select(DB::raw('mediaalerts.date'))
+                        ->orderBy('date', 'desc')
                         ->groupBy('mediaalerts.date')
-                        ->paginate(1);
+                        ->paginate(1);        
         
         $mediaalerts = MediaAlert::select(DB::raw("id,header,mediacontent,type,source,created_at,DATE_FORMAT(created_at,'%d %M %Y') as date"))->where('status',1)->get();
-        //dd($days_of_media_alerts);
         
         $access_log = new AccessLog;
         $access_log->link_accessed = str_replace(url('/'),"",url()->current());
