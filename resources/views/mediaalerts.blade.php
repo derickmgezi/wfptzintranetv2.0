@@ -17,7 +17,7 @@
                             <div class="">
                                 <span class="small">News Alerts</span>
                             </div>
-                            @if(Auth::user()->department == "Communications")
+                            @if(Auth::user()->department == "Comms")
                             <div class="ml-auto">
                                 <a class="btn btn-success" data-toggle="modal" data-target="#add-media-alert-modal" href="#" role="button">
                                    <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add Media Post
