@@ -29,7 +29,7 @@
                             <div class="">
                                 <span class="small">News Alerts</span>
                             </div>
-                            @if(Auth::user()->department == "Communications")
+                            @if(Auth::user()->department == "Comms")
                             <div class="ml-auto">
                                 <a class="btn btn-sm btn-success" data-toggle="modal" data-target="#add-media-alert-modal" href="#"  role="button">
                                    <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Media Post
@@ -279,7 +279,7 @@
                                                             </a>
                                                     </div>
                                                     <span class="badge badge-primary smaller font-italic">{{ $mediaalert->source }}</span>
-                                                    @if(Auth::user()->department == "Communications")
+                                                    @if(Auth::user()->department == "Comms")
                                                     <div class="float-right">
                                                         <a v-on:click="editModal({{$mediaalert}})" role="button" class="text-warning" data-toggle="modal" data-target="#edit-media-alert-modal">
                                                             <i class="fa fa-pencil-square" aria-hidden="true"></i>
