@@ -88,7 +88,7 @@
                                 </p>
                                 <h4 id="supplychain" class="text-primary">Supply Chain</h4>
                                 <p>
-                                   <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Supply-Chain/'.encrypt('SUPPLY CHAIN STRATEGY Jun18.pdf'))}}">Supply Chain Strategy</a><br>
+                                        <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Supply-Chain/'.encrypt('SUPPLY CHAIN STRATEGY Jun18.pdf'))}}">Supply Chain Strategy</a><br>
                                 </p>
                                 <h4 id="dashboard" class="text-primary">Dashboard</h4>
                                 <p>
