@@ -37,7 +37,7 @@
                                         <!-- <div v-if="showNewsBlock == news_update.id" class="card-block"> -->
                                         <div class="card-block">
                                             <a :href="{{ json_encode(URL::to('read_update')) }} + '/' + news_update.id" class="card-text text-white">
-                                                <strong v-if="news_update.header.length > 35" v-html="news_update.header.substring(0,35) + '...'"></strong>
+                                                <strong v-if="news_update.header.length > 45" v-html="news_update.header.substring(0,45) + '...'"></strong>
                                                 <strong v-else v-html="news_update.header"></strong>
                                             </a>
                                         </div>
@@ -54,7 +54,7 @@
                                         <!-- <div v-if="showNewsBlock == news_update.id" class="card-block"> -->
                                         <div class="card-block">
                                             <a href="{{URL::to('/news')}}" class="card-text text-primary">
-                                                <strong v-if="news_update.header.length > 35" v-html="news_update.header.substring(0,35) + '...'"></strong>
+                                                <strong v-if="news_update.header.length > 45" v-html="news_update.header.substring(0,45) + '...'"></strong>
                                                 <strong v-else v-html="news_update.header"></strong>
                                             </a>
                                         </div>

@@ -294,7 +294,7 @@
                                             <div id="collapse{{ $mediaalert->id }}" class="collapse show" role="tabpanel" aria-labelledby="heading{{ $mediaalert->id }}">
                                                 @if($mediaalert->type == 'Image')
                                                 <a role="button" v-on:click="showModal({{$mediaalert}})" data-toggle="modal" data-target="#media-alert-modal" >
-                                                    <img class="img-fluid img-responsive img-thumbnail" src="{{ URL::to('imagecache/original/'.$mediaalert->mediacontent) }}" alt="Image Alt" style="width: 100%;">
+                                                    <img class="img-fluid img-responsive img-thumbnail w-100" src="{{ URL::to('imagecache/original/'.$mediaalert->mediacontent) }}" alt="Image Alt">
                                                 </a>
                                                 @elseif($mediaalert->type == 'Link')
                                                 <div class="">
@@ -324,8 +324,7 @@
                         @if($days_of_media_alerts->hasPages())
                         <div class="col-12 mb-4">
                             <nav aria-label="Page navigation example">
-                                {{ $days_of_media_alerts->links('vendor.pagination.bootstrap-4') }}
-                                {{ $days_of_media_alerts->links('vendor.pagination.bootstrap-4-small') }}
+                                {{ $days_of_media_alerts->links('vendor.pagination.bootstrap-4-small-feedback') }}
                             </nav>
                         </div>
                         @endif
