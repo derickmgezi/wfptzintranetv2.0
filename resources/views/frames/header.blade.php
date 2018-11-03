@@ -46,6 +46,13 @@
         <!-- Animated CSS Library from https://daneden.github.io/animate.css/ -->
         {{ Html::style('css/animate.css') }}
 
+        <!-- Select2 core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+        <!-- Select2-Bootstrap-Themes core CSS -->
+        <!-- {{ Html::style('css/select2-bootstrap.css') }} -->
+        {{ Html::style('css/select2-bootstrap4.css') }}
+
         <!-- XZOOM JQUERY PLUGIN  -->
         {{HTML::script("js/jquery.min.js")}}
 
