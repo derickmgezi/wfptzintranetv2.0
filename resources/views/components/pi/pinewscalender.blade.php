@@ -1,5 +1,53 @@
 <div class="row">
     <div class="col-8">
+        <div class="d-flex mb-3">
+            <div class="input-group mr-1">
+                <span class="input-group-addon font-weight-bold" id="basic-addon1">Office</span>
+                <select id="office" class="form-control js-office-single">
+                    <option selected>Country Office</option>
+                    <option >Dodoma Main Office</option>
+                    <option >Kibondo</option>
+                </select>
+            </div>
+
+            <div class="input-group mr-1">
+                    <span class="input-group-addon font-weight-bold" id="basic-addon1">Venue</span>
+                    <select id="venue" class="form-control js-venue-single">
+                        <option></option>
+                        <option >Conference Room</option>
+                        <option >Third Floor Conference</option>
+                        <option >Dining Hall</option>
+                    </select>
+                </div>
+        
+            <!-- Button trigger Venue Booking modal -->
+            <a href="#" class="btn btn-primary ml-1" data-toggle="modal" data-target="#exampleModalLong">
+                Venue Booking
+            </a>
+        </div>
+            
+
+        <!-- Create new Booking Modal -->
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                      ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row row-striped">
             <div class="col-2 text-right">
                 <h2 class="display-4"><span class="badge badge-success">01</span></h2>
