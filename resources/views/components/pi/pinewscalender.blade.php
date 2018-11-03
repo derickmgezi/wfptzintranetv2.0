@@ -21,32 +21,94 @@
                 </div>
         
             <!-- Button trigger Venue Booking modal -->
-            <a href="#" class="btn btn-primary ml-1" data-toggle="modal" data-target="#exampleModalLong">
+            <a href="#" class="btn btn-primary ml-1" data-toggle="modal" data-target="#createBookingModal">
                 Venue Booking
             </a>
         </div>
             
 
         <!-- Create new Booking Modal -->
-        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        {{Form::open(array('url' => '/create_venue_booking','multiple' => true,'role' => 'form'))}}
+        <div class="modal fade" id="createBookingModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <h5 class="modal-title">Book for a Conference Venue</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                      ...
+                        <div class="form-group">
+                            <label class="font-weight-bold">Office</label>
+                            <select name="office" class="form-control js-office-single">
+                                <option selected value="Country Office">Country Office</option>
+                                <option value="Dodoma">Dodoma</option>
+                                <option value="Kibondo">Kibondo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Conference or Meeting Venue</label>
+                            <select name="venue" class="form-control js-venue-single">
+                                <option selected value="Main Conference Hall">Main Conference Hall</option>
+                                <option value="Third Floor Conference Hall">Third Floor Conference Hall</option>
+                                <option value="Canteen">Canteen</option>
+                            </select>
+                        </div>
+                        <div class="d-flex">
+                            <div class="form-group pr-1">
+                                <label class="font-weight-bold">Date</label>
+                                <input type="date" name="date" value="2018-11-01" class="form-control" placeholder="Enter Start time">
+                            </div>
+                            <div class="form-group pr-1">
+                                <label class="font-weight-bold">Start Time</label>
+                                <input type="time" name="starttime" value="10:00:00" class="form-control" placeholder="Enter Start time">
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">End Time</label>
+                                <input type="time" name="endtime" value="12:00:00" class="form-control" placeholder="Enter Start time">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Number of Participants</label>
+                            <input type="number" name="participants" value="2" class="form-control" placeholder="Enter Number of Participants">
+                        </div>
+                        <fieldset class="form-group">
+                            <label class="font-weight-bold">Beverages Required</label>
+                            <div class="d-flex">
+                                <div class="form-check pr-2">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="requirebeverages" v-model="requirebeverages" value="No">
+                                        No
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="requirebeverages" v-model="requirebeverages" value="Yes">
+                                        Yes
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div v-show ="requirebeverages == 'Yes'" class="form-group">
+                            <label for="beverages" class="font-weight-bold">Beverages</label>
+                            <select name="beverageoptions[]" multiple class="form-control js-beverages-multiple" id='beverages'>
+                                <option value="Cofee">Cofee</option>
+                                <option value="Tea">Tea</option>
+                                <option value="Water">Water</option>
+                                <option value="Soft Drinks">Soft Drinks</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
         </div>
+        {{Form::token()}}
+        {{Form::close()}}<!-- end of Create new Booking Modal -->
 
         <div class="row row-striped">
             <div class="col-2 text-right">

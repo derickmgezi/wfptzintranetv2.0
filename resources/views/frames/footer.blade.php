@@ -53,8 +53,15 @@
                 });
             });
 
+            $(document).ready(function () {
+                $('.js-beverages-multiple').select2({
+                    placeholder: "Beverages",
+                    width:  '100%',
+                });
+            });
+
             // Set the "bootstrap" theme as the default theme for all Select2
-            $.fn.select2.defaults.set( "theme", "bootstrap4" );
+            $.fn.select2.defaults.set( "theme", "bootstrap" );
         </script>
 
         
@@ -80,8 +87,10 @@
         newstextcolor:'text-primary',
         showStoryBlock:'',
         storycardcolor:'card-outline-primary',
-        storytextcolor:'text-primary'
+        storytextcolor:'text-primary',
         @endif
+
+        requirebeverages:'No',
         },
         mounted: function(){
         if(this.type == 'Image'){
