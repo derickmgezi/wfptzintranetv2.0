@@ -195,7 +195,7 @@ class UserController extends Controller {
                         $access_log->action_status = "Failed";
                         $access_log->save();
 
-                        return back()->withInput()->with('error', 'Access Denied');
+                        return back()->withInput()->with('error', 'Access Denied. Please inform your local IT forcal person or contant tanzania.itservicedesk@wfp.org');
                     }
                 } else {
                     // AD Authentication failled!
