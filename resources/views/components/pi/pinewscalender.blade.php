@@ -2,7 +2,7 @@
     <div class="col-8">
         <div class="d-flex mb-3">
             <div class="input-group mr-1">
-                <span class="input-group-addon font-weight-bold" id="basic-addon1">Office</span>
+                <span class="input-group-addon" id="basic-addon1">Office</span>
                 <select id="office" class="form-control js-office-single">
                     <option selected>Country Office</option>
                     <option >Dodoma Main Office</option>
@@ -29,7 +29,7 @@
 
         <!-- Create new Booking Modal -->
         {{Form::open(array('url' => '/create_venue_booking','multiple' => true,'role' => 'form'))}}
-        <div class="modal fade" id="createBookingModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade createBookingModal" id="createBookingModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -39,39 +39,73 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->first('office')) has-danger @elseif(old('office')) has-success @endif">
                             <label class="font-weight-bold">Office</label>
-                            <select name="office" class="form-control js-office-single">
-                                <option selected value="Country Office">Country Office</option>
-                                <option value="Dodoma">Dodoma</option>
-                                <option value="Kibondo">Kibondo</option>
+                            <select name="office" class="form-control js-office-single @if($errors->first('office')) form-control-danger @elseif(old('office')) form-control-success @endif">
+                                <option></option>
+                                <option @if(old('office') == 'Country Office') selected @endif value="Country Office">Country Office</option>
+                                <option @if(old('office') == 'Dodoma') selected @endif value="Dodoma">Dodoma</option>
+                                <option @if(old('office') == 'Kibondo') selected @endif value="Kibondo">Kibondo</option>
                             </select>
+                            @if($errors->first('office'))
+                                <div class="form-control-feedback">Office not selected</div>
+                                <small class="form-text text-muted">Make sure you select an office.</small>
+                            @endif
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if($errors->first('venue')) has-danger @elseif(old('venue')) has-success @endif">
                             <label class="font-weight-bold">Conference or Meeting Venue</label>
-                            <select name="venue" class="form-control js-venue-single">
-                                <option selected value="Main Conference Hall">Main Conference Hall</option>
-                                <option value="Third Floor Conference Hall">Third Floor Conference Hall</option>
-                                <option value="Canteen">Canteen</option>
+                            <select name="venue" class="form-control js-venue-single @if($errors->first('venue')) form-control-danger @elseif(old('venue')) form-control-success @endif">
+                                <option></option>
+                                <option @if(old('venue') == 'Main Conference Hall') selected @endif value="Main Conference Hall">Main Conference Hall</option>
+                                <option @if(old('venue') == 'Third Floor Conference Hall') selected @endif value="Third Floor Conference Hall">Third Floor Conference Hall</option>
+                                <option @if(old('venue') == 'Canteen') selected @endif value="Canteen">Canteen</option>
                             </select>
+                            @if($errors->first('venue'))
+                                <div class="form-control-feedback">Venue not selected</div>
+                                <small class="form-text text-muted">Make sure you select a venue.</small>
+                            @endif
+                        </div>
+                        <div class="form-group @if($errors->first('theme')) has-danger @elseif(old('theme')) has-success @endif">
+                            <label class="font-weight-bold">Theme of your Conference or Meeting</label>
+                            <input type="text" name="theme" value="{{ old('theme') }}" class="form-control form-control-sm @if($errors->first('theme')) form-control-danger @elseif(old('theme')) form-control-success @endif" placeholder="Enter Meeting or Conference Theme">
+                            @if($errors->first('theme'))
+                                <div class="form-control-feedback">Theme not filled</div>
+                                <small class="form-text text-muted">Make sure you fill in the Theme Field.</small>
+                            @endif
+                        </div>
+                        <div class="form-group pr-1 @if($errors->first('date')) has-danger @elseif(old('date')) has-success @endif">
+                            <label class="font-weight-bold">Meeting or Conference Date</label>
+                            <input type="date" name="date" value="{{ old('date') }}" class="form-control form-control-sm @if($errors->first('date')) form-control-danger @elseif(old('date')) form-control-success @endif" placeholder="Enter Start time">
+                            @if($errors->first('date'))
+                            <div class="form-control-feedback">Date not filled</div>
+                            <small class="form-text text-muted">Example 12-Dec-2018</small>
+                            @endif
                         </div>
                         <div class="d-flex">
-                            <div class="form-group pr-1">
-                                <label class="font-weight-bold">Date</label>
-                                <input type="date" name="date" value="2018-11-01" class="form-control" placeholder="Enter Start time">
-                            </div>
-                            <div class="form-group pr-1">
+                            <div class="form-group pr-1 @if($errors->first('starttime')) has-danger @elseif(old('starttime')) has-success @endif">
                                 <label class="font-weight-bold">Start Time</label>
-                                <input type="time" name="starttime" value="10:00:00" class="form-control" placeholder="Enter Start time">
+                                <input type="time" name="starttime" value="{{ old('starttime') }}" class="form-control form-control-sm @if($errors->first('starttime')) form-control-danger @elseif(old('starttime')) form-control-success @endif" placeholder="Enter Start time">
+                                @if($errors->first('starttime'))
+                                <div class="form-control-feedback">Start Time not filled</div>
+                                <small class="form-text text-muted">Example 10:00AM</small>
+                                @endif
                             </div>
-                            <div class="form-group">
+                            <div class="form-group @if($errors->first('endtime')) has-danger @elseif(old('endtime')) has-success @endif">
                                 <label class="font-weight-bold">End Time</label>
-                                <input type="time" name="endtime" value="12:00:00" class="form-control" placeholder="Enter Start time">
+                                <input type="time" name="endtime" value="{{ old('endtime') }}" class="form-control form-control-sm @if($errors->first('endtime')) form-control-danger @elseif(old('endtime')) form-control-success @endif" placeholder="Enter Start time">
+                                @if($errors->first('endtime'))
+                                <div class="form-control-feedback">End Time not filled</div>
+                                <small class="form-text text-muted">Example 12:00PM</small>
+                                @endif
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if($errors->first('participants')) has-danger @elseif(old('participants')) has-success @endif">
                             <label class="font-weight-bold">Number of Participants</label>
-                            <input type="number" name="participants" value="2" class="form-control" placeholder="Enter Number of Participants">
+                            <input type="number" name="participants" value="{{ old('participants') }}" class="form-control form-control-sm @if($errors->first('participants')) form-control-danger @elseif(old('participants')) form-control-success @endif" placeholder="Enter Number of Participants">
+                            @if($errors->first('participants'))
+                                <div class="form-control-feedback">Number of Participants not filled</div>
+                                <small class="form-text text-muted">Please fill in the number of participants</small>
+                                @endif
                         </div>
                         <fieldset class="form-group">
                             <label class="font-weight-bold">Beverages Required</label>
@@ -90,14 +124,18 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <div v-show ="requirebeverages == 'Yes'" class="form-group">
+                        <div v-show ="requirebeverages == 'Yes'" class="form-group @if($errors->first('beverageoptions')) has-danger @elseif(old('beverageoptions')) has-success @endif">
                             <label for="beverages" class="font-weight-bold">Beverages</label>
-                            <select name="beverageoptions[]" multiple class="form-control js-beverages-multiple" id='beverages'>
-                                <option value="Cofee">Cofee</option>
-                                <option value="Tea">Tea</option>
-                                <option value="Water">Water</option>
-                                <option value="Soft Drinks">Soft Drinks</option>
+                            <select name="beverageoptions[]" multiple class="form-control js-beverages-multiple @if($errors->first('beverageoptions')) form-control-danger @elseif(old('beverageoptions')) form-control-success @endif" id='beverages'>
+                                <option @if(in_array('Cofee',old('beverageoptions'))) selected @endif value="Cofee">Cofee</option>
+                                <option @if(in_array('Tea',old('beverageoptions'))) selected @endif value="Tea">Tea</option>
+                                <option @if(in_array('Water',old('beverageoptions'))) selected @endif value="Water">Water</option>
+                                <option @if(in_array('Soft Drinks',old('beverageoptions'))) selected @endif value="Soft Drinks">Soft Drinks</option>
                             </select>
+                            @if($errors->first('beverageoptions'))
+                                <div class="form-control-feedback">Beverages not selected</div>
+                                <small class="form-text text-muted">Please select at least one Beverage.</small>
+                            @endif
                         </div>
                     </div>
                     <div class="modal-footer">

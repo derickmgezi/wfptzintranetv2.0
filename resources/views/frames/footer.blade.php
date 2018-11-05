@@ -90,7 +90,7 @@
         storytextcolor:'text-primary',
         @endif
 
-        requirebeverages:'No',
+        requirebeverages:{!! (old('requirebeverages') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
         },
         mounted: function(){
         if(this.type == 'Image'){
@@ -254,6 +254,10 @@
 
         @if(Session::has('edit_media_alert_error'))
         <script>$('#edit-media-alert-modal').modal('show');</script>
+        @endif
+
+        @if(Session::has('create_venue_booking_error'))
+        <script>$('#createBookingModal').modal('show');</script>
         @endif
     </body>
 </html>

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
+use Session;
+use Auth;
+use App\AccessLog;
 
 class VenueBookingController extends Controller
 {
@@ -40,6 +43,7 @@ class VenueBookingController extends Controller
                 'office' => 'required',
                 'venue' => 'required',
                 'date' => 'required',
+                'theme' => 'required',
                 'starttime' => 'required',
                 'endtime' => 'required',
                 'participants' => 'required',
@@ -50,6 +54,7 @@ class VenueBookingController extends Controller
                 'office' => 'required',
                 'venue' => 'required',
                 'date' => 'required',
+                'theme' => 'required',
                 'starttime' => 'required',
                 'endtime' => 'required',
                 'participants' => 'required',
