@@ -127,10 +127,10 @@
                         <div v-show ="requirebeverages == 'Yes'" class="form-group @if($errors->first('beverageoptions')) has-danger @elseif(old('beverageoptions')) has-success @endif">
                             <label for="beverages" class="font-weight-bold">Beverages</label>
                             <select name="beverageoptions[]" multiple class="form-control js-beverages-multiple @if($errors->first('beverageoptions')) form-control-danger @elseif(old('beverageoptions')) form-control-success @endif" id='beverages'>
-                                <option @if(in_array('Cofee',old('beverageoptions'))) selected @endif value="Cofee">Cofee</option>
-                                <option @if(in_array('Tea',old('beverageoptions'))) selected @endif value="Tea">Tea</option>
-                                <option @if(in_array('Water',old('beverageoptions'))) selected @endif value="Water">Water</option>
-                                <option @if(in_array('Soft Drinks',old('beverageoptions'))) selected @endif value="Soft Drinks">Soft Drinks</option>
+                                <option @if(old('beverageoptions') && in_array('Cofee',old('beverageoptions'))) selected @endif value="Cofee">Cofee</option>
+                                <option @if(old('beverageoptions') && in_array('Tea',old('beverageoptions'))) selected @endif value="Tea">Tea</option>
+                                <option @if(old('beverageoptions') && in_array('Water',old('beverageoptions'))) selected @endif value="Water">Water</option>
+                                <option @if(old('beverageoptions') && in_array('Soft Drinks',old('beverageoptions'))) selected @endif value="Soft Drinks">Soft Drinks</option>
                             </select>
                             @if($errors->first('beverageoptions'))
                                 <div class="form-control-feedback">Beverages not selected</div>
