@@ -53,8 +53,15 @@
                 });
             });
 
+            $(document).ready(function () {
+                $('.js-beverages-multiple').select2({
+                    placeholder: "Beverages",
+                    width:  '100%',
+                });
+            });
+
             // Set the "bootstrap" theme as the default theme for all Select2
-            $.fn.select2.defaults.set( "theme", "bootstrap4" );
+            $.fn.select2.defaults.set( "theme", "bootstrap" );
         </script>
 
         
@@ -80,8 +87,10 @@
         newstextcolor:'text-primary',
         showStoryBlock:'',
         storycardcolor:'card-outline-primary',
-        storytextcolor:'text-primary'
+        storytextcolor:'text-primary',
         @endif
+
+        requirebeverages:{!! (old('requirebeverages') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
         },
         mounted: function(){
         if(this.type == 'Image'){
@@ -245,6 +254,10 @@
 
         @if(Session::has('edit_media_alert_error'))
         <script>$('#edit-media-alert-modal').modal('show');</script>
+        @endif
+
+        @if(Session::has('create_venue_booking_error'))
+        <script>$('#createBookingModal').modal('show');</script>
         @endif
     </body>
 </html>

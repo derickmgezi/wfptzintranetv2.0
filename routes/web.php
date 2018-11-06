@@ -167,6 +167,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/resource', 'ResourceController@index');
     
     Route::get('/resource/{type}/{url}', 'ResourceController@show');
+
+    Route::post('/create_venue_booking', 'VenueBookingController@store');
     
     Route::get('/finance', function () {
         return view('finance')->with('department','Finance')->with('dutystation','Country Office');
