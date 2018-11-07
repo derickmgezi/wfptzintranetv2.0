@@ -50,6 +50,7 @@
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('SOP for communication equipment.pdf'))}}">Communication Equipment</a><br>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('WFPtz Guidelines on Media.pdf'))}}">WFP TZ Guidelines on Media</a><br>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('SOP - USE OF WFP VEHICLES.pdf'))}}">Use of WFP Vehicles</a><br>
+                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('SOP for the Cooperating Partners Committee WFP Tanzania Country Office.pdf'))}}">SOP for the Cooperating Partners COmmittee WFP Tanzania Country Office</a><br>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('Office committees 2018.pdf'))}}">Office committees 2018</a><br>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('SOP INVOICE MANAGEMENT TZCO.pdf'))}}">Invoice Management</a><br>
                                     <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('Cooperating Partners Committee SOPs.pdf'))}}">Cooperating Partners Committee</a><br>
@@ -61,8 +62,11 @@
                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/HR/'.encrypt('Leave Application Form for All National Staff.doc'))}}">Leave Application Form for all National Staff</a><br> 
                                 </p>
                                 <h4 id="programme" class="text-primary">Programme</h4>
-                                <p>
-                                    
+                                <p>  
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Tanzania-Country Operations Management Plan 2018.pdf'))}}">Tanzania-Country Operations Management Plan 2018</a><br>
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('United Republic of Tanzania CSP 2017 - 2021.pdf'))}}">United Republic of Tanzania CSP 2017 - 2021</a><br>
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('WFP TZ CO Guidance on partnerships with Non-Government Organisations.pdf'))}}">WFP TZ CO Guidance on partnerships with Non-Government Organisations</a><br>
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('United Nations Development Assistance (UNDAP) 2016-2021.pdf'))}}">United Nations Development Assistance (UNDAP) 2016-2021</a><br>
                                 </p>
                                 <h4 id="finance" class="text-primary">Finance</h4>
                                 <p>

@@ -39,7 +39,7 @@
             // My Select2 Javascript (external .js resource or <script> tag)
             $(document).ready(function () {
                 $('.js-office-single').select2({
-                    placeholder: "Select an office",
+                    placeholder: "Select location",
                     allowClear: true,
                     width:  '100%',
                 });

@@ -2,26 +2,25 @@
     <div class="col-8">
         <div class="d-flex mb-3">
             <div class="input-group mr-1">
-                <span class="input-group-addon" id="basic-addon1">Office</span>
                 <select id="office" class="form-control js-office-single">
-                    <option selected>Country Office</option>
-                    <option >Dodoma Main Office</option>
-                    <option >Kibondo</option>
+                    <option></option>
+                    <option>Country Office</option>
+                    <!-- <option >Dodoma Main Office</option>
+                    <option >Kibondo</option> -->
                 </select>
             </div>
 
             <div class="input-group mr-1">
-                    <span class="input-group-addon font-weight-bold" id="basic-addon1">Venue</span>
-                    <select id="venue" class="form-control js-venue-single">
-                        <option></option>
-                        <option >Conference Room</option>
-                        <option >Third Floor Conference</option>
-                        <option >Dining Hall</option>
-                    </select>
-                </div>
+                <select id="venue" class="form-control js-venue-single">
+                    <option></option>
+                    <option >Main Conference Hall</option>
+                    <option >Third Floor Conference</option>
+                    <option >Canteen</option>
+                </select>
+            </div>
         
             <!-- Button trigger Venue Booking modal -->
-            <a href="#" class="btn btn-primary ml-1" data-toggle="modal" data-target="#createBookingModal">
+            <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#createBookingModal">
                 Venue Booking
             </a>
         </div>
@@ -44,8 +43,8 @@
                             <select name="office" class="form-control js-office-single @if($errors->first('office')) form-control-danger @elseif(old('office')) form-control-success @endif">
                                 <option></option>
                                 <option @if(old('office') == 'Country Office') selected @endif value="Country Office">Country Office</option>
-                                <option @if(old('office') == 'Dodoma') selected @endif value="Dodoma">Dodoma</option>
-                                <option @if(old('office') == 'Kibondo') selected @endif value="Kibondo">Kibondo</option>
+                                <!-- <option @if(old('office') == 'Dodoma') selected @endif value="Dodoma">Dodoma</option>
+                                <option @if(old('office') == 'Kibondo') selected @endif value="Kibondo">Kibondo</option> -->
                             </select>
                             @if($errors->first('office'))
                                 <div class="form-control-feedback">Office not selected</div>
@@ -57,7 +56,7 @@
                             <select name="venue" class="form-control js-venue-single @if($errors->first('venue')) form-control-danger @elseif(old('venue')) form-control-success @endif">
                                 <option></option>
                                 <option @if(old('venue') == 'Main Conference Hall') selected @endif value="Main Conference Hall">Main Conference Hall</option>
-                                <option @if(old('venue') == 'Third Floor Conference Hall') selected @endif value="Third Floor Conference Hall">Third Floor Conference Hall</option>
+                                <option @if(old('venue') == 'Third Floor Conference') selected @endif value="Third Floor Conference Hall">Third Floor Conference</option>
                                 <option @if(old('venue') == 'Canteen') selected @endif value="Canteen">Canteen</option>
                             </select>
                             @if($errors->first('venue'))
@@ -185,9 +184,9 @@
             <div class="col-10">
                 <div class="pb-1">
                     <img class="img-fluid rounded-circle" src="{{ strlen(App\User::find($venuebooking->created_by)->image) != 0? url('/storage/thumbnails/'.App\User::find($venuebooking->created_by)->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto"> 
-                    {{ App\User::find($venuebooking->created_by)->firstname.' '.App\User::find($venuebooking->created_by)->secondname}}
+                    <span class="text-primary">{{ App\User::find($venuebooking->created_by)->firstname.' '.App\User::find($venuebooking->created_by)->secondname}}</span>
                 </div>
-                <h3 class=""><strong>{{ $venuebooking->purpose }}</strong></h3>
+                <h5 class=""><strong>{{ $venuebooking->purpose }}</strong></h5>
                 <ul class="list-inline">
                     <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ $date->format('l') }}</li>
                     <?php 
@@ -195,7 +194,7 @@
                         $end_time = new Jenssegers\Date\Date($venuebooking->end_time);
                      ?>
                     <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $start_time->format('h:i A') }} - {{ $end_time->format('h:i A') }}</li>
-                    <li class="list-inline-item"><i class="fa fa-location-arrow text-primary" aria-hidden="true"></i> <span class="text-primary">{{ $venuebooking->venue }}</span></li>
+                    <li class="list-inline-item"><i class="fa fa-location-arrow text-warning" aria-hidden="true"></i> <a href="#" class="text-warning font-weight-bold">{{ $venuebooking->venue }}</a></li>
                 </ul>
                 <div>
                     <i class="fa fa-user-circle-o" aria-hidden="true"></i> {{ $venuebooking->participants }} Participants

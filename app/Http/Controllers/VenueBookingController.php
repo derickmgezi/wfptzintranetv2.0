@@ -160,7 +160,11 @@ class VenueBookingController extends Controller
             $new_booking->created_by = Auth::id();
             $new_booking->save();
 
-            return back();
+            $timestamp = new Date($request->date);
+            $timestamp = $timestamp->timestamp;
+
+            Session::flash('calendardate', $timestamp);
+            return redirect('/previous');
         }
     }
 
