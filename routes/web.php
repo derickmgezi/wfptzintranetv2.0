@@ -68,11 +68,13 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/like_news_post/{id}', 'PIController@like_news_post');
 
-    Route::get('/previous', 'PIController@picalender');
+    Route::get('/previous', 'VenueBookingController@index');
 
-    Route::get('/previousmonth/{timestamp}', 'PIController@previousmonth');
+    Route::get('/previousmonth/{timestamp}', 'VenueBookingController@previousmonth');
 
-    Route::get('/nextmonth/{timestamp}', 'PIController@nextmonth');
+    Route::get('/nextmonth/{timestamp}', 'VenueBookingController@nextmonth');
+
+    Route::get('/calendar/{timestamp}', 'VenueBookingController@calendar');
 
     Route::get('/internaldirectory', 'PhoneDirectoryController@index');
 

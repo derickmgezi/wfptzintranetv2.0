@@ -39,7 +39,7 @@
             // My Select2 Javascript (external .js resource or <script> tag)
             $(document).ready(function () {
                 $('.js-office-single').select2({
-                    placeholder: "Select an office",
+                    placeholder: "Select location",
                     allowClear: true,
                     width:  '100%',
                 });
@@ -258,6 +258,10 @@
 
         @if(Session::has('create_venue_booking_error'))
         <script>$('#createBookingModal').modal('show');</script>
+        @endif
+
+        @if(Session::has('create_venue_booking'))
+        <script>$('#successfulBookingModal').modal('show');</script>
         @endif
     </body>
 </html>
