@@ -144,27 +144,48 @@ class VenueBookingController extends Controller
 
             return back()->withErrors($validator)->withInput();
         }else{
-            Session::flash('create_venue_booking', 'Your Booking was successful');
+            $bookings = VenueBooking::select('start_time','end_time')
+                                     ->where('status',1)
+                                     ->where('venue',$request->venue)
+                                     ->where('date',$request->date)
+                                     ->get();
 
-            $new_booking = new VenueBooking;
-            $new_booking->purpose = $request->purpose;
-            $new_booking->location = $request->office;
-            $new_booking->venue = $request->venue;
-            $new_booking->date = $request->date;
-            $new_booking->start_time = $request->starttime;
-            $new_booking->end_time = $request->endtime;
-            $new_booking->participants = $request->participants;
-            $new_booking->requirebeverages = $request->requirebeverages;
-            if($request->requirebeverages == 'Yes')
-            $new_booking->beverageoptions = implode( ", ", $request->beverageoptions );
-            $new_booking->created_by = Auth::id();
-            $new_booking->save();
+            foreach($bookings as $booking){
+                //Convert Request timeformat to resemble those in the database
+                $starttime = new Date($request->starttime);
+                $starttime =  $starttime->toTimeString();
 
-            $timestamp = new Date($request->date);
-            $timestamp = $timestamp->timestamp;
+                $endtime = new Date($request->endtime);
+                $endtime =  $endtime->toTimeString();
 
-            Session::flash('calendardate', $timestamp);
-            return redirect('/previous');
+                if(!(($starttime > $booking->start_time && $starttime >= $booking->end_time) || ($starttime < $booking->start_time && $starttime < $booking->end_time))){
+                    dd('Start time overlaps with another meeting');
+                }elseif(!(($endtime > $booking->start_time && $endtime > $booking->end_time) || ($endtime <= $booking->start_time && $endtime < $booking->end_time))){
+                    dd('End time overlaps with another meeting');
+                }
+            }
+                
+                $new_booking = new VenueBooking;
+                $new_booking->purpose = $request->purpose;
+                $new_booking->location = $request->office;
+                $new_booking->venue = $request->venue;
+                $new_booking->date = $request->date;
+                $new_booking->start_time = $request->starttime;
+                $new_booking->end_time = $request->endtime;
+                $new_booking->participants = $request->participants;
+                $new_booking->requirebeverages = $request->requirebeverages;
+                if($request->requirebeverages == 'Yes')
+                $new_booking->beverageoptions = implode( ", ", $request->beverageoptions );
+                $new_booking->created_by = Auth::id();
+                $new_booking->save();
+
+                $timestamp = new Date($request->date);
+                $timestamp = $timestamp->timestamp;
+
+                Session::flash('calendardate', $timestamp);
+                Session::flash('create_venue_booking', 'Your Booking was successful');
+                return redirect('/previous');
+            
         }
     }
 

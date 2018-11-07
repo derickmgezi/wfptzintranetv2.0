@@ -1,5 +1,10 @@
 <div class="row">
     <div class="col-8">
+        <!-- Button trigger Venue Booking modal -->
+        <a href="#" class="btn btn-success mb-2" data-toggle="modal" data-target="#createBookingModal">
+            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Book for a Conference Room
+        </a>
+
         <div class="d-flex mb-3">
             <div class="input-group mr-1">
                 <select id="office" class="form-control js-office-single">
@@ -18,10 +23,9 @@
                     <option >Canteen</option>
                 </select>
             </div>
-        
-            <!-- Button trigger Venue Booking modal -->
-            <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#createBookingModal">
-                Venue Booking
+
+            <a href="#" class="btn btn-secondary btn-sm mr-1">
+                    <i class="fa fa-filter" aria-hidden="true"></i> Filter
             </a>
         </div>
             
@@ -169,48 +173,58 @@
             </div>
         </div><!-- end of Successful Booking Message Modal -->
 
-        @foreach($venuebookings as $venuebooking)
-        <?php 
-            $date = new Jenssegers\Date\Date($venuebooking->date); 
-            $color = $bookingcolors->pull(0);
-            $bookingcolors->push($color);
-            $bookingcolors = $bookingcolors->values();
-        ?>
-        <div class="row row-striped">
-            <div class="col-2 text-right">
-                <h2 class="display-4"><span class="badge {{ $color }}">{{ $date->format('d') }}</span></h2>
-                <span class="h2">{{ strtoupper($date->format('M')) }}</span>
+        @if($venuebookings->count() == 0)
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">No bookings have been created at this time!</h4>
+                <p>
+                    To create a new booking please click on the Conference Venue Booking Button above
+                </p>
+                <p class="mb-0 font-weight-bold">Please make your booking now.</p>
             </div>
-            <div class="col-10">
-                <div class="pb-1">
-                    <img class="img-fluid rounded-circle" src="{{ strlen(App\User::find($venuebooking->created_by)->image) != 0? url('/storage/thumbnails/'.App\User::find($venuebooking->created_by)->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto"> 
-                    <span class="text-primary">{{ App\User::find($venuebooking->created_by)->firstname.' '.App\User::find($venuebooking->created_by)->secondname}}</span>
+        @else
+            @foreach($venuebookings as $venuebooking)
+            <?php 
+                $date = new Jenssegers\Date\Date($venuebooking->date); 
+                $color = $bookingcolors->pull(0);
+                $bookingcolors->push($color);
+                $bookingcolors = $bookingcolors->values();
+            ?>
+            <div class="row row-striped">
+                <div class="col-2 text-right">
+                    <h2 class="display-4"><span class="badge {{ $color }}">{{ $date->format('d') }}</span></h2>
+                    <span class="h2">{{ strtoupper($date->format('M')) }}</span>
                 </div>
-                <h5 class=""><strong>{{ $venuebooking->purpose }}</strong></h5>
-                <ul class="list-inline">
-                    <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ $date->format('l') }}</li>
-                    <?php 
-                        $start_time = new Jenssegers\Date\Date($venuebooking->start_time);
-                        $end_time = new Jenssegers\Date\Date($venuebooking->end_time);
-                     ?>
-                    <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $start_time->format('h:i A') }} - {{ $end_time->format('h:i A') }}</li>
-                    <li class="list-inline-item"><i class="fa fa-location-arrow text-warning" aria-hidden="true"></i> <a href="#" class="text-warning font-weight-bold">{{ $venuebooking->venue }}</a></li>
-                </ul>
-                <div>
-                    <i class="fa fa-user-circle-o" aria-hidden="true"></i> {{ $venuebooking->participants }} Participants
-                    @if(str_contains($venuebooking->beverageoptions, 'Cofee'))
-                    <i class="fa fa-coffee" aria-hidden="true"></i> 
-                    @endif
-                    @if(str_contains($venuebooking->beverageoptions, 'Tea'))
-                    <i class="fa fa-beer" aria-hidden="true"></i>
-                    @endif
-                    @if(str_contains($venuebooking->beverageoptions, 'Water'))
-                    <i class="fa fa-glass" aria-hidden="true"></i> 
-                    @endif
+                <div class="col-10">
+                    <div class="pb-1">
+                        <img class="img-fluid rounded-circle" src="{{ strlen(App\User::find($venuebooking->created_by)->image) != 0? url('/storage/thumbnails/'.App\User::find($venuebooking->created_by)->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto"> 
+                        <span class="text-primary">{{ App\User::find($venuebooking->created_by)->firstname.' '.App\User::find($venuebooking->created_by)->secondname}}</span>
+                    </div>
+                    <h5 class=""><strong>{{ $venuebooking->purpose }}</strong></h5>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ $date->format('l') }}</li>
+                        <?php 
+                            $start_time = new Jenssegers\Date\Date($venuebooking->start_time);
+                            $end_time = new Jenssegers\Date\Date($venuebooking->end_time);
+                         ?>
+                        <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $start_time->format('h:i A') }} - {{ $end_time->format('h:i A') }}</li>
+                        <li class="list-inline-item"><i class="fa fa-location-arrow text-warning" aria-hidden="true"></i> <a href="#" class="text-warning font-weight-bold">{{ $venuebooking->venue }}</a></li>
+                    </ul>
+                    <div>
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i> {{ $venuebooking->participants }} Participants
+                        @if(str_contains($venuebooking->beverageoptions, 'Cofee'))
+                        <i class="fa fa-coffee" aria-hidden="true"></i> 
+                        @endif
+                        @if(str_contains($venuebooking->beverageoptions, 'Tea'))
+                        <i class="fa fa-beer" aria-hidden="true"></i>
+                        @endif
+                        @if(str_contains($venuebooking->beverageoptions, 'Water'))
+                        <i class="fa fa-glass" aria-hidden="true"></i> 
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
-        @endforeach
+            @endforeach
+        @endif
     </div>
     <div class="col-4">
             <div class="d-flex justify-content-around" >
