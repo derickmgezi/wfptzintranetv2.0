@@ -259,5 +259,9 @@
         @if(Session::has('create_venue_booking_error'))
         <script>$('#createBookingModal').modal('show');</script>
         @endif
+
+        @if(Session::has('create_venue_booking'))
+        <script>$('#successfulBookingModal').modal('show');</script>
+        @endif
     </body>
 </html>

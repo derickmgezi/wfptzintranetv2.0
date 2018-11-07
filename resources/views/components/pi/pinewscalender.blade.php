@@ -65,19 +65,19 @@
                                 <small class="form-text text-muted">Make sure you select a venue.</small>
                             @endif
                         </div>
-                        <div class="form-group @if($errors->first('theme')) has-danger @elseif(old('theme')) has-success @endif">
-                            <label class="font-weight-bold">Theme of your Conference or Meeting</label>
-                            <input type="text" name="theme" value="{{ old('theme') }}" class="form-control form-control-sm @if($errors->first('theme')) form-control-danger @elseif(old('theme')) form-control-success @endif" placeholder="Enter Meeting or Conference Theme">
-                            @if($errors->first('theme'))
-                                <div class="form-control-feedback">Theme not filled</div>
-                                <small class="form-text text-muted">Make sure you fill in the Theme Field.</small>
+                        <div class="form-group @if($errors->first('purpose')) has-danger @elseif(old('purpose')) has-success @endif">
+                            <label class="font-weight-bold">Purpose of your Conference or Meeting</label>
+                            <input type="text" name="purpose" value="{{ old('purpose') }}" class="form-control form-control-sm @if($errors->first('purpose')) form-control-danger @elseif(old('purpose')) form-control-success @endif" placeholder="Enter Meeting or Conference Purpose">
+                            @if($errors->first('purpose'))
+                                <div class="form-control-feedback">Purpose not filled</div>
+                                <small class="form-text text-muted">Make sure you fill in the Purpose Field.</small>
                             @endif
                         </div>
                         <div class="form-group pr-1 @if($errors->first('date')) has-danger @elseif(old('date')) has-success @endif">
                             <label class="font-weight-bold">Meeting or Conference Date</label>
                             <input type="date" name="date" value="{{ old('date') }}" class="form-control form-control-sm @if($errors->first('date')) form-control-danger @elseif(old('date')) form-control-success @endif" placeholder="Enter Start time">
                             @if($errors->first('date'))
-                            <div class="form-control-feedback">Date not filled</div>
+                            <div class="form-control-feedback">Date is incorrect</div>
                             <small class="form-text text-muted">Example 12-Dec-2018</small>
                             @endif
                         </div>
@@ -86,15 +86,15 @@
                                 <label class="font-weight-bold">Start Time</label>
                                 <input type="time" name="starttime" value="{{ old('starttime') }}" class="form-control form-control-sm @if($errors->first('starttime')) form-control-danger @elseif(old('starttime')) form-control-success @endif" placeholder="Enter Start time">
                                 @if($errors->first('starttime'))
-                                <div class="form-control-feedback">Start Time not filled</div>
+                                <div class="form-control-feedback">Start Time is incorect</div>
                                 <small class="form-text text-muted">Example 10:00AM</small>
                                 @endif
                             </div>
-                            <div class="form-group @if($errors->first('endtime')) has-danger @elseif(old('endtime')) has-success @endif">
+                            <div class="form-group pl-1 @if($errors->first('endtime')) has-danger @elseif(old('endtime')) has-success @endif">
                                 <label class="font-weight-bold">End Time</label>
                                 <input type="time" name="endtime" value="{{ old('endtime') }}" class="form-control form-control-sm @if($errors->first('endtime')) form-control-danger @elseif(old('endtime')) form-control-success @endif" placeholder="Enter Start time">
                                 @if($errors->first('endtime'))
-                                <div class="form-control-feedback">End Time not filled</div>
+                                <div class="form-control-feedback">End Time is incorect</div>
                                 <small class="form-text text-muted">Example 12:00PM</small>
                                 @endif
                             </div>
@@ -148,86 +148,70 @@
         {{Form::token()}}
         {{Form::close()}}<!-- end of Create new Booking Modal -->
 
+        <!-- Successful Booking Message Modal -->
+        <div class="modal fade successfulBookingModal" id="successfulBookingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Booking Status</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-success" role="alert">
+                            <strong>Congratulations!</strong> {{ Session::get('create_venue_booking') }}.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end of Successful Booking Message Modal -->
+
+        @foreach($venuebookings as $venuebooking)
+        <?php 
+            $date = new Jenssegers\Date\Date($venuebooking->date); 
+            $color = $bookingcolors->pull(0);
+            $bookingcolors->push($color);
+            $bookingcolors = $bookingcolors->values();
+        ?>
         <div class="row row-striped">
             <div class="col-2 text-right">
-                <h2 class="display-4"><span class="badge badge-success">01</span></h2>
-                <span class="h2">OCT</span>
+                <h2 class="display-4"><span class="badge {{ $color }}">{{ $date->format('d') }}</span></h2>
+                <span class="h2">{{ strtoupper($date->format('M')) }}</span>
             </div>
             <div class="col-10">
-                <h3 class=""><strong>All Staff Meeting</strong></h3>
+                <div class="pb-1">
+                    <img class="img-fluid rounded-circle" src="{{ strlen(App\User::find($venuebooking->created_by)->image) != 0? url('/storage/thumbnails/'.App\User::find($venuebooking->created_by)->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto"> 
+                    {{ App\User::find($venuebooking->created_by)->firstname.' '.App\User::find($venuebooking->created_by)->secondname}}
+                </div>
+                <h3 class=""><strong>{{ $venuebooking->purpose }}</strong></h3>
                 <ul class="list-inline">
-                    <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> Monday</li>
-                    <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> 10:00 AM - 12:00 PM</li>
-                    <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i> Conference Room</li>
+                    <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ $date->format('l') }}</li>
+                    <?php 
+                        $start_time = new Jenssegers\Date\Date($venuebooking->start_time);
+                        $end_time = new Jenssegers\Date\Date($venuebooking->end_time);
+                     ?>
+                    <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $start_time->format('h:i A') }} - {{ $end_time->format('h:i A') }}</li>
+                    <li class="list-inline-item"><i class="fa fa-location-arrow text-primary" aria-hidden="true"></i> <span class="text-primary">{{ $venuebooking->venue }}</span></li>
                 </ul>
-                <p>
-                    <i class="fa fa-user-circle-o" aria-hidden="true"></i> 64 Participants
+                <div>
+                    <i class="fa fa-user-circle-o" aria-hidden="true"></i> {{ $venuebooking->participants }} Participants
+                    @if(str_contains($venuebooking->beverageoptions, 'Cofee'))
                     <i class="fa fa-coffee" aria-hidden="true"></i> 
-                    <i class="fa fa-cutlery" aria-hidden="true"></i> 
-                    <i class="fa fa-tint" aria-hidden="true"></i> 
-                </p>
+                    @endif
+                    @if(str_contains($venuebooking->beverageoptions, 'Tea'))
+                    <i class="fa fa-beer" aria-hidden="true"></i>
+                    @endif
+                    @if(str_contains($venuebooking->beverageoptions, 'Water'))
+                    <i class="fa fa-glass" aria-hidden="true"></i> 
+                    @endif
+                </div>
             </div>
         </div>
-        <div class="row row-striped">
-            <div class="col-2 text-right">
-                <h2 class="display-4"><span class="badge badge-warning">02</span></h2>
-                <span class="h2">OCT</span>
-            </div>
-            <div class="col-10">
-                <h3 class=""><strong>Programme Meeting</strong></h3>
-                <ul class="list-inline">
-                    <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> Tuesday</li>
-                    <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> 08:30 AM - 11:00 AM</li>
-                    <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i> Conference Room</li>
-                </ul>
-                <p>Lorem ipsum dolsit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </div>
-        </div>
-        <div class="row row-striped">
-            <div class="col-2 text-right">
-                <h2 class="display-4"><span class="badge badge-info">04</span></h2>
-                <h2>OCT</h2>
-            </div>
-            <div class="col-10">
-                <h3 class=""><strong>PI Donor Meeting</strong></h3>
-                <ul class="list-inline">
-                    <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> Thursday</li>
-                    <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> 10:00 AM - 07:00 PM</li>
-                    <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i> Conference Room</li>
-                </ul>
-                <p>Lorem ipsum dolsit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </div>
-        </div>
-        <div class="row row-striped">
-            <div class="col-2 text-right">
-                <h2 class="display-4"><span class="badge badge-danger">04</span></h2>
-                <h2>OCT</h2>
-            </div>
-            <div class="col-10">
-                <h3 class=""><strong>Kigoma Joint Programme Meeting</strong></h3>
-                <ul class="list-inline">
-                    <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> Thursday</li>
-                    <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> 09:30 AM - 11:00 AM</li>
-                    <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i> Small Holder Farmer Conference Room</li>
-                </ul>
-                <p>Lorem ipsum dolsit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </div>
-        </div>
-        <div class="row row-striped">
-            <div class="col-2 text-right">
-                <h2 class="display-4"><span class="badge badge-default">05</span></h2>
-                <h2>OCT</h2>
-            </div>
-            <div class="col-10">
-                <h3 class=""><strong>Intercom Session</strong></h3>
-                <ul class="list-inline">
-                    <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> Friday</li>
-                    <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> 08:30 AM - 10:00 AM</li>
-                    <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i> Canteen</li>
-                </ul>
-                <p>Lorem ipsum dolsit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </div>
-        </div>
+        @endforeach
     </div>
     <div class="col-4">
             <div class="d-flex justify-content-around" >
@@ -280,25 +264,25 @@
                 ?>
                 <tr>
                     <td class="@if($today->day == $Monday_date) table-active @else  @endif">
-                        <a href="{{URL::to('/calender/'.$Monday_timestamp)}}" class="float-right font-italic smaller">{{ $Monday_date }}</a>
+                        <a href="{{URL::to('/calendar/'.$Monday_timestamp)}}" class="float-right font-italic smaller">{{ $Monday_date }}</a>
                     </td>
                     <td class="@if($today->day == $Tuesday_date) table-active @else  @endif">
-                        <a href="{{URL::to('/calender/'.$Tuesday_timestamp)}}" class="float-right font-italic smaller">{{ $Tuesday_date }}</a>
+                        <a href="{{URL::to('/calendar/'.$Tuesday_timestamp)}}" class="float-right font-italic smaller">{{ $Tuesday_date }}</a>
                     </td>
                     <td class="@if($today->day == $Wednesday_date) table-active @else  @endif">
-                        <a href="{{URL::to('/calender/'.$Wednesday_timestamp)}}" class="float-right font-italic smaller">{{ $Wednesday_date }}</a>
+                        <a href="{{URL::to('/calendar/'.$Wednesday_timestamp)}}" class="float-right font-italic smaller">{{ $Wednesday_date }}</a>
                     </td>
                     <td class="@if($today->day == $Thursday_date) table-active @else  @endif">
-                        <a href="{{URL::to('/calender/'.$Thursday_timestamp)}}" class="float-right font-italic smaller">{{ $Thursday_date }}</a>
+                        <a href="{{URL::to('/calendar/'.$Thursday_timestamp)}}" class="float-right font-italic smaller">{{ $Thursday_date }}</a>
                     </td>
                     <td class="@if($today->day == $Friday_date) table-active @else  @endif">
-                        <a href="{{URL::to('/calender/'.$Friday_timestamp)}}" class="float-right font-italic smaller">{{ $Friday_date }}</a>
+                        <a href="{{URL::to('/calendar/'.$Friday_timestamp)}}" class="float-right font-italic smaller">{{ $Friday_date }}</a>
                     </td>
                     <td class="@if($today->day == $Saturday_date) table-active @else  @endif">
-                        <a href="{{URL::to('/calender/'.$Saturday_timestamp)}}" class="float-right font-italic smaller">{{ $Saturday_date }}</a>
+                        <a href="{{URL::to('/calendar/'.$Saturday_timestamp)}}" class="float-right font-italic smaller">{{ $Saturday_date }}</a>
                     </td>
                     <td class="@if($today->day == $Sunday_date) table-active @else  @endif">
-                        <a href="{{URL::to('/calender/'.$Sunday_timestamp)}}" class="float-right font-italic smaller">{{ $Sunday_date }}</a>
+                        <a href="{{URL::to('/calendar/'.$Sunday_timestamp)}}" class="float-right font-italic smaller">{{ $Sunday_date }}</a>
                     </td>
                 </tr>    
                 @endforeach
