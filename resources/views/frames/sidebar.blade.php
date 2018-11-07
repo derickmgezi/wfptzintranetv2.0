@@ -16,7 +16,7 @@
                 @if(Request::is('previous'))
                 <li class="nav-item">
                     <a class="nav-link {{((Request::is('previous'))? 'active':'')}}" href="#">
-                        <i class="fa fa-calendar fa-lg" aria-hidden="true"></i> News Calender
+                        <i class="fa fa-calendar fa-lg" aria-hidden="true"></i> News Calendar
                     </a>
                 </li>
                 @endif
@@ -57,8 +57,8 @@
             </a>
         </li>-->
         <li class="nav-item faa-horizontal animated-hover">
-            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Mission-Calender/'.encrypt('https://docs.google.com/spreadsheets/d/1YNeP4ltjH2tELuwxS_50cJYkAGbGhxCicmmrFnRGOO8/edit?usp=sharing'))}}">
-                <i class="fa fa-calendar" aria-hidden="true"></i> Mission Calender
+            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Mission-Calendar/'.encrypt('https://docs.google.com/spreadsheets/d/1YNeP4ltjH2tELuwxS_50cJYkAGbGhxCicmmrFnRGOO8/edit?usp=sharing'))}}">
+                <i class="fa fa-calendar" aria-hidden="true"></i> Mission Calendar
             </a>
         </li>
         <li class="nav-item">
