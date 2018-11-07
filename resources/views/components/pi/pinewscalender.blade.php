@@ -1,34 +1,44 @@
 <div class="row">
     <div class="col-8">
-        <!-- Button trigger Venue Booking modal -->
-        <a href="#" class="btn btn-success mb-2" data-toggle="modal" data-target="#createBookingModal">
-            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Book for a Conference Room
-        </a>
+        
+        <div class="d-flex justify-content-start">
+            <div>
+                <!-- Button trigger Venue Booking modal -->
+                <a href="#" class="btn btn-success mb-2" data-toggle="modal" data-target="#createBookingModal">
+                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Book for a Conference Room
+                </a>
+            </div>
+            <?php $calendardate = new Jenssegers\Date\Date($calendardate); ?>
+            <div class="ml-auto">
+                <span class="badge badge-primary">Date: {{ $calendardate->format('l jS F, Y') }}</span>
+            </div>
+        </div>
 
+        {{Form::open(array('url' => '/filter_bookings','multiple' => true,'role' => 'form'))}}
         <div class="d-flex mb-3">
             <div class="input-group mr-1">
-                <select id="office" class="form-control js-office-single">
+                <select id="office" name="office" class="form-control js-office-single">
                     <option></option>
-                    <option>Country Office</option>
+                    <option value="Country Office">Country Office</option>
                     <!-- <option >Dodoma Main Office</option>
                     <option >Kibondo</option> -->
                 </select>
             </div>
-
             <div class="input-group mr-1">
-                <select id="venue" class="form-control js-venue-single">
+                <select id="venue" name="venue" class="form-control js-venue-single">
                     <option></option>
-                    <option >Main Conference Hall</option>
-                    <option >Third Floor Conference</option>
-                    <option >Canteen</option>
+                    <option value="Main Conference Room">Main Conference Room</option>
+                    <option value="Third Floor Conference">Third Floor Conference</option>
+                    <option value="Canteen">Canteen</option>
                 </select>
             </div>
-
-            <a href="#" class="btn btn-secondary btn-sm mr-1">
+            <input type="date" name="date" value="{{ $calendardate->format('Y-m-d') }}" class="form-control mr-1" hidden>
+            <button type="submit" class="btn btn-secondary btn-sm mr-1">
                     <i class="fa fa-filter" aria-hidden="true"></i> Filter
-            </a>
+            </button>
         </div>
-            
+        {{Form::token()}}
+        {{Form::close()}}    
 
         <!-- Create new Booking Modal -->
         {{Form::open(array('url' => '/create_venue_booking','multiple' => true,'role' => 'form'))}}
@@ -59,7 +69,7 @@
                             <label class="font-weight-bold">Conference or Meeting Venue</label>
                             <select name="venue" class="form-control js-venue-single @if($errors->first('venue')) form-control-danger @elseif(old('venue')) form-control-success @endif">
                                 <option></option>
-                                <option @if(old('venue') == 'Main Conference Hall') selected @endif value="Main Conference Hall">Main Conference Hall</option>
+                                <option @if(old('venue') == 'Main Conference Room') selected @endif value="Main Conference Room">Main Conference Room</option>
                                 <option @if(old('venue') == 'Third Floor Conference') selected @endif value="Third Floor Conference Hall">Third Floor Conference</option>
                                 <option @if(old('venue') == 'Canteen') selected @endif value="Canteen">Canteen</option>
                             </select>
@@ -85,23 +95,28 @@
                             @endif
                         </div>
                         <div class="d-flex">
-                            <div class="form-group pr-1 @if($errors->first('starttime')) has-danger @elseif(old('starttime')) has-success @endif">
+                            <div class="form-group pr-1 @if($errors->first('starttime') || Session::has('starttime_error')) has-danger @elseif(old('starttime')) has-success @endif">
                                 <label class="font-weight-bold">Start Time</label>
-                                <input type="time" name="starttime" value="{{ old('starttime') }}" class="form-control form-control-sm @if($errors->first('starttime')) form-control-danger @elseif(old('starttime')) form-control-success @endif" placeholder="Enter Start time">
+                                <input type="time" name="starttime" value="{{ old('starttime') }}" class="form-control form-control-sm @if($errors->first('starttime') || Session::has('starttime_error')) form-control-danger @elseif(old('starttime')) form-control-success @endif" placeholder="Enter Start time">
                                 @if($errors->first('starttime'))
                                 <div class="form-control-feedback">Start Time is incorect</div>
-                                <small class="form-text text-muted">Example 10:00AM</small>
+                                <small class="form-text text-muted">Example 10:00</small>
                                 @endif
                             </div>
-                            <div class="form-group pl-1 @if($errors->first('endtime')) has-danger @elseif(old('endtime')) has-success @endif">
+                            <div class="form-group pl-1 @if($errors->first('endtime') || Session::has('endtime_error')) has-danger @elseif(old('endtime')) has-success @endif">
                                 <label class="font-weight-bold">End Time</label>
-                                <input type="time" name="endtime" value="{{ old('endtime') }}" class="form-control form-control-sm @if($errors->first('endtime')) form-control-danger @elseif(old('endtime')) form-control-success @endif" placeholder="Enter Start time">
+                                <input type="time" name="endtime" value="{{ old('endtime') }}" class="form-control form-control-sm @if($errors->first('endtime') || Session::has('endtime_error')) form-control-danger @elseif(old('endtime')) form-control-success @endif" placeholder="Enter Start time">
                                 @if($errors->first('endtime'))
                                 <div class="form-control-feedback">End Time is incorect</div>
-                                <small class="form-text text-muted">Example 12:00PM</small>
+                                <small class="form-text text-muted">Example 16:00</small>
                                 @endif
                             </div>
                         </div>
+                        @if(Session::has('starttime_error'))
+                            <div class="text-danger mb-2 font-italic">Start Time overlaps with <strong>{{ Session::get('starttime_error') }}</strong></div>
+                        @elseif(Session::has('endtime_error'))
+                            <div class="text-danger mb-2 font-italic">End Time overlaps with <strong>{{ Session::get('endtime_error') }}</strong></div>
+                        @endif
                         <div class="form-group @if($errors->first('participants')) has-danger @elseif(old('participants')) has-success @endif">
                             <label class="font-weight-bold">Number of Participants</label>
                             <input type="number" name="participants" value="{{ old('participants') }}" class="form-control form-control-sm @if($errors->first('participants')) form-control-danger @elseif(old('participants')) form-control-success @endif" placeholder="Enter Number of Participants">

@@ -256,7 +256,7 @@
         <script>$('#edit-media-alert-modal').modal('show');</script>
         @endif
 
-        @if(Session::has('create_venue_booking_error'))
+        @if(Session::has('create_venue_booking_error') || Session::has('starttime_error') || Session::has('endtime_error'))
         <script>$('#createBookingModal').modal('show');</script>
         @endif
 

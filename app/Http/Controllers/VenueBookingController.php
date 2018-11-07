@@ -21,17 +21,17 @@ class VenueBookingController extends Controller
      */
     public function index(){
         if(Session::has('calendardate')){
-            $date = date("Y-m-d", Session::get('calendardate'));
+            $calendardate = date("Y-m-d", Session::get('calendardate'));
             $venuebookings = VenueBooking::where('status',1)
-                                         ->where('date','=',$date)
+                                         ->where('date','=',$calendardate)
                                          ->orderBy('start_time')
                                          ->get();
             //Session::forget('calendardate');                         
         }else{
-            $date = date("Y-m-d");
+            $calendardate = date("Y-m-d");
             $now = date('H:i:s');
             $venuebookings = VenueBooking::where('status',1)
-                                         ->where('date','=',$date)
+                                         ->where('date','=',$calendardate)
                                          ->where('end_time','>=',$now)
                                          ->orderBy('start_time')
                                          ->get();
@@ -65,7 +65,7 @@ class VenueBookingController extends Controller
         $month = collect(['month'=>$date->format('M'),'year'=>$date->year]);
         $weeks = $weeks->unique('week');
         
-        return view('previous')->with('venuebookings',$venuebookings)->with('bookingcolors',$bookingcolors)->with('month',$month)->with('weeks',$weeks)->with('dates',$dates)->with('today',$today)->with('timestamp',$date->timestamp);
+        return view('previous')->with('venuebookings',$venuebookings)->with('bookingcolors',$bookingcolors)->with('month',$month)->with('weeks',$weeks)->with('dates',$dates)->with('today',$today)->with('timestamp',$date->timestamp)->with('calendardate',$calendardate);
     }
     
     public function previousmonth($timestamp) {
@@ -85,6 +85,20 @@ class VenueBookingController extends Controller
     public function calendar($timestamp) {
         Session::flash('calendardate', $timestamp);
         return redirect('/previous');
+    }
+
+    public function filterbookings(Request $request){
+        $validator = Validator::make($request->all(), [
+            'office' => 'required',
+            'venue' => 'required',
+            'date' => 'required|date',
+        ]);
+
+        if ($validator->fails()) {
+            dd($request->all());
+        }else{
+            dd($request->all());
+        }
     }
 
     /**
@@ -144,7 +158,7 @@ class VenueBookingController extends Controller
 
             return back()->withErrors($validator)->withInput();
         }else{
-            $bookings = VenueBooking::select('start_time','end_time')
+            $bookings = VenueBooking::select('purpose','start_time','end_time')
                                      ->where('status',1)
                                      ->where('venue',$request->venue)
                                      ->where('date',$request->date)
@@ -159,9 +173,13 @@ class VenueBookingController extends Controller
                 $endtime =  $endtime->toTimeString();
 
                 if(!(($starttime > $booking->start_time && $starttime >= $booking->end_time) || ($starttime < $booking->start_time && $starttime < $booking->end_time))){
-                    dd('Start time overlaps with another meeting');
+                    Session::flash('starttime_error', '"'.$booking->purpose.'"');
+
+                    return back()->withInput();
                 }elseif(!(($endtime > $booking->start_time && $endtime > $booking->end_time) || ($endtime <= $booking->start_time && $endtime < $booking->end_time))){
-                    dd('End time overlaps with another meeting');
+                    Session::flash('endtime_error', '"'.$booking->purpose.'"');
+
+                    return back()->withInput();
                 }
             }
                 
