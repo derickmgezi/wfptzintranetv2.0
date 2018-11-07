@@ -62,11 +62,14 @@
                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/HR/'.encrypt('Leave Application Form for All National Staff.doc'))}}">Leave Application Form for all National Staff</a><br> 
                                 </p>
                                 <h4 id="programme" class="text-primary">Programme</h4>
-                                <p>  
+                                <p>
                                     <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Tanzania-Country Operations Management Plan 2018.pdf'))}}">Tanzania-Country Operations Management Plan 2018</a><br>
                                     <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('United Republic of Tanzania CSP 2017 - 2021.pdf'))}}">United Republic of Tanzania CSP 2017 - 2021</a><br>
                                     <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('WFP TZ CO Guidance on partnerships with Non-Government Organisations.pdf'))}}">WFP TZ CO Guidance on partnerships with Non-Government Organisations</a><br>
                                     <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('United Nations Development Assistance (UNDAP) 2016-2021.pdf'))}}">United Nations Development Assistance (UNDAP) 2016-2021</a><br>
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('2017_04_05 - Tanzania line of sight_FINAL.pdf'))}}">Tanzania line of sight</a><br>
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('TZ01 BR2_Revised CSP narrative_7June2018_budget revision 2.pdf'))}}">Country Strategic Plans — United Republic of Tanzania (2017–2021)</a><br>
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Tanzania CO_CSP ME Plan_budget_FINAL.pdf'))}}">Tanzania CO CSP Monitoring, Review and Evaluation Plan</a><br>
                                 </p>
                                 <h4 id="finance" class="text-primary">Finance</h4>
                                 <p>
