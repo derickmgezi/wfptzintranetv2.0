@@ -46,7 +46,7 @@
                 {{Form::close()}}
             </a>
         </li>
-<!--        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" target="_blank" href="http://newgo.wfp.org/collection/integrated-road-map-irm">
                 <i class="fa fa-flag-o fa-lg" aria-hidden="true"></i> IRM
             </a>
@@ -55,7 +55,7 @@
             <a class="nav-link" target="_blank" href="http://newgo.wfp.org/documents/tanzania-country-strategic-plan-2017-2021">
                 <i class="fa fa-flag-checkered fa-lg" aria-hidden="true"></i> Tanzania CSP
             </a>
-        </li>-->
+        </li> -->
         <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Mission-Calendar/'.encrypt('https://docs.google.com/spreadsheets/d/1YNeP4ltjH2tELuwxS_50cJYkAGbGhxCicmmrFnRGOO8/edit?usp=sharing'))}}">
                 <i class="fa fa-calendar" aria-hidden="true"></i> Mission Calendar
@@ -71,6 +71,11 @@
                 <i class="fa fa-file-text {{((Request::is('resource'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources
             </a>
         </li>
+        <!-- <li class="nav-item">
+            <a class="nav-link faa-horizontal animated-hover {{((Request::is('previous'))? 'active':'')}}" href="{{URL::to('/previous')}}">
+                <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Conference Booking
+            </a>
+        </li> -->
         <li class="nav-item" data-toggle="tooltip" data-placement="right">
             <a class="nav-link nav-link-collapse collapsed dropdown-toggle faa-horizontal animated-hover" data-toggle="collapse" href="#collapseSites">
                 <i class="fa fa-external-link" aria-hidden="true"></i> <span class="nav-link-text">WFP Sites</span>

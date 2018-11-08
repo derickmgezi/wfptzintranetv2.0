@@ -21,17 +21,26 @@ class VenueBookingController extends Controller
      */
     public function index(){
         if(Session::has('calendardate')){
-            $date = date("Y-m-d", Session::get('calendardate'));
-            $venuebookings = VenueBooking::where('status',1)
-                                         ->where('date','=',$date)
-                                         ->orderBy('start_time')
-                                         ->get();
-            //Session::forget('calendardate');                         
+            $calendardate = date("Y-m-d", Session::get('calendardate'));
+
+            if(Session::has('officefilter') && Session::has('venuefilter')){
+                $venuebookings = VenueBooking::where('status',1)
+                                             ->where('date','=',$calendardate)
+                                             ->where('venue',Session::get('venuefilter'))
+                                             ->where('location',Session::get('officefilter'))
+                                             ->orderBy('start_time')
+                                             ->get();
+            }else{
+                $venuebookings = VenueBooking::where('status',1)
+                                             ->where('date','=',$calendardate)
+                                             ->orderBy('start_time')
+                                             ->get();
+            }           
         }else{
-            $date = date("Y-m-d");
+            $calendardate = date("Y-m-d");
             $now = date('H:i:s');
             $venuebookings = VenueBooking::where('status',1)
-                                         ->where('date','=',$date)
+                                         ->where('date','=',$calendardate)
                                          ->where('end_time','>=',$now)
                                          ->orderBy('start_time')
                                          ->get();
@@ -65,7 +74,7 @@ class VenueBookingController extends Controller
         $month = collect(['month'=>$date->format('M'),'year'=>$date->year]);
         $weeks = $weeks->unique('week');
         
-        return view('previous')->with('venuebookings',$venuebookings)->with('bookingcolors',$bookingcolors)->with('month',$month)->with('weeks',$weeks)->with('dates',$dates)->with('today',$today)->with('timestamp',$date->timestamp);
+        return view('previous')->with('venuebookings',$venuebookings)->with('bookingcolors',$bookingcolors)->with('month',$month)->with('weeks',$weeks)->with('dates',$dates)->with('today',$today)->with('timestamp',$date->timestamp)->with('calendardate',$calendardate);
     }
     
     public function previousmonth($timestamp) {
@@ -87,6 +96,29 @@ class VenueBookingController extends Controller
         return redirect('/previous');
     }
 
+    public function filterbookings(Request $request){
+        $timestamp = new Date($request->datefilter);
+        $timestamp = $timestamp->timestamp;
+
+        $validator = Validator::make($request->all(), [
+            'officefilter' => 'required',
+            'venuefilter' => 'required',
+            'datefilter' => 'required|date',
+        ]);
+
+        if ($validator->fails()) {
+            Session::flash('calendardate', $timestamp);
+
+            return redirect('/previous')->withErrors($validator)->withInput();
+        }else{
+            Session::flash('calendardate', $timestamp);
+            Session::flash('officefilter', $request->officefilter);
+            Session::flash('venuefilter', $request->venuefilter);
+
+            return redirect('/previous')->withInput();
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -105,6 +137,9 @@ class VenueBookingController extends Controller
      */
     public function store(Request $request){
         //
+        $timestamp = new Date($request->date);
+        $timestamp = $timestamp->timestamp;
+
         if($request->requirebeverages == 'No'){
             $validator = Validator::make($request->all(), [
                 'office' => 'required',
@@ -133,6 +168,7 @@ class VenueBookingController extends Controller
 
         if ($validator->fails()) {
             Session::flash('create_venue_booking_error', 'Venue Booking Validation Error');
+            Session::flash('calendardate', $timestamp);
 
             $access_log = new AccessLog;
             $access_log->user = Auth::user()->username;
@@ -142,10 +178,49 @@ class VenueBookingController extends Controller
             $access_log->action_status = "Failed";
             $access_log->save();
 
-            return back()->withErrors($validator)->withInput();
+            return redirect('/previous')->withErrors($validator)->withInput();
         }else{
-            Session::flash('create_venue_booking', 'Your Booking was successful');
+            //Check if Venue has been booked or not
+            $bookings = VenueBooking::select('purpose','start_time','end_time')
+                                     ->where('status',1)
+                                     ->where('venue',$request->venue)
+                                     ->where('date',$request->date)
+                                     ->get();
 
+            foreach($bookings as $booking){
+                //Convert Request timeformat to resemble those in the database
+                $starttime = new Date($request->starttime);
+                $starttime =  $starttime->toTimeString();
+
+                $endtime = new Date($request->endtime);
+                $endtime =  $endtime->toTimeString();
+
+                if(!(($starttime > $booking->start_time && $starttime >= $booking->end_time) || ($starttime < $booking->start_time && $starttime < $booking->end_time))){
+                    Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                    Session::flash('calendardate', $timestamp);
+
+                    return redirect('/previous')->withInput();
+
+                }elseif(!($starttime < $booking->start_time && $endtime <= $booking->start_time)){
+                    Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                    Session::flash('calendardate', $timestamp);
+                    
+                    return redirect('/previous')->withInput();
+
+                }elseif(!($endtime > $booking->end_time && $starttime >= $booking->end_time)){
+                    Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                    Session::flash('calendardate', $timestamp);
+                    
+                    return redirect('/previous')->withInput();
+
+                }elseif(!(($endtime > $booking->start_time && $endtime > $booking->end_time) || ($endtime <= $booking->start_time && $endtime < $booking->end_time))){
+                    Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                    Session::flash('calendardate', $timestamp);
+                    
+                    return redirect('/previous')->withInput();
+                }
+            }
+                
             $new_booking = new VenueBooking;
             $new_booking->purpose = $request->purpose;
             $new_booking->location = $request->office;
@@ -159,12 +234,12 @@ class VenueBookingController extends Controller
             $new_booking->beverageoptions = implode( ", ", $request->beverageoptions );
             $new_booking->created_by = Auth::id();
             $new_booking->save();
-
             $timestamp = new Date($request->date);
             $timestamp = $timestamp->timestamp;
-
             Session::flash('calendardate', $timestamp);
+            Session::flash('create_venue_booking', 'Your Booking was successful');
             return redirect('/previous');
+            
         }
     }
 

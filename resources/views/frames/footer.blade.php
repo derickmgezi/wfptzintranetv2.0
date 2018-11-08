@@ -46,8 +46,24 @@
             });
 
             $(document).ready(function () {
+                $('.js-officefilter-single').select2({
+                    placeholder: "Select Venue location",
+                    allowClear: true,
+                    width:  '100%',
+                });
+            });
+
+            $(document).ready(function () {
                 $('.js-venue-single').select2({
                     placeholder: "Select a venue",
+                    allowClear: true,
+                    width:  '100%',
+                });
+            });
+
+            $(document).ready(function () {
+                $('.js-venuefilter-single').select2({
+                    placeholder: "Select a conference room",
                     allowClear: true,
                     width:  '100%',
                 });
@@ -256,7 +272,7 @@
         <script>$('#edit-media-alert-modal').modal('show');</script>
         @endif
 
-        @if(Session::has('create_venue_booking_error'))
+        @if(Session::has('create_venue_booking_error') || Session::has('starttime_error') || Session::has('endtime_error'))
         <script>$('#createBookingModal').modal('show');</script>
         @endif
 
