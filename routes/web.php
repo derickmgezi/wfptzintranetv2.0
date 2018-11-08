@@ -70,11 +70,15 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/previous', 'VenueBookingController@index');
 
+    Route::post('/create_venue_booking', 'VenueBookingController@store');
+
     Route::get('/previousmonth/{timestamp}', 'VenueBookingController@previousmonth');
 
     Route::get('/nextmonth/{timestamp}', 'VenueBookingController@nextmonth');
 
     Route::get('/calendar/{timestamp}', 'VenueBookingController@calendar');
+
+    Route::post('/filter_bookings', 'VenueBookingController@filterbookings');
 
     Route::get('/internaldirectory', 'PhoneDirectoryController@index');
 
@@ -169,8 +173,6 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/resource', 'ResourceController@index');
     
     Route::get('/resource/{type}/{url}', 'ResourceController@show');
-
-    Route::post('/create_venue_booking', 'VenueBookingController@store');
     
     Route::get('/finance', function () {
         return view('finance')->with('department','Finance')->with('dutystation','Country Office');
