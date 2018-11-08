@@ -8,34 +8,41 @@
                     <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Book for a Conference Room
                 </a>
             </div>
-            <?php $calendardate = new Jenssegers\Date\Date($calendardate); ?>
-            <div class="ml-auto">
-                <span class="badge badge-primary">Date: {{ $calendardate->format('l jS F, Y') }}</span>
-            </div>
         </div>
 
         {{Form::open(array('url' => '/filter_bookings','multiple' => true,'role' => 'form'))}}
-        <div class="d-flex mb-3">
-            <div class="input-group mr-1">
-                <select id="office" name="office" class="form-control js-office-single">
+        <div class="d-flex">
+            <div class="form-group mr-1 @if($errors->first('officefilter')) has-danger @elseif(old('officefilter')) has-success @endif">
+                <select id="officefilter" name="officefilter" class="form-control js-officefilter-single @if($errors->first('officefilter')) form-control-danger @elseif(old('officefilter')) form-control-success @endif">
                     <option></option>
-                    <option value="Country Office">Country Office</option>
+                    <option @if(old('officefilter') == 'Country Office') selected @endif value="Country Office">Country Office</option>
                     <!-- <option >Dodoma Main Office</option>
                     <option >Kibondo</option> -->
                 </select>
+                @if($errors->first('officefilter'))
+                    <div class="form-control-feedback">Office not selected</div>
+                @endif
             </div>
-            <div class="input-group mr-1">
-                <select id="venue" name="venue" class="form-control js-venue-single">
+            <div class="form-group mr-1 @if($errors->first('venuefilter')) has-danger @elseif(old('venuefilter')) has-success @endif">
+                <select id="venuefilter" name="venuefilter" class="form-control js-venuefilter-single @if($errors->first('venuefilter')) form-control-danger @elseif(old('venuefilter')) form-control-success @endif">
                     <option></option>
-                    <option value="Main Conference Room">Main Conference Room</option>
-                    <option value="Third Floor Conference">Third Floor Conference</option>
-                    <option value="Canteen">Canteen</option>
+                    <option @if(old('venuefilter') == 'Main Conference Room') selected @endif value="Main Conference Room">Main Conference Room</option>
+                    <option @if(old('venuefilter') == 'Third Floor Conference') selected @endif value="Third Floor Conference Hall">Third Floor Conference</option>
+                    <option @if(old('venuefilter') == 'Canteen') selected @endif value="Canteen">Canteen</option>
                 </select>
+                @if($errors->first('venuefilter'))
+                    <div class="form-control-feedback">Conference Room not selected</div>
+                @endif
             </div>
-            <input type="date" name="date" value="{{ $calendardate->format('Y-m-d') }}" class="form-control mr-1" hidden>
-            <button type="submit" class="btn btn-secondary btn-sm mr-1">
-                    <i class="fa fa-filter" aria-hidden="true"></i> Filter
-            </button>
+            <div class="form-group mr-1">
+                <?php $calendardate = new Jenssegers\Date\Date($calendardate); ?>
+                <input type="date" name="datefilter" value="{{ $calendardate->format('Y-m-d') }}" class="form-control" hidden>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-warning mr-1">
+                    <i class="fa fa-filter" aria-hidden="true"></i> Filter Bookings
+                </button>
+            </div>
         </div>
         {{Form::token()}}
         {{Form::close()}}    
@@ -113,9 +120,9 @@
                             </div>
                         </div>
                         @if(Session::has('starttime_error'))
-                            <div class="text-danger mb-2 font-italic">Start Time overlaps with <strong>{{ Session::get('starttime_error') }}</strong></div>
+                            <div class="text-danger mb-2 font-italic">{!! Session::get('starttime_error') !!}</div>
                         @elseif(Session::has('endtime_error'))
-                            <div class="text-danger mb-2 font-italic">End Time overlaps with <strong>{{ Session::get('endtime_error') }}</strong></div>
+                            <div class="text-danger mb-2 font-italic">{!! Session::get('endtime_error') !!}</div>
                         @endif
                         <div class="form-group @if($errors->first('participants')) has-danger @elseif(old('participants')) has-success @endif">
                             <label class="font-weight-bold">Number of Participants</label>
@@ -189,12 +196,20 @@
         </div><!-- end of Successful Booking Message Modal -->
 
         @if($venuebookings->count() == 0)
-            <div class="alert alert-success" role="alert">
-                <h4 class="alert-heading">No bookings have been created at this time!</h4>
-                <p>
-                    To create a new booking please click on the Conference Venue Booking Button above
-                </p>
-                <p class="mb-0 font-weight-bold">Please make your booking now.</p>
+            <div class="row row-striped alert">
+                <div class="col-2 text-center">
+                    <h2 class="display-4"><span class="badge badge-default">{{ $calendardate->format('d') }}</span></h2>
+                    <span class="h2">{{ strtoupper($calendardate->format('M')) }}</span>
+                </div>
+                <div class="col-10">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ $calendardate->format('l') }}</li>
+                    </ul>
+                    <h5 class="alert-heading">No bookings have been created at this time!</h5>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">To create a new booking please click on the Conference Venue Booking Button above</li>
+                    </ul>
+                </div>
             </div>
         @else
             @foreach($venuebookings as $venuebooking)
@@ -205,7 +220,7 @@
                 $bookingcolors = $bookingcolors->values();
             ?>
             <div class="row row-striped">
-                <div class="col-2 text-right">
+                <div class="col-2 text-center">
                     <h2 class="display-4"><span class="badge {{ $color }}">{{ $date->format('d') }}</span></h2>
                     <span class="h2">{{ strtoupper($date->format('M')) }}</span>
                 </div>
