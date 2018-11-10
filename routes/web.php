@@ -80,6 +80,14 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::post('/filter_bookings', 'VenueBookingController@filterbookings');
 
+    Route::get('/conferencebooking/{id}', 'VenueBookingController@showbooking');
+
+    Route::get('/editconferencebooking/{id}', 'VenueBookingController@editbooking');
+
+    Route::get('/deleteconferencebooking/{id}', 'VenueBookingController@deletebooking');
+
+    Route::post('/edit_venue_booking', 'VenueBookingController@edit_booking');
+
     Route::get('/internaldirectory', 'PhoneDirectoryController@index');
 
     Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts');
