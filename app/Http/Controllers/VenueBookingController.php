@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\ConferenceRoomBooked;
+use App\Notifications\ConferenceRoomBookingAmended;
 use Illuminate\Http\Request;
 use Validator;
 use Session;
 use Auth;
+use App\User;
 use App\AccessLog;
 use App\VenueBooking;
 use Route;
 use Date;
 use Illuminate\Database\Eloquent\Collection;
+use Notification;
 
 class VenueBookingController extends Controller
 {
@@ -21,20 +25,30 @@ class VenueBookingController extends Controller
      */
     public function index(){
         if(Session::has('calendardate')){
+            $venuebookings = '';
             $calendardate = date("Y-m-d", Session::get('calendardate'));
 
-            if(Session::has('officefilter') && Session::has('venuefilter')){
-                $venuebookings = VenueBooking::where('status',1)
-                                             ->where('date','=',$calendardate)
-                                             ->where('venue',Session::get('venuefilter'))
-                                             ->where('location',Session::get('officefilter'))
-                                             ->orderBy('start_time')
-                                             ->get();
+            if(Session::has('bookingID')){
+
+                $venuebookings = VenueBooking::where('id',Session::get('bookingID'))->get();
+
             }else{
-                $venuebookings = VenueBooking::where('status',1)
-                                             ->where('date','=',$calendardate)
-                                             ->orderBy('start_time')
-                                             ->get();
+
+                if(Session::has('officefilter') && Session::has('venuefilter')){
+                    $venuebookings = VenueBooking::where('status',1)
+                                                 ->where('date','=',$calendardate)
+                                                 ->where('venue',Session::get('venuefilter'))
+                                                 ->where('location',Session::get('officefilter'))
+                                                 ->orderBy('start_time')
+                                                 ->get();
+                }else{
+
+                    $venuebookings = VenueBooking::where('status',1)
+                                                 ->where('date','=',$calendardate)
+                                                 ->orderBy('start_time')
+                                                 ->get();
+                }
+            
             }           
         }else{
             $calendardate = date("Y-m-d");
@@ -46,7 +60,7 @@ class VenueBookingController extends Controller
                                          ->get();
         }
 
-        $bookingcolors = collect(['badge-success','badge-warning','badge-info','badge-danger','badge-default']);
+        $bookingcolors = collect(['badge-default','badge-info','badge-warning','badge-danger','badge-success']);
 
 
         $today = new Date('today');
@@ -74,7 +88,7 @@ class VenueBookingController extends Controller
         $month = collect(['month'=>$date->format('M'),'year'=>$date->year]);
         $weeks = $weeks->unique('week');
         
-        return view('previous')->with('venuebookings',$venuebookings)->with('bookingcolors',$bookingcolors)->with('month',$month)->with('weeks',$weeks)->with('dates',$dates)->with('today',$today)->with('timestamp',$date->timestamp)->with('calendardate',$calendardate);
+        return view('previous')->with('venuebookings',$venuebookings)->with('calendardate',$calendardate)->with('bookingcolors',$bookingcolors)->with('month',$month)->with('weeks',$weeks)->with('dates',$dates)->with('today',$today)->with('timestamp',$date->timestamp);
     }
     
     public function previousmonth($timestamp) {
@@ -198,24 +212,32 @@ class VenueBookingController extends Controller
                 if(!(($starttime > $booking->start_time && $starttime >= $booking->end_time) || ($starttime < $booking->start_time && $starttime < $booking->end_time))){
                     Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
                     Session::flash('calendardate', $timestamp);
+                    Session::flash('create_venue_booking_error', 'Start Time Validation Error');
 
                     return redirect('/previous')->withInput();
-
-                }elseif(!($starttime < $booking->start_time && $endtime <= $booking->start_time)){
+                }elseif(!(($starttime < $booking->start_time && $endtime <= $booking->start_time) || ($endtime > $booking->end_time && $starttime >= $booking->end_time))){
                     Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
                     Session::flash('calendardate', $timestamp);
-                    
-                    return redirect('/previous')->withInput();
+                    Session::flash('create_venue_booking_error', 'End Time Validation Error');
 
-                }elseif(!($endtime > $booking->end_time && $starttime >= $booking->end_time)){
-                    Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
-                    Session::flash('calendardate', $timestamp);
-                    
                     return redirect('/previous')->withInput();
-
+                
+                //}elseif(!($starttime < $booking->start_time && $endtime <= $booking->start_time)){
+                //    Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                //    Session::flash('calendardate', $timestamp);
+                //    
+                //    return redirect('/previous')->withInput();
+                //
+                //}elseif(!($endtime > $booking->end_time && $starttime >= $booking->end_time)){
+                //    Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                //    Session::flash('calendardate', $timestamp);
+                //    
+                //    return redirect('/previous')->withInput();
+                //
                 }elseif(!(($endtime > $booking->start_time && $endtime > $booking->end_time) || ($endtime <= $booking->start_time && $endtime < $booking->end_time))){
                     Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
                     Session::flash('calendardate', $timestamp);
+                    Session::flash('create_venue_booking_error', 'End Time Validation Error');
                     
                     return redirect('/previous')->withInput();
                 }
@@ -230,14 +252,41 @@ class VenueBookingController extends Controller
             $new_booking->end_time = $request->endtime;
             $new_booking->participants = $request->participants;
             $new_booking->requirebeverages = $request->requirebeverages;
-            if($request->requirebeverages == 'Yes')
-            $new_booking->beverageoptions = implode( ", ", $request->beverageoptions );
+
+            if($request->requirebeverages == 'Yes'){
+                $booking->beverageoptions = implode( ", ", $request->beverageoptions );
+            }
+
             $new_booking->created_by = Auth::id();
             $new_booking->save();
-            $timestamp = new Date($request->date);
-            $timestamp = $timestamp->timestamp;
+            
             Session::flash('calendardate', $timestamp);
             Session::flash('create_venue_booking', 'Your Booking was successful');
+
+            //Convert Request timeformat to resemble those in the database
+            $starttime = new Date($request->starttime);
+            $starttime =  $starttime->toTimeString();
+
+            $endtime = new Date($request->endtime);
+            $endtime =  $endtime->toTimeString();
+
+            //Notifiable user(s) trough email after the booking is succeful
+            $users = User::find([Auth::id(), 3]);
+
+            //Find full details from the database of the booking that was made
+            $booking = VenueBooking::where('date',$request->date)
+                                    ->where('start_time',$starttime)
+                                    ->where('end_time',$endtime)
+                                    ->first();
+
+            try{
+                //Sent Email Notification to user(s)
+                //$user->notify(new ConferenceRoomBooked($booking)); //Sends Notification to a single user
+                Notification::send($users, new ConferenceRoomBooked($booking)); //Sends Notification to multiple users
+            }catch(\Exception $e){
+                //dd($e->getMessage());
+            }
+
             return redirect('/previous');
             
         }
@@ -249,9 +298,16 @@ class VenueBookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function showbooking($id){
+        $booking = VenueBooking::find($id);
+
+        $bookingdate = new Date($booking->date);
+        $bookingtimestamp = $bookingdate->timestamp;
+
+        Session::flash('bookingID', $id);
+        Session::flash('calendardate', $bookingtimestamp);
+
+        return redirect('/previous');
     }
 
     /**
@@ -260,9 +316,141 @@ class VenueBookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function editbooking($id){
+        $booking = VenueBooking::find($id);
+
+        $bookingdate = new Date($booking->date);
+        $bookingtimestamp = $bookingdate->timestamp;
+
+        Session::flash('edit_venue_booking', $booking);
+        Session::flash('calendardate', $bookingtimestamp);
+
+        return redirect('/previous');
+    }
+
+    public function edit_booking(Request $request){
+        $booking = VenueBooking::find($request->reservationid);
+
+        $timestamp = new Date($request->date);
+        $timestamp = $timestamp->timestamp;
+
+        if($request->requirebeverages == 'No'){
+            $validator = Validator::make($request->all(), [
+                'reservationid' => 'required',
+                'office' => 'required',
+                'venue' => 'required',
+                'purpose' => 'required',
+                'date' => 'required|date|after_or_equal:today',
+                'starttime' => 'required|before:endtime',
+                'endtime' => 'required|after:starttime',
+                'participants' => 'required',
+                'requirebeverages' => 'required',
+            ]);
+        }else{
+            $validator = Validator::make($request->all(), [
+                'reservationid' => 'required',
+                'office' => 'required',
+                'venue' => 'required',
+                'purpose' => 'required',
+                'date' => 'required|date|after_or_equal:today',
+                'starttime' => 'required|before:endtime',
+                'endtime' => 'required|after:starttime',
+                'participants' => 'required',
+                'requirebeverages' => 'required',
+                'beverageoptions' => 'required',
+            ]);
+        }
+
+        if ($validator->fails()) {
+            Session::flash('edit_venue_booking', $booking);
+            Session::flash('calendardate', $timestamp);
+
+            return redirect('/previous')->withErrors($validator)->withInput();
+        }else{
+            //Check if Venue has been booked or not
+            $bookings = VenueBooking::select('purpose','start_time','end_time')
+                                     ->where('status',1)
+                                     ->where('date',$request->date)
+                                     ->where('venue',$request->venue)
+                                     ->whereNotIn('id',[$request->reservationid])
+                                     ->get();
+
+            foreach($bookings as $booking){
+                //Convert Request timeformat to resemble those in the database
+                $starttime = new Date($request->starttime);
+                $starttime =  $starttime->toTimeString();
+
+                $endtime = new Date($request->endtime);
+                $endtime =  $endtime->toTimeString();
+
+                if(!(($starttime > $booking->start_time && $starttime >= $booking->end_time) || ($starttime < $booking->start_time && $starttime < $booking->end_time))){
+                    Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                    Session::flash('calendardate', $timestamp);
+                    Session::flash('edit_venue_booking', $booking);
+
+                    return redirect('/previous')->withInput();
+                }elseif(!(($starttime < $booking->start_time && $endtime <= $booking->start_time) || ($endtime > $booking->end_time && $starttime >= $booking->end_time))){
+                    Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                    Session::flash('calendardate', $timestamp);
+                    Session::flash('edit_venue_booking', $booking);
+                    
+                    return redirect('/previous')->withInput();
+                
+                //}elseif(!($starttime < $booking->start_time && $endtime <= $booking->start_time)){
+                //    Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                //    Session::flash('calendardate', $timestamp);
+                //    
+                //    return redirect('/previous')->withInput();
+                //
+                //}elseif(!($endtime > $booking->end_time && $starttime >= $booking->end_time)){
+                //    Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                //    Session::flash('calendardate', $timestamp);
+                //    
+                //    return redirect('/previous')->withInput();
+                //
+                }elseif(!(($endtime > $booking->start_time && $endtime > $booking->end_time) || ($endtime <= $booking->start_time && $endtime < $booking->end_time))){
+                    Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                    Session::flash('calendardate', $timestamp);
+                    Session::flash('edit_venue_booking', $booking);
+                    
+                    return redirect('/previous')->withInput();
+                }
+            }
+
+            $booking = VenueBooking::find($request->reservationid);
+            $booking->purpose = $request->purpose;
+            $booking->location = $request->office;
+            $booking->venue = $request->venue;
+            $booking->date = $request->date;
+            $booking->start_time = $request->starttime;
+            $booking->end_time = $request->endtime;
+            $booking->participants = $request->participants;
+            $booking->requirebeverages = $request->requirebeverages;
+
+            if($request->requirebeverages == 'Yes'){
+                $booking->beverageoptions = implode( ", ", $request->beverageoptions );
+            }
+
+            $booking->created_by = Auth::id();
+            $booking->save();
+            
+            Session::flash('calendardate', $timestamp);
+            Session::flash('venue_booking_edited', 'Your Booking was successful edited');
+
+            //Notifiable user(s) trough email after the booking is succeful
+            $users = User::find([Auth::id(), 3]);
+
+            try{
+                //Sent Email Notification to user(s)
+                //$user->notify(new ConferenceRoomBooked($booking)); //Sends Notification to a single user
+                Notification::send($users, new ConferenceRoomBookingAmended($booking)); //Sends Notification to multiple users
+            }catch(\Exception $e){
+                //dd($e->getMessage());
+            }
+
+            return redirect('/previous');
+            
+        }
     }
 
     /**
@@ -283,8 +471,11 @@ class VenueBookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id){
+        //
+    }
+
+    public function deletebooking($id){
         //
     }
 }
