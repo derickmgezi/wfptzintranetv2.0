@@ -475,7 +475,15 @@ class VenueBookingController extends Controller
         //
     }
 
-    public function deletebooking($id){
-        //
+    public function cancelbooking($id){
+        $booking = VenueBooking::find($id);
+
+        $bookingdate = new Date($booking->date);
+        $bookingtimestamp = $bookingdate->timestamp;
+
+        Session::flash('cancel_venue_booking', $booking);
+        Session::flash('calendardate', $bookingtimestamp);
+
+        return redirect('/previous');
     }
 }

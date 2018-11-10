@@ -122,7 +122,7 @@
                             
                             <div class="btn-group btn-group-sm pull-right" role="group" aria-label="Basic example">
                                 <a href="{{URL::to('/editconferencebooking/'.$venuebooking->id)}}" class="btn btn-secondary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
-                                <a href="{{URL::to('/deleteconferencebooking/'.$venuebooking->id)}}" class="btn btn-secondary"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
+                                <a href="{{URL::to('/cancelconferencebooking/'.$venuebooking->id)}}" class="btn btn-secondary"><i class="fa fa-times-circle" aria-hidden="true"></i> Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -503,23 +503,95 @@
 
     <!-- Successful Booking Amendment Message Modal -->
     <div class="modal fade successfulBookingAmendmentModal" id="successfulBookingAmendmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Booking Status</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="alert alert-success" role="alert">
-                            <strong>Congratulations!</strong> {{ Session::get('venue_booking_edited') }}.
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Booking Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success" role="alert">
+                        <strong>Congratulations!</strong> {{ Session::get('venue_booking_edited') }}.
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
-        </div><!-- end of Successful Booking Amendment Message Modal -->
+        </div>
+    </div><!-- end of Successful Booking Amendment Message Modal -->
+    @if(Session::has('cancel_venue_booking'))
+    <?php 
+    $date = new Date(Session::get('cancel_venue_booking')->date);
+    $start_time = new Jenssegers\Date\Date(Session::get('cancel_venue_booking')->start_time);
+    $end_time = new Jenssegers\Date\Date(Session::get('cancel_venue_booking')->end_time);
+    ?>
+    <!-- Booking Cancellation Modal -->
+    <div class="modal fade venueBookingCancellationModal" id="venueBookingCancellationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cancel Reservation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row row-striped mr-1 ml-1">
+                        <div class="col-2 text-center">
+                            <h2 class="display-4"><span class="badge badge-success">{{ $date->format('d') }}</span></h2>
+                            <span class="h2">{{ strtoupper($date->format('M')) }}</span>
+                        </div>
+                        <div class="col-10">
+                            <div class="pb-1">
+                                <img class="img-fluid rounded-circle" src="{{ strlen(App\User::find(Session::get('cancel_venue_booking')->created_by)->image) != 0? url('/storage/thumbnails/'.App\User::find(Session::get('cancel_venue_booking')->created_by)->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto"> 
+                                <span class="text-primary">{{ App\User::find(Session::get('cancel_venue_booking')->created_by)->firstname.' '.App\User::find(Session::get('cancel_venue_booking')->created_by)->secondname}}</span>
+                            </div>
+                            <h5 class=""><strong>{{ Session::get('cancel_venue_booking')->purpose }}</strong></h5>
+                            <ul class="list-inline">
+                                <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ $date->format('l') }}</li>
+                                <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $start_time->format('h:i A') }} - {{ $end_time->format('h:i A') }}</li>
+                                <li class="list-inline-item"><i class="fa fa-location-arrow text-warning" aria-hidden="true"></i> <a href="#" class="text-warning font-weight-bold">{{ Session::get('cancel_venue_booking')->venue }}</a></li>
+                            </ul>
+                            <div>
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i> {{ Session::get('cancel_venue_booking')->participants }} Participants
+                                @if(str_contains(Session::get('cancel_venue_booking')->beverageoptions, 'Cofee'))
+                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Cofee">
+                                    <i class="fa fa-coffee" aria-hidden="true"></i>
+                                </a>
+                                @endif
+                                @if(str_contains(Session::get('cancel_venue_booking')->beverageoptions, 'Tea'))
+                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Tea">
+                                    <i class="fa fa-pagelines" aria-hidden="true"></i>
+                                </a>
+                                @endif
+                                @if(str_contains(Session::get('cancel_venue_booking')->beverageoptions, 'Water'))
+                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Water">
+                                    <i class="fa fa-glass" aria-hidden="true"></i> 
+                                </a>
+                                @endif
+                                @if(str_contains(Session::get('cancel_venue_booking')->beverageoptions, 'Milk'))
+                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Milk">
+                                    <i class="fa fa-bitbucket-square" aria-hidden="true"></i>
+                                </a>
+                                @endif
+                                @if(str_contains(Session::get('cancel_venue_booking')->beverageoptions, 'Cashew nuts'))
+                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Cashew nuts">
+                                    <i class="fa fa-lemon-o" aria-hidden="true"></i>
+                                </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Ignore</button>
+                    <a href="{{URL::to('/confirmcancelconferencebooking/'.$venuebooking->id)}}" class="btn btn-danger"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Confirm</a>
+                </div>
+            </div>
+        </div>
+    </div><!-- end of Booking Cancellation Modal -->
+    @endif
 </div>

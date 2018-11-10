@@ -298,5 +298,9 @@
         @if(Session::has('venue_booking_edited'))
         <script>$('#successfulBookingAmendmentModal').modal('show');</script>
         @endif
+
+        @if(Session::has('cancel_venue_booking'))
+        <script>$('#venueBookingCancellationModal').modal('show');</script>
+        @endif
     </body>
 </html>
