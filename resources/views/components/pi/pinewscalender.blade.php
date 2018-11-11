@@ -4,7 +4,7 @@
             {{Form::open(array('url' => '/filter_bookings','multiple' => true,'role' => 'form'))}}
             <div class="row">
                 <div class="col form-group @if($errors->first('officefilter')) has-danger @elseif(old('officefilter')) has-success @endif">
-                    {{-- <label class="font-weight-bold font-italic">Location</label> --}}
+                    <label class="font-weight-bold font-italic">Conference Location</label>
                     <select id="officefilter" name="officefilter" class="form-control js-officefilter-single @if($errors->first('officefilter')) form-control-danger @elseif(old('officefilter')) form-control-success @endif">
                         <option></option>
                         <option @if(old('officefilter') == 'Country Office') selected @endif value="Country Office">Country Office</option>
@@ -16,7 +16,7 @@
                     @endif --}}
                 </div>
                 <div class="col form-group @if($errors->first('venuefilter')) has-danger @elseif(old('venuefilter')) has-success @endif">
-                    {{-- <label class="font-weight-bold font-italic">Conference Room</label> --}}
+                    <label class="font-weight-bold font-italic">Conference Room</label>
                     <select id="venuefilter" name="venuefilter" class="form-control js-venuefilter-single @if($errors->first('venuefilter')) form-control-danger @elseif(old('venuefilter')) form-control-success @endif">
                         <option></option>
                         <option @if(old('venuefilter') == 'Main Conference Room') selected @endif value="Main Conference Room">Main Conference Room</option>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col form-group">
                     <?php $calendardate = new Jenssegers\Date\Date($calendardate); ?>
-                    {{-- <label class="font-weight-bold font-italic">Date</label> --}}
+                    <label class="font-weight-bold font-italic">Conference Date</label>
                     <input class="form-control form-control-sm" type="date" name="datefilter" value="{{ $calendardate->format('Y-m-d') }}">
                 </div>
             </div>
