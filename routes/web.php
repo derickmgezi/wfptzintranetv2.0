@@ -84,9 +84,11 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/editconferencebooking/{id}', 'VenueBookingController@editbooking');
 
-    Route::get('/deleteconferencebooking/{id}', 'VenueBookingController@deletebooking');
+    Route::get('/cancelconferencebooking/{id}', 'VenueBookingController@cancelbooking');
 
     Route::post('/edit_venue_booking', 'VenueBookingController@edit_booking');
+
+    Route::get('/confirmconferencebookingcancellation/{id}', 'VenueBookingController@cancel_booking');
 
     Route::get('/internaldirectory', 'PhoneDirectoryController@index');
 
