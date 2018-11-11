@@ -88,6 +88,8 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::post('/edit_venue_booking', 'VenueBookingController@edit_booking');
 
+    Route::get('/confirmconferencebookingcancellation/{id}', 'VenueBookingController@cancel_booking');
+
     Route::get('/internaldirectory', 'PhoneDirectoryController@index');
 
     Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts');

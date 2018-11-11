@@ -588,7 +588,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Ignore</button>
-                    <a href="{{URL::to('/confirmcancelconferencebooking/'.$venuebooking->id)}}" class="btn btn-danger"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Confirm</a>
+                    <a href="{{URL::to('/confirmconferencebookingcancellation/'.Session::get('cancel_venue_booking')->id)}}" class="btn btn-danger"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Confirm</a>
                 </div>
             </div>
         </div>

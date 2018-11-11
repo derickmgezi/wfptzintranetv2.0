@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Notifications\ConferenceRoomBooked;
 use App\Notifications\ConferenceRoomBookingAmended;
+use App\Notifications\ConferenceReservationCanceled;
 use Illuminate\Http\Request;
 use Validator;
 use Session;
@@ -483,6 +484,30 @@ class VenueBookingController extends Controller
 
         Session::flash('cancel_venue_booking', $booking);
         Session::flash('calendardate', $bookingtimestamp);
+
+        return redirect('/previous');
+    }
+
+    public function cancel_booking($id){
+        $booking = VenueBooking::find($id);
+        $booking->status = 0;
+        $booking->save();
+
+        $bookingdate = new Date($booking->date);
+        $bookingtimestamp = $bookingdate->timestamp;
+
+        Session::flash('calendardate', $bookingtimestamp);
+
+        //Notifiable user(s) trough email after the booking is succeful
+        $users = User::find([Auth::id(), 3]);
+
+        try{
+            //Sent Email Notification to user(s)
+            //$user->notify(new ConferenceRoomBooked($booking)); //Sends Notification to a single user
+            Notification::send($users, new ConferenceReservationCanceled($booking)); //Sends Notification to multiple users
+        }catch(\Exception $e){
+            //dd($e->getMessage());
+        }
 
         return redirect('/previous');
     }
