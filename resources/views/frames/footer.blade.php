@@ -47,7 +47,7 @@
 
             $(document).ready(function () {
                 $('.js-officefilter-single').select2({
-                    placeholder: "Select Venue location",
+                    placeholder: "Select conference room location",
                     allowClear: true,
                     width:  '100%',
                 });
@@ -55,7 +55,7 @@
 
             $(document).ready(function () {
                 $('.js-venue-single').select2({
-                    placeholder: "Select a venue",
+                    placeholder: "Select the conference room",
                     allowClear: true,
                     width:  '100%',
                 });
@@ -63,7 +63,7 @@
 
             $(document).ready(function () {
                 $('.js-venuefilter-single').select2({
-                    placeholder: "Select a conference room",
+                    placeholder: "Select the conference room",
                     allowClear: true,
                     width:  '100%',
                 });
@@ -106,7 +106,11 @@
         storytextcolor:'text-primary',
         @endif
 
+        @if(Session::has('edit_venue_booking'))
+        requirebeverages:{!! (Session::get('edit_venue_booking')->requirebeverages == 'Yes')?json_encode('Yes'):json_encode('No') !!},
+        @else
         requirebeverages:{!! (old('requirebeverages') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
+        @endif
         },
         mounted: function(){
         if(this.type == 'Image'){
@@ -173,6 +177,13 @@
         }
         }
         });
+        </script>
+        
+        <!-- Enable tooltips everywhere -->
+        <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
         </script>
 
         <!-- Enable Scrollspy -->
@@ -272,12 +283,24 @@
         <script>$('#edit-media-alert-modal').modal('show');</script>
         @endif
 
-        @if(Session::has('create_venue_booking_error') || Session::has('starttime_error') || Session::has('endtime_error'))
+        @if(Session::has('create_venue_booking_error'))
         <script>$('#createBookingModal').modal('show');</script>
         @endif
 
         @if(Session::has('create_venue_booking'))
         <script>$('#successfulBookingModal').modal('show');</script>
+        @endif
+
+        @if(Session::has('edit_venue_booking') || Session::has('edit_venue_booking_error'))
+        <script>$('#editBookingModal').modal('show');</script>
+        @endif
+
+        @if(Session::has('venue_booking_edited'))
+        <script>$('#successfulBookingAmendmentModal').modal('show');</script>
+        @endif
+
+        @if(Session::has('cancel_venue_booking'))
+        <script>$('#venueBookingCancellationModal').modal('show');</script>
         @endif
     </body>
 </html>

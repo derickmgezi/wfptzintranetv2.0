@@ -71,11 +71,11 @@
                 <i class="fa fa-file-text {{((Request::is('resource'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources
             </a>
         </li>
-        <!-- <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('previous'))? 'active':'')}}" href="{{URL::to('/previous')}}">
                 <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Conference Booking
             </a>
-        </li> -->
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right">
             <a class="nav-link nav-link-collapse collapsed dropdown-toggle faa-horizontal animated-hover" data-toggle="collapse" href="#collapseSites">
                 <i class="fa fa-external-link" aria-hidden="true"></i> <span class="nav-link-text">WFP Sites</span>
