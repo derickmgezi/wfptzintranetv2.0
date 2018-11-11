@@ -119,11 +119,12 @@
                                 <i class="fa fa-lemon-o" aria-hidden="true"></i>
                             </a>
                             @endif
-                            
+                            @if(Auth::id() == $venuebooking->created_by)
                             <div class="btn-group btn-group-sm pull-right" role="group" aria-label="Basic example">
                                 <a href="{{URL::to('/editconferencebooking/'.$venuebooking->id)}}" class="btn btn-secondary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
                                 <a href="{{URL::to('/cancelconferencebooking/'.$venuebooking->id)}}" class="btn btn-secondary"><i class="fa fa-times-circle" aria-hidden="true"></i> Cancel</a>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
