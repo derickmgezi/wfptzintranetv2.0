@@ -36,7 +36,7 @@
             <div class="row">
                 <div class="col mb-3">
                     <button type="submit" class="btn btn-warning">
-                        <i class="fa fa-filter" aria-hidden="true"></i> Filter Reservation
+                        <i class="fa fa-filter" aria-hidden="true"></i> Filter Reservations
                     </button>
                     
                     <!-- Button trigger Venue Booking modal -->
