@@ -111,6 +111,10 @@
         @else
         requirebeverages:{!! (old('requirebeverages') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
         @endif
+
+        reservationsubmited:false,
+        reservationedited:false,
+        reservationcanceled:false,
         },
         mounted: function(){
         if(this.type == 'Image'){
@@ -154,6 +158,15 @@
                 this.mediaislink = true;
                 this.mediaisimage = false;
             }
+        },
+        submitReservation: function(){
+            this.reservationsubmited = true;
+        },
+        editReservation: function(){
+            this.reservationedited = true;
+        },
+        cancelReservation: function(){
+            this.reservationcanceled = true;
         },
         changenewscolor: function(news_update){
             this.showNewsBlock = news_update;
