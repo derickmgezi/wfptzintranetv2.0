@@ -255,7 +255,7 @@ class VenueBookingController extends Controller
             $new_booking->requirebeverages = $request->requirebeverages;
 
             if($request->requirebeverages == 'Yes'){
-                $booking->beverageoptions = implode( ", ", $request->beverageoptions );
+                $new_booking->beverageoptions = implode( ", ", $request->beverageoptions);
             }
 
             $new_booking->created_by = Auth::id();
