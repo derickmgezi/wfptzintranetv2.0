@@ -213,9 +213,24 @@
     {{Form::open(array('url' => '/create_venue_booking','multiple' => true,'role' => 'form'))}}
     <div class="modal fade createBookingModal" id="createBookingModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div v-if="reservationsubmited" class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Book for a Conference Venue</h5>
+                    <h5 class="modal-title">
+                        Conference Reservation is in progress
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <i class="fa fa-spinner fa-pulse fa-4x fa-fw" style="color: black"></i>
+                </div>
+            </div>
+            <div v-else="reservationsubmited" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Book for a Conference Venue
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -328,7 +343,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button v-on:click="submitReservation()" type="submit" class="btn btn-primary">Submit Reservation</button>
                 </div>
             </div>
         </div>
@@ -341,7 +356,20 @@
     {{Form::open(array('url' => '/edit_venue_booking','multiple' => true,'role' => 'form'))}}
     <div class="modal fade editBookingModal" id="editBookingModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div v-if="reservationedited" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Editing of Conference Reservation is in progress
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <i class="fa fa-spinner fa-pulse fa-4x fa-fw" style="color: black"></i>
+                </div>
+            </div>
+            <div v-else="reservationedited" class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit your Reservation</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -471,7 +499,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button v-on:click="editReservation()" type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -532,7 +560,20 @@
     <!-- Booking Cancellation Modal -->
     <div class="modal fade venueBookingCancellationModal" id="venueBookingCancellationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+            <div v-if="reservationcanceled" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Cancellation of Conference Reservation is in progress
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <i class="fa fa-spinner fa-pulse fa-4x fa-fw" style="color: black"></i>
+                </div>
+            </div>
+            <div v-else="reservationcanceled" class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Cancel Reservation</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -589,7 +630,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Ignore</button>
-                    <a href="{{URL::to('/confirmconferencebookingcancellation/'.Session::get('cancel_venue_booking')->id)}}" class="btn btn-danger"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Confirm</a>
+                    <a v-on:click="cancelReservation()" href="{{URL::to('/confirmconferencebookingcancellation/'.Session::get('cancel_venue_booking')->id)}}" class="btn btn-danger"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Confirm</a>
                 </div>
             </div>
         </div>
