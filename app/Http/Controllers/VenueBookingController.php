@@ -14,6 +14,7 @@ use App\AccessLog;
 use App\VenueBooking;
 use Route;
 use Date;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Notification;
 
@@ -152,15 +153,24 @@ class VenueBookingController extends Controller
      */
     public function store(Request $request){
         //
-        $timestamp = new Date($request->date);
-        $timestamp = $timestamp->timestamp;
+        $startdate = new Date($request->startdate);
+        $enddate = new Date($request->enddate);
+        $timestamp = $startdate->timestamp;
+
+        //Convert Request timeformat to resemble those in the database
+        $starttime = new Date($request->starttime);
+        $starttime =  $starttime->toTimeString();
+        
+        $endtime = new Date($request->endtime);
+        $endtime =  $endtime->toTimeString();
 
         if($request->requirebeverages == 'No'){
             $validator = Validator::make($request->all(), [
                 'office' => 'required',
                 'venue' => 'required',
                 'purpose' => 'required',
-                'date' => 'required|date|after_or_equal:today',
+                'startdate' => 'required|date|after_or_equal:today',
+                'enddate' => 'required|date|after_or_equal:startdate',
                 'starttime' => 'required|before:endtime',
                 'endtime' => 'required|after:starttime',
                 'participants' => 'required',
@@ -171,7 +181,8 @@ class VenueBookingController extends Controller
                 'office' => 'required',
                 'venue' => 'required',
                 'purpose' => 'required',
-                'date' => 'required|date|after_or_equal:today',
+                'startdate' => 'required|date|after_or_equal:today',
+                'enddate' => 'required|date|after_or_equal:startdate',
                 'starttime' => 'required|before:endtime',
                 'endtime' => 'required|after:starttime',
                 'participants' => 'required',
@@ -195,71 +206,65 @@ class VenueBookingController extends Controller
 
             return redirect('/previous')->withErrors($validator)->withInput();
         }else{
-            //Check if Venue has been booked or not
-            $bookings = VenueBooking::select('purpose','start_time','end_time')
-                                     ->where('status',1)
-                                     ->where('venue',$request->venue)
-                                     ->where('date',$request->date)
-                                     ->get();
+            for($date = $startdate; $date <= $enddate; $date->modify('+1 day')){
+                //Check if Venue has been booked or not
+                $bookings = VenueBooking::select('purpose','start_time','end_time')
+                                         ->where('status',1)
+                                         ->where('venue',$request->venue)
+                                         ->where('date',$date->format("Y-m-d"))
+                                         ->get();
 
-            foreach($bookings as $booking){
-                //Convert Request timeformat to resemble those in the database
-                $starttime = new Date($request->starttime);
-                $starttime =  $starttime->toTimeString();
-
-                $endtime = new Date($request->endtime);
-                $endtime =  $endtime->toTimeString();
-
-                if(!(($starttime > $booking->start_time && $starttime >= $booking->end_time) || ($starttime < $booking->start_time && $starttime < $booking->end_time))){
-                    Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
-                    Session::flash('calendardate', $timestamp);
-                    Session::flash('create_venue_booking_error', 'Start Time Validation Error');
-
-                    return redirect('/previous')->withInput();
-                }elseif(!(($starttime < $booking->start_time && $endtime <= $booking->start_time) || ($endtime > $booking->end_time && $starttime >= $booking->end_time))){
-                    Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
-                    Session::flash('calendardate', $timestamp);
-                    Session::flash('create_venue_booking_error', 'End Time Validation Error');
-
-                    return redirect('/previous')->withInput();
-                
-                //}elseif(!($starttime < $booking->start_time && $endtime <= $booking->start_time)){
-                //    Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
-                //    Session::flash('calendardate', $timestamp);
-                //    
-                //    return redirect('/previous')->withInput();
-                //
-                //}elseif(!($endtime > $booking->end_time && $starttime >= $booking->end_time)){
-                //    Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
-                //    Session::flash('calendardate', $timestamp);
-                //    
-                //    return redirect('/previous')->withInput();
-                //
-                }elseif(!(($endtime > $booking->start_time && $endtime > $booking->end_time) || ($endtime <= $booking->start_time && $endtime < $booking->end_time))){
-                    Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
-                    Session::flash('calendardate', $timestamp);
-                    Session::flash('create_venue_booking_error', 'End Time Validation Error');
-                    
-                    return redirect('/previous')->withInput();
+                foreach($bookings as $booking){
+                    if(!(($starttime > $booking->start_time && $starttime >= $booking->end_time) || ($starttime < $booking->start_time && $starttime < $booking->end_time))){
+                        Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                        Session::flash('calendardate', $timestamp);
+                        Session::flash('create_venue_booking_error', 'Start Time Validation Error');
+                        
+                        return redirect('/previous')->withInput();
+                    }elseif(!(($starttime < $booking->start_time && $endtime <= $booking->start_time) || ($endtime > $booking->end_time && $starttime >= $booking->end_time))){
+                        Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                        Session::flash('calendardate', $timestamp);
+                        Session::flash('create_venue_booking_error', 'End Time Validation Error');
+                        
+                        return redirect('/previous')->withInput();
+                        
+                        //}elseif(!($starttime < $booking->start_time && $endtime <= $booking->start_time)){
+                        //    Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                        //    Session::flash('calendardate', $timestamp);
+                        //    
+                        //    return redirect('/previous')->withInput();
+                        //
+                        //}elseif(!($endtime > $booking->end_time && $starttime >= $booking->end_time)){
+                        //    Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                        //    Session::flash('calendardate', $timestamp);
+                        //    
+                        //    return redirect('/previous')->withInput();
+                        //
+                    }elseif(!(($endtime > $booking->start_time && $endtime > $booking->end_time) || ($endtime <= $booking->start_time && $endtime < $booking->end_time))){
+                        Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                        Session::flash('calendardate', $timestamp);
+                        Session::flash('create_venue_booking_error', 'End Time Validation Error');
+                        
+                        return redirect('/previous')->withInput();
+                    }
                 }
-            }
-                
-            $new_booking = new VenueBooking;
-            $new_booking->purpose = $request->purpose;
-            $new_booking->location = $request->office;
-            $new_booking->venue = $request->venue;
-            $new_booking->date = $request->date;
-            $new_booking->start_time = $request->starttime;
-            $new_booking->end_time = $request->endtime;
-            $new_booking->participants = $request->participants;
-            $new_booking->requirebeverages = $request->requirebeverages;
+                $new_booking = new VenueBooking;
+                $new_booking->purpose = $request->purpose;
+                $new_booking->location = $request->office;
+                $new_booking->venue = $request->venue;
+                $new_booking->date = $date->format("Y-m-d");
+                $new_booking->start_time = $request->starttime;
+                $new_booking->end_time = $request->endtime;
+                $new_booking->participants = $request->participants;
+                $new_booking->requirebeverages = $request->requirebeverages;
 
-            if($request->requirebeverages == 'Yes'){
-                $new_booking->beverageoptions = implode( ", ", $request->beverageoptions);
-            }
+                if($request->requirebeverages == 'Yes'){
+                    $new_booking->beverageoptions = implode( ", ", $request->beverageoptions);
+                }
 
-            $new_booking->created_by = Auth::id();
-            $new_booking->save();
+                $new_booking->created_by = Auth::id();
+                $new_booking->save();
+            }
             
             Session::flash('calendardate', $timestamp);
             Session::flash('create_venue_booking', 'Your Booking was successful');
@@ -275,17 +280,20 @@ class VenueBookingController extends Controller
             $users = User::find([Auth::id(), 3]);
 
             //Find full details from the database of the booking that was made
-            $booking = VenueBooking::where('date',$request->date)
-                                    ->where('start_time',$starttime)
-                                    ->where('end_time',$endtime)
-                                    ->first();
+            $startdate = new Date($timestamp);
+            $startdate = $startdate->format("Y-m-d");
+
+            $booking = VenueBooking::where('date',$startdate)
+                                   ->where('start_time',$starttime)
+                                   ->where('end_time',$endtime)
+                                   ->first();
 
             try{
                 //Sent Email Notification to user(s)
                 //$user->notify(new ConferenceRoomBooked($booking)); //Sends Notification to a single user
-                Notification::send($users, new ConferenceRoomBooked($booking)); //Sends Notification to multiple users
+                Notification::send($users, new ConferenceRoomBooked($booking,$enddate)); //Sends Notification to multiple users
             }catch(\Exception $e){
-                //dd($e->getMessage());
+                dd($e->getMessage());
             }
 
             return redirect('/previous');
