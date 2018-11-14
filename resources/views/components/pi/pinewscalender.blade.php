@@ -317,7 +317,7 @@
                     @endif
                     <div class="form-group @if($errors->first('participants')) has-danger @elseif(old('participants')) has-success @endif">
                         <label class="font-weight-bold">Number of Participants</label>
-                        <input type="number" name="participants" value="{{ old('participants') }}" class="form-control form-control-sm @if($errors->first('participants')) form-control-danger @elseif(old('participants')) form-control-success @endif" placeholder="Enter Number of Participants">
+                        <input type="number" min="1" name="participants" value="{{ old('participants') }}" class="form-control form-control-sm @if($errors->first('participants')) form-control-danger @elseif(old('participants')) form-control-success @endif" placeholder="Enter Number of Participants">
                         @if($errors->first('participants'))
                             <div class="form-control-feedback">Number of Participants not filled</div>
                             <small class="form-text text-muted">Please fill in the number of participants</small>
@@ -348,6 +348,7 @@
                             <option @if(old('beverageoptions') && in_array('Water',old('beverageoptions'))) selected @endif value="Water">Water</option>
                             <option @if(old('beverageoptions') && in_array('Milk',old('beverageoptions'))) selected @endif value="Milk">Milk</option>
                             <option @if(old('beverageoptions') && in_array('Cashew nuts',old('beverageoptions'))) selected @endif value="Cashew nuts">Cashew nuts</option>
+                            <option @if(old('beverageoptions') && in_array('Biscuits',old('beverageoptions'))) selected @endif value="Biscuits">Biscuits</option>
                         </select>
                         @if($errors->first('beverageoptions'))
                             <div class="form-control-feedback">Beverages not selected</div>
