@@ -47,7 +47,7 @@
 
             $(document).ready(function () {
                 $('.js-officefilter-single').select2({
-                    placeholder: "Select conference room location",
+                    placeholder: "Select the location",
                     allowClear: true,
                     width:  '100%',
                 });
