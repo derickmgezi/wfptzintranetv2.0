@@ -274,13 +274,23 @@
                             <small class="form-text text-muted">Make sure you fill in the Purpose Field.</small>
                         @endif
                     </div>
-                    <div class="form-group pr-1 @if($errors->first('date')) has-danger @elseif(old('date')) has-success @endif">
-                        <label class="font-weight-bold">Meeting or Conference Date</label>
-                        <input type="date" name="date" value="{{ old('date') }}" class="form-control form-control-sm @if($errors->first('date')) form-control-danger @elseif(old('date')) form-control-success @endif" placeholder="Enter Start time">
-                        @if($errors->first('date'))
-                        <div class="form-control-feedback">Date is incorrect</div>
-                        <small class="form-text text-muted">Example 12-Dec-2018</small>
-                        @endif
+                    <div class="d-flex">
+                        <div class="form-group pr-1 @if($errors->first('startdate')) has-danger @elseif(old('startdate')) has-success @endif">
+                            <label class="font-weight-bold">Start Date</label>
+                            <input type="date" name="startdate" value="{{ old('startdate') }}" class="form-control form-control-sm @if($errors->first('startdate')) form-control-danger @elseif(old('startdate')) form-control-success @endif" placeholder="Enter Start time">
+                            @if($errors->first('startdate'))
+                            <div class="form-control-feedback">Start Date is incorrect</div>
+                            <small class="form-text text-muted">Example 01-Dec-2018</small>
+                            @endif
+                        </div>
+                        <div class="form-group pr-1 @if($errors->first('enddate')) has-danger @elseif(old('enddate')) has-success @endif">
+                                <label class="font-weight-bold">End Date</label>
+                                <input type="date" name="enddate" value="{{ old('enddate') }}" class="form-control form-control-sm @if($errors->first('enddate')) form-control-danger @elseif(old('enddate')) form-control-success @endif" placeholder="Enter Start time">
+                                @if($errors->first('enddate'))
+                                <div class="form-control-feedback">End Date is incorrect</div>
+                                <small class="form-text text-muted">Example 10-Dec-2018</small>
+                                @endif
+                            </div>
                     </div>
                     <div class="d-flex">
                         <div class="form-group pr-1 @if($errors->first('starttime') || Session::has('starttime_error')) has-danger @elseif(old('starttime')) has-success @endif">

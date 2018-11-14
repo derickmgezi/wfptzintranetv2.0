@@ -21,8 +21,9 @@ class ConferenceRoomBooked extends Notification
      *
      * @return void
      */
-    public function __construct(VenueBooking $booking){
+    public function __construct(VenueBooking $booking,Date $enddate){
         $this->booking = $booking;
+        $this->enddate = $enddate;
     }
 
     /**
@@ -45,6 +46,9 @@ class ConferenceRoomBooked extends Notification
         $date = new Date($this->booking->date);
         $date = $date->format('l jS F, Y');
 
+        $enddate = new Date($this->enddate);
+        $enddate = $enddate->format('l jS F, Y');
+
         $start_time = new Date($this->booking->start_time);
         $start_time = $start_time->format('h:i A');
 
@@ -56,7 +60,8 @@ class ConferenceRoomBooked extends Notification
         return (new MailMessage)
                     ->line($this->booking->venue.' has been booked')
                     ->line('Purpose: '.$this->booking->purpose)
-                    ->line('Date: '.$date)
+                    ->line('Start Date: '.$date)
+                    ->line('End Date: '.$enddate)
                     ->line('Time frame: '.$start_time.' to '.$end_time)
                     ->line('Number of paticipants: '.$this->booking->participants)
                     ->line('Reserved by: '.User::find($this->booking->created_by)->firstname.' '.User::find($this->booking->created_by)->secondname)
