@@ -208,21 +208,24 @@ class VenueBookingController extends Controller
         }else{
             for($date = $startdate; $date <= $enddate; $date->modify('+1 day')){
                 //Check if Venue has been booked or not
-                $bookings = VenueBooking::select('purpose','start_time','end_time')
+                $bookings = VenueBooking::select('purpose','date','start_time','end_time')
                                          ->where('status',1)
                                          ->where('venue',$request->venue)
                                          ->where('date',$date->format("Y-m-d"))
                                          ->get();
 
                 foreach($bookings as $booking){
+                    $bookingdate = new Date($booking->date);
+                    $bookingdate = $bookingdate->format('l jS F, Y');
+
                     if(!(($starttime > $booking->start_time && $starttime >= $booking->end_time) || ($starttime < $booking->start_time && $starttime < $booking->end_time))){
-                        Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                        Session::flash('starttime_error', 'Start Time overlaps with <strong>"'.$booking->purpose.'"</strong> thats on <strong>'.$bookingdate.'</strong>');
                         Session::flash('calendardate', $timestamp);
                         Session::flash('create_venue_booking_error', 'Start Time Validation Error');
                         
                         return redirect('/previous')->withInput();
                     }elseif(!(($starttime < $booking->start_time && $endtime <= $booking->start_time) || ($endtime > $booking->end_time && $starttime >= $booking->end_time))){
-                        Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                        Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"</strong> thats on <strong>'.$bookingdate.'</strong>');
                         Session::flash('calendardate', $timestamp);
                         Session::flash('create_venue_booking_error', 'End Time Validation Error');
                         
@@ -241,13 +244,17 @@ class VenueBookingController extends Controller
                         //    return redirect('/previous')->withInput();
                         //
                     }elseif(!(($endtime > $booking->start_time && $endtime > $booking->end_time) || ($endtime <= $booking->start_time && $endtime < $booking->end_time))){
-                        Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"<strong>');
+                        Session::flash('endtime_error', 'End Time overlaps with <strong>"'.$booking->purpose.'"</strong> thats on <strong>'.$bookingdate.'</strong>');
                         Session::flash('calendardate', $timestamp);
                         Session::flash('create_venue_booking_error', 'End Time Validation Error');
                         
                         return redirect('/previous')->withInput();
                     }
                 }
+            }
+            $startdate = new Date($request->startdate);
+
+            for($date = $startdate; $date <= $enddate; $date->modify('+1 day')){
                 $new_booking = new VenueBooking;
                 $new_booking->purpose = $request->purpose;
                 $new_booking->location = $request->office;
@@ -293,7 +300,7 @@ class VenueBookingController extends Controller
                 //$user->notify(new ConferenceRoomBooked($booking)); //Sends Notification to a single user
                 Notification::send($users, new ConferenceRoomBooked($booking,$enddate)); //Sends Notification to multiple users
             }catch(\Exception $e){
-                dd($e->getMessage());
+                //dd($e->getMessage());
             }
 
             return redirect('/previous');
