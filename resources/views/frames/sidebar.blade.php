@@ -73,7 +73,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('previous'))? 'active':'')}}" href="{{URL::to('/previous')}}">
-                <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Conference Booking
+                <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Conference Reservation
             </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right">

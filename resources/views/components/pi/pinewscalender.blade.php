@@ -2,48 +2,52 @@
     <div class="col-8">
         <div class="d-flex flex-column">
             {{Form::open(array('url' => '/filter_bookings','multiple' => true,'role' => 'form'))}}
-            <div class="row">
-                <div class="col form-group @if($errors->first('officefilter')) has-danger @elseif(old('officefilter')) has-success @endif">
-                    <label class="font-weight-bold font-italic">Conference Location</label>
-                    <select id="officefilter" name="officefilter" class="form-control js-officefilter-single @if($errors->first('officefilter')) form-control-danger @elseif(old('officefilter')) form-control-success @endif">
-                        <option></option>
-                        <option @if(old('officefilter') == 'Country Office') selected @endif value="Country Office">Country Office</option>
-                        <!-- <option >Dodoma Main Office</option>
-                        <option >Kibondo</option> -->
-                    </select>
-                    {{-- @if($errors->first('officefilter'))
-                        <div class="form-control-feedback">Location not selected</div>
-                    @endif --}}
+            <div class="row" style="border:2px solid #ebeaec">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col form-group @if($errors->first('officefilter')) has-danger @elseif(old('officefilter')) has-success @endif">
+                            <label class="font-weight-bold font-italic">Conference Location</label>
+                            <select id="officefilter" name="officefilter" class="form-control js-officefilter-single @if($errors->first('officefilter')) form-control-danger @elseif(old('officefilter')) form-control-success @endif">
+                                <option></option>
+                                <option @if(old('officefilter') == 'Country Office') selected @endif value="Country Office">Country Office</option>
+                                <!-- <option >Dodoma Main Office</option>
+                                <option >Kibondo</option> -->
+                            </select>
+                            {{-- @if($errors->first('officefilter'))
+                                <div class="form-control-feedback">Location not selected</div>
+                            @endif --}}
+                        </div>
+                        <div class="col form-group @if($errors->first('venuefilter')) has-danger @elseif(old('venuefilter')) has-success @endif">
+                            <label class="font-weight-bold font-italic">Conference Room</label>
+                            <select id="venuefilter" name="venuefilter" class="form-control js-venuefilter-single @if($errors->first('venuefilter')) form-control-danger @elseif(old('venuefilter')) form-control-success @endif">
+                                <option></option>
+                                <option @if(old('venuefilter') == 'Main Conference Room') selected @endif value="Main Conference Room">Main Conference Room</option>
+                                <option @if(old('venuefilter') == 'Third Floor Conference Room') selected @endif value="Third Floor Conference Room">Third Floor Conference Room</option>
+                                <!-- <option @if(old('venuefilter') == 'Canteen') selected @endif value="Canteen">Canteen</option> -->
+                            </select>
+                            {{-- @if($errors->first('venuefilter'))
+                                <div class="form-control-feedback">Conference not selected</div>
+                            @endif --}}
+                        </div>
+                        <div class="col form-group">
+                            <?php $calendardate = new Jenssegers\Date\Date($calendardate); ?>
+                            <label class="font-weight-bold font-italic">Conference Date</label>
+                            <input class="form-control form-control-sm" type="date" name="datefilter" value="{{ $calendardate->format('Y-m-d') }}">
+                        </div>
+                    </div>
                 </div>
-                <div class="col form-group @if($errors->first('venuefilter')) has-danger @elseif(old('venuefilter')) has-success @endif">
-                    <label class="font-weight-bold font-italic">Conference Room</label>
-                    <select id="venuefilter" name="venuefilter" class="form-control js-venuefilter-single @if($errors->first('venuefilter')) form-control-danger @elseif(old('venuefilter')) form-control-success @endif">
-                        <option></option>
-                        <option @if(old('venuefilter') == 'Main Conference Room') selected @endif value="Main Conference Room">Main Conference Room</option>
-                        <option @if(old('venuefilter') == 'Third Floor Conference Room') selected @endif value="Third Floor Conference Room">Third Floor Conference Room</option>
-                        <!-- <option @if(old('venuefilter') == 'Canteen') selected @endif value="Canteen">Canteen</option> -->
-                    </select>
-                    {{-- @if($errors->first('venuefilter'))
-                        <div class="form-control-feedback">Conference not selected</div>
-                    @endif --}}
-                </div>
-                <div class="col form-group">
-                    <?php $calendardate = new Jenssegers\Date\Date($calendardate); ?>
-                    <label class="font-weight-bold font-italic">Conference Date</label>
-                    <input class="form-control form-control-sm" type="date" name="datefilter" value="{{ $calendardate->format('Y-m-d') }}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col mb-3">
-                    <button type="submit" class="btn btn-warning">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-warning pull-right mb-2">
                         <i class="fa fa-filter" aria-hidden="true"></i> Filter Reservations
                     </button>
-                    
-                    <!-- Button trigger Venue Booking modal -->
-                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#createBookingModal">
-                        <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Conference Room Reservation
-                    </a>
                 </div>
+                
+            </div>
+            <div class="row">
+                <!-- Button trigger Venue Booking modal -->
+                <a href="#" class="btn btn-success mb-1 mt-1" data-toggle="modal" data-target="#createBookingModal">
+                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Create a new Reservation
+                </a>
             </div>
             {{Form::token()}}
             {{Form::close()}}
@@ -58,9 +62,9 @@
                         <ul class="list-inline">
                             <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> {{ $calendardate->format('l') }}</li>
                         </ul>
-                        <h5 class="alert-heading">No bookings have been created at this time!</h5>
+                        <h5 class="alert-heading">No reservations have been created at this time!</h5>
                         <ul class="list-inline">
-                            <li class="list-inline-item">To create a new booking please click on the Conference Venue Booking Button above</li>
+                            <li class="list-inline-item">To Researve a conference room click on the Create New Reservation Button above</li>
                         </ul>
                     </div>
                 </div>
