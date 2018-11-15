@@ -97,6 +97,9 @@
                     <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WebMail/'.encrypt('http://outlook.office365.com'))}}" style="padding-left: 2em;"><i class="fa fa-envelope" aria-hidden="true"></i> WebMail</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/SelfService/'.encrypt('https://selfservice.go.wfp.org'))}}" style="padding-left: 2em;"><i class="fa fa-server" aria-hidden="true"></i> SelfService</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WFP-INFO/'.encrypt('http://info.wfp.org'))}}" style="padding-left: 2em;"><i class="fa fa-info-circle" aria-hidden="true"></i> INFO</a>
                 </li>
                 <li class="nav-item">
@@ -133,8 +136,8 @@
             </a>
         </li>
         <li class="nav-item faa-horizontal animated-hover">
-            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Reset-Password/'.encrypt('https://wga.wfp.org/accounts/Reset'))}}">
-                <i class="fa fa-key" aria-hidden="true"></i> Reset Password
+            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Reset-Password/'.encrypt('https://password.go.wfp.org/'))}}">
+                <i class="fa fa-key" aria-hidden="true"></i> Change Password
             </a>
         </li>
         <li class="nav-item faa-horizontal animated-hover">
