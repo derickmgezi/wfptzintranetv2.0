@@ -115,12 +115,17 @@
                             @endif
                             @if(str_contains($venuebooking->beverageoptions, 'Milk'))
                             <a href="#" data-toggle="tooltip" data-placement="bottom" title="Milk">
-                                <i class="fa fa-bitbucket-square" aria-hidden="true"></i>
+                                <i class="fa fa-bitbucket" aria-hidden="true"></i>
                             </a>
                             @endif
                             @if(str_contains($venuebooking->beverageoptions, 'Cashew nuts'))
                             <a href="#" data-toggle="tooltip" data-placement="bottom" title="Cashew nuts">
                                 <i class="fa fa-lemon-o" aria-hidden="true"></i>
+                            </a>
+                            @endif
+                            @if(str_contains($venuebooking->beverageoptions, 'Biscuits'))
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Biscuits">
+                                <i class="fa fa-database" aria-hidden="true"></i>
                             </a>
                             @endif
                             @if(Auth::id() == $venuebooking->created_by)
@@ -341,7 +346,7 @@
                         </div>
                     </fieldset>
                     <div v-show ="requirebeverages == 'Yes'" class="form-group @if($errors->first('beverageoptions')) has-danger @elseif(old('beverageoptions')) has-success @endif">
-                        <label for="beverages" class="font-weight-bold">Beverages</label>
+                        <label for="beverages" class="font-weight-bold">Select Beverages or Snacks</label>
                         <select name="beverageoptions[]" multiple class="form-control js-beverages-multiple @if($errors->first('beverageoptions')) form-control-danger @elseif(old('beverageoptions')) form-control-success @endif" id='beverages'>
                             <option @if(old('beverageoptions') && in_array('Cofee',old('beverageoptions'))) selected @endif value="Cofee">Cofee</option>
                             <option @if(old('beverageoptions') && in_array('Tea',old('beverageoptions'))) selected @endif value="Tea">Tea</option>
@@ -505,6 +510,7 @@
                             <option @if((old('beverageoptions') && in_array('Water',old('beverageoptions'))) || str_contains(Session::get('edit_venue_booking')->beverageoptions,'Water')) selected @endif value="Water">Water</option>
                             <option @if((old('beverageoptions') && in_array('Milk',old('beverageoptions'))) || str_contains(Session::get('edit_venue_booking')->beverageoptions,'Milk')) selected @endif value="Milk">Milk</option>
                             <option @if((old('beverageoptions') && in_array('Cashew nuts',old('beverageoptions'))) || str_contains(Session::get('edit_venue_booking')->beverageoptions,'Cashew nuts')) selected @endif value="Cashew nuts">Cashew nuts</option>
+                            <option @if((old('beverageoptions') && in_array('Biscuits',old('beverageoptions'))) || str_contains(Session::get('edit_venue_booking')->beverageoptions,'Biscuits')) selected @endif value="Biscuits">Biscuits</option>
                         </select>
                         @if($errors->first('beverageoptions'))
                             <div class="form-control-feedback">Beverages not selected</div>
