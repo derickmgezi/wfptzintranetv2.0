@@ -1,8 +1,15 @@
 <div class="row">
     <div class="col-8">
         <div class="d-flex flex-column">
+            <div class="row">
+                <!-- Button trigger Venue Booking modal -->
+                <a href="#" class="btn btn-success mb-1" data-toggle="modal" data-target="#createBookingModal">
+                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Create a new Reservation
+                </a>
+            </div>
+
             {{Form::open(array('url' => '/filter_bookings','multiple' => true,'role' => 'form'))}}
-            <div class="row" style="border:2px solid #ebeaec">
+            <div class="row mb-2 alert alert-info" style="border:2px solid #ebeaec">
                 <div class="col-12">
                     <div class="row">
                         <div class="col form-group @if($errors->first('officefilter')) has-danger @elseif(old('officefilter')) has-success @endif">
@@ -37,17 +44,10 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-warning pull-right mb-2">
+                    <button type="submit" class="btn btn-primary pull-right mb-2">
                         <i class="fa fa-filter" aria-hidden="true"></i> Filter Reservations
                     </button>
                 </div>
-                
-            </div>
-            <div class="row">
-                <!-- Button trigger Venue Booking modal -->
-                <a href="#" class="btn btn-success mb-1 mt-1" data-toggle="modal" data-target="#createBookingModal">
-                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Create a new Reservation
-                </a>
             </div>
             {{Form::token()}}
             {{Form::close()}}
@@ -64,7 +64,9 @@
                         </ul>
                         <h5 class="alert-heading">No reservations have been created at this time!</h5>
                         <ul class="list-inline">
-                            <li class="list-inline-item">To Researve a conference room click on the Create New Reservation Button above</li>
+                            <li class="list-inline-item">
+                                To Researve a conference room click on the <span class="text-success font-weight-bold font-italic">Create New Reservation Button above</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
