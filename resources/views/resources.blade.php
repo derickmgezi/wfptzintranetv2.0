@@ -99,6 +99,7 @@
                                 </p>
                                 <h4 id="dashboard" class="text-primary">Dashboard</h4>
                                 <p>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard OCTOBER 2018.pdf'))}}">Monthly Dashboard OCTOBER</a><br>
                                     <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard SEPTEMBER  2018.pdf'))}}">Monthly Dashboard SEPTEMBER</a><br>
                                     <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard AUGUST 2018.pdf'))}}">Monthly Dashboard AUGUST</a><br>
                                     <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard JULY 20.08.2018.pdf'))}}">Monthly Dashboard JULY</a><br>
