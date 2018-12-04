@@ -353,7 +353,8 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body" style="background: url('../image/Copyright WFP Jen Kunz.jpg') no-repeat center center fixed;">
+                    {{-- <div class="modal-body" style="background: url('../image/Copyright WFP Jen Kunz.jpg') no-repeat center center fixed;"> --}}
+                    <div class="modal-body">
                         <img class="img-fluid" src="{{ URL::to('image/stop violence against women.jpg') }}">
                         <p class="font-weight-bold font-italic">
                             "GBV consists of any act of gender-based violence that results in, or is likely to result in, physical, sexual or mental harm or suffering to person"
