@@ -127,4 +127,9 @@ class FeedbackController extends Controller {
         //
     }
 
+    public function announcement(){
+        Session::put('announcement','');
+        return back();
+    }
+
 }
