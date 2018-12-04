@@ -284,8 +284,8 @@
         <script>$('#add-story-modal').modal('show');</script>
         @endif
 
-        @if(Request::is('innovation'))
-        <script>$('#announcement').modal('show');</script>
+        @if(!Session::has('announcement'))
+        <script>$('#announcementModal').modal('show');</script>
         @endif
 
         @if(Session::has('new_media_alert_error'))
