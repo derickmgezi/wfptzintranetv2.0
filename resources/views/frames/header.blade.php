@@ -342,32 +342,28 @@
         </div>
         @endif
         
+        @if(!Session::has('announcement'))
         <!-- Start of Innovation Cover Modal -->
-        <div class="modal hide fade in" id="announcement" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal hide fade in" id="announcementModal" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #0758ee; color: white;">
-                        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-thumb-tack faa-tada animated fa-lg" aria-hidden="true"></i> Unread Notifications</h5>
+                    <div class="modal-header text-white" style="background-color: orange;">
+                        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-bullhorn faa-tada animated fa-lg" aria-hidden="true"></i> Gender Based Violence Facts</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <p>
-
-                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget  
-                            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-
-                            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-
-                            na, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-
+                    <div class="modal-body" style="background: url('../image/Copyright WFP Jen Kunz.jpg') no-repeat center center fixed;">
+                        <img class="img-fluid" src="{{ URL::to('image/stop violence against women.jpg') }}">
+                        <p class="font-weight-bold font-italic">
+                            "GBV consists of any act of gender-based violence that results in, or is likely to result in, physical, sexual or mental harm or suffering to person"
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save Announcements</button>
+                        <a href="{{URL::to('/announcement')}}" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i> Now I am aware</a>
+                        {{-- <button type="button" class="btn btn-primary">Save Announcements</button> --}}
                     </div>
                 </div>
             </div>
         </div><!-- End of Innovation Cover Modal -->
+        @endif

@@ -249,6 +249,9 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/feedback', 'FeedbackController@index');
 
     Route::post('/feedback', 'FeedbackController@store');
+
+    Route::get('/announcement', 'FeedbackController@announcement');
+
     
     Route::get('/canteen/{meal}', 'CanteenController@index');
 
