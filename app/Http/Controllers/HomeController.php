@@ -44,10 +44,10 @@ class HomeController extends Controller {
 
         $stories = Story::where('status', 1)->orderBy('created_at', 'desc')->take(6)->get();
         
-        $recent_media_alerts_date = MediaAlert::select(DB::raw("DATE_FORMAT(created_at,'%d %M %Y') as date"))
-                                          ->where('status',1)
-                                          ->orderBy('created_at', 'desc')
-                                          ->first();
+        //$recent_media_alerts_date = MediaAlert::select(DB::raw("DATE_FORMAT(created_at,'%d %M %Y') as date"))
+        //                                  ->where('status',1)
+        //                                  ->orderBy('created_at', 'desc')
+        //                                  ->first();
         
         $mediaalerts = MediaAlert::select(DB::raw("id,header,mediacontent,type,source,created_at,DATE_FORMAT(created_at,'%d %M %Y') as date"))
                                             ->where('status',1)
@@ -87,7 +87,7 @@ class HomeController extends Controller {
         $access_log->save();
 
         return view('home')->with('mediaalerts', $mediaalerts)
-                           ->with('recent_media_alerts_date',$recent_media_alerts_date)
+                           //->with('recent_media_alerts_date',$recent_media_alerts_date)
                            ->with("news",$news)
                            ->with('stories',$stories)
                            ->with('accessed_links',$accessed_links)
