@@ -112,81 +112,6 @@
                             </div>
                         </div>
                         @endif
-                        
-                        @if($recent_media_alerts_date->count() > 0)
-                        <div class="justify-content-start">
-                            <h2 class="mr-3 mt-3">
-                                <span class="small">News Alerts</span>
-                                <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
-                                <?php $date = new Jenssegers\Date\Date($recent_media_alerts_date->date); ?>
-                                <span class="smaller text-primary"><strong>posted on</strong> {{ $date->format('M j, Y') }}</span>
-                            </h2>
-                        </div>
-                        
-                        <div class="panel panel-default">
-                            <div id="media-alert-accordion" role="tablist" aria-multiselectable="true">
-                                @foreach($mediaalerts as $mediaalert)
-                                    <?php $date = new Jenssegers\Date\Date($mediaalert->date); ?>
-                                    @if($date->format('d F Y') == $recent_media_alerts_date->date)
-                                    <div class="card mb-1">
-                                        <div class="card-header" role="tab" id="heading{{ $mediaalert->id }}">
-                                            <h5 class="mb-0">
-                                                <div class="d-flex">
-                                                    @if($mediaalert->type == 'Link')
-                                                    <span><i class="fa fa-external-link p-1" aria-hidden="true"></i></span>
-                                                    @else
-                                                    <span><i class="fa fa-newspaper-o p-1" aria-hidden="true"></i></span>
-                                                    @endif
-                                                    <a data-toggle="collapse" data-parent="#media-alert-accordion" href="#collapse{{ $mediaalert->id }}" aria-expanded="true" aria-controls="collapse{{ $mediaalert->id }}">
-                                                        <small>{{ $mediaalert->header }}</small>
-                                                    </a>
-                                                </div>
-                                                <span class="badge badge-default smaller font-italic">{{ $mediaalert->source }}</span>
-                                            </h5>
-                                        </div>
-                                        <div id="collapse{{ $mediaalert->id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ $mediaalert->id }}">
-                                            @if($mediaalert->type == 'Image')
-                                            <a role="button" v-on:click="showModal({{$mediaalert}})" data-toggle="modal" data-target="#media-alert-modal" >
-                                                <img class="img-fluid img-responsive img-thumbnail" src="{{ URL::to('imagecache/original/'.$mediaalert->mediacontent) }}" alt="Image Alt" style="width: 100%;">
-                                            </a>
-                                            @elseif($mediaalert->type == 'Link')
-                                            <div class="">
-                                                <a class="badge badge-success m-3" target="_blank" href='{{ $mediaalert->mediacontent }}'>
-                                                    {{ substr(strip_tags($mediaalert->mediacontent),0,35) }}{{ strlen(strip_tags($mediaalert->mediacontent)) > 35 ? "...":"" }}
-                                                </a>
-                                            </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    @endif
-                                @endforeach
-                            </div>
-                        </div>
-                        @endif
-                        <!-- Start of Media alert Popup Modal -->
-                        <div class="modal fade" id="media-alert-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-xl" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h6 class="modal-title" id="exampleModalLabel">
-                                            @{{header}}
-                                            <span class="badge badge-success font-italic">@{{ source }}</span>
-                                        </h6>
-
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="">
-                                        <img class="img-fluid img-responsive img-thumbnail" v-bind:src="mediacontent" alt="Image Alt" style="width: 100%;">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- End of Media alert Popup Modal -->
                     </div>
 
                     <div class="col-md-3">
@@ -234,7 +159,7 @@
                 </div>
 
                 <!-- Three columns of text below the carousel -->
-                <hr>
+                <hr class="featurette-divider">
 
                 <!-- FOOTER -->
                 @include('frames/footer')
