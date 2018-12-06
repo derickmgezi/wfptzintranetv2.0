@@ -343,7 +343,7 @@
         @endif
         
         @if(!Session::has('announcement'))
-        <!-- Start of Innovation Cover Modal -->
+        <!-- Start of Announcement Modal -->
         <div class="modal hide fade in" id="announcementModal" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -357,7 +357,7 @@
                     <div class="modal-body">
                         <img class="img-fluid" src="{{ URL::to('image/stop violence against women.jpg') }}">
                         <p class="font-weight-bold font-italic">
-                            "GBV consists of any act of gender-based violence that results in, or is likely to result in, physical, sexual or mental harm or suffering to person"
+                            "The survivor of violence is not a statistic, but a person with a family, friends and a community"
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -366,5 +366,5 @@
                     </div>
                 </div>
             </div>
-        </div><!-- End of Innovation Cover Modal -->
+        </div><!-- End of Announcement Modal -->
         @endif
