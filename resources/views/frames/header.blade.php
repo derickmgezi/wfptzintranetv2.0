@@ -357,7 +357,7 @@
                     <div class="modal-body">
                         <img class="img-fluid" src="{{ URL::to('image/stop violence against women.jpg') }}">
                         <p class="font-weight-bold font-italic">
-                            "The survivor of violence is not a statistic, but a person with a family, friends and a community"
+                            "Survivors need specialized assistance. But all humanitarian respondents and civil society have the responsibility to protect and support survivors"
                         </p>
                     </div>
                     <div class="modal-footer">
