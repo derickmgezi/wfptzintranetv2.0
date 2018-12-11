@@ -19,7 +19,7 @@
                         <h1>
                             <div class="d-flex justify-content-between hidden-md-down">
                                 <div class="">
-                                    <!-- <i class="fa fa-newspaper-o" aria-hidden="true"></i> --> <span class="small">News</span>
+                                    <!-- <i class="fa fa-newspaper-o" aria-hidden="true"></i> --> <span class="small">WFP Updates</span>
                                 </div>
 
                                 <div class="">    
