@@ -343,7 +343,7 @@
         @endif
         
         @if(!Session::has('announcement'))
-        <!-- Start of Announcement Modal -->
+        <!-- Start of Announcement Modal
         <div class="modal hide fade in" id="announcementModal" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
