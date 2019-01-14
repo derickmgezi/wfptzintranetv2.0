@@ -25,7 +25,7 @@
                         </div>
                         
                         <div class="row no-gutters align-items-stretch">
-                            <div v-for="news_update in news" v-on:mouseover="changenewscolor(news_update.id)" v-on:mouseleave="changebacknewscolor(news_update.id)" class="col-md-4 p-1">
+                            <div v-clock v-for="news_update in news" v-on:mouseover="changenewscolor(news_update.id)" v-on:mouseleave="changebacknewscolor(news_update.id)" class="col-md-4 p-1">
                                 <div v-if="showNewsBlock == news_update.id" class="card card-inverse card-primary h-100">
                                     <a :href="{{ json_encode(URL::to('read_update')) }} + '/' + news_update.id">
                                         <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + news_update.image" alt="Card image cap">
@@ -43,7 +43,7 @@
                                         </div>
                                     </transition>
                                 </div>
-                                <div v-else class="card card-primary card-outline-primary h-100">
+                                <div v-clock v-else class="card card-primary card-outline-primary h-100">
                                     <a href="{{URL::to('/news')}}">
                                         <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + news_update.image" alt="Card image cap">
                                     </a>
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="row no-gutters align-items-stretch">
-                            <div v-for="story in stories" v-on:mouseover="changestorycolor(story.id)" v-on:mouseleave="changebackstorycolor(story.id)" class="col-md-4 p-1">
+                            <div v-clock v-for="story in stories" v-on:mouseover="changestorycolor(story.id)" v-on:mouseleave="changebackstorycolor(story.id)" class="col-md-4 p-1">
                                 <div v-if="showStoryBlock == story.id" class="card card-inverse card-primary h-100">
                                     <a :href="{{ json_encode(URL::to('storiyangu')) }} + '/' + story.id">
                                         <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + story.image" alt="Card image cap">
@@ -92,7 +92,7 @@
                                         </div>
                                     </transition>
                                 </div>
-                                <div v-else class="card card-primary card-outline-primary h-100">
+                                <div v-clock v-else class="card card-primary card-outline-primary h-100">
                                     <a href="{{URL::to('/storiyangu')}}">
                                         <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + story.image" alt="Card image cap">
                                     </a>
