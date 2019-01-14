@@ -1,3 +1,8 @@
+/* Hide Vue elements during loading */
+[v-clock]{
+  display: none;
+}
+
 /* Let's get this party started */
 ::-webkit-scrollbar {
     width: 12px;
