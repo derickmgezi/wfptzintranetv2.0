@@ -4,7 +4,7 @@
             <div class="row">
                 <!-- Button trigger Venue Booking modal -->
                 <a href="#" class="btn btn-success mb-1" data-toggle="modal" data-target="#createBookingModal">
-                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Create a new Reservation
+                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> New Reservation
                 </a>
             </div>
 
