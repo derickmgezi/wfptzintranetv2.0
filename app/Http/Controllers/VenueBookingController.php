@@ -284,7 +284,7 @@ class VenueBookingController extends Controller
             $endtime =  $endtime->toTimeString();
 
             //Notifiable user(s) trough email after the booking is succeful
-            $users = User::find([Auth::id(), 3]);
+            $users = User::find([Auth::id(), 167]);
 
             //Find full details from the database of the booking that was made
             $startdate = new Date($timestamp);
