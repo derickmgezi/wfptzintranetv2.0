@@ -94,7 +94,7 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => 'derick.ruganuza@wfp.org',
+            'to' => 'co_tan_it_staff@wfp.org',
         ],
       
         'slack' => [

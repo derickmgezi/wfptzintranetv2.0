@@ -10,20 +10,19 @@
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        {{HTML::script("js/jquery-3.1.1.slim.min.js")}}
+
+        <!-- jQuery Library -->
+        {{HTML::script("js/jquery-3.3.1.min.js")}}
         
-        <script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script>
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-        
-        <script src="js/lightzoom.js"></script>
-        
-        <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-        {{HTML::script("js/holder.min.js")}}
-        
+        <!-- Tether Library -->
         {{HTML::script("js/tether.min.js")}}
         
+        <!-- Bootstrap Library -->
         {{HTML::script("js/bootstrap.min.js")}}
+
+        <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+        {{HTML::script("js/holder.min.js")}}
         
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         {{HTML::script("js/ie10-viewport-bug-workaround.js")}}
@@ -34,7 +33,8 @@
         <!-- for zooming image-->
         {{HTML::script("js/lightzoom.js")}}
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        <!-- Select 2 Library-->
+        {{HTML::script("js/select2.min.js")}}
         <script>
             // My Select2 Javascript (external .js resource or <script> tag)
             $(document).ready(function () {
