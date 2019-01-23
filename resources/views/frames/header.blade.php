@@ -65,8 +65,6 @@
         <!-- Vue.js library -->
         {{HTML::script("js/vue.js")}}
 
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.6/tinymce.min.js"></script> -->
-
         <!-- Custom Java Script styles for My Tinymce Text Editor -->
         <!-- <script src="http://wazo.wfp.org/js/mytinymce.js"></script> -->
 
