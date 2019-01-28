@@ -13,9 +13,9 @@
                     </a>
                 </li>
                 @endif
-                @if(Request::is('previous'))
+                @if(Request::is('conferencereservation'))
                 <li class="nav-item">
-                    <a class="nav-link {{((Request::is('previous'))? 'active':'')}}" href="#">
+                    <a class="nav-link {{((Request::is('conferencereservation'))? 'active':'')}}" href="#">
                         <i class="fa fa-calendar fa-lg" aria-hidden="true"></i> News Calendar
                     </a>
                 </li>
@@ -72,7 +72,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link faa-horizontal animated-hover {{((Request::is('previous'))? 'active':'')}}" href="{{URL::to('/previous')}}">
+            <a class="nav-link faa-horizontal animated-hover {{((Request::is('conferencereservation'))? 'active':'')}}" href="{{URL::to('/conferencereservation')}}">
                 <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Conference Reservation
             </a>
         </li>
