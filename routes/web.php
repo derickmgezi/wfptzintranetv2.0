@@ -68,7 +68,7 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/like_news_post/{id}', 'PIController@like_news_post');
 
-    Route::get('/previous', 'VenueBookingController@index');
+    Route::get('/conferencereservation', 'VenueBookingController@index');
 
     Route::post('/create_venue_booking', 'VenueBookingController@store');
 
