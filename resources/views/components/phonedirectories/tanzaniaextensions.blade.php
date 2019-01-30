@@ -42,27 +42,27 @@ $active_link_status = 1;
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="{{ str_replace(' ', '',$location->location) }}-full-list" role="tabpanel" aria-labelledby="{{ str_replace(' ', '',$location->location) }}-full-list-tab">
                             @if($location->location == 'Country Office')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+25522219-XXXX</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720055</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+25522219-XXXX</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720055</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @elseif($location->location == 'Dar es salaam Port')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+25522219-XXXX</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720055</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+25522219-XXXX</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720055</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @elseif($location->location == 'Dodoma Main Office')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>TTCL</strong> dial <strong><em>+255262320096</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720021</em></strong>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>TTCL</strong> dial <strong><em>+255262320096</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720021</em></strong>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @elseif($location->location == 'Dodoma Warehouse')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>TTCL</strong> dial <strong><em>+255262340853</em></strong>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>TTCL</strong> dial <strong><em>+255262340853</em></strong>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @elseif($location->location == 'Kibondo')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL Line 1</strong> dial <strong><em>+255282820156</em></strong><br>Via <strong>TTCL Line 2</strong> dial <strong><em>+255282820157</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL Line 1</strong> dial <strong><em>+255282820156</em></strong><br>Via <strong>TTCL Line 2</strong> dial <strong><em>+255282820157</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @elseif($location->location == 'Isaka')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>General TTCL Line </strong> dial <strong><em>+255282730003</em></strong><br>Via <strong>TTCL Line to HoSo</strong> dial <strong><em>+255282730002</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>General TTCL Line </strong> dial <strong><em>+255282730003</em></strong><br>Via <strong>TTCL Line to HoSo</strong> dial <strong><em>+255282730002</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @endif
@@ -71,14 +71,20 @@ $active_link_status = 1;
                                 @foreach($units as $unit)
                                 <thead class="thead-inverse">
                                     <tr>
+                                        <th colspan="4" class="text-white">
+                                            <span class="btn btn-secondary btn-sm">
+                                                {{ $unit->department }}
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <thead class="thead-inverse">
+                                    <tr>
                                         <th class="text-center">
                                             <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> User
                                         </th>
                                         <th class="text-center">
                                             <i class="fa fa-address-card-o fa-lg" aria-hidden="true"></i> Role
-                                        </th>
-                                        <th class="text-center">
-                                            <i class="fa fa-building-o fa-lg" aria-hidden="true"></i> Department
                                         </th>
                                         <th class="text-center">
                                             <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Extension
@@ -94,7 +100,6 @@ $active_link_status = 1;
                                     <tr>
                                         <td class="text-center"><em>{{ $unit_member->name }}</em></td>
                                         <td class="text-center"><em>{{ $unit_member->function }}</em></td>
-                                        <td class="text-center"><em>{{ $unit_member->department }}</em></td>
                                         <td class="text-center"><em>{{ $unit_member->ext_no }}</em></td>
                                         <td class="text-center">
                                             <em>
@@ -115,27 +120,27 @@ $active_link_status = 1;
                         </div>
                         <div class="tab-pane fade" id="{{ str_replace(' ', '',$location->location) }}-tiles" role="tabpanel" aria-labelledby="{{ str_replace(' ', '',$location->location) }}-tiles-tab">
                             @if($location->location == 'Country Office')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+25522219-XXXX</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720055</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+25522219-XXXX</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720055</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @elseif($location->location == 'Dar es salaam Port')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+25522219-XXXX</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720055</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+25522219-XXXX</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720055</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @elseif($location->location == 'Dodoma Main Office')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>TTCL</strong> dial <strong><em>+255262320096</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720021</em></strong>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>TTCL</strong> dial <strong><em>+255262320096</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720021</em></strong>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @elseif($location->location == 'Dodoma Warehouse')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>TTCL</strong> dial <strong><em>+255262340853</em></strong>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>TTCL</strong> dial <strong><em>+255262340853</em></strong>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @elseif($location->location == 'Kibondo')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL Line 1</strong> dial <strong><em>+255282820156</em></strong><br>Via <strong>TTCL Line 2</strong> dial <strong><em>+255282820157</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL Line 1</strong> dial <strong><em>+255282820156</em></strong><br>Via <strong>TTCL Line 2</strong> dial <strong><em>+255282820157</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @elseif($location->location == 'Isaka')
-                            <button type="button" class="btn btn-secondary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>General TTCL Line </strong> dial <strong><em>+255282730003</em></strong><br>Via <strong>TTCL Line to HoSo</strong> dial <strong><em>+255282730002</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
+                            <button type="button" class="btn btn-primary mt-4 mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $location->location }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>General TTCL Line </strong> dial <strong><em>+255282730003</em></strong><br>Via <strong>TTCL Line to HoSo</strong> dial <strong><em>+255282730002</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                 <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Dialing Instructions
                             </button>
                             @endif
