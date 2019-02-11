@@ -98,15 +98,16 @@
                                 </p>
                                 <h4 id="dashboard" class="text-primary">Dashboard</h4>
                                 <p>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard OCTOBER 2018.pdf'))}}">Monthly Dashboard OCTOBER</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard SEPTEMBER  2018.pdf'))}}">Monthly Dashboard SEPTEMBER</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard AUGUST 2018.pdf'))}}">Monthly Dashboard AUGUST</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard JULY 20.08.2018.pdf'))}}">Monthly Dashboard JULY</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard JUNE 2018.pdf'))}}">Monthly Dashboard JUNE</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard MAY 2018.pdf'))}}">Monthly Dashboard MAY</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard APR 18.pdf'))}}">Monthly Dashboard APRIL</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard MARCH 2018.pdf'))}}">Monthly Dashboard MARCH</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard FEBRUARY 2018.pdf'))}}">Monthly Dashboard FEBRUARY</a><br>
+                                        <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard December 2018.pdf'))}}">Monthly Dashboard DECEMBER 2018</a><br>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard OCTOBER 2018.pdf'))}}">Monthly Dashboard OCTOBER 2018</a><br>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard SEPTEMBER  2018.pdf'))}}">Monthly Dashboard SEPTEMBER 2018</a><br>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard AUGUST 2018.pdf'))}}">Monthly Dashboard AUGUST 2018</a><br>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard JULY 20.08.2018.pdf'))}}">Monthly Dashboard JULY 2018</a><br>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard JUNE 2018.pdf'))}}">Monthly Dashboard JUNE 2018</a><br>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard MAY 2018.pdf'))}}">Monthly Dashboard MAY 2018</a><br>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard APR 18.pdf'))}}">Monthly Dashboard APRIL 2018</a><br>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard MARCH 2018.pdf'))}}">Monthly Dashboard MARCH 2018</a><br>
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard FEBRUARY 2018.pdf'))}}">Monthly Dashboard FEBRUARY 2018</a><br>
                                 </p>
                             </div>
                         </div>
