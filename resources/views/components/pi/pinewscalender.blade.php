@@ -231,7 +231,7 @@
                 ?>
                 <div class="ml-3 mt-2">
                     <div class="pb-1">
-                        <img class="img-fluid rounded-circle" src="https://localhost/wazo/public/storage/thumbnails/profile_pictures/hmY1tO0wBmdobnXBk5EQuE0TMv0epdGDDhMAvwHI.png" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto">
+                        <img class="img-fluid rounded-circle" src="{{ strlen(App\User::find($researvation->created_by)->image) != 0? url('/storage/thumbnails/'.App\User::find($researvation->created_by)->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto">
                         <span class="text-primary small">{{ App\User::find($researvation->created_by)->firstname.' '.App\User::find($researvation->created_by)->secondname}}</span>
                     </div>
                     <ul class="list-inline">
