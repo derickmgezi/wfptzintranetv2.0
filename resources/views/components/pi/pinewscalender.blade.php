@@ -218,6 +218,34 @@
                 @endforeach
             </tbody>
         </table>
+
+        <div class="">
+            <div class="card-header h6">
+                Researvations
+            </div>
+            @foreach($allresearvations as $researvation)
+                <?php 
+                    $date = new Jenssegers\Date\Date($researvation->date);
+                    $start_time = new Jenssegers\Date\Date($researvation->start_time);
+                    $end_time = new Jenssegers\Date\Date($researvation->end_time);
+                ?>
+                <div class="ml-3 mt-2">
+                    <div class="pb-1">
+                        <img class="img-fluid rounded-circle" src="https://localhost/wazo/public/storage/thumbnails/profile_pictures/hmY1tO0wBmdobnXBk5EQuE0TMv0epdGDDhMAvwHI.png" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto">
+                        <span class="text-primary small">{{ App\User::find($researvation->created_by)->firstname.' '.App\User::find($researvation->created_by)->secondname}}</span>
+                    </div>
+                    <ul class="list-inline">
+                        <li class="font-weight-bold">PU Meeting</li>
+                        <li class="small"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{ $researvation->venue }}</li>
+                        <li class="small"><i class="fa fa-calendar" aria-hidden="true"></i> {{ $date->format('l jS F, Y') }}</li>
+                        <li class="small"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $start_time->format('h:i A') }} - {{ $end_time->format('h:i A') }}</li>
+                    </ul>
+                </div>
+                @if($allresearvations->last()->id != $researvation->id)
+                    <hr>
+                @endif
+            @endforeach
+        </div>
     </div>
 
     <!-- Create new Booking Modal -->
