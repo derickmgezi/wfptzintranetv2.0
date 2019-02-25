@@ -110,9 +110,10 @@ class VenueBookingController extends Controller
         $month = collect(['month'=>$date->format('M'),'year'=>$date->year]);
         $weeks = $weeks->unique('week');
 
+        $today_date = date("Y-m-d");
+        $now_date = date('H:i:s');
         $allresearvations = VenueBooking::where('status',1)
-                                        ->where('date','>',$today)
-                                        ->where('end_time','>=',$now)
+                                        ->where('date','>',$today_date)
                                         ->orderBy('date')
                                         ->get();
         
