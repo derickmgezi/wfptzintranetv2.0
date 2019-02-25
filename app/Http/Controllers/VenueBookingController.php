@@ -111,8 +111,9 @@ class VenueBookingController extends Controller
         $weeks = $weeks->unique('week');
 
         $allresearvations = VenueBooking::where('status',1)
+                                        ->where('date','>',$today)
                                         ->where('end_time','>=',$now)
-                                        ->orderBy('start_time')
+                                        ->orderBy('date')
                                         ->get();
         
         return view('conferencereservation')->with('venuebookings',$venuebookings)->with('allresearvations',$allresearvations)->with('calendardate',$calendardate)->with('bookingcolors',$bookingcolors)->with('month',$month)->with('weeks',$weeks)->with('dates',$dates)->with('today',$today)->with('timestamp',$date->timestamp);
