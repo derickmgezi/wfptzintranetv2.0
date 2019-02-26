@@ -223,7 +223,7 @@
             <div class="card-header h6">
                 Researvations
             </div>
-            <div @if($allresearvations->count() > 2)style="height: 300px; overflow-y: scroll"@endif>
+            <div @if($allresearvations->count() > 3)style="height: 450px; overflow-y: scroll"@endif>
                 @foreach($allresearvations as $researvation)
                     <?php 
                         $date = new Jenssegers\Date\Date($researvation->date);
@@ -238,7 +238,7 @@
                         <ul class="list-inline">
                             <li class="h6">{{ $researvation->purpose }}</li>
                             <li class="small text-warning"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{ $researvation->venue }}</li>
-                            <li class="small text-success"><i class="fa fa-calendar" aria-hidden="true"></i> {{ $date->format('l jS F, Y') }}</li>
+                            <li class="small text-success font-weight-bold"><i class="fa fa-calendar" aria-hidden="true"></i> {{ $date->format('l jS F, Y') }}</li>
                             <li class="small"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $start_time->format('h:i A') }} - {{ $end_time->format('h:i A') }}</li>
                         </ul>
                     </div>
