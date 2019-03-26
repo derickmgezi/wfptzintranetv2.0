@@ -334,7 +334,7 @@ class VenueBookingController extends Controller
             $endtime =  $endtime->toTimeString();
 
             //Notifiable user(s) trough email after the booking is succeful
-            $users = User::find([Auth::id(), 167]);
+            $users = User::find([Auth::id(), 38]);
 
             //Find full details from the database of the booking that was made
             $startdate = new Date($timestamp);
@@ -538,7 +538,7 @@ class VenueBookingController extends Controller
             Session::flash('venue_booking_edited', 'Your Booking was successful edited');
 
             //Notifiable user(s) trough email after the booking is succeful
-            $users = User::find([Auth::id(), 3]);
+            $users = User::find([Auth::id(), 38]);
 
             try{
                 //Sent Email Notification to user(s)
@@ -618,7 +618,7 @@ class VenueBookingController extends Controller
         $access_log->action_taken = "Cancel Conference Reservation";
 
         //Notifiable user(s) trough email after the booking is succeful
-        $users = User::find([Auth::id(), 3]);
+        $users = User::find([Auth::id(), 38]);
 
         try{
             //Sent Email Notification to user(s)
