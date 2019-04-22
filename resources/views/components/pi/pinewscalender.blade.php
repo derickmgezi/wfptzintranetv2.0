@@ -65,7 +65,7 @@
                         <h5 class="alert-heading">No reservations have been created at this time!</h5>
                         <ul class="list-inline">
                             <li class="list-inline-item">
-                                To Researve a conference room click on the <span class="text-success font-weight-bold font-italic">Create New Reservation Button above</span>
+                                To Reserve a conference room click on the <span class="text-success font-weight-bold font-italic">Create New Reservation Button above</span>
                             </li>
                         </ul>
                     </div>
@@ -219,9 +219,10 @@
             </tbody>
         </table>
 
+        @if($allresearvations->count() > 0)
         <div class="">
             <div class="card-header h6">
-                Researvations
+                Upcomming Reservations
             </div>
             <div @if($allresearvations->count() > 3)style="height: 450px; overflow-y: scroll"@endif>
                 @foreach($allresearvations as $researvation)
@@ -248,6 +249,7 @@
                 @endforeach
             </div>
         </div>
+        @endif
     </div>
 
     <!-- Create new Booking Modal -->
