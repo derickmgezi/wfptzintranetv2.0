@@ -34,7 +34,7 @@
                                     </li>-->
                                 </ul>
                             </nav>
-                            <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example" style="position: relative; height: 310px; overflow-y: scroll">
+                            <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example" style="position: relative; height: 330px; overflow-y: scroll">
                                 <h4 id="security" class="text-primary">Security</h4>
                                 <p>
                                     <i class="fa fa-shield" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Security/'.encrypt('Security Plan - Tanzania 14 July 2017.pdf'))}}">Security Plan</a><br>
