@@ -68,7 +68,7 @@ class ResourceController extends Controller {
         }
 
         if ($validator->fails()) {
-            Session::flash('addResource_error', 'Resource Validation Failed');
+            Session::flash('addresource_error', 'Resource Validation Failed');
 
             $access_log = new AccessLog;
             $access_log->user = Auth::user()->username;
@@ -148,6 +148,42 @@ class ResourceController extends Controller {
         return Redirect::to($decrepted_url);
     }
 
+    public function position($direction,$id) {
+        //
+        $resource = Resource::find($id);
+        $current_position = $resource->position;
+        $resource_type = $resource->resource_type;
+        $number_of_all_resources = Resource::where('resource_type',$resource_type)->count();
+
+        if($direction == 'up'){
+            if($current_position < $number_of_all_resources){
+                $new_position = $current_position+1;
+
+                //Find resource that was in the new position
+                $edit_resource_position = Resource::where('resource_type',$resource_type)
+                                                  ->where('position',$new_position)
+                                                  ->update(['position' => $current_position]);
+                
+                $resource->position = $new_position;
+                $resource->save();
+            }
+        }elseif($direction == 'down'){
+            if($current_position > 1){
+                $new_position = $current_position-1;
+
+                //Find resource that was in the new position
+                $edit_resource_position = Resource::where('resource_type',$resource_type)
+                                                  ->where('position',$new_position)
+                                                  ->update(['position' => $current_position]);
+                
+                $resource->position = $new_position;
+                $resource->save();
+            }
+        }
+        
+        return back();
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -156,6 +192,8 @@ class ResourceController extends Controller {
      */
     public function edit($id) {
         //
+        $resource = Resource::find($id);
+        return back()->with('editresource',$resource);
     }
 
     /**
@@ -167,6 +205,47 @@ class ResourceController extends Controller {
      */
     public function update(Request $request, $id) {
         //
+        $resource = Resource::find($id);
+
+        if($request->file){
+            $validator = Validator::make($request->all(), [
+                'resource_name' => 'required',
+                'file' => 'required|mimes:pdf,xls,xlsm,xlsx,doc,docx,ppt,pptm,pptx,jpeg,bmp,png,bmp,gif,svg',
+            ]);
+        }else{
+            $validator = Validator::make($request->all(), [
+                'resource_name' => 'required',
+            ]);
+        }
+
+        if ($validator->fails()) {
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Edit ".$resource->resource_type." Resource";
+            $access_log->action_details = "Editing of ".$resource->resource_type." Resource interrupted due to validation errors";
+            $access_log->action_status = "Failed";
+            $access_log->save();
+
+            return back()->withErrors($validator)->withInput()->with('editresource',$resource);
+        }else{
+            if($request->file){
+                //Upload the resource file in storage/app/public/resources folder 
+                $file_name = (string) ($request->file->store('public/resources'));
+                $file_name = str_replace('public/', '', $file_name);
+
+                $edit_resource = Resource::find($id);
+                $edit_resource->resource_name = $request->resource_name;
+                $edit_resource->resource_location = $file_name;
+                $edit_resource->save();
+            }else{
+                $edit_resource = Resource::find($id);
+                $edit_resource->resource_name = $request->resource_name;
+                $edit_resource->save();
+            }
+
+            return back()->with('resouce','Resource was succesfully uploaded');
+        }
     }
 
     /**

@@ -184,9 +184,17 @@ Route::group(['middleware' => ['guest']], function () {
     
     Route::get('/resource/{type}/resources/{url}', 'ResourceController@show');
 
-    Route::get('/addResource/{type}', 'ResourceController@create');
+    Route::get('/moveresource/{direction}/{id}', 'ResourceController@position');
 
-    Route::post('/addResource/{type}', 'ResourceController@store');
+    Route::get('/editresource/{id}', 'ResourceController@edit');
+
+    Route::post('/editresource/{id}', 'ResourceController@update');
+
+    Route::get('/deleteresource/{id}', 'ResourceController@destroy');
+
+    Route::get('/addresource/{type}', 'ResourceController@create');
+
+    Route::post('/addresource/{type}', 'ResourceController@store');
     
     Route::get('/finance', function () {
         return view('finance')->with('department','Finance')->with('dutystation','Country Office');
