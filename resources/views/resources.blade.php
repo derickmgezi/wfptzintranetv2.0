@@ -12,18 +12,12 @@
                         <div class="bd-example">
                             <nav id="navbar-example2">
                                 <a class="navbar-brand" href="#">WFP Resources</a>
+                                <a href="{{URL::to('/addResource/null')}}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource</a>
                                 <ul id="navbar-example2" class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item"><a class="nav-link" href="#security">Security</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#sop">SOPs</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#hr">HR</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#programme">Programme</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#finance">Finance</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#admin">Admin</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#it">IT</a></li>
-                                    <li class="nav-item"><a class="nav-link active" href="#comms">Communication</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#supplychain">Supply Chain</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#dashboard">Dashboard</a></li>
-<!--                                    <li class="nav-item dropdown">
+                                    @foreach($resource_types as $resource_type)
+                                    <li class="nav-item"><a class="nav-link" href="{{URL::to('#'.$resource_type->resource_type)}}">{{$resource_type->resource_type}}</a></li>
+                                    @endforeach
+                                    <!--<li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item" href="#one">one</a>
@@ -35,84 +29,96 @@
                                 </ul>
                             </nav>
                             <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example" style="position: relative; height: 330px; overflow-y: scroll">
-                                <h4 id="security" class="text-primary">Security</h4>
+                                @foreach($resource_types as $resource_type)
+                                <h4 id="{{$resource_type->resource_type}}" class="text-primary">
+                                    {{$resource_type->resource_type}}
+                                    <a href="{{URL::to('/addResource/'.$resource_type->resource_type)}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add file</a>
+                                </h4>
                                 <p>
-                                    <i class="fa fa-shield" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Security/'.encrypt('Security Plan - Tanzania 14 July 2017.pdf'))}}">Security Plan</a><br>
-                                    <i class="fa fa-shield" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Security/'.encrypt('Approved Residential Security Measures (RSM) - Tanzania 15 March 2018.pdf'))}}">Approved Residential Security Measures (RSM)</a><br>
-                                    <i class="fa fa-shield" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Security/'.encrypt('WFP Warden.pdf'))}}">WFP Tanzania Warden System</a><br>
-                                   
-                                   
+                                    <?php $resources =  $all_resources->where('resource_type', $resource_type->resource_type) ?>
+                                    @foreach($resources as $resource)
+                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->resource_location)}}">{{$resource->resource_name}}</a><br>
+                                    @endforeach
                                 </p>
-                                <h4 id="sop" class="text-primary">SOP</h4>
-                                <p>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('SOP ACCESS CONTROL CO DAR ES SALAAM.pdf'))}}">Access control CO Dar es salaam</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('SOP - TRAVEL TANZANIA COUNTRY OFFICE AND SUB OFFICES.pdf'))}}">Travel Tanzania Country Office and Sub Offices</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('SOP for communication equipment.pdf'))}}">Communication Equipment</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('WFPtz Guidelines on Media.pdf'))}}">WFP TZ Guidelines on Media</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('SOP - USE OF WFP VEHICLES.pdf'))}}">Use of WFP Vehicles</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('SOP for the Cooperating Partners Committee WFP Tanzania Country Office.pdf'))}}">Cooperating Partners Committee</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('Office committees 2018.pdf'))}}">Office committees 2018</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('SOP INVOICE MANAGEMENT TZCO.pdf'))}}">Invoice Management</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('SOP_MDR_COMET_LESS _ Invoice_ reconciliation - FINAL - 2018.04.18.pdf'))}}">MDR COMET LESS  Invoice reconciliation</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/SOP/'.encrypt('C&V Working Group TORs_01Dec17.pdf'))}}">TORs for Cash and Voucher Working Group</a><br>
-                                </p>
-                                <h4 id="hr" class="text-primary">Human Resources</h4>
-                                <p>
-                                   <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/HR/'.encrypt('Leave Application Form for All National Staff.doc'))}}">Leave Application Form for all National Staff</a><br> 
-                                </p>
-                                <h4 id="programme" class="text-primary">Programme</h4>
-                                <p>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Tanzania-Country Operations Management Plan 2018.pdf'))}}">Tanzania-Country Operations Management Plan 2018</a><br>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('United Republic of Tanzania CSP 2017 - 2021.pdf'))}}">CSP - United Republic of Tanzania  (2017-2021)</a><br>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('TZ01 BR2_Revised CSP narrative_7June2018_budget revision 2.pdf'))}}">CSP - United Republic of Tanzania  (2017-2021) - budget revision 2</a><br>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('WFP TZ CO Guidance on partnerships with Non-Government Organisations.pdf'))}}">WFP TZ CO Guidance on partnerships with Non-Government Organisations</a><br>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('United Nations Development Assistance (UNDAP) 2016-2021.pdf'))}}">United Nations Development Assistance (UNDAP) 2016-2021</a><br>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('2017_04_05 - Tanzania line of sight_FINAL.jpg'))}}">Tanzania CSP (2017-2021) line of sight</a><br>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Tanzania CO_CSP ME Plan_budget_FINAL.pdf'))}}">Tanzania CO CSP Monitoring, Review and Evaluation Plan</a><br>
-                                </p>
-                                <h4 id="finance" class="text-primary">Finance</h4>
-                                <p>
-                                    
-                                </p>
-                                <h4 id="admin" class="text-primary">Administration</h4>
-                                <p>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Report of loss or damage or unserviceability of property.doc'))}}">Loss or Damage Form</a><br>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Waiver of Liability.pdf'))}}">Waiver of Liability Form</a><br>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Administration/'.encrypt('Private Use of Office Vehicle 15.doc'))}}">Private Use of Office Vehicle Form</a><br>
-                                </p>
-                                <h4 id="it" class="text-primary">IT</h4>
-                                <p>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/IT/'.encrypt('Request Form for Mobile or thuraya phones.doc'))}}">Request Form for Mobile or thuraya phones</a><br>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/IT/'.encrypt('IT Loan Form.doc'))}}">Loan Form</a><br>
-                                    <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/IT/'.encrypt('Corporate Information and IT Security Policy.pdf'))}}">Information and IT Security policy</a><br>
-                                </p>
-                                <h4 id="comms" class="text-primary">Communication</h4>
-                                <p>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Communication/'.encrypt('Word document with all logos for easy copy paste.docx'))}}">WFP Logos</a><br>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Communication/'.encrypt('Official WFP Letter Head - new.docx'))}}">WFP Letter Head</a><br>
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Communication/'.encrypt('WFP PowerPoint Template.pptx'))}}">WFP PowerPoint Template</a><br>
-                                </p>
-                                <h4 id="supplychain" class="text-primary">Supply Chain</h4>
-                                <p>
-                                        <i class="fa fa-book" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Supply-Chain/'.encrypt('SUPPLY CHAIN STRATEGY Jun18.pdf'))}}">Supply Chain Strategy</a><br>
-                                </p>
-                                <h4 id="dashboard" class="text-primary">Dashboard</h4>
-                                <p>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard APRIL 2019.pdf'))}}">Monthly Dashboard APRIL 2019</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard FEBRUARY 2019.pdf'))}}">Monthly Dashboard FEBRUARY 2019</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard JANUARY 2019.pdf'))}}">Monthly Dashboard JANUARY 2019</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard December 2018.pdf'))}}">Monthly Dashboard DECEMBER 2018</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard OCTOBER 2018.pdf'))}}">Monthly Dashboard OCTOBER 2018</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard SEPTEMBER  2018.pdf'))}}">Monthly Dashboard SEPTEMBER 2018</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard AUGUST 2018.pdf'))}}">Monthly Dashboard AUGUST 2018</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard JULY 20.08.2018.pdf'))}}">Monthly Dashboard JULY 2018</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard JUNE 2018.pdf'))}}">Monthly Dashboard JUNE 2018</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard MAY 2018.pdf'))}}">Monthly Dashboard MAY 2018</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard APR 18.pdf'))}}">Monthly Dashboard APRIL 2018</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard MARCH 2018.pdf'))}}">Monthly Dashboard MARCH 2018</a><br>
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <a class="text-muted font-italic" href="{{URL::to('/resource/Dashboard/'.encrypt('TZCO Monthly Dashboard FEBRUARY 2018.pdf'))}}">Monthly Dashboard FEBRUARY 2018</a><br>
-                                </p>
+                                @endforeach
                             </div>
+
+                            @if(Session::has('resourcetype'))
+                            <!-- Add new Resource Modal -->
+                            {{Form::open(array('url' => '/addResource/'.Session::get('resourcetype'),'multiple' => true,'role' => 'form', 'enctype' => 'multipart/form-data'))}}
+                            <div class="modal fade addResourceModal" id="addResourceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-primary" id="exampleModalLabel">
+                                                Add new {{Session::get('resourcetype')}} Resource
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group @if($errors->first('resource_type')) has-danger @elseif(old('resource_type')) has-success @endif"">
+                                                <label class="font-weight-bold">Resource Type</label>
+                                                <select id="resource_type" name="resource_type" class="form-control @if($errors->first('resource_type')) form-control-danger @elseif(old('resource_type')) form-control-success @endif @if(Session::get('resourcetype') == 'null') js-resourcetype-single @else js-resourcetype-disabled @endif">
+                                                    <option></option>
+                                                    <option value="Administration" @if(Session::get('resourcetype') == "Administration" || old('resource_type') == 'Administration') selected @endif>Administration</option>
+                                                    <option value="Communication" @if(Session::get('resourcetype') == "Communication" || old('resource_type') == 'Communication') selected @endif>Communication</option>
+                                                    <option value="Dashboard" @if(Session::get('resourcetype') == "Dashboard" || old('resource_type') == 'Dashboard') selected @endif>Dashboard</option>
+                                                    <option value="HR" @if(Session::get('resourcetype') == "HR" || old('resource_type') == 'HR') selected @endif>HR</option>
+                                                    <option value="IT" @if(Session::get('resourcetype') == "IT" || old('resource_type') == 'IT') selected @endif>IT</option>
+                                                    <option value="Programme" @if(Session::get('resourcetype') == "Programme" || old('resource_type') == 'Programme') selected @endif>Programme</option>
+                                                    <option value="Security" @if(Session::get('resourcetype') == 'Security' || old('resource_type') == "Security") selected @endif>Security</option>
+                                                    <option value="SOP" @if(Session::get('resourcetype') == "SOP" || old('resource_type') == 'SOP') selected @endif>SOP</option>
+                                                    <option value="Supply Chain" @if(Session::get('resourcetype') == "Supply Chain" || old('resource_type') == 'Supply Chain') selected @endif>Supply Chain</option>
+                                                </select>
+                                                @if(Session::get('resourcetype') == 'null')
+                                                    @if($errors->first('resource_type'))
+                                                    <div class="form-control-feedback">
+                                                        <small class="font-weight-bold">{{ $errors->first('resource_type') }}</small>
+                                                    </div>
+                                                    @endif
+                                                    <small class="form-text text-muted">Make sure you have selected the correct resource type</small>
+                                                @endif
+                                            </div>
+                                            <div class="form-group @if($errors->first('resource_name')) has-danger @elseif(old('resource_name')) has-success @endif">
+                                                <label class="font-weight-bold">File name</label>
+                                                <input name="resource_name" value="{{old('resource_name')}}" type="text" class="form-control @if($errors->first('resource_name')) form-control-danger @elseif(old('resource_name')) form-control-success @endif" placeholder="Enter File name">
+                                                @if($errors->first('resource_name'))
+                                                <div class="form-control-feedback">
+                                                    <small class="font-weight-bold">{{ $errors->first('resource_name') }}</small>
+                                                </div>
+                                                @endif
+                                                <small class="form-text text-muted">
+                                                    Make sure you have entered the correct Resource Name
+                                                </small>
+                                            </div>
+                                            <div class="form-group @if($errors->first('file')) has-danger @elseif(old('file')) has-success @endif">
+                                                <label class="font-weight-bold">File input</label>
+                                                <input name="file" value="{{old('file')}}" type="file" class="form-control-file"
+                                                    id="exampleInputFile" aria-describedby="fileHelp">
+                                                @if($errors->first('file'))
+                                                <div class="form-control-feedback">
+                                                    <small class="font-weight-bold">{{ $errors->first('file') }}</small>
+                                                </div>
+                                                @endif
+                                                <small id="fileHelp" class="form-text text-muted">
+                                                    Make sure you have uploaded the correct file.<br> Only PDF,
+                                                    MS Word, MS Excel and MS PowerPoint formats are exepted
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{Form::token()}}
+                            {{Form::close()}}<!-- end of Add new Resource Modal -->
+                            @endif
+
                         </div>
                     </div>
                 </div>

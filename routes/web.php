@@ -182,7 +182,11 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/resource', 'ResourceController@index');
     
-    Route::get('/resource/{type}/{url}', 'ResourceController@show');
+    Route::get('/resource/{type}/resources/{url}', 'ResourceController@show');
+
+    Route::get('/addResource/{type}', 'ResourceController@create');
+
+    Route::post('/addResource/{type}', 'ResourceController@store');
     
     Route::get('/finance', function () {
         return view('finance')->with('department','Finance')->with('dutystation','Country Office');
