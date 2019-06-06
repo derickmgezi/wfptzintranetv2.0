@@ -333,8 +333,12 @@
         <script>$('#venueBookingCancellationModal').modal('show');</script>
         @endif
 
-        @if(Session::has('resourcetype') || Session::has('addResource_error'))
+        @if(Session::has('resourcetype') || Session::has('addresource_error'))
         <script>$('#addResourceModal').modal('show');</script>
+        @endif
+
+        @if(Session::has('editresource') || Session::has('editresource_error'))
+        <script>$('#editResourceModal').modal('show');</script>
         @endif
     </body>
 </html>
