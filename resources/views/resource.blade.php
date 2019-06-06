@@ -9,9 +9,9 @@
             <div class="container-fluid marketing">
                 <div class="row">
                     <div class="col-12">
-                        @if($filetype == 'pdf')
+                        @if($filetype == 'valid')
                         <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="{{ url('/resources/'.$resource) }}"></iframe>
+                            <iframe class="embed-responsive-item" src="{{ url('storage/resources/'.$resource) }}"></iframe>
                         </div>
                         @else
                         <br>
@@ -22,7 +22,7 @@
                             <strong>Document has been downloaded!</strong> Please check the bottom the browser to locate the downloaded file.
                         </div>
                         <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="{{ url('/resources/'.$resource) }}"></iframe>
+                            <iframe class="embed-responsive-item" src="{{ url('storage/resources/'.$resource) }}"></iframe>
                         </div>
                         @endif
                         
