@@ -70,6 +70,23 @@
             });
 
             $(document).ready(function () {
+                $('.js-resourcetype-disabled').select2({
+                    placeholder: "Select Resource Type",
+                    allowClear: true,
+                    width:  '100%',
+                    disabled: true,
+                });
+            });
+
+            $(document).ready(function () {
+                $('.js-resourcetype-single').select2({
+                    placeholder: "Select Resource Type",
+                    allowClear: true,
+                    width:  '100%',
+                });
+            });
+
+            $(document).ready(function () {
                 $('.js-beverages-multiple').select2({
                     placeholder: "Beverages",
                     width:  '100%',
@@ -314,6 +331,10 @@
 
         @if(Session::has('cancel_venue_booking'))
         <script>$('#venueBookingCancellationModal').modal('show');</script>
+        @endif
+
+        @if(Session::has('resourcetype') || Session::has('addResource_error'))
+        <script>$('#addResourceModal').modal('show');</script>
         @endif
     </body>
 </html>
