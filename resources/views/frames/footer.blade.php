@@ -340,5 +340,9 @@
         @if(Session::has('editresource') || Session::has('editresource_error'))
         <script>$('#editResourceModal').modal('show');</script>
         @endif
+
+        @if(Session::has('delete_resource') || Session::has('delete_resource'))
+        <script>$('#deleteResourceModal').modal('show');</script>
+        @endif
     </body>
 </html>

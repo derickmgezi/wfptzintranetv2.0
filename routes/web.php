@@ -190,6 +190,8 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::post('/editresource/{id}', 'ResourceController@update');
 
+    Route::get('/deleteresourceconfirmation/{id}', 'ResourceController@delete');
+
     Route::get('/deleteresource/{id}', 'ResourceController@destroy');
 
     Route::get('/addresource/{type}', 'ResourceController@create');

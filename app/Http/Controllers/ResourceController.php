@@ -31,7 +31,7 @@ class ResourceController extends Controller {
         $access_log->save();
 
         $resource_types = Resource::select('resource_type')->groupBy('resource_type')->get();
-        $all_resources = Resource::orderBy('position','desc')->get();
+        $all_resources = Resource::where('status',1)->orderBy('position','desc')->get();
 
         return view('resources')->with('all_resources',$all_resources)->with('resource_types',$resource_types);
     }
@@ -100,7 +100,7 @@ class ResourceController extends Controller {
             $new_resource->edited_by = Auth::id();
             $new_resource->save();
 
-            return back()->with('resouce','Resource was succesfully uploaded');
+            return back()->with('resouce','Resource was succesfully uploaded')->with('resoucetype',$type);
         }
     }
 
@@ -206,7 +206,6 @@ class ResourceController extends Controller {
     public function update(Request $request, $id) {
         //
         $resource = Resource::find($id);
-
         if($request->file){
             $validator = Validator::make($request->all(), [
                 'resource_name' => 'required',
@@ -243,8 +242,8 @@ class ResourceController extends Controller {
                 $edit_resource->resource_name = $request->resource_name;
                 $edit_resource->save();
             }
-
-            return back()->with('resouce','Resource was succesfully uploaded');
+            
+            return back()->with('resouce','Resource was succesfully uploaded')->with('resoucetype',$resource->resource_type);
         }
     }
 
@@ -254,8 +253,18 @@ class ResourceController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function delete($id) {
+        //
+        $resource = Resource::find($id);
+        return back()->with('delete_resource',$resource);
+    }
+
     public function destroy($id) {
         //
+        $resource = Resource::find($id);
+        $resource->status = 0;
+        $resource->save();
+        return back();
     }
 
 }
