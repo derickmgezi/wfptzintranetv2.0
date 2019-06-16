@@ -46,7 +46,7 @@
                                     <a href="{{URL::to('/moveresource/down/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="move down" class="text-primary"><i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
                                     @endif
                                     <a href="{{URL::to('/editresource/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="edit" class="text-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                    <a href="{{URL::to('/deleteresource/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="delete" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                    <a href="{{URL::to('/deleteresourceconfirmation/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="delete" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                     <br>
                                     @endforeach
                                 </p>
@@ -200,6 +200,28 @@
                             {{Form::close()}}<!-- end of Edit Resource Modal -->
                             @endif
 
+                            <!-- Start of Delete Resource Modal -->
+                            @if(Session::has('delete_resource'))
+                            <div class="modal fade deleteResourceModal" id="deleteResourceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-danger" id="exampleModalLabel">Delete Resource</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body font-italic">
+                                            You're about to remove <strong class="text-warning">{{ Session::get('delete_resource')->resource_name }}</strong> from <strong class="text-primary">{{ Session::get('delete_resource')->resource_type }} Resources</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i> close</button>
+                                            <a href="{{URL::to('/deleteresource/'.Session::get('delete_resource')->id)}}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end of Delete Resource Modal -->
+                            @endif
                         </div>
                     </div>
                 </div>
