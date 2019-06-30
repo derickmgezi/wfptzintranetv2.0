@@ -92,13 +92,26 @@ class ResourceController extends Controller {
             else
             $new_resource->resource_type = $type;
 
-            $file_position = Resource::where('resource_type',$type)->count();
+            $file_position = Resource::where('resource_type',$type)
+                                     ->where('status',1)
+                                     ->count();
+
             $new_resource->position = $file_position+1;
 
             $new_resource->resource_location = $file_name;
             $new_resource->uploaded_by = Auth::id();
             $new_resource->edited_by = Auth::id();
             $new_resource->save();
+
+            $delete_files = Resource::where('resource_type',$type)
+                                    ->where('status',0)
+                                    ->get();
+            
+            foreach($delete_files as $delete_file){
+                $file = Resource::find($delete_file->id);
+                $file->position = $delete_file->position + 1;
+                $file->save();
+            }
 
             return back()->with('resouce','Resource was succesfully uploaded')->with('resoucetype',$type);
         }
@@ -261,9 +274,28 @@ class ResourceController extends Controller {
 
     public function destroy($id) {
         //
-        $resource = Resource::find($id);
-        $resource->status = 0;
-        $resource->save();
+        $deleted_resource = Resource::find($id);
+        
+        $all_resources_before_delete = Resource::where('resource_type',$deleted_resource->resource_type)
+                                               ->where('status',1)
+                                               ->get();
+
+        $deleted_resource_position = $deleted_resource->position;
+        $deleted_resource->status = 0;
+        $deleted_resource->position = $all_resources_before_delete->count();
+        $deleted_resource->save();
+
+        $update_resources = Resource::where('resource_type',$deleted_resource->resource_type)
+                                              ->where('status',1)
+                                              ->where('position','>',$deleted_resource_position)
+                                              ->get();
+                         
+        foreach($update_resources as $update_resource){
+            $resource = Resource::find($update_resource->id);
+            $resource->position = $update_resource->position - 1;
+            $resource->save();
+        }
+
         return back();
     }
 
