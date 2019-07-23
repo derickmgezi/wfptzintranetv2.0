@@ -55,12 +55,12 @@
             <a class="nav-link" target="_blank" href="http://newgo.wfp.org/documents/tanzania-country-strategic-plan-2017-2021">
                 <i class="fa fa-flag-checkered fa-lg" aria-hidden="true"></i> Tanzania CSP
             </a>
-        </li> -->
+        </li>
         <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Mission-Calendar/'.encrypt('https://docs.google.com/spreadsheets/d/1YNeP4ltjH2tELuwxS_50cJYkAGbGhxCicmmrFnRGOO8/edit?usp=sharing'))}}">
                 <i class="fa fa-calendar" aria-hidden="true"></i> Mission Calendar
             </a>
-        </li>
+        </li> -->
         <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
                 <i class="fa fa-address-book-o {{((Request::is('internaldirectory'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Phone Directory
@@ -74,6 +74,11 @@
         <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('conferencereservation'))? 'active':'')}}" href="{{URL::to('/conferencereservation')}}">
                 <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Conference Reservation
+            </a>
+        </li>
+        <li class="nav-item faa-horizontal animated-hover">
+            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Transport-Request/'.encrypt('https://humanitarianbooking.wfp.org/en/explore/country/tz/?service=WFP+Driver+Hub'))}}">
+                <i class="fa fa-car" aria-hidden="true"></i> Transport Request
             </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right">
