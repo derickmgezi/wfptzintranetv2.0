@@ -78,6 +78,7 @@
                                                     <option value="HR" @if(Session::get('resourcetype') == "HR" || old('resource_type') == 'HR') selected @endif>HR</option>
                                                     <option value="IT" @if(Session::get('resourcetype') == "IT" || old('resource_type') == 'IT') selected @endif>IT</option>
                                                     <option value="Programme" @if(Session::get('resourcetype') == "Programme" || old('resource_type') == 'Programme') selected @endif>Programme</option>
+                                                    <option value="M&E" @if(Session::get('resourcetype') == "M&E" || old('resource_type') == 'M&E') selected @endif>M&E</option>
                                                     <option value="Security" @if(Session::get('resourcetype') == 'Security' || old('resource_type') == "Security") selected @endif>Security</option>
                                                     <option value="SOP" @if(Session::get('resourcetype') == "SOP" || old('resource_type') == 'SOP') selected @endif>SOP</option>
                                                     <option value="Supply Chain" @if(Session::get('resourcetype') == "Supply Chain" || old('resource_type') == 'Supply Chain') selected @endif>Supply Chain</option>
@@ -154,6 +155,7 @@
                                                     <option value="HR" @if(Session::get('editresource')->resource_type == "HR") selected @endif>HR</option>
                                                     <option value="IT" @if(Session::get('editresource')->resource_type == "IT") selected @endif>IT</option>
                                                     <option value="Programme" @if(Session::get('editresource')->resource_type == "Programme") selected @endif>Programme</option>
+                                                    <option value="M&E" @if(Session::get('editresource')->resource_type == "M&E") selected @endif>M&E</option>
                                                     <option value="Security" @if(Session::get('editresource')->resource_type == 'Security') selected @endif>Security</option>
                                                     <option value="SOP" @if(Session::get('editresource')->resource_type == "SOP") selected @endif>SOP</option>
                                                     <option value="Supply Chain" @if(Session::get('editresource')->resource_type == "Supply Chain") selected @endif>Supply Chain</option>
