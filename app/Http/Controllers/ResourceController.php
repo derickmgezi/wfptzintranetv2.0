@@ -55,16 +55,31 @@ class ResourceController extends Controller {
     public function store(Request $request,$type) {
         //
         if($type == 'null'){
-            $validator = Validator::make($request->all(), [
-                'resource_name' => 'required',
-                'resource_type' => 'required',
-                'file' => 'required|mimes:pdf,xls,xlsm,xlsx,doc,docx,ppt,pptm,pptx,jpeg,bmp,png,bmp,gif,svg',
-            ]);
+            if($request->resourceislink == "No"){
+                $validator = Validator::make($request->all(), [
+                    'resource_name' => 'required',
+                    'resource_type' => 'required',
+                    'file' => 'required|mimes:pdf,xls,xlsm,xlsx,doc,docx,ppt,pptm,pptx,jpeg,bmp,png,bmp,gif,svg',
+                ]);
+            }else{
+                $validator = Validator::make($request->all(), [
+                    'resource_name' => 'required',
+                    'resource_type' => 'required',
+                    'file' => 'required|url',
+                ]);
+            }
         }else{
-            $validator = Validator::make($request->all(), [
-                'resource_name' => 'required',
-                'file' => 'required|mimes:pdf,xls,xlsm,xlsx,doc,docx,ppt,pptm,pptx,jpeg,bmp,png,bmp,gif,svg',
-            ]);
+            if($request->resourceislink == "No"){
+                $validator = Validator::make($request->all(), [
+                    'resource_name' => 'required',
+                    'file' => 'required|mimes:pdf,xls,xlsm,xlsx,doc,docx,ppt,pptm,pptx,jpeg,bmp,png,bmp,gif,svg',
+                ]);
+            }else{
+                $validator = Validator::make($request->all(), [
+                    'resource_name' => 'required',
+                    'file' => 'required|url',
+                ]);
+            }
         }
 
         if ($validator->fails()) {
@@ -80,9 +95,13 @@ class ResourceController extends Controller {
 
             return back()->withErrors($validator)->withInput()->with('resourcetype',$type);
         }else{
-            //Upload the resource file in storage/app/public/resources folder 
-            $file_name = (string) ($request->file->store('public/resources'));
-            $file_name = str_replace('public/', '', $file_name);
+            if($request->resourceislink == "Yes"){
+                $file_name = $request->file;
+            }else{
+                //Upload the resource file in storage/app/public/resources folder 
+                $file_name = (string) ($request->file->store('public/resources'));
+                $file_name = str_replace('public/', '', $file_name);
+            }
 
             $new_resource = new Resource;
             $new_resource->resource_name = $request->resource_name;
@@ -99,6 +118,8 @@ class ResourceController extends Controller {
             $new_resource->position = $file_position+1;
 
             $new_resource->resource_location = $file_name;
+            if($request->resourceislink == "Yes")
+            $new_resource->external_link = $request->resourceislink;
             $new_resource->uploaded_by = Auth::id();
             $new_resource->edited_by = Auth::id();
             $new_resource->save();
@@ -123,27 +144,41 @@ class ResourceController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($type,$url) {
-        //
-        //$output = null;
-        //exec('"C:\Program Files (x86)\Adobe\Reader 10.0\Reader\AcroRd32.exe" \\10.11.74.12\Public\IT Unit\LTA-citizen_2CAD.pdf',$output);
-        //dd($output);
-        
-        //$decrepted_url = (string) decrypt($url);
-        $filetype = 'valid';
-        
-        if(!Str::contains($url, ['.pdf', 'jpeg'])){
-            $filetype = 'invalid';
-        }
-        $access_log = new AccessLog;
-        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
-        $access_log->action_taken = 'View "'.$type.'" Resource';
-        $access_log->action_details = 'Accessed '.$type.' resource';
-        $access_log->user = Auth::user()->username;
-        $access_log->save();
+    public function show($type,$link,$url) {
+        if($link == "Yes"){
+            $decrepted_url = (string) decrypt($url);
 
-        return view('resource')->with('resource',$url)->with('filetype',$filetype);
-        //echo '<iframe src="public/resource/'.$decrepted_url.'" width="100%" style="height:100%"></iframe>';
+            $access_log = new AccessLog;
+            $access_log->link_accessed = $decrepted_url;
+            $access_log->action_taken = 'View "'.$type.'" Resource';
+            $access_log->action_details = 'Accessed '.$type.' resource';
+            $access_log->link_type = "External";
+            $access_log->user = Auth::user()->username;
+            $access_log->save();
+
+            return Redirect::to($decrepted_url);
+        }else{
+            //$output = null;
+            //exec('"C:\Program Files (x86)\Adobe\Reader 10.0\Reader\AcroRd32.exe" \\10.11.74.12\Public\IT Unit\LTA-citizen_2CAD.pdf',$output);
+            //dd($output);
+            
+            //$decrepted_url = (string) decrypt($url);
+            $filetype = 'valid';
+            
+            if(!Str::contains($url, ['.pdf', '.jpeg'])){
+                $filetype = 'invalid';
+            }
+            $access_log = new AccessLog;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = 'View "'.$type.'" Resource';
+            $access_log->action_details = 'Accessed '.$type.' resource';
+            $access_log->user = Auth::user()->username;
+            $access_log->save();
+            
+            return view('resource')->with('resource',$url)->with('filetype',$filetype);
+            //echo '<iframe src="public/resource/'.$decrepted_url.'" width="100%" style="height:100%"></iframe>';
+        }
+        
     }
 
     public function show_external_link($name,$url) {
@@ -219,14 +254,21 @@ class ResourceController extends Controller {
     public function update(Request $request, $id) {
         //
         $resource = Resource::find($id);
-        if($request->file){
-            $validator = Validator::make($request->all(), [
-                'resource_name' => 'required',
-                'file' => 'required|mimes:pdf,xls,xlsm,xlsx,doc,docx,ppt,pptm,pptx,jpeg,bmp,png,bmp,gif,svg',
-            ]);
+        if($request->resourceislink == "No"){
+            if($resource->external_link == "Yes"){
+                $validator = Validator::make($request->all(), [
+                    'resource_name' => 'required',
+                    'file' => 'required|mimes:pdf,xls,xlsm,xlsx,doc,docx,ppt,pptm,pptx,jpeg,bmp,png,bmp,gif,svg',
+                ]);
+            }else{
+                $validator = Validator::make($request->all(), [
+                    'resource_name' => 'required',
+                ]);
+            }
         }else{
             $validator = Validator::make($request->all(), [
                 'resource_name' => 'required',
+                'file' => 'required|url',
             ]);
         }
 
@@ -241,20 +283,30 @@ class ResourceController extends Controller {
 
             return back()->withErrors($validator)->withInput()->with('editresource',$resource);
         }else{
-            if($request->file){
-                //Upload the resource file in storage/app/public/resources folder 
-                $file_name = (string) ($request->file->store('public/resources'));
-                $file_name = str_replace('public/', '', $file_name);
-
-                $edit_resource = Resource::find($id);
-                $edit_resource->resource_name = $request->resource_name;
-                $edit_resource->resource_location = $file_name;
-                $edit_resource->save();
+            if($request->resourceislink == "No"){
+                if($request->file){
+                    //Upload the resource file in storage/app/public/resources folder 
+                    $file_name = (string) ($request->file->store('public/resources'));
+                    $file_name = str_replace('public/', '', $file_name);
+    
+                    $edit_resource = Resource::find($id);
+                    $edit_resource->resource_name = $request->resource_name;
+                    $edit_resource->resource_location = $file_name;
+                    $edit_resource->external_link = $request->resourceislink;
+                    $edit_resource->save();
+                }else{
+                    $edit_resource = Resource::find($id);
+                    $edit_resource->resource_name = $request->resource_name;
+                    $edit_resource->external_link = $request->resourceislink;
+                    $edit_resource->save();
+                }
             }else{
                 $edit_resource = Resource::find($id);
                 $edit_resource->resource_name = $request->resource_name;
+                $edit_resource->resource_location = $request->file;
+                $edit_resource->external_link = $request->resourceislink;
                 $edit_resource->save();
-            }
+            }            
             
             return back()->with('resouce','Resource was succesfully uploaded')->with('resoucetype',$resource->resource_type);
         }
