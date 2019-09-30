@@ -129,6 +129,14 @@
         requirebeverages:{!! (old('requirebeverages') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
         @endif
 
+        @if(Session::has('resourcetype'))
+        resourceislink:{!! (old('resourceislink') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
+        @elseif(Session::has('editresource') && !old('resourceislink'))
+        resourceislink:{!! (Session::get('editresource')->external_link == 'Yes')?json_encode('Yes'):json_encode('No') !!},
+        @elseif(Session::has('editresource') && old('resourceislink'))
+        resourceislink:{!! json_encode(old('resourceislink')) !!},
+        @endif
+
         reservationsubmited:false,
         reservationedited:false,
         reservationcanceled:false,

@@ -182,7 +182,9 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/resource', 'ResourceController@index');
     
-    Route::get('/resource/{type}/resources/{url}', 'ResourceController@show');
+    Route::get('/resource/{type}/{link}/resources/{url}', 'ResourceController@show');
+
+    Route::get('/resource/{type}/{link}/{url}', 'ResourceController@show');
 
     Route::get('/moveresource/{direction}/{id}', 'ResourceController@position');
 

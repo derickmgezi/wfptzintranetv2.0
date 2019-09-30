@@ -4,7 +4,7 @@
 
         @include('frames/sidebar')
 
-        <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+        <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" id="app">
 
             <div class="container-fluid marketing">
                 <div class="row">
@@ -38,7 +38,7 @@
                                     <?php $resources =  $all_resources->where('resource_type', $resource_type->resource_type) ?>
                                     @foreach($resources as $resource)
                                     <i class="fa fa-file-text" aria-hidden="true"></i> 
-                                    <a class="text-muted font-italic" href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->resource_location)}}">{{$resource->resource_name}}</a> 
+                                    <a class="text-muted font-italic" @if($resource->external_link == "Yes") target="_blank" href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}" @else href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}" @endif>{{$resource->resource_name}}</a> 
                                     @if($resources->count() != $resource->position)
                                     <a href="{{URL::to('/moveresource/up/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="move up" class="text-primary"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
                                     @endif
@@ -68,7 +68,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="form-group @if($errors->first('resource_type')) has-danger @elseif(old('resource_type')) has-success @endif"">
+                                            <div class="form-group @if($errors->first('resource_type')) has-danger @elseif(old('resource_type')) has-success @endif">
                                                 <label class="font-weight-bold">Resource Type</label>
                                                 <select id="resource_type" name="resource_type" class="form-control @if($errors->first('resource_type')) form-control-danger @elseif(old('resource_type')) form-control-success @endif @if(Session::get('resourcetype') == 'null') js-resourcetype-single @else js-resourcetype-disabled @endif">
                                                     <option></option>
@@ -104,19 +104,53 @@
                                                     Make sure you have entered the correct Resource Name
                                                 </small>
                                             </div>
-                                            <div class="form-group @if($errors->first('file')) has-danger @elseif(old('file')) has-success @endif">
-                                                <label class="font-weight-bold">File input</label>
-                                                <input name="file" value="{{old('file')}}" type="file" class="form-control-file"
-                                                    id="exampleInputFile" aria-describedby="fileHelp">
-                                                @if($errors->first('file'))
-                                                <div class="form-control-feedback">
-                                                    <small class="font-weight-bold">{{ $errors->first('file') }}</small>
+                                            <fieldset class="form-group">
+                                                <label class="font-weight-bold">Is the resource an external link</label>
+                                                <div class="d-flex">
+                                                    <div class="form-check pr-2">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" class="form-check-input" name="resourceislink" v-model="resourceislink" value="No">
+                                                            No
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" class="form-check-input" name="resourceislink" v-model="resourceislink" value="Yes">
+                                                            Yes
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                                @endif
-                                                <small id="fileHelp" class="form-text text-muted">
-                                                    Make sure you have uploaded the correct file.<br> Only PDF,
-                                                    MS Word, MS Excel and MS PowerPoint formats are excepted
-                                                </small>
+                                            </fieldset>
+                                            <div class="form-group @if($errors->first('file')) has-danger @elseif(old('file')) has-success @endif">
+                                                <label class="font-weight-bold">Resource location</label>
+                                                <div v-if ="resourceislink == 'No'">
+                                                    <input name="file" value="{{old('file')}}" type="file" class="form-control-file"
+                                                        id="exampleInputFile" aria-describedby="fileHelp">
+                                                    @if($errors->first('file'))
+                                                    <div class="form-control-feedback">
+                                                        <small class="font-weight-bold">{{ $errors->first('file') }}</small>
+                                                    </div>
+                                                    @endif
+                                                    <small id="fileHelp" class="form-text text-muted">
+                                                        Make sure you have uploaded the correct file.<br> Only PDF,
+                                                        MS Word, MS Excel and MS PowerPoint formats are excepted
+                                                    </small>
+                                                </div>
+                                                <div v-else ="resourceislink == 'Yes'">
+                                                    <input class="form-control @if($errors->has('file')){{ 'form-control-danger' }}@elseif(old('file')){{ 'form-control-success' }}@endif" type="url" name='file' value="{{ Session::has('update_id')?App\News::find(Session::get('update_id'))->source:(old('file')) }}" placeholder="https://example.com">
+                                                    @if($errors->has('file') && old('resourceislink') == 'Yes')
+                                                    <div class="form-control-feedback">
+                                                        <small class="font-weight-bold">The url field is required</small>
+                                                    </div>
+                                                    @elseif(old('file'))
+                                                    <div class="form-control-feedback">
+                                                        <em>Success! Externa link has been captured</em>
+                                                    </div>
+                                                    @endif
+                                                    <small class="form-text text-muted">
+                                                        Make sure you enter a valid url link
+                                                    </small>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -145,7 +179,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="form-group @if($errors->first('resource_type')) has-danger @elseif(old('resource_type')) has-success @endif"">
+                                            <div class="form-group @if($errors->first('resource_type')) has-danger @elseif(old('resource_type')) has-success @endif">
                                                 <label class="font-weight-bold">Resource Type</label>
                                                 <select id="resource_type" name="resource_type" class="form-control js-resourcetype-disabled">
                                                     <option></option>
@@ -173,22 +207,60 @@
                                                     Make sure you have entered the correct Resource Name
                                                 </small>
                                             </div>
-                                            <div class="form-group @if($errors->first('file')) has-danger @elseif(old('file')) has-success @endif">
-                                                <label class="font-weight-bold">File input</label>
-                                                <input name="file" value="" type="file" class="form-control-file"
-                                                    id="exampleInputFile" aria-describedby="fileHelp">
-                                                @if($errors->first('file'))
-                                                <div class="form-control-feedback">
-                                                    <small class="font-weight-bold">{{ $errors->first('file') }}</small>
+                                            <fieldset class="form-group">
+                                                <label class="font-weight-bold">Is the resource an external link</label>
+                                                <div class="d-flex">
+                                                    <div class="form-check pr-2">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" class="form-check-input" name="resourceislink" v-model="resourceislink" value="No">
+                                                            No
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" class="form-check-input" name="resourceislink" v-model="resourceislink" value="Yes">
+                                                            Yes
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                                @else
-                                                <small id="fileHelp" class="form-text text-success font-weight-bold">
-                                                    File exists.
-                                                </small>
-                                                @endif
-                                                <small id="fileHelp" class="form-text text-muted">
-                                                    Only PDF, MS Word, MS Excel and MS PowerPoint formats are excepted
-                                                </small>
+                                            </fieldset>
+                                            <div class="form-group @if($errors->first('file')) has-danger @elseif(old('file')) has-success @endif">
+                                                <label class="font-weight-bold">Resource location</label>
+                                                <div v-if ="resourceislink == 'No'">
+                                                    <input name="file" value="" type="file" class="form-control-file"
+                                                    id="exampleInputFile" aria-describedby="fileHelp">
+                                                    @if($errors->first('file') && Session::get('editresource')->external_link == "Yes")
+                                                    <div class="form-control-feedback">
+                                                        <small class="font-weight-bold">{{ $errors->first('file') }}</small>
+                                                    </div>
+                                                    @elseif(Session::get('editresource')->external_link == "No")
+                                                    <small id="fileHelp" class="form-text text-success font-weight-bold">
+                                                        File exists
+                                                    </small>
+                                                    @else
+                                                    <small id="fileHelp" class="form-text text-warning font-weight-bold">
+                                                        Upload a Valid file
+                                                    </small>
+                                                    @endif
+                                                    <small id="fileHelp" class="form-text text-muted">
+                                                        Only PDF, MS Word, MS Excel and MS PowerPoint formats are excepted
+                                                    </small>
+                                                </div>
+                                                <div v-else ="resourceislink == 'Yes'">
+                                                    <input value="@if(Session::get('editresource')->external_link == "Yes") {{ old('file')? old('file'): Session::get('editresource')->resource_location }} @endif" type="url" name='file' class="form-control @if($errors->first('file')) form-control-danger @elseif(old('file')) form-control-success @endif" placeholder="https://example.com">
+                                                    @if($errors->has('file') && old('resourceislink') == 'Yes')
+                                                    <div class="form-control-feedback">
+                                                        <small class="font-weight-bold">The url field is required</small>
+                                                    </div>
+                                                    @elseif(old('file'))
+                                                    <div class="form-control-feedback">
+                                                        <em>Success! Externa link has been captured</em>
+                                                    </div>
+                                                    @endif
+                                                    <small class="form-text text-muted">
+                                                        Make sure you enter a valid url link
+                                                    </small>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
