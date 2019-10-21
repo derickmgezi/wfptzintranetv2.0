@@ -77,7 +77,7 @@
             </a>
         </li>
         <li class="nav-item faa-horizontal animated-hover">
-            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Transport-Request/'.encrypt('https://humanitarianbooking.wfp.org/en/explore/country/tz/?service=WFP+Driver+Hub'))}}">
+            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Transport-Request/'.encrypt('https://humanitarianbooking.wfp.org/en/explore/country/tz/?service=UN+Driver+Hub'))}}">
                 <i class="fa fa-car" aria-hidden="true"></i> Transport Request
             </a>
         </li>
