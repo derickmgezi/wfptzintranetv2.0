@@ -32,7 +32,7 @@
                                 @foreach($resource_types as $resource_type)
                                 <h4 id="{{$resource_type->resource_type}}" class="text-primary">
                                     {{$resource_type->resource_type}}
-                                    <a href="{{URL::to('/addresource/'.$resource_type->resource_type)}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add file</a>
+                                    <a href="{{URL::to('/addresource/'.$resource_type->resource_type)}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add resource</a>
                                 </h4>
                                 <p>
                                     <?php $resources =  $all_resources->where('resource_type', $resource_type->resource_type) ?>
@@ -82,6 +82,7 @@
                                                     <option value="Security" @if(Session::get('resourcetype') == 'Security' || old('resource_type') == "Security") selected @endif>Security</option>
                                                     <option value="SOP" @if(Session::get('resourcetype') == "SOP" || old('resource_type') == 'SOP') selected @endif>SOP</option>
                                                     <option value="Supply Chain" @if(Session::get('resourcetype') == "Supply Chain" || old('resource_type') == 'Supply Chain') selected @endif>Supply Chain</option>
+                                                    <option value="External Resource" @if(Session::get('resourcetype') == "External Resource" || old('resource_type') == 'External Resource') selected @endif>External Resource</option>
                                                 </select>
                                                 @if(Session::get('resourcetype') == 'null')
                                                     @if($errors->first('resource_type'))
