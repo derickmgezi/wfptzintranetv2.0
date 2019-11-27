@@ -82,7 +82,7 @@
                                                     <option value="Security" @if(Session::get('resourcetype') == 'Security' || old('resource_type') == "Security") selected @endif>Security</option>
                                                     <option value="SOP" @if(Session::get('resourcetype') == "SOP" || old('resource_type') == 'SOP') selected @endif>SOP</option>
                                                     <option value="Supply Chain" @if(Session::get('resourcetype') == "Supply Chain" || old('resource_type') == 'Supply Chain') selected @endif>Supply Chain</option>
-                                                    <option value="External Resource" @if(Session::get('resourcetype') == "External Resource" || old('resource_type') == 'External Resource') selected @endif>External Resource</option>
+                                                    <option value="External Resources" @if(Session::get('resourcetype') == "External Resources" || old('resource_type') == 'External Resources') selected @endif>External Resources</option>
                                                 </select>
                                                 @if(Session::get('resourcetype') == 'null')
                                                     @if($errors->first('resource_type'))
