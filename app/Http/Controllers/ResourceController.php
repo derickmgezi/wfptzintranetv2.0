@@ -139,12 +139,14 @@ class ResourceController extends Controller {
             if($request->resourceislink == "No"){
                 $validator = Validator::make($request->all(), [
                     'resource_name' => 'required',
+                    'subfolder_id' => 'required',
                     'resource_type' => 'required',
                     'file' => 'required|mimes:pdf,xls,xlsm,xlsx,doc,docx,ppt,pptm,pptx,jpeg,bmp,png,bmp,gif,svg',
                 ]);
             }else{
                 $validator = Validator::make($request->all(), [
                     'resource_name' => 'required',
+                    'subfolder_id' => 'required',
                     'resource_type' => 'required',
                     'file' => 'required|url',
                 ]);
@@ -153,11 +155,13 @@ class ResourceController extends Controller {
             if($request->resourceislink == "No"){
                 $validator = Validator::make($request->all(), [
                     'resource_name' => 'required',
+                    'subfolder_id' => 'required',
                     'file' => 'required|mimes:pdf,xls,xlsm,xlsx,doc,docx,ppt,pptm,pptx,jpeg,bmp,png,bmp,gif,svg',
                 ]);
             }else{
                 $validator = Validator::make($request->all(), [
                     'resource_name' => 'required',
+                    'subfolder_id' => 'required',
                     'file' => 'required|url',
                 ]);
             }
@@ -186,6 +190,7 @@ class ResourceController extends Controller {
 
             $new_resource = new Resource;
             $new_resource->resource_name = $request->resource_name;
+            $new_resource->subfolder_id = $request->subfolder_id;
 
             if($type == 'null')
             $new_resource->resource_type = $request->resource_type;
@@ -374,13 +379,13 @@ class ResourceController extends Controller {
                     $edit_resource->resource_name = $request->resource_name;
                     $edit_resource->resource_location = $file_name;
                     $edit_resource->external_link = $request->resourceislink;
-                    $edit_resource->subfolder_id = $request->subfolder_name;
+                    $edit_resource->subfolder_id = $request->subfolder_id;
                     $edit_resource->save();
                 }else{
                     $edit_resource = Resource::find($id);
                     $edit_resource->resource_name = $request->resource_name;
                     $edit_resource->external_link = $request->resourceislink;
-                    $edit_resource->subfolder_id = $request->subfolder_name;
+                    $edit_resource->subfolder_id = $request->subfolder_id;
                     $edit_resource->save();
                 }
             }else{
@@ -388,7 +393,7 @@ class ResourceController extends Controller {
                 $edit_resource->resource_name = $request->resource_name;
                 $edit_resource->resource_location = $request->file;
                 $edit_resource->external_link = $request->resourceislink;
-                $edit_resource->subfolder_id = $request->subfolder_name;
+                $edit_resource->subfolder_id = $request->subfolder_id;
                 $edit_resource->save();
             }            
             

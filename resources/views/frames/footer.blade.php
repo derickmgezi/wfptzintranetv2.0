@@ -87,7 +87,7 @@
             });
 
             $(document).ready(function () {
-                $('.js-subfoldername-single').select2({
+                $('.js-subfolderid-single').select2({
                     placeholder: "Select Resource Type",
                     allowClear: true,
                     width:  '100%',
