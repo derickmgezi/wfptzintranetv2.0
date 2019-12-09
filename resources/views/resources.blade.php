@@ -13,7 +13,7 @@
                             <nav id="navbar-example2">
                                 <a class="navbar-brand" href="#">WFP Resources</a>
                                 <a href="{{URL::to('/addresourcetab/')}}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource Tab</a>
-                                <a href="{{URL::to('/addresource/null')}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource</a>
+                                {{-- <a href="{{URL::to('/addresource/null')}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource</a> --}}
                                 <ul id="navbar-example2" class="nav nav-tabs" role="tablist">
                                     @foreach($resource_types as $resource_type)
                                     <li class="nav-item"><a class="nav-link" href="{{URL::to('#'.$resource_type->resource_type)}}">{{$resource_type->resource_type}}</a></li>
@@ -40,11 +40,11 @@
                                     @foreach ($subfolders as $subfolder)
                                     @if($subfolder->subfolder_name != NULL)
                                     <h5>
-                                        &nbsp;&nbsp;<i class="fa fa-folder-open" aria-hidden="true"></i> {{ $subfolder->subfolder_name }}
-                                        <a href="{{URL::to('/addresource/'.$resource_type->resource_type.'/'.$subfolder->subfolder_name)}}" data-toggle="tooltip" data-placement="top" title="add resource" class="text-muted"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+                                        &nbsp;&nbsp;
+                                        <i class="fa fa-folder-open" aria-hidden="true"></i> {{ $subfolder->subfolder_name }}
                                     </h5>
                                     @endif
-                                        <?php $resources =  $all_resources->where('resource_type', $resource_type->resource_type); ?>
+                                        <?php $resources =  $all_resources->where('subfolder_id', $subfolder->id); ?>
                                         
                                         @foreach($resources as $resource)
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i @if($resource->external_link == "Yes") class="fa fa-link" @else class="fa fa-file-text" @endif aria-hidden="true"></i> 
@@ -138,7 +138,7 @@
                             @endif<!-- end of Add Resource Folder Modal -->
 
                             <!-- Add new Resource Modal -->
-                            @if(Session::has('add_resource'))
+                            @if(Session::has('add_resource') || Session::has('add_resource_error'))
                             {{Form::open(array('url' => '/addresource/'.Session::get('resourcetype'),'multiple' => true,'role' => 'form', 'enctype' => 'multipart/form-data'))}}
                             <div class="modal fade addResourceModal" id="addResourceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
@@ -168,6 +168,24 @@
                                                     @endif
                                                     <small class="form-text text-muted">Make sure you have selected the correct resource type</small>
                                                 @endif
+                                            </div>
+                                            <div class="form-group @if($errors->first('subfolder_id')) has-danger @elseif(old('subfolder_id')) has-success @endif">
+                                                <label class="font-weight-bold">Subfolder</label>
+                                                <select id="subfolder_id" name="subfolder_id" class="form-control js-subfolderid-single">
+                                                    <option></option>
+                                                    <?php $subfolders = $resource_subfolders->where('resource_type', Session::get('resourcetype')) ?>
+                                                    @foreach ($subfolders as $subfolder)
+                                                    <option value="{{ $subfolder->id }}" @if(old('subfolder_id') == $subfolder->id) selected @endif>{{ ($subfolder->subfolder_name == NULL)?"Root File":$subfolder->subfolder_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if($errors->first('subfolder_id'))
+                                                <div class="form-control-feedback">
+                                                    <small class="font-weight-bold">{{ $errors->first('subfolder_id') }}</small>
+                                                </div>
+                                                @endif
+                                                <small class="form-text text-muted">
+                                                    Make sure you have selected the corresponding subfolder
+                                                </small>
                                             </div>
                                             <div class="form-group @if($errors->first('resource_name')) has-danger @elseif(old('resource_name')) has-success @endif">
                                                 <label class="font-weight-bold">File name</label>
@@ -265,9 +283,9 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="form-group @if($errors->first('resource_type')) has-danger @elseif(old('resource_type')) has-success @endif">
+                                            <div class="form-group @if($errors->first('subfolder_id')) has-danger @elseif(old('subfolder_id')) has-success @endif">
                                                 <label class="font-weight-bold">Subfolder</label>
-                                                <select id="subfolder_name" name="subfolder_name" class="form-control js-subfoldername-single">
+                                                <select id="subfolder_id" name="subfolder_id" class="form-control js-subfolderid-single">
                                                     <option></option>
                                                     <?php $subfolders = $resource_subfolders->where('resource_type', Session::get('editresource')->resource_type) ?>
                                                     @foreach ($subfolders as $subfolder)
