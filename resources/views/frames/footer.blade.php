@@ -87,6 +87,14 @@
             });
 
             $(document).ready(function () {
+                $('.js-subfoldername-single').select2({
+                    placeholder: "Select Resource Type",
+                    allowClear: true,
+                    width:  '100%',
+                });
+            });
+
+            $(document).ready(function () {
                 $('.js-beverages-multiple').select2({
                     placeholder: "Beverages",
                     width:  '100%',
@@ -341,7 +349,15 @@
         <script>$('#venueBookingCancellationModal').modal('show');</script>
         @endif
 
-        @if(Session::has('resourcetype') || Session::has('addresource_error'))
+        @if(Session::has('add_resource_tab') || Session::has('add_resource_tab_error'))
+        <script>$('#addResourceTabModal').modal('show');</script>
+        @endif
+
+        @if(Session::has('add_resource_folder') || Session::has('add_resource_folder_error'))
+        <script>$('#addResourceFolderModal').modal('show');</script>
+        @endif
+
+        @if(Session::has('add_resource') || Session::has('add_resource_error'))
         <script>$('#addResourceModal').modal('show');</script>
         @endif
 

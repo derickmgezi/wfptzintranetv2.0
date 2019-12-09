@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Helper;
 use App\AccessLog;
+use App\ResourceType;
+use App\ResourceSubfolder;
 use Route;
 use Auth;
 use Redirect;
@@ -30,10 +32,11 @@ class ResourceController extends Controller {
         $access_log->user = Auth::user()->username;
         $access_log->save();
 
-        $resource_types = Resource::select('resource_type')->groupBy('resource_type')->get();
+        $resource_types = ResourceType::select('resource_type')->where('status',1)->get();
+        $resource_subfolders = ResourceSubfolder::select('id','resource_type','subfolder_name')->where('status',1)->orderBy('created_at')->get();
         $all_resources = Resource::where('status',1)->orderBy('position','desc')->get();
 
-        return view('resources')->with('all_resources',$all_resources)->with('resource_types',$resource_types);
+        return view('resources')->with('all_resources',$all_resources)->with('resource_subfolders',$resource_subfolders)->with('resource_types',$resource_types);
     }
 
     /**
@@ -41,8 +44,22 @@ class ResourceController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($type) {
+    public function addtab() {
         //                                             
+        return back()->with('add_resource_tab','Add new resource tab');
+    }
+
+    public function createfolder($type) {
+        //
+        Session::flash('add_resource_folder', 'Create new resource subfolder');
+
+        return back()->with('resourcetype',$type);
+    }
+
+    public function create($type) {
+        //
+        Session::flash('add_resource', 'Add new resource');
+
         return back()->with('resourcetype',$type);
     }
 
@@ -52,6 +69,70 @@ class ResourceController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function storefolder(Request $request,$type) {
+        $validator = Validator::make($request->all(), [
+            'subfolder_name' => 'required|unique:resourcesubfolders,subfolder_name',
+        ]);
+
+        if ($validator->fails()) {
+            Session::flash('add_resource_folder_error', 'New Resource Tab Validation Failed');
+
+            // $access_log = new AccessLog;
+            // $access_log->user = Auth::user()->username;
+            // $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            // $access_log->action_taken = "Store ".$type." Resource";
+            // $access_log->action_details = "Storing of new ".$type." Resource interrupted due to validation errors";
+            // $access_log->action_status = "Failed";
+            // $access_log->save();
+
+            return back()->withErrors($validator)->withInput()->with('resourcetype',$type);
+        }else{
+                $new_subfolder = new ResourceSubfolder;
+                $new_subfolder->resource_type = $type;
+                $new_subfolder->subfolder_name = $request->subfolder_name;
+                $new_subfolder->created_by = Auth::id();
+                $new_subfolder->edited_by = Auth::id();
+                $new_subfolder->save();
+
+                return back();
+        }
+    }
+
+    public function storetab(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'resource_tab_name' => 'required|unique:resourcetypes,resource_type',
+        ]);
+
+        if ($validator->fails()) {
+            Session::flash('add_resource_tab_error', 'New Resource Tab Validation Failed');
+
+            // $access_log = new AccessLog;
+            // $access_log->user = Auth::user()->username;
+            // $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            // $access_log->action_taken = "Store ".$type." Resource";
+            // $access_log->action_details = "Storing of new ".$type." Resource interrupted due to validation errors";
+            // $access_log->action_status = "Failed";
+            // $access_log->save();
+
+            return back()->withErrors($validator)->withInput()->with('add_resource_tab_error', 'New Resource Tab Validation Failed');
+        }else{
+                $new_tab = new ResourceType;
+                $new_tab->resource_type = $request->resource_tab_name;
+                $new_tab->created_by = Auth::id();
+                $new_tab->edited_by = Auth::id();
+                $new_tab->save();
+                
+                $new_null_folder = new ResourceSubfolder;
+                $new_null_folder->resource_type = $request->resource_tab_name;
+                $new_null_folder->subfolder_name = NULL;
+                $new_null_folder->created_by = Auth::id();
+                $new_null_folder->edited_by = Auth::id();
+                $new_null_folder->save();
+                
+                return back();
+        }
+    }
+
     public function store(Request $request,$type) {
         //
         if($type == 'null'){
@@ -83,7 +164,7 @@ class ResourceController extends Controller {
         }
 
         if ($validator->fails()) {
-            Session::flash('addresource_error', 'Resource Validation Failed');
+            Session::flash('add_resource_error', 'Resource Validation Failed');
 
             $access_log = new AccessLog;
             $access_log->user = Auth::user()->username;
@@ -293,11 +374,13 @@ class ResourceController extends Controller {
                     $edit_resource->resource_name = $request->resource_name;
                     $edit_resource->resource_location = $file_name;
                     $edit_resource->external_link = $request->resourceislink;
+                    $edit_resource->subfolder_id = $request->subfolder_name;
                     $edit_resource->save();
                 }else{
                     $edit_resource = Resource::find($id);
                     $edit_resource->resource_name = $request->resource_name;
                     $edit_resource->external_link = $request->resourceislink;
+                    $edit_resource->subfolder_id = $request->subfolder_name;
                     $edit_resource->save();
                 }
             }else{
@@ -305,6 +388,7 @@ class ResourceController extends Controller {
                 $edit_resource->resource_name = $request->resource_name;
                 $edit_resource->resource_location = $request->file;
                 $edit_resource->external_link = $request->resourceislink;
+                $edit_resource->subfolder_id = $request->subfolder_name;
                 $edit_resource->save();
             }            
             
