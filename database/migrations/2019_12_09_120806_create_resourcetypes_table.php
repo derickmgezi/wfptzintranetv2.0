@@ -14,8 +14,11 @@ class CreateResourcetypesTable extends Migration
     public function up()
     {
         Schema::create('resourcetypes', function (Blueprint $table) {
+            // Convert table to use InnoDB
+            $table->engine = 'InnoDB';
+
             $table->increments('id');
-            $table->string('resource_type',20);
+            $table->string('resource_type',20)->unique();
             $table->boolean('status')->default(1);
             $table->integer('created_by')->unsigned();
             $table->integer('edited_by')->unsigned();

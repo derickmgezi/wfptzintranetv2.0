@@ -14,6 +14,9 @@ class CreateResourcesubfoldersTable extends Migration
     public function up()
     {
         Schema::create('resourcesubfolders', function (Blueprint $table) {
+            // Convert table to use InnoDB
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
             $table->string('resource_type',20);
             $table->text('subfolder_name')->nullable();
