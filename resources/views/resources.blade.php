@@ -12,7 +12,8 @@
                         <div class="bd-example">
                             <nav id="navbar-example2">
                                 <a class="navbar-brand" href="#">WFP Resources</a>
-                                <a href="{{URL::to('/addresource/null')}}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource</a>
+                                <a href="{{URL::to('/addresourcetab/')}}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource Tab</a>
+                                <a href="{{URL::to('/addresource/null')}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource</a>
                                 <ul id="navbar-example2" class="nav nav-tabs" role="tablist">
                                     @foreach($resource_types as $resource_type)
                                     <li class="nav-item"><a class="nav-link" href="{{URL::to('#'.$resource_type->resource_type)}}">{{$resource_type->resource_type}}</a></li>
@@ -32,36 +33,119 @@
                                 @foreach($resource_types as $resource_type)
                                 <h4 id="{{$resource_type->resource_type}}" class="text-primary">
                                     {{$resource_type->resource_type}}
-                                    <a href="{{URL::to('/addresource/'.$resource_type->resource_type)}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add resource</a>
+                                    <a href="{{URL::to('/addfolder/'.$resource_type->resource_type)}}" data-toggle="tooltip" data-placement="top" title="create subfolder" class="text-muted"><i class="fa fa-folder-open-o" aria-hidden="true"></i></a>
+                                    <a href="{{URL::to('/addresource/'.$resource_type->resource_type)}}" data-toggle="tooltip" data-placement="top" title="add resource" class="text-muted"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
                                 </h4>
-                                <p>
-                                    <?php $resources =  $all_resources->where('resource_type', $resource_type->resource_type) ?>
-                                    @foreach($resources as $resource)
-                                    <i class="fa fa-file-text" aria-hidden="true"></i> 
-                                    <a class="text-muted font-italic" @if($resource->external_link == "Yes") target="_blank" href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}" @else href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}" @endif>{{$resource->resource_name}}</a> 
-                                    @if($resources->count() != $resource->position)
-                                    <a href="{{URL::to('/moveresource/up/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="move up" class="text-primary"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+                                    <?php $subfolders =  $resource_subfolders->where('resource_type', $resource_type->resource_type) ?>
+                                    @foreach ($subfolders as $subfolder)
+                                    @if($subfolder->subfolder_name != NULL)
+                                    <h5>
+                                        &nbsp;&nbsp;<i class="fa fa-folder-open" aria-hidden="true"></i> {{ $subfolder->subfolder_name }}
+                                        <a href="{{URL::to('/addresource/'.$resource_type->resource_type.'/'.$subfolder->subfolder_name)}}" data-toggle="tooltip" data-placement="top" title="add resource" class="text-muted"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+                                    </h5>
                                     @endif
-                                    @if($resource->position > 1)
-                                    <a href="{{URL::to('/moveresource/down/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="move down" class="text-primary"><i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
-                                    @endif
-                                    <a href="{{URL::to('/editresource/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="edit" class="text-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                    <a href="{{URL::to('/deleteresourceconfirmation/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="delete" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                    <br>
+                                        <?php $resources =  $all_resources->where('resource_type', $resource_type->resource_type); ?>
+                                        
+                                        @foreach($resources as $resource)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i @if($resource->external_link == "Yes") class="fa fa-link" @else class="fa fa-file-text" @endif aria-hidden="true"></i> 
+                                        <a class="text-muted font-italic" @if($resource->external_link == "Yes") target="_blank" href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}" @else href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}" @endif>{{$resource->resource_name}}</a> 
+                                        @if($resources->count() != $resource->position)
+                                        <a href="{{URL::to('/moveresource/up/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="move up" class="text-primary"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+                                        @endif
+                                        @if($resource->position > 1)
+                                        <a href="{{URL::to('/moveresource/down/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="move down" class="text-primary"><i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+                                        @endif
+                                        <a href="{{URL::to('/editresource/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="edit" class="text-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                        <a href="{{URL::to('/deleteresourceconfirmation/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="delete" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                        <br>
+                                        @endforeach
                                     @endforeach
-                                </p>
                                 @endforeach
                             </div>
 
+                            <!-- Start of Add Resource Tab Modal -->
+                            @if(Session::has('add_resource_tab') || Session::has('add_resource_tab_error'))
+                            {{Form::open(array('url' => '/addresourcetab/','multiple' => true,'role' => 'form', 'enctype' => 'multipart/form-data'))}}
+                            <div class="modal fade addResourceTabModal" id="addResourceTabModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-primary" id="addResourceTabModal">Add New Resource Tab</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group @if($errors->first('resource_tab_name')) has-danger @elseif(old('resource_tab_name')) has-success @endif">
+                                                <label class="font-weight-bold">Resource tab name</label>
+                                                <input name="resource_tab_name" value="{{old('resource_tab_name')}}" type="text" class="form-control @if($errors->first('resource_tab_name')) form-control-danger @elseif(old('resource_tab_name')) form-control-success @endif" placeholder="Enter name of the new resource tab">
+                                                @if($errors->first('resource_tab_name'))
+                                                <div class="form-control-feedback">
+                                                    <small class="font-weight-bold">{{ $errors->first('resource_tab_name') }}</small>
+                                                </div>
+                                                @endif
+                                                <small class="form-text text-muted">
+                                                    Make sure you have entered the name of the new resource tab
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i> close</button>
+                                            <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add Tab</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{Form::token()}}
+                            {{Form::close()}}
+                            @endif<!-- end of Add Resource Tab Modal -->
+
+                            <!-- Start of Add Resource Folder Modal -->
+                            @if(Session::has('add_resource_folder') || Session::has('add_resource_folder_error'))
+                            {{Form::open(array('url' => '/addfolder/'.Session::get('resourcetype'),'multiple' => true,'role' => 'form', 'enctype' => 'multipart/form-data'))}}
+                            <div class="modal fade addResourceFolderModal" id="addResourceFolderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-primary" id="addResourceFolderModal">Create new {{ Session::get('resourcetype') }} Resource subfolder</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group @if($errors->first('subfolder_name')) has-danger @elseif(old('subfolder_name')) has-success @endif">
+                                                <label class="font-weight-bold">Subfolder name</label>
+                                                <input name="subfolder_name" value="{{old('subfolder_name')}}" type="text" class="form-control @if($errors->first('subfolder_name')) form-control-danger @elseif(old('subfolder_name')) form-control-success @endif" placeholder="Enter name of the new subfolder">
+                                                @if($errors->first('subfolder_name'))
+                                                <div class="form-control-feedback">
+                                                    <small class="font-weight-bold">{{ $errors->first('subfolder_name') }}</small>
+                                                </div>
+                                                @endif
+                                                <small class="form-text text-muted">
+                                                    Make sure you have entered the name of the new subfolder
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i> close</button>
+                                            <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> Create</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{Form::token()}}
+                            {{Form::close()}}
+                            @endif<!-- end of Add Resource Folder Modal -->
+
                             <!-- Add new Resource Modal -->
-                            @if(Session::has('resourcetype'))
+                            @if(Session::has('add_resource'))
                             {{Form::open(array('url' => '/addresource/'.Session::get('resourcetype'),'multiple' => true,'role' => 'form', 'enctype' => 'multipart/form-data'))}}
                             <div class="modal fade addResourceModal" id="addResourceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title text-primary" id="exampleModalLabel">
-                                                Add new {{Session::get('resourcetype')}} Resource
+                                                Add New @if(Session::get('resourcetype') != 'null') {{Session::get('resourcetype')}} @endif Resource
                                             </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -72,17 +156,9 @@
                                                 <label class="font-weight-bold">Resource Type</label>
                                                 <select id="resource_type" name="resource_type" class="form-control @if($errors->first('resource_type')) form-control-danger @elseif(old('resource_type')) form-control-success @endif @if(Session::get('resourcetype') == 'null') js-resourcetype-single @else js-resourcetype-disabled @endif">
                                                     <option></option>
-                                                    <option value="Administration" @if(Session::get('resourcetype') == "Administration" || old('resource_type') == 'Administration') selected @endif>Administration</option>
-                                                    <option value="Communication" @if(Session::get('resourcetype') == "Communication" || old('resource_type') == 'Communication') selected @endif>Communication</option>
-                                                    <option value="Dashboard" @if(Session::get('resourcetype') == "Dashboard" || old('resource_type') == 'Dashboard') selected @endif>Dashboard</option>
-                                                    <option value="HR" @if(Session::get('resourcetype') == "HR" || old('resource_type') == 'HR') selected @endif>HR</option>
-                                                    <option value="IT" @if(Session::get('resourcetype') == "IT" || old('resource_type') == 'IT') selected @endif>IT</option>
-                                                    <option value="Programme" @if(Session::get('resourcetype') == "Programme" || old('resource_type') == 'Programme') selected @endif>Programme</option>
-                                                    <option value="M&E" @if(Session::get('resourcetype') == "M&E" || old('resource_type') == 'M&E') selected @endif>M&E</option>
-                                                    <option value="Security" @if(Session::get('resourcetype') == 'Security' || old('resource_type') == "Security") selected @endif>Security</option>
-                                                    <option value="SOP" @if(Session::get('resourcetype') == "SOP" || old('resource_type') == 'SOP') selected @endif>SOP</option>
-                                                    <option value="Supply Chain" @if(Session::get('resourcetype') == "Supply Chain" || old('resource_type') == 'Supply Chain') selected @endif>Supply Chain</option>
-                                                    <option value="External Resources" @if(Session::get('resourcetype') == "External Resources" || old('resource_type') == 'External Resources') selected @endif>External Resources</option>
+                                                    @foreach ($resource_types as $resource_type)
+                                                        <option value="{{ $resource_type->resource_type }}" @if(Session::get('resourcetype') == $resource_type->resource_type || old('resource_type') == $resource_type->resource_type) selected @endif>{{ $resource_type->resource_type }}</option>
+                                                    @endforeach
                                                 </select>
                                                 @if(Session::get('resourcetype') == 'null')
                                                     @if($errors->first('resource_type'))
@@ -184,16 +260,19 @@
                                                 <label class="font-weight-bold">Resource Type</label>
                                                 <select id="resource_type" name="resource_type" class="form-control js-resourcetype-disabled">
                                                     <option></option>
-                                                    <option value="Administration" @if(Session::get('editresource')->resource_type == "Administration") selected @endif>Administration</option>
-                                                    <option value="Communication" @if(Session::get('editresource')->resource_type == "Communication") selected @endif>Communication</option>
-                                                    <option value="Dashboard" @if(Session::get('editresource')->resource_type == "Dashboard") == 'Dashboard') selected @endif>Dashboard</option>
-                                                    <option value="HR" @if(Session::get('editresource')->resource_type == "HR") selected @endif>HR</option>
-                                                    <option value="IT" @if(Session::get('editresource')->resource_type == "IT") selected @endif>IT</option>
-                                                    <option value="Programme" @if(Session::get('editresource')->resource_type == "Programme") selected @endif>Programme</option>
-                                                    <option value="M&E" @if(Session::get('editresource')->resource_type == "M&E") selected @endif>M&E</option>
-                                                    <option value="Security" @if(Session::get('editresource')->resource_type == 'Security') selected @endif>Security</option>
-                                                    <option value="SOP" @if(Session::get('editresource')->resource_type == "SOP") selected @endif>SOP</option>
-                                                    <option value="Supply Chain" @if(Session::get('editresource')->resource_type == "Supply Chain") selected @endif>Supply Chain</option>
+                                                    @foreach ($resource_types as $resource_type)
+                                                    <option value="{{ $resource_type->resource_type }}" @if(Session::get('editresource')->resource_type == $resource_type->resource_type) selected @endif>{{ $resource_type->resource_type }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group @if($errors->first('resource_type')) has-danger @elseif(old('resource_type')) has-success @endif">
+                                                <label class="font-weight-bold">Subfolder</label>
+                                                <select id="subfolder_name" name="subfolder_name" class="form-control js-subfoldername-single">
+                                                    <option></option>
+                                                    <?php $subfolders = $resource_subfolders->where('resource_type', Session::get('editresource')->resource_type) ?>
+                                                    @foreach ($subfolders as $subfolder)
+                                                    <option value="{{ $subfolder->id }}" @if(Session::get('editresource')->subfolder_id == $subfolder->id) selected @endif>{{ ($subfolder->subfolder_name == NULL)?"Root File":$subfolder->subfolder_name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group @if($errors->first('resource_name')) has-danger @elseif(old('resource_name')) has-success @endif">
