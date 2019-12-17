@@ -29,7 +29,7 @@
                                     </li>-->
                                 </ul>
                             </nav>
-                            <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example" style="position: relative; height: 330px; overflow-y: scroll">
+                            <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scrollspy-example" style="position: relative; height: 660px; overflow-y: scroll">
                                 @foreach($resource_types as $resource_type)
                                 <h4 id="{{$resource_type->resource_type}}" class="text-primary">
                                     {{$resource_type->resource_type}}
