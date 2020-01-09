@@ -61,6 +61,11 @@
                 <i class="fa fa-calendar" aria-hidden="true"></i> Mission Calendar
             </a>
         </li> -->
+        <li class="nav-item faa-horizontal animated-hover">
+            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Mission-Calendar/'.encrypt('https://wfp.sharepoint.com/sites/TANZANIASHAREFOLDERS/Lists/WFP%20TZ%20Missions%20Calendar/calendar.aspx'))}}">
+                <i class="fa fa-calendar" aria-hidden="true"></i> Mission Calendar
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
                 <i class="fa fa-address-book-o {{((Request::is('internaldirectory'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Phone Directory
