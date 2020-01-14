@@ -60,11 +60,24 @@
             <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Mission-Calendar/'.encrypt('https://docs.google.com/spreadsheets/d/1YNeP4ltjH2tELuwxS_50cJYkAGbGhxCicmmrFnRGOO8/edit?usp=sharing'))}}">
                 <i class="fa fa-calendar" aria-hidden="true"></i> Mission Calendar
             </a>
-        </li> -->
+        </li>
         <li class="nav-item faa-horizontal animated-hover">
-            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Mission-Calendar/'.encrypt('https://wfp.sharepoint.com/sites/TANZANIASHAREFOLDERS/Lists/WFP%20TZ%20Missions%20Calendar/calendar.aspx'))}}">
+            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Mission-Calendar/'.encrypt('https://wfp.sharepoint.com/sites/TANZANIASHAREFOLDERS/Lists/WFP%20TZ%20%20EVENTS/calendar.aspx'))}}">
                 <i class="fa fa-calendar" aria-hidden="true"></i> Mission Calendar
             </a>
+        </li> -->
+        <li class="nav-item" data-toggle="tooltip" data-placement="right">
+            <a class="nav-link nav-link-collapse collapsed dropdown-toggle faa-horizontal animated-hover" data-toggle="collapse" href="#collapseCalendars">
+                <i class="fa fa-calendar" aria-hidden="true"></i> <span class="nav-link-text">Calendars</span>
+            </a>
+            <ul class="sidenav-second-level collapse" id="collapseCalendars" style="padding-left: 0;list-style: none;">
+                <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Event-Calendar/'.encrypt('https://wfp.sharepoint.com/sites/TANZANIASHAREFOLDERS/Lists/WFP%20TZ%20%20EVENTS/calendar.aspx'))}}" style="padding-left: 2em;"><i class="fa fa-calendar-o" aria-hidden="true"></i> Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Mission-Calendar/'.encrypt('https://wfp.sharepoint.com/sites/TANZANIASHAREFOLDERS/Lists/WFP%20TZ%20Mission%20Calendar/calendar.aspx'))}}" style="padding-left: 2em;"><i class="fa fa-calendar-o" aria-hidden="true"></i> Missions</a>
+                </li>
+            </ul>
         </li>
         <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('internaldirectory'))? 'active':'')}}" href="{{URL::to('/internaldirectory')}}">
