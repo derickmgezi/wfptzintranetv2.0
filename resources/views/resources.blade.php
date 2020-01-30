@@ -33,8 +33,15 @@
                                 @foreach($resource_types as $resource_type)
                                 <h4 id="{{$resource_type->resource_type}}" class="text-primary">
                                     {{$resource_type->resource_type}}
-                                    <a href="{{URL::to('/addfolder/'.$resource_type->resource_type)}}" data-toggle="tooltip" data-placement="top" title="create subfolder" class="text-muted"><i class="fa fa-folder-open-o" aria-hidden="true"></i></a>
-                                    <a href="{{URL::to('/addresource/'.$resource_type->resource_type)}}" data-toggle="tooltip" data-placement="top" title="add resource" class="text-muted"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+                                    <?php 
+                                        $resource_manager = $resource_managers->where('user',Auth::id());
+                                    ?>
+                                    @if($resource_manager->contains('resource_type',$resource_type->id))
+                                        <a href="{{URL::to('/addfolder/'.$resource_type->resource_type)}}" data-toggle="tooltip" data-placement="top" title="create subfolder" class="text-muted"><i class="fa fa-folder-open-o" aria-hidden="true"></i></a>
+                                        <a href="{{URL::to('/addresource/'.$resource_type->resource_type)}}" data-toggle="tooltip" data-placement="top" title="add resource" class="text-muted"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+                                        <a href="{{URL::to('/editresourcetab/'.$resource_type->id)}}" data-toggle="tooltip" data-placement="top" title="edit" class="text-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                        <a href="{{URL::to('/deleteresourcetab/'.$resource_type->id)}}" data-toggle="tooltip" data-placement="top" title="delete" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                    @endif
                                 </h4>
                                     <?php $subfolders =  $resource_subfolders->where('resource_type', $resource_type->resource_type) ?>
                                     @foreach ($subfolders as $subfolder)
@@ -42,21 +49,28 @@
                                     <h5>
                                         &nbsp;&nbsp;
                                         <i class="fa fa-folder-open" aria-hidden="true"></i> {{ $subfolder->subfolder_name }}
+                                        @if($resource_manager->contains('resource_type',$resource_type->id))
+                                            <a href="{{URL::to('/editfolder/'.$subfolder->id)}}" data-toggle="tooltip" data-placement="top" title="edit" class="text-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                            <a href="{{URL::to('/deletefolder/'.$subfolder->id)}}" data-toggle="tooltip" data-placement="top" title="delete" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                        @endif
                                     </h5>
                                     @endif
                                         <?php $resources =  $all_resources->where('subfolder_id', $subfolder->id); ?>
                                         
                                         @foreach($resources as $resource)
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i @if($resource->external_link == "Yes") class="fa fa-link" @else class="fa fa-file-text" @endif aria-hidden="true"></i> 
-                                        <a class="text-muted font-italic" @if($resource->external_link == "Yes") target="_blank" href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}" @else href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}" @endif>{{$resource->resource_name}}</a> 
-                                        @if($resources->count() != $resource->position)
-                                        <a href="{{URL::to('/moveresource/up/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="move up" class="text-primary"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+                                        <?php $date = new Jenssegers\Date\Date($resource->updated_at); ?>
+                                        <a class="text-muted font-italic" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Updated by" data-content="{{ App\user::find($resource->edited_by)->firstname." ".App\user::find($resource->edited_by)->secondname }}<br>{{ $date->ago() }}" @if($resource->external_link == "Yes") target="_blank" href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}" @else href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}" @endif>{{$resource->resource_name}}</a> 
+                                        @if($resource_manager->contains('resource_type',$resource_type->id))
+                                            @if($resources->count() != $resource->position)
+                                                <a href="{{URL::to('/moveresource/up/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="move up" class="text-primary"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+                                            @endif
+                                            @if($resource->position > 1)
+                                                <a href="{{URL::to('/moveresource/down/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="move down" class="text-primary"><i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+                                            @endif
+                                                <a href="{{URL::to('/editresource/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="edit" class="text-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                <a href="{{URL::to('/deleteresourceconfirmation/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="delete" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                         @endif
-                                        @if($resource->position > 1)
-                                        <a href="{{URL::to('/moveresource/down/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="move down" class="text-primary"><i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
-                                        @endif
-                                        <a href="{{URL::to('/editresource/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="edit" class="text-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                        <a href="{{URL::to('/deleteresourceconfirmation/'.$resource->id)}}" data-toggle="tooltip" data-placement="top" title="delete" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                         <br>
                                         @endforeach
                                     @endforeach
@@ -100,6 +114,67 @@
                             {{Form::close()}}
                             @endif<!-- end of Add Resource Tab Modal -->
 
+                            <!-- Start of Edit Resource Tab Modal -->
+                            @if(Session::has('edit_resource_tab') || Session::has('edit_resource_tab_error'))
+                            {{Form::open(array('url' => '/editresourcetab/'.Session::get('edit_resource_tab')->id,'multiple' => true,'role' => 'form', 'enctype' => 'multipart/form-data'))}}
+                            <div class="modal fade editResourceTabModal" id="editResourceTabModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-primary" id="editResourceTabModal">Edit Resource Tab</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group @if($errors->first('resource_tab_name')) has-danger @elseif(old('resource_tab_name')) has-success @endif">
+                                                <label class="font-weight-bold">Resource tab name</label>
+                                                <input name="resource_tab_name" value="{{old('resource_tab_name')?old('resource_tab_name'):Session::get('edit_resource_tab')->resource_type}}" type="text" class="form-control @if($errors->first('resource_tab_name')) form-control-danger @elseif(old('resource_tab_name')) form-control-success @endif" placeholder="Enter name of the new resource tab">
+                                                @if($errors->first('resource_tab_name'))
+                                                <div class="form-control-feedback">
+                                                    <small class="font-weight-bold">{{ $errors->first('resource_tab_name') }}</small>
+                                                </div>
+                                                @endif
+                                                <small class="form-text text-muted">
+                                                    Make sure you have entered the name of the resource tab
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i> close</button>
+                                            <button type="submit" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Tab</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{Form::token()}}
+                            {{Form::close()}}
+                            @endif<!-- end of Edit Resource Tab Modal -->
+
+                            <!-- Start of Delete Resource Tab Modal -->
+                            @if(Session::has('delete_resource_tab'))
+                            <div class="modal fade deleteResourceTabModal" id="deleteResourceTabModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-danger" id="exampleModalLabel">Remove Resource Tab</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body font-italic">
+                                            <strong class="text-info"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></strong> You're about to remove the <strong class="text-primary">{{ str_contains(Session::get('delete_resource_tab')->resource_type, 'Resource')?Session::get('delete_resource_tab')->resource_type:Session::get('delete_resource_tab')->resource_type.' Resource' }} Tab</strong> <br>
+                                            <strong class="text-danger"><i class="fa fa-exclamation-triangle fa-lg" aria-hidden="true"></i></strong> All <strong class="text-warning">Resources</strong> and <strong class="text-warning">Subfolders</strong> under <strong class="text-primary">{{ str_contains(Session::get('delete_resource_tab')->resource_type, 'Resource')?Session::get('delete_resource_tab')->resource_type:Session::get('delete_resource_tab')->resource_type.' Resource' }} Tab</strong> will also be removed
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i> close</button>
+                                            <a href="{{URL::to('/removeresourcetab/'.Session::get('delete_resource_tab')->id)}}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif<!-- end of Delete Resource Tab Modal -->
+
                             <!-- Start of Add Resource Folder Modal -->
                             @if(Session::has('add_resource_folder') || Session::has('add_resource_folder_error'))
                             {{Form::open(array('url' => '/addfolder/'.Session::get('resourcetype'),'multiple' => true,'role' => 'form', 'enctype' => 'multipart/form-data'))}}
@@ -136,6 +211,67 @@
                             {{Form::token()}}
                             {{Form::close()}}
                             @endif<!-- end of Add Resource Folder Modal -->
+
+                            <!-- Start of Edit Resource Folder Modal -->
+                            @if(Session::has('edit_resource_folder') || Session::has('edit_resource_folder_error'))
+                            {{Form::open(array('url' => '/changefolder/'.Session::get('edit_resource_folder')->id,'multiple' => true,'role' => 'form', 'enctype' => 'multipart/form-data'))}}
+                            <div class="modal fade editResourceFolderModal" id="editResourceFolderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-primary" id="editResourceFolderModal">Edit subfolder</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group @if($errors->first('subfolder_name')) has-danger @elseif(old('subfolder_name')) has-success @endif">
+                                                <label class="font-weight-bold">Subfolder name</label>
+                                                <input name="subfolder_name" value="{{old('subfolder_name')?old('subfolder_name'):Session::get('edit_resource_folder')->subfolder_name}}" type="text" class="form-control @if($errors->first('subfolder_name')) form-control-danger @elseif(old('subfolder_name')) form-control-success @endif" placeholder="Enter name of the new subfolder">
+                                                @if($errors->first('subfolder_name'))
+                                                <div class="form-control-feedback">
+                                                    <small class="font-weight-bold">{{ $errors->first('subfolder_name') }}</small>
+                                                </div>
+                                                @endif
+                                                <small class="form-text text-muted">
+                                                    Make sure you have entered the name of the new subfolder
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i> close</button>
+                                            <button type="submit" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{Form::token()}}
+                            {{Form::close()}}
+                            @endif<!-- end of Edit Resource Folder Modal -->
+
+                            <!-- Start of Delete Resource Folder Modal -->
+                            @if(Session::has('delete_resource_folder'))
+                            <div class="modal fade deleteResourceFolderModal" id="deleteResourceFolderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-danger" id="exampleModalLabel">Remove a Subfolder</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body font-italic">
+                                            <strong class="text-info"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></strong> You're about to remove the <strong class="text-primary">{{ Session::get('delete_resource_folder')->subfolder_name }}</strong> subfolder from <strong class="text-primary">{{Session::get('delete_resource_folder')->resource_type}}</strong><br>
+                                            <strong class="text-danger"><i class="fa fa-exclamation-triangle fa-lg" aria-hidden="true"></i></strong> All <strong class="text-warning">Resources</strong> under <strong class="text-primary">{{ Session::get('delete_resource_folder')->subfolder_name }}</strong> subfolder will also be removed
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i> close</button>
+                                            <a href="{{URL::to('/removefolder/'.Session::get('delete_resource_folder')->id)}}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif<!-- end of Delete Resource Folder Modal -->
 
                             <!-- Add new Resource Modal -->
                             @if(Session::has('add_resource') || Session::has('add_resource_error'))
@@ -392,8 +528,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div><!-- end of Delete Resource Modal -->
-                            @endif
+                            </div>
+                            @endif<!-- end of Delete Resource Modal -->
                         </div>
                     </div>
                 </div>

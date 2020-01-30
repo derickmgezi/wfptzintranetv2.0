@@ -95,8 +95,23 @@
             });
 
             $(document).ready(function () {
+                $('.js-username-single').select2({
+                    placeholder: "Select Username",
+                    allowClear: true,
+                    width:  '100%',
+                });
+            });
+
+            $(document).ready(function () {
                 $('.js-beverages-multiple').select2({
                     placeholder: "Beverages",
+                    width:  '100%',
+                });
+            });
+
+            $(document).ready(function () {
+                $('.js-resource-multiple').select2({
+                    placeholder: "Select Resource",
                     width:  '100%',
                 });
             });
@@ -313,6 +328,10 @@
         <script>$('#addEditorModal').modal('show');</script>
         @endif
 
+        @if(Session::has('add_resource_manager') || Session::has('add_resource_manager_error') || Session::has('edit_resource_manager') || Session::has('edit_resource_manager_error'))
+        <script>$('#addResourceManagerModal').modal('show');</script>
+        @endif
+
         @if(Session::has('create_story') || Session::has('new_story_error') || Session::has('edit_story') || Session::has('edit_story_error'))
         <script>$('#add-story-modal').modal('show');</script>
         @endif
@@ -353,8 +372,24 @@
         <script>$('#addResourceTabModal').modal('show');</script>
         @endif
 
+        @if(Session::has('edit_resource_tab') || Session::has('edit_resource_tab_error'))
+        <script>$('#editResourceTabModal').modal('show');</script>
+        @endif
+
+        @if(Session::has('delete_resource_tab'))
+        <script>$('#deleteResourceTabModal').modal('show');</script>
+        @endif
+
         @if(Session::has('add_resource_folder') || Session::has('add_resource_folder_error'))
         <script>$('#addResourceFolderModal').modal('show');</script>
+        @endif
+
+        @if(Session::has('edit_resource_folder') || Session::has('edit_resource_folder_error'))
+        <script>$('#editResourceFolderModal').modal('show');</script>
+        @endif
+
+        @if(Session::has('delete_resource_folder'))
+        <script>$('#deleteResourceFolderModal').modal('show');</script>
         @endif
 
         @if(Session::has('add_resource') || Session::has('add_resource_error'))
@@ -365,7 +400,7 @@
         <script>$('#editResourceModal').modal('show');</script>
         @endif
 
-        @if(Session::has('delete_resource') || Session::has('delete_resource'))
+        @if(Session::has('delete_resource'))
         <script>$('#deleteResourceModal').modal('show');</script>
         @endif
     </body>
