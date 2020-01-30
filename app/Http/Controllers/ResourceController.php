@@ -11,6 +11,7 @@ use Helper;
 use App\AccessLog;
 use App\ResourceType;
 use App\ResourceSubfolder;
+use App\ResourceManager;
 use Route;
 use Auth;
 use Redirect;
@@ -32,11 +33,12 @@ class ResourceController extends Controller {
         $access_log->user = Auth::user()->username;
         $access_log->save();
 
-        $resource_types = ResourceType::select('resource_type')->where('status',1)->get();
+        $resource_types = ResourceType::select('id','resource_type')->where('status',1)->get();
         $resource_subfolders = ResourceSubfolder::select('id','resource_type','subfolder_name')->where('status',1)->orderBy('created_at')->get();
         $all_resources = Resource::where('status',1)->orderBy('position','desc')->get();
+        $resource_managers= ResourceManager::where('status',1)->get();
 
-        return view('resources')->with('all_resources',$all_resources)->with('resource_subfolders',$resource_subfolders)->with('resource_types',$resource_types);
+        return view('resources')->with('all_resources',$all_resources)->with('resource_subfolders',$resource_subfolders)->with('resource_types',$resource_types)->with('resource_managers',$resource_managers);
     }
 
     /**
@@ -49,11 +51,117 @@ class ResourceController extends Controller {
         return back()->with('add_resource_tab','Add new resource tab');
     }
 
+    public function edittab($id) {
+        //
+        $resourcetype = ResourceType::find($id);
+        
+        return back()->with('edit_resource_tab',$resourcetype);
+    }
+
+    public function changetab(Request $request,$id) {
+        //
+        $resourcetype = ResourceType::find($id);
+
+        $validator = Validator::make($request->all(), [
+            'resource_tab_name' => 'required|unique:resourcetypes,resource_type',
+        ]);
+
+        if ($validator->fails()) {
+            Session::flash('edit_resource_tab_error', 'Edit Resource Tab Validation Failed');
+
+            // $access_log = new AccessLog;
+            // $access_log->user = Auth::user()->username;
+            // $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            // $access_log->action_taken = "Store ".$type." Resource";
+            // $access_log->action_details = "Storing of new ".$type." Resource interrupted due to validation errors";
+            // $access_log->action_status = "Failed";
+            // $access_log->save();
+
+            return back()->withErrors($validator)->withInput()->with('edit_resource_tab', $resourcetype);
+        }else{
+                $resourcetype->resource_type = $request->resource_tab_name;
+                $resourcetype->edited_by = Auth::id();
+                $resourcetype->save();
+                
+                return back();
+        }
+    }
+
+    public function deletetab($id) {
+        //
+        $resourcetype = ResourceType::find($id);
+        
+        return back()->with('delete_resource_tab',$resourcetype);
+    }
+
+    public function removetab($id) {
+        //
+        $resourcetype = ResourceType::find($id);
+        $resourcetype->status = 0;
+        $resourcetype->edited_by = Auth::id();
+        $resourcetype->save();
+        
+        return back();
+    }
+
     public function createfolder($type) {
         //
         Session::flash('add_resource_folder', 'Create new resource subfolder');
 
         return back()->with('resourcetype',$type);
+    }
+
+    public function editfolder($id) {
+        //
+        $resource_subfolder = ResourceSubfolder::find($id);
+        
+        return back()->with('edit_resource_folder',$resource_subfolder);
+    }
+
+    public function changefolder(Request $request,$id) {
+        //
+        $resource_subfolder = ResourceSubfolder::find($id);
+
+        $validator = Validator::make($request->all(), [
+            'subfolder_name' => 'required|unique:resourcesubfolders,subfolder_name',
+        ]);
+
+        if ($validator->fails()) {
+            Session::flash('edit_resource_folder_error', 'Edit Subfolder Validation Failed');
+
+            // $access_log = new AccessLog;
+            // $access_log->user = Auth::user()->username;
+            // $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            // $access_log->action_taken = "Store ".$type." Resource";
+            // $access_log->action_details = "Storing of new ".$type." Resource interrupted due to validation errors";
+            // $access_log->action_status = "Failed";
+            // $access_log->save();
+
+            return back()->withErrors($validator)->withInput()->with('edit_resource_folder', $resource_subfolder);
+        }else{
+                $resource_subfolder->subfolder_name = $request->subfolder_name;
+                $resource_subfolder->edited_by = Auth::id();
+                $resource_subfolder->save();
+                
+                return back();
+        }
+    }
+
+    public function deletefolder($id) {
+        //
+        $resource_subfolder = ResourceSubfolder::find($id);
+        
+        return back()->with('delete_resource_folder',$resource_subfolder);
+    }
+
+    public function removefolder($id) {
+        //
+        $resource_subfolder = ResourceSubfolder::find($id);
+        $resource_subfolder->status = 0;
+        $resource_subfolder->edited_by = Auth::id();
+        $resource_subfolder->save();
+        
+        return back();
     }
 
     public function create($type) {

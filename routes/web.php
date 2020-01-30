@@ -200,6 +200,14 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::post('/addresourcetab', 'ResourceController@storetab');
 
+    Route::get('/editresourcetab/{id}', 'ResourceController@edittab');
+
+    Route::post('/editresourcetab/{id}', 'ResourceController@changetab');
+
+    Route::get('/deleteresourcetab/{id}', 'ResourceController@deletetab');
+
+    Route::get('/removeresourcetab/{id}', 'ResourceController@removetab');
+
     Route::get('/addresource/{type}', 'ResourceController@create');
 
     Route::post('/addresource/{type}', 'ResourceController@store');
@@ -207,6 +215,14 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/addfolder/{type}', 'ResourceController@createfolder');
 
     Route::post('/addfolder/{type}', 'ResourceController@storefolder');
+
+    Route::get('/editfolder/{id}', 'ResourceController@editfolder');
+
+    Route::post('/changefolder/{id}', 'ResourceController@changefolder');
+
+    Route::get('/deletefolder/{id}', 'ResourceController@deletefolder');
+
+    Route::get('/removefolder/{id}', 'ResourceController@removefolder');
     
     Route::get('/finance', function () {
         return view('finance')->with('department','Finance')->with('dutystation','Country Office');
@@ -269,6 +285,14 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/editpageeditor/{id}', 'EditorController@update');
     
     Route::get('/deletepageeditor/{id}', 'EditorController@destroy');
+
+    Route::post('/addresourcemanager', 'ManageController@storeResourceManager');
+
+    Route::get('/editresourcemanager/{id}', 'ManageController@editResourceManager');
+
+    Route::post('/changeresourcemanager/{id}', 'ManageController@changeResourceManager');
+
+    Route::get('/deleteresourcemanager/{id}', 'ManageController@deleteResourceManager');
     
     Route::get('/feedback', 'FeedbackController@index');
 

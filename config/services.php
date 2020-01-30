@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'azure' => [
+        'client_id' => env('AZURE_KEY'),
+        'client_secret' => env('AZURE_SECRET'),
+        'redirect' => env('AZURE_REDIRECT_URI')
+    ],
+
 ];

@@ -3,17 +3,20 @@
     <div class="card-header">
         <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">
-                <a class="nav-link {{ Session::has('add_editor_error') || Session::has('add_editor_status') || Session::has('edit_editor') || Session::has('edit_editor_status') || Session::has('edit_editor_error') || Session::has('editor_status')?'':'active' }}" data-toggle="tab" href="#users" role="tab">Manage Users</a>
+                <a class="nav-link {{ Session::has('add_user_error') || Session::has('add_user_status') || Session::has('edit_user') || Session::has('edit_user_status') || Session::has('edit_user_error') || Session::has('user_status')?'active':'' }}" data-toggle="tab" href="#users" role="tab">Manage Users</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Session::has('add_editor_error') || Session::has('add_editor_status') || Session::has('edit_editor') || Session::has('edit_editor_status') || Session::has('edit_editor_error') || Session::has('editor_status')?'active':'' }}" data-toggle="tab" href="#editors" role="tab">Manage Editors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Session::has('add_resource_manager_error') || Session::has('add_resource_manager_status') || Session::has('edit_resource_manager') || Session::has('edit_resource_manager_status') || Session::has('edit_resource_manager_error') || Session::has('resource_manager_status')?'active':'' }}" data-toggle="tab" href="#resourceManagers" role="tab">Resource Managers</a>
             </li>
         </ul>
     </div>
     <div class="card-block">
         <!-- Tab panes -->
         <div class="tab-content">
-            <div class="tab-pane fade {{ Session::has('add_editor_error') || Session::has('add_editor_status') || Session::has('edit_editor') || Session::has('edit_editor_status') || Session::has('edit_editor_error') || Session::has('editor_status')?'':'show active' }}" id="users" role="tabpanel">
+            <div class="tab-pane fade {{ Session::has('add_user_error') || Session::has('add_user_status') || Session::has('edit_user') || Session::has('edit_user_status') || Session::has('edit_user_error') || Session::has('user_status')?'show active':'' }}" id="users" role="tabpanel">
                 <div class="card p-2">
                     <div class="">
                         @if(Session::has('add_user_status') || Session::has('edit_user_status') || Session::has('user_status'))
@@ -264,7 +267,7 @@
                                                     <option {{ Session::has('edit_editor') && Session::get('edit_editor')->function == 'Manager'?'':'selected' }} value="Editor">Editor</option>
                                                     <option {{ Session::has('edit_editor') && Session::get('edit_editor')->function == 'Manager'?'selected':'' }} value="Manager">Manager</option>
                                                 </select>
-<!--                                                <input type="text" name="firstname" value="{{ Session::has('edit_user')?Session::get('edit_user')->firstname:old('firstname') }}" class="form-control @if($errors->has('firstname')){{ 'form-control-danger' }}@elseif(old('firstname')){{ 'form-control-success' }}@endif" id="inputHorizontalSuccess" placeholder="Eg. Masumbuko">-->
+                                                <!-- <input type="text" name="firstname" value="{{ Session::has('edit_user')?Session::get('edit_user')->firstname:old('firstname') }}" class="form-control @if($errors->has('firstname')){{ 'form-control-danger' }}@elseif(old('firstname')){{ 'form-control-success' }}@endif" id="inputHorizontalSuccess" placeholder="Eg. Masumbuko">-->
                                                 @if($errors->has('function'))
                                                 <div class="form-control-feedback">{{ $errors->first('firstname') }}</div>
                                                 @endif
@@ -335,6 +338,182 @@
                             <td><small>{{ $editor->function }}</small></td>
                             <td><small>{{ App\User::find($editor->editor)->department }}</small></td>
                             <td><small>{{ App\User::find($editor->editor)->dutystation }}</small></td>
+                            <td><a role="button" href="{{ URL::to('/editpageeditor/'.$editor->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
+                            <td><a role="button" href="{{ URL::to('/deletepageeditor/'.$editor->id) }}" class="btn btn-sm {{ $editor->status?'btn-danger':'btn-success' }}"><i class="fa {{ $editor->status?'fa-lock':'fa-unlock' }} fa-lg" aria-hidden="true"></i> {{ $editor->status?'Lock':'Unlock' }}</a></td>
+                        </tr>
+                        <?php
+                        $row_status = 1;
+                        ?>
+                        @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane fade {{ Session::has('add_resource_manager_error') || Session::has('add_resource_manager_status') || Session::has('edit_resource_manager') || Session::has('edit_resource_manager_status') || Session::has('edit_resource_manager_error') || Session::has('resource_manager_status')?'show active':'' }}" id="resourceManagers" role="tabpanel">
+                <div class="card p-2">
+                    <div class="">
+                        @if(Session::has('add_resource_manager_status') || Session::has('edit_resource_manager_status') || Session::has('resource_manager_status'))
+                        <div class="alert alert-success" role="alert">
+                            <strong>{{ Session::has('edit_resource_manager_status')?Session::get('edit_resource_manager_status'):''}} {{Session::has('add_resource_manager_status')?Session::get('add_resource_manager_status'):''}} {{Session::has('resource_manager_status')?Session::get('resource_manager_status'):'' }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        @endif
+
+                        <div class="pull-left">
+                            <a role="button" href="{{ (Session::has('edit_user') || Session::has('edit_user_error'))?URL::to('/createuser/'):'#' }}" class="btn btn-success" {!! (Session::has('edit_user') || Session::has('edit_user_error'))?"":"data-toggle='modal' data-target='#addResourceManagerModal'" !!} >
+                               <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Resource Manager
+                            </a>&nbsp;&nbsp;
+
+                            @if(Session::has('edit_resource_manager') || Session::has('edit_resource_manager_error'))
+                            <a role="button" href="#" class="btn btn-warning" data-toggle='modal' data-target='#addResourceManagerModal'>
+                                <i class="fa fa-edit" aria-hidden="true"></i> Edit Previous Resource Manager
+                            </a>
+                            @endif
+                        </div>
+
+                        <!-- Resource Manager Modal -->
+                        <div class="modal fade" id="addResourceManagerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    @if(Session::has('edit_resource_manager'))
+                                    <?php $resouce_manager = Session::get('edit_resource_manager')->first(); ?>
+                                    {{Form::open(array('url' => '/changeresourcemanager/'.$resouce_manager->user,'multiple' => true,'class' => '','role' => 'form'))}}
+                                    @elseif(Session::has('edit_resource_manager_error'))
+                                    <?php $resouce_manager = Session::get('edit_resource_manager_error')->first(); ?>
+                                    {{Form::open(array('url' => '/editresourcemanager/'.$resouce_manager->user,'multiple' => true,'class' => '','role' => 'form'))}}
+                                    @else
+                                    {{Form::open(array('url' => '/addresourcemanager','multiple' => true,'class' => '','role' => 'form'))}}
+                                    @endif
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">{{ (Session::has('edit_resource_manager') || Session::has('edit_resource_manager_error'))?'Edit':'Add' }} Resource Manager</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group row @if($errors->has('username')){{ 'has-danger' }}@elseif(old('username')){{ 'has-success' }}@endif">
+                                            <label for="inputHorizontalSuccess" class="col-sm-3 col-form-label text-right"><small>User Name</small></label>
+                                            <div class="col-sm-9">
+                                                <fieldset {{ Session::has('edit_resource_manager')?'disabled':'' }}>
+                                                    <select id='username' name="username" class="form-control custom-select @if($errors->has('username')){{ 'form-control-danger' }}@elseif(old('username')){{ 'form-control-success' }}@endif" id="inputHorizontalSuccess" id="inlineFormCustomSelect">
+                                                        <option selected value="">Choose...</option>
+                                                        @foreach($users as $user)
+                                                        <option {{ (old('username') == $user->id) || ((Session::has('edit_resource_manager') || Session::has('edit_resource_manager_error')) && $resouce_manager->user == $user->id)? 'selected':'' }} value="{{ $user->id }}">{{ $user->username }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </fieldset>
+                                                @if($errors->has('username'))
+                                                <div class="form-control-feedback">{{ ($errors->first('username')=='The username has already been taken.')?'Resource Manager has already been added.':$errors->first('username') }}</div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group row @if($errors->has('resource')){{ 'has-danger' }}@elseif(old('resource')){{ 'has-success' }}@endif">
+                                            <label for="resource" class="col-sm-3 col-form-label text-right"><small>Resource</small></label>
+                                            <div class="col-sm-9">
+                                                <?php
+                                                    if(Session::has('edit_resource_manager') || Session::has('edit_resource_manager_error'))
+                                                    $resource_types = Session::get('edit_resource_manager');
+
+                                                ?>
+                                                <select id="resource" name="resource[]" class="form-control js-resource-multiple @if($errors->first('resource')) form-control-danger @elseif(old('resource')) form-control-success @endif" multiple>
+                                                    @foreach ($resourcetypes as $resource_type)
+                                                        <option @if(old('resource') && in_array($resource_type->id,old('resource'))) selected @elseif((Session::has('edit_resource_manager') || Session::has('edit_resource_manager_error')) && $resource_types->contains('resource_type',$resource_type->id)) selected @endif value="{{ $resource_type->id }}">{{ $resource_type->resource_type }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <!-- <input type="text" name="firstname" value="{{ Session::has('edit_user')?Session::get('edit_user')->firstname:old('firstname') }}" class="form-control @if($errors->has('firstname')){{ 'form-control-danger' }}@elseif(old('firstname')){{ 'form-control-success' }}@endif" id="inputHorizontalSuccess" placeholder="Eg. Masumbuko">-->
+                                                @if($errors->has('resource'))
+                                                <div class="form-control-feedback">{{ $errors->first('resource') }}</div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                            <i class="fa fa-close" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    {{Form::close()}}
+                                </div>
+                            </div>
+                        </div>
+
+                        {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0 pull-right','role' => 'form'))}}
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        {{Form::close()}}
+                    </div>
+                </div>
+
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <td><small><strong><i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i><br><a href="#">Name</a></strong></small></td>
+                            <td><small><strong><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i><br><a href="#">Email</a></strong></small></td>
+                            <td><small><strong><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br><a href="#">Resource Managed</a></strong></small></td>
+                            <td><small><strong><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i><br>Edit</strong></small></td>
+                            <td><small><strong><i class="fa fa-unlock-alt fa-2x" aria-hidden="true"></i><br>Access</strong></small></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $row_color = array('table-active', 'table-success', 'table-info', 'table-danger', 'table-warning');
+                        $color_id = 0;
+                        $row_status = 1;
+                        ?>
+                        @foreach($resourcemanagers as $resource_manager)
+                        @if($row_status)
+                        <tr class="{{ array_get($row_color,$color_id) }}">
+                            <td><small>{{ App\User::find($resource_manager->user)->firstname.' '.App\User::find($resource_manager->user)->secondname }}</td>
+                            <td><small>{{ App\User::find($resource_manager->user)->email }}</small></td>
+                            <td>
+                                <small>
+                                    <?php 
+                                       $managed_resources = $managedresources->where('user', $resource_manager->user);
+                                    ?>
+                                    @foreach ($managed_resources as $managed_resource)
+                                        @if ($loop->last)
+                                            <strong>{{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}</strong>
+                                        @else 
+                                            <strong>{{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}</strong><br>
+                                        @endif
+                                    @endforeach
+                                </small>
+                            </td>
+                            <td><a role="button" href="{{ URL::to('/editresourcemanager/'.$resource_manager->user) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
+                            <td><a role="button" href="{{ URL::to('/deleteresourcemanager/'.$resource_manager->user) }}" class="btn btn-sm {{ $editor->status?'btn-danger':'btn-success' }}"><i class="fa {{ $editor->status?'fa-lock':'fa-unlock' }} fa-lg" aria-hidden="true"></i> {{ $editor->status?'Lock':'Unlock' }}</a></td>
+                        </tr>
+                        <?php
+                        ($color_id > 3) ? $color_id = 0 : ++$color_id;
+                        $row_status = 0;
+                        ?>
+                        @else
+                        <tr>
+                            <td><small>{{ App\User::find($resource_manager->user)->firstname.' '.App\User::find($resource_manager->user)->secondname }}</td>
+                            <td><small>{{ App\User::find($resource_manager->user)->email }}</small></td>
+                            <td>
+                                <small>
+                                    <?php 
+                                       $managed_resources = $managedresources->where('user', $resource_manager->user);
+                                    ?>
+                                    @foreach ($managed_resources as $managed_resource)
+                                        @if ($loop->last)
+                                            <strong>{{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}</strong>
+                                        @else 
+                                            <strong>{{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}</strong><br>
+                                        @endif
+                                    @endforeach
+                                </small>
+                            </td>
                             <td><a role="button" href="{{ URL::to('/editpageeditor/'.$editor->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
                             <td><a role="button" href="{{ URL::to('/deletepageeditor/'.$editor->id) }}" class="btn btn-sm {{ $editor->status?'btn-danger':'btn-success' }}"><i class="fa {{ $editor->status?'fa-lock':'fa-unlock' }} fa-lg" aria-hidden="true"></i> {{ $editor->status?'Lock':'Unlock' }}</a></td>
                         </tr>
