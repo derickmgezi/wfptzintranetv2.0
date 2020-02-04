@@ -415,7 +415,7 @@
                                             <div class="col-sm-9">
                                                 <?php
                                                     if(Session::has('edit_resource_manager') || Session::has('edit_resource_manager_error'))
-                                                    $resource_types = Session::get('edit_resource_manager');
+                                                    $resource_types = Session::get('edit_resource_manager')->where('status',1);
 
                                                 ?>
                                                 <select id="resource" name="resource[]" class="form-control js-resource-multiple @if($errors->first('resource')) form-control-danger @elseif(old('resource')) form-control-success @endif" multiple>
@@ -460,8 +460,7 @@
                             <td><small><strong><i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i><br><a href="#">Name</a></strong></small></td>
                             <td><small><strong><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i><br><a href="#">Email</a></strong></small></td>
                             <td><small><strong><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br><a href="#">Resource Managed</a></strong></small></td>
-                            <td><small><strong><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i><br>Edit</strong></small></td>
-                            <td><small><strong><i class="fa fa-unlock-alt fa-2x" aria-hidden="true"></i><br>Access</strong></small></td>
+                            <td><small><strong><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i><br>Edit Access</strong></small></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -480,17 +479,40 @@
                                     <?php 
                                        $managed_resources = $managedresources->where('user', $resource_manager->user);
                                     ?>
-                                    @foreach ($managed_resources as $managed_resource)
-                                        @if ($loop->last)
-                                            <strong>{{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}</strong>
-                                        @else 
-                                            <strong>{{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}</strong><br>
-                                        @endif
-                                    @endforeach
+                                    @if($managed_resources->isNotEmpty())
+                                        @foreach ($managed_resources as $managed_resource)
+                                            @if($managed_resource->status)
+                                                @if($loop->last)
+                                                    <strong class="text-success">
+                                                        <i class="fa fa-check-circle" aria-hidden="true"></i> 
+                                                        {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                    </strong>
+                                                @else 
+                                                    <strong class="text-success">
+                                                        <i class="fa fa-check-circle" aria-hidden="true"></i> 
+                                                        {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                    </strong>,
+                                                @endif
+                                            @else
+                                                @if($loop->last)
+                                                    <strong class="text-danger">
+                                                        <i class="fa fa-lock" aria-hidden="true"></i>
+                                                        {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                    </strong>
+                                                @else 
+                                                    <strong class="text-danger">
+                                                        <i class="fa fa-lock" aria-hidden="true"></i>
+                                                        {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                    </strong>,
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    @else
+                                    No resource managed
+                                    @endif
                                 </small>
                             </td>
                             <td><a role="button" href="{{ URL::to('/editresourcemanager/'.$resource_manager->user) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
-                            <td><a role="button" href="{{ URL::to('/deleteresourcemanager/'.$resource_manager->user) }}" class="btn btn-sm {{ $editor->status?'btn-danger':'btn-success' }}"><i class="fa {{ $editor->status?'fa-lock':'fa-unlock' }} fa-lg" aria-hidden="true"></i> {{ $editor->status?'Lock':'Unlock' }}</a></td>
                         </tr>
                         <?php
                         ($color_id > 3) ? $color_id = 0 : ++$color_id;
