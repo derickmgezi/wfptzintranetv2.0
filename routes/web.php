@@ -291,8 +291,6 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/editresourcemanager/{id}', 'ManageController@editResourceManager');
 
     Route::post('/changeresourcemanager/{id}', 'ManageController@changeResourceManager');
-
-    Route::get('/deleteresourcemanager/{id}', 'ManageController@deleteResourceManager');
     
     Route::get('/feedback', 'FeedbackController@index');
 
