@@ -23,7 +23,7 @@ class ManageController extends Controller {
         $users = User::all();
         $editors = Editor::all();
         $resource_types = ResourceType::where('status',1)->get();
-        $managed_resources = ResourceManager::select('user','resource_type')->get();
+        $managed_resources = ResourceManager::select('user','resource_type','status')->get();
         $resource_managers = ResourceManager::select('user')->groupBy('user')->get();
         return view('manage')->withUsers($users)
                             ->withEditors($editors)
@@ -111,30 +111,53 @@ class ManageController extends Controller {
 
     public function editResourceManager($id) {
         //
-        $resource_manager = ResourceManager::where('user',$id)->where('status',1)->get();
+        $resource_manager = ResourceManager::where('user',$id)->get();
 
         return back()->with('edit_resource_manager',$resource_manager);
     }
 
     public function changeResourceManager(Request $request,$id) {
-        //
-        $resource_manager = ResourceManager::where('user',$id)->where('status',1)->get();
-        
-        //Update resource manager table
-        foreach($resource_manager as $resource){
-            $resource_manager = new ResourceManager;
-            $resource_manager->user = $request->username;
-            $resource_manager->resource_type = $resource;
-            $resource_manager->created_by = Auth::id();
-            $resource_manager->edited_by = Auth::id();
-            $resource_manager->save();
+        //Get all managed resources assigned to user 
+        $managed_resources = ResourceManager::where('user',$id)->where('status',1)->get();
+
+        //Get all un-managed resources previously assigned to user
+        $unmanaged_resources = ResourceManager::where('user',$id)->where('status',0)->get();
+
+        //Get all managed and unmanaged resources
+        $all_resources = ResourceManager::select('resource_type')->where('user',$id)->get();
+
+        //Update status of managed resources to 0
+        $update_managed_resources = $managed_resources->whereNotIn('resource_type' , $request->resource);
+
+        foreach($update_managed_resources as $update_managed_resource){
+            $unmanage_resource = ResourceManager::find($update_managed_resource->id);
+            $unmanage_resource->status = 0;
+            $unmanage_resource->save();
+        }
+
+        //Update status of unmanaged resources to 1
+        $unmanaged_resources = $unmanaged_resources->whereIn('resource_type' , $request->resource);
+
+        foreach($unmanaged_resources as $unmanaged_resource){
+            $manage_resource = ResourceManager::find($unmanaged_resource->id);
+            $manage_resource->status = 1;
+            $manage_resource->save();
+        }
+
+        //Add new managed resource
+        $form_resources = collect($request->resource);
+        $new_resources = $form_resources->diff($all_resources->pluck('resource_type'));
+
+        foreach($new_resources as $new_resource){
+            $add_resource = new ResourceManager;
+            $add_resource->user = $id;
+            $add_resource->resource_type = $new_resource;
+            $add_resource->created_by = Auth::id();
+            $add_resource->edited_by = Auth::id();
+            $add_resource->save();
         }
 
         return back()->with('edit_resource_manager_status', 'Resource Manager has been edited successfuly');
-    }
-
-    public function deleteResourceManager($id) {
-        //
     }
 
     /**
