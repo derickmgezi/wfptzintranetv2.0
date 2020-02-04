@@ -528,16 +528,35 @@
                                        $managed_resources = $managedresources->where('user', $resource_manager->user);
                                     ?>
                                     @foreach ($managed_resources as $managed_resource)
-                                        @if ($loop->last)
-                                            <strong>{{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}</strong>
-                                        @else 
-                                            <strong>{{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}</strong><br>
+                                        @if($managed_resource->status)
+                                            @if($loop->last)
+                                                <strong class="text-success">
+                                                    <i class="fa fa-check-circle" aria-hidden="true"></i> 
+                                                    {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                </strong>
+                                            @else 
+                                                <strong class="text-success">
+                                                    <i class="fa fa-check-circle" aria-hidden="true"></i> 
+                                                    {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                </strong>,
+                                            @endif
+                                        @else
+                                            @if($loop->last)
+                                                <strong class="text-danger">
+                                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                                    {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                </strong>
+                                            @else 
+                                                <strong class="text-danger">
+                                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                                    {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                </strong>,
+                                            @endif
                                         @endif
                                     @endforeach
                                 </small>
                             </td>
                             <td><a role="button" href="{{ URL::to('/editpageeditor/'.$editor->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
-                            <td><a role="button" href="{{ URL::to('/deletepageeditor/'.$editor->id) }}" class="btn btn-sm {{ $editor->status?'btn-danger':'btn-success' }}"><i class="fa {{ $editor->status?'fa-lock':'fa-unlock' }} fa-lg" aria-hidden="true"></i> {{ $editor->status?'Lock':'Unlock' }}</a></td>
                         </tr>
                         <?php
                         $row_status = 1;
