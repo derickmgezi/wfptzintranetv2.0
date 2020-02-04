@@ -556,7 +556,7 @@
                                     @endforeach
                                 </small>
                             </td>
-                            <td><a role="button" href="{{ URL::to('/editpageeditor/'.$editor->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
+                            <td><a role="button" href="{{ URL::to('/editresourcemanager/'.$resource_manager->user) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
                         </tr>
                         <?php
                         $row_status = 1;
