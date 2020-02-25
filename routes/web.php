@@ -16,6 +16,10 @@ Route::post('/signin', 'UserController@signin');
 
 Route::get('/signout', 'UserController@logout');
 
+Route::get('/logon', 'LoginController@redirectToProvider');
+
+Route::get('/auth', 'LoginController@handleProviderCallback');
+
 Route::group(['middleware' => ['guest']], function () {
     
     Route::get('/home', 'HomeController@index');
