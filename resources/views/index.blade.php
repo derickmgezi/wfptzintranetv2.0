@@ -92,8 +92,36 @@
                 </div>
             </div>
 
-            <!-- Modal -->
-            <div class="modal fade loginModal modal-position" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <!-- New Login Modal -->
+            <div class="modal fade loginModal modal-position" data-backdrop="static" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h3 class="modal-title" id="exampleModalLabel">
+                                <img class="img-fluid" src="{{ URL::to('image/wfp_logo09.png') }}" alt="Responsive image" alt="Generic placeholder image" width="50" data-src="holder.js/25x25/auto"> wazo.wfp.org
+                            </h3>
+                        </div>
+                        <div class="modal-body" style="background-color: ">
+                            <i v-if="logingin" class="fa fa-spinner fa-pulse fa-4x fa-fw" style="color: black"></i>
+
+                            <a v-else v-on:click="login()" href="{{URL::to('/logon')}}" class="btn btn-lg btn-success btn-block"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login with Single sign-on</a>
+                            <br>
+                            @if(Session::has('error'))
+                            <div v-if="!logingin" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                                </button>
+                                <i class="fa fa-exclamation " aria-hidden="true"></i> {{Session::get('error')}}
+                            </div>
+                            @endif
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Old Login Modal -->
+            {{-- <div class="modal fade loginModal modal-position" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
@@ -125,7 +153,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
 

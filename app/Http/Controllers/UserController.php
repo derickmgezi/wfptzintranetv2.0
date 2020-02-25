@@ -172,10 +172,6 @@ class UserController extends Controller {
                                 
                                 $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = ".Auth::id()." GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
                                 session(['unreadstories' => count($unreadstories)]);
-                                
-                                $access_log->user = Auth::user()->username;
-                                $access_log->action_details = "Redirected to Home Page";
-                                $access_log->save();
 
                                 //dd(Session::get('intended_url'));
                                 return redirect()->intended(Session::get('intended_url'));
