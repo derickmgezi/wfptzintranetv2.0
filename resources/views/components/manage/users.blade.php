@@ -1,5 +1,5 @@
 <?php // if(Session::has('edit_user')){dd(Session::get('edit_user')->firstname);}     ?>
-<div class="card text-center">
+<div class="card mt-2 text-center">
     <div class="card-header">
         <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">

@@ -207,6 +207,12 @@
                             </a>
                             <div class="dropdown-divider"></div>
                             @endif
+                            @if(Auth::user()->department == 'IT')
+                            <a class="dropdown-item" href="{{URL::to('/manage')}}">
+                                <i class="fa fa-user-circle" aria-hidden="true"></i> Manage Users
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            @endif
                             <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a>
                         </div>
                     </div>

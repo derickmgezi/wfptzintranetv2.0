@@ -9,6 +9,7 @@ use Validator;
 use App\Editor;
 use App\ResourceManager;
 use App\ResourceType;
+use App\AccessLog;
 use Illuminate\Validation\Rule;
 
 class ManageController extends Controller {
@@ -25,6 +26,14 @@ class ManageController extends Controller {
         $resource_types = ResourceType::where('status',1)->get();
         $managed_resources = ResourceManager::select('user','resource_type','status')->get();
         $resource_managers = ResourceManager::select('user')->groupBy('user')->get();
+
+        $access_log = new AccessLog;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+        $access_log->action_taken = "Accessed User Managment Page";
+        $access_log->user = Auth::user()->username;
+        $access_log->action_details = "Redirected to Admin Page";
+        $access_log->save();
+
         return view('manage')->withUsers($users)
                             ->withEditors($editors)
                             ->withResourcetypes($resource_types)
