@@ -149,7 +149,7 @@
                     </div>
 
                     <div class="col-sm-4">
-                        <a class="twitter-timeline" data-height="500" href="https://twitter.com/WFP_Tanzania">
+                        <a class="twitter-timeline" data-height="850" href="https://twitter.com/WFP_Tanzania">
                             Tweets by WFP_Tanzania
                         </a> 
                         <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
