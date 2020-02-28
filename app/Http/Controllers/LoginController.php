@@ -29,9 +29,9 @@ class LoginController extends Controller{
      */
     public function handleProviderCallback(){
         $azureuser = Socialite::driver('azure')->user();
-
+        
         //Check if Azure User exists in the Internal Local Database
-        $localuser = User::where('username', $azureuser->user['mailNickname'])
+        $localuser = User::where('email', $azureuser->email)
                          ->where('status',1)
                          ->first();
 
