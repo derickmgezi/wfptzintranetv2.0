@@ -301,11 +301,12 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/feedback', 'FeedbackController@store');
 
     Route::get('/announcement', 'FeedbackController@announcement');
-
     
     Route::get('/canteen/{meal}', 'CanteenController@index');
 
     Route::get('/external_link/{name}/{url}', 'ResourceController@show_external_link');
+
+    Route::get('/emergencycontacts', 'EmergencyContactController@index');
 });
 
 Auth::routes();

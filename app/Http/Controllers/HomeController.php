@@ -119,27 +119,32 @@ class HomeController extends Controller {
     }
 
     public function update_user_bio(Request $request, $id) {
-        //
+        //Collect access logs
         $access_log = new AccessLog;
         $access_log->user = Auth::user()->username;
         $access_log->link_accessed = str_replace(url('/'),"",url()->current());
-        $access_log->action_taken = "Update Personal Biography";
+        $access_log->action_taken = "Update User Profile";
 
         $validator = Validator::make($request->all(), [
                     'image' => 'mimes:jpeg,bmp,png,bmp,gif,svg',
+                    'title' => 'required',
+                    'emergencycontactform' => 'mimes:pdf',
         ]);
 
         if ($validator->fails()) {
-            $access_log->action_details = "Attemp to update Bio interrupted due to image validation errors";
+            $access_log->action_details = "Attemp to update user profile failed due to validation errors";
             $access_log->action_status = "Failed";
             $access_log->save();
 
             Session::flash('add_user_bio', $id);
             Session::flash('add_bio_error', 'Bio Update Error');
-            return back()
-                            ->withErrors($validator)
-                            ->withInput();
+            return back()->withErrors($validator)->withInput();
+
         } else {
+            //Find user
+            $user = User::find($id);
+            $access_log->action_details = '';
+
             if ($request->image) {
                 //Upload the file in storage/app/public/profile_pictures folder
                 $image_name = (string) ($request->image->store('public/profile_pictures'));
@@ -154,38 +159,58 @@ class HomeController extends Controller {
                 //Load the image into the Image Intervention Package for manipulation
                 Image::make($path)->fit(300, 300)->save($path);
                 
-                //Update User Bio
-                $Update_bio = User::find($id);
-                $user_bio = $Update_bio->bio;
-                $Update_bio->image = $image_name;
-                $Update_bio->bio = Purifier::clean($request->bio, 'youtube');
-                $Update_bio->save();
-                if($user_bio == Purifier::clean($request->bio, 'youtube')){
-                $access_log->action_details = "Profile picture changed";
-                }else{
-                $access_log->action_details = "Biography plus profile picture changed";   
-                }
-                $access_log->save();
+                //Update profile picture
+                $user->image = $image_name;
 
-                Session::flash('view_user_bio', $id);
-                return back();
-            } else {
-                //Update User Bio
-                $Update_bio = User::find($id);
-                $user_bio = $Update_bio->bio;
-                $Update_bio->bio = Purifier::clean($request->bio, 'youtube');
-                $Update_bio->save();
-                if($user_bio == Purifier::clean($request->bio, 'youtube')){
-                    $access_log->action_details = "Biography plus profile picture not changed";
-                }else{
-                    $access_log->action_details = "Biography updated";
-                }
-                
-                $access_log->save();
+                //Create log if profile picture
+                $access_log->action_details = $access_log->action_details.'Profile picture ';
 
-                Session::flash('view_user_bio', $id);
-                return back();
             }
+
+            if ($request->emergencycontactform) {
+                //Upload the file in storage/app/public/profile_pictures folder
+                $emergency_contact_form_name = (string) ($request->emergencycontactform->store('public/emergency_contact_forms'));
+                $emergency_contact_form_name = str_replace('public/','',$emergency_contact_form_name);
+                
+                //Upload Emergency Contact Form
+                $user->emergencycontactform = $emergency_contact_form_name;
+
+                //Create log if Emergency Contact Form has been uploaded
+                if($access_log->action_details != '')
+                    $access_log->action_details = $access_log->action_details.'plus Emergency Contact Form ';
+                else
+                    $access_log->action_details = $access_log->action_details.'Emergency Contact Form ';
+
+            }
+            $user_title = $user->title;
+            $user->title = $request->title;
+
+            //Create log if title has been updated
+            if($user_title != $user->title && $access_log->action_details != ''){
+                $access_log->action_details = $access_log->action_details.'plus title ';
+            }elseif($user_title != $user->title && $access_log->action_details == ''){
+                $access_log->action_details = $access_log->action_details.'Title ';
+            }
+            $user_bio = $user->bio;
+            $user->bio = Purifier::clean($request->bio, 'youtube');
+
+            //Create log if Bio has been updated
+            if($user_bio != $user->bio && $access_log->action_details != ''){
+                $access_log->action_details = $access_log->action_details.'plus Bio ';
+            }elseif($user_bio != $user->bio && $access_log->action_details == ''){
+                $access_log->action_details = $access_log->action_details.'Bio ';
+            }
+
+            if($access_log->action_details != '')
+                $access_log->action_details = $access_log->action_details.'has been updated ';
+            else
+                $access_log->action_details = $access_log->action_details.'User attempted to update profile but nothing was updated';
+
+            $user->save();
+            $access_log->save();
+
+            Session::flash('view_user_bio', $id);
+            return back();
         }
     }
 }
