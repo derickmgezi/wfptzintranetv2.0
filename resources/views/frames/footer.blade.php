@@ -1,6 +1,6 @@
                         <footer>
                             <p class="float-right"><a href="#">Back to top</a></p>
-                            <p>2018 &copy; World Food Programme <!-- <a href="#">Donate</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms of Use</a> --></p>
+                            <p>2020 &copy; World Food Programme <!-- <a href="#">Donate</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms of Use</a> --></p>
                         </footer>
                     </div>
                 </div>

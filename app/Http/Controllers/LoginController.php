@@ -29,7 +29,8 @@ class LoginController extends Controller{
      */
     public function handleProviderCallback(){
         $azureuser = Socialite::driver('azure')->user();
-        
+        //dd($azureuser);
+
         //Check if Azure User exists in the Internal Local Database
         $localuser = User::where('email', $azureuser->email)
                          ->where('status',1)
@@ -44,6 +45,14 @@ class LoginController extends Controller{
                 
                 $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = ".Auth::id()." GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
                 session(['unreadstories' => count($unreadstories)]);
+
+                //Update Local database User details incase they differ with details from Azure
+                if($localuser->country != $azureuser->user['country'] || $localuser->region != $azureuser->user['department']){
+                    $user = User::find($localuser->id);
+                    $user->country = $azureuser->user['country'];
+                    $user->region = $azureuser->user['department'];
+                    $user->save();
+                }
 
                 return redirect()->intended(Session::get('intended_url'));
             }

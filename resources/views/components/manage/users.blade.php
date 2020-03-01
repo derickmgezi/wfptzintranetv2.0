@@ -1,7 +1,7 @@
 <?php // if(Session::has('edit_user')){dd(Session::get('edit_user')->firstname);}     ?>
 <div class="card mt-2 text-center">
     <div class="card-header">
-        <ul class="nav nav-pills card-header-pills">
+        <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
                 <a class="nav-link {{ Session::has('add_user_error') || Session::has('add_user_status') || Session::has('edit_user') || Session::has('edit_user_status') || Session::has('edit_user_error') || Session::has('user_status')?'active':'' }}" data-toggle="tab" href="#users" role="tab">Manage Users</a>
             </li>
@@ -40,7 +40,18 @@
                             @endif
                         </div>
 
-                        <!-- User Modal -->
+                        {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0 pull-right','role' => 'form'))}}
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        {{Form::close()}}
+
+                        <!-- Start of User Modal -->
                         <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -132,18 +143,8 @@
                                     {{Form::close()}}
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- End of User Modal -->
 
-                        {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0 pull-right','role' => 'form'))}}
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Search for...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-success" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                        {{Form::close()}}
                     </div>
                 </div>
 
