@@ -91,7 +91,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('conferencereservation'))? 'active':'')}}" href="{{URL::to('/conferencereservation')}}">
-                <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Conference Reservation
+                <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Conference Booking
             </a>
         </li>
         <li class="nav-item faa-horizontal animated-hover">
@@ -168,6 +168,13 @@
                 <i class="fa fa-comments-o {{((Request::is('feedback'))? 'faa-tada animated':'')}}" href="{{URL::to('/feedback')}}" aria-hidden="true"></i> Feedback
             </a>
         </li>
+        @if(Auth::user()->department == 'HR')
+        <li class="nav-item faa-horizontal animated-hover">
+            <a class="nav-link {{((Request::is('emergencycontacts'))? 'active':'')}}" href="{{URL::to('/emergencycontacts')}}">
+                <i class="fa fa-exclamation-circle {{((Request::is('emergencycontacts'))? 'faa-tada animated':'')}}" href="{{URL::to('/emergencycontacts')}}" aria-hidden="true"></i> Emergency Contacts
+            </a>
+        </li>
+        @endif
         @if(Request::is('search'))
         <li class="nav-item">
             <a class="nav-link {{((Request::is('search'))? 'active':'')}}" href="#">

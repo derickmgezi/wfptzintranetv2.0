@@ -203,13 +203,13 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             @if(Auth::user()->title != 'Administrator')
                             <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}">
-                                <i class="fa fa-user-circle" aria-hidden="true"></i> Manage Profile
+                                <i class="fa fa-user-circle" aria-hidden="true"></i> My Profile
                             </a>
                             <div class="dropdown-divider"></div>
                             @endif
                             @if(Auth::user()->department == 'IT')
                             <a class="dropdown-item" href="{{URL::to('/manage')}}">
-                                <i class="fa fa-user-circle" aria-hidden="true"></i> Manage Users
+                                <i class="fa fa-users" aria-hidden="true"></i> Manage Users
                             </a>
                             <div class="dropdown-divider"></div>
                             @endif
@@ -237,50 +237,103 @@
         <div class="modal fade" id="user-bio-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 class="modal-title" id="exampleModalLabel">{{ App\user::find(Session::get('view_user_bio'))->firstname }}'s Bio</h2>
+                    {{-- <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel">{{ App\user::find(Session::get('view_user_bio'))->firstname }}'s Profile</h2>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    </div>
+                    </div> --}}
                     <div class="modal-body bg-inverse text-white">
                         <div class="row">
                             <div class="col-12 text-center">
                                 <img class="img-fluid img-thumbnail rounded-circle" src="{{ strlen(App\User::find(Session::get('view_user_bio'))->image) != 0? url('/storage/thumbnails/'.App\User::find(Session::get('view_user_bio'))->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" src="" alt="Generic placeholder image" width="140" height="140" data-src="holder.js/140x140/auto">
-                                <h6 class="display-4">{{ App\user::find(Session::get('view_user_bio'))->firstname.' '.App\user::find(Session::get('view_user_bio'))->secondname }}</h6>
+                                
+                                <h2 class="lead">{{ App\user::find(Session::get('view_user_bio'))->firstname.' '.App\user::find(Session::get('view_user_bio'))->secondname }}</h2>
+                                
+                                <h2 class="lead">{{ App\user::find(Session::get('view_user_bio'))->title }}</h2>
+
+                                @if(Auth::user()->id == Session::get('view_user_bio'))
+                                    @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) == 0)
+                                        <a role="button" class="btn btn-sm btn-warning" href="{{URL::to('/add_bio/'.Auth::user()->id)}}">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+                                        </a>
+                                    @else
+                                        <a role="button" class="btn btn-sm btn-warning" href="{{URL::to('/edit_bio/'.Auth::user()->id)}}">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+                                        </a>
+                                    @endif
+                                @endif
+                                
+                                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">
+                                    <i class="fa fa-close" aria-hidden="true"></i> Close
+                                </button>
                             </div>
                             <div class="col-12">
+
                                 <hr style="background-color: white">
-                                @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) == 0 &&  Auth::user()->id == Session::get('view_user_bio'))
-                                <div class="alert alert-info" role="alert">
-                                    <strong>Heads up!</strong> Please update your Bio.
+
+                                <div class="row no-gutters">
+                                    <div class="col-2 offset-2 text-center"><i class="fa fa-envelope" aria-hidden="true"></i></div>
+                                    <div class="col-8 text-left lead">{{ App\user::find(Session::get('view_user_bio'))->email }}</div>
                                 </div>
-                                @elseif(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) == 0)
-                                <div class="alert alert-info" role="alert">
-                                    <strong>{{ App\user::find(Session::get('view_user_bio'))->firstname.' '.App\user::find(Session::get('view_user_bio'))->secondname }}'s</strong> Bio hasn't been updated.
+
+                                {{-- <div class="row no-gutters">
+                                    <div class="col-2 offset-2 text-center font-weight-bold">VSAT</div>
+                                    <div class="col-8 text-left">1340-7387</div>
                                 </div>
-                                @else
-                                <p class="text-justify">{!! App\user::find(Session::get('view_user_bio'))->bio !!}</p>
+
+                                <div class="row no-gutters">
+                                    <div class="col-2 offset-2 text-center"><i class="fa fa-mobile" aria-hidden="true"></i></div>
+                                    <div class="col-8 text-left">+255-692-197-387</div>
+                                </div> --}}
+
+                                <div class="row no-gutters">
+                                    <div class="col-2 offset-2 text-center"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
+                                    <div class="col-8 text-left lead">
+                                        {{ App\user::find(Session::get('view_user_bio'))->dutystation }} {{ strlen(App\user::find(Session::get('view_user_bio'))->country) != 0?', '.App\user::find(Session::get('view_user_bio'))->country:'' }} {{ strlen(App\user::find(Session::get('view_user_bio'))->region) != 0 ?', '.App\user::find(Session::get('view_user_bio'))->region:'' }}
+                                    </div>
+                                </div>
+
+                                @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) != 0 || strlen(App\user::find(Session::get('view_user_bio'))->emergencycontactform) != 0)
+                                    <hr style="background-color: white">
+
+                                    @if(strlen(App\user::find(Session::get('view_user_bio'))->emergencycontactform) != 0)
+                                        <div class="row no-gutters">
+                                            <div class="col-2 offset-2 text-center"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></div>
+                                            <div class="col-8 text-left lead">
+                                                <a target="_blank" href="{{ url('/storage/'.App\user::find(Session::get('view_user_bio'))->emergencycontactform) }}">
+                                                    <u>Emergency Contacts</u>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) != 0)
+                                        <div class="row no-gutters">
+                                            <div class="col-2 offset-2 text-center"><i class="fa fa-bold" aria-hidden="true"></i> <i class="fa fa-info" aria-hidden="true"></i> <i class="fa fa-opera" aria-hidden="true"></i></div>
+                                            <div class="col-8 text-left">{!! App\user::find(Session::get('view_user_bio'))->bio !!}</div>
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    {{-- <div class="modal-footer">
                         @if(Auth::user()->id == Session::get('view_user_bio'))
                         @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) == 0)
                         <a role="button" class="btn btn-success" href="{{URL::to('/add_bio/'.Auth::user()->id)}}">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Add Bio
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile
                         </a>
                         @else
                         <a role="button" class="btn btn-warning" href="{{URL::to('/edit_bio/'.Auth::user()->id)}}">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Bio
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile
                         </a>
                         @endif
                         @endif
                         <button type="button" class="btn btn-danger" data-dismiss="modal">
                             <i class="fa fa-close" aria-hidden="true"></i> Close
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -290,7 +343,7 @@
                 <div class="modal-content">
                     {{ Form::open(array('url' => '/update_bio/'.Auth::user()->id,'enctype' => "multipart/form-data",'role' => 'form')) }}
                     <div class="modal-header bg-faded">
-                        <h2 class="modal-title" id="exampleModalLabel">Update Your Bio</h2>
+                        <h4 class="modal-title" id="exampleModalLabel">Update Your Profile</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -299,15 +352,41 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="image"><strong>Change Image</strong></label><br>
-                                    <img class="img-fluid img-thumbnail" alt="Responsive image" src="{{ url('/storage/'.App\User::find(Session::get('add_user_bio'))->image) }}" alt="Generic placeholder image" width="140" height="140" data-src="holder.js/140x140/auto">
-                                    <hr style="background-color: white">
+                                    <img class="img-fluid img-thumbnail  rounded-circle" alt="Responsive image" src="{{ strlen(App\User::find(Session::get('add_user_bio'))->image) != 0? url('/storage/thumbnails/'.App\User::find(Session::get('add_user_bio'))->image):url('/image/default_profile_picture.jpg') }}" alt="Generic placeholder image" width="140" height="140" data-src="holder.js/140x140/auto"><br>
+                                    
+                                    <label for="image"><strong>Change photo</strong></label>
+                                    
                                     @if(old('image'))
-                                    <input type="file" name='image' value="{{ (old('image')) }}" id="image" class="form-control">
+                                    <input type="file" name='image' value="{{ (old('image')) }}" id="image" class="form-control-file">
                                     @elseif(Session::has('add_user_bio'))
-                                    <input type="file" name='image' value="{{ App\User::find(Session::get('add_user_bio'))->image }}" id="image" class="form-control">
+                                    <input type="file" name='image' value="{{ App\User::find(Session::get('add_user_bio'))->image }}" id="image" class="form-control-file">
                                     @endif
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="title"><strong>Change Title</strong></label>
+                                    
+                                    @if(old('title'))
+                                    <input type="text" name='title' value="{{ (old('title')) }}" id="title" class="form-control">
+                                    @elseif(Session::has('add_user_bio'))
+                                    <input type="text" name='title' value="{{ App\User::find(Session::get('add_user_bio'))->title }}" id="title" class="form-control">
+                                    @endif
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="title"><strong>Upload Emergency Contact Form</strong></label>
+                                    
+                                    @if(old('title'))
+                                    <input type="file" name='emergencycontactform' value="{{ (old('emergency_contact_form')) }}" id="title" class="form-control">
+                                    @elseif(Session::has('add_user_bio'))
+                                    <input type="file" name='emergencycontactform' value="{{ App\User::find(Session::get('add_user_bio'))->emergencycontactform }}" id="title" class="form-control-file">
+                                    @endif
+                                    <small id="emailEmergencycontactform" class="form-text text-muted">
+                                        Make sure that the Emergency Contact Form is filled, signed and scaned to your computer.<br>
+                                        Go to the <strong class="text-primary">Resource TAB (located on the left side bar)</strong> then <strong class="text-primary">HR resources</strong> to access the Emergecy Contact Form.
+                                    </small>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="headerText"><strong>Update Bio</strong></label>
                                     @if(old('bio'))
@@ -328,11 +407,11 @@
                         @if(Auth::user()->id == Session::get('add_user_bio'))
                         @if(strlen(strip_tags(App\user::find(Session::get('add_user_bio'))->bio)) == 0)
                         <button type="submit" role="button" class="btn btn-success">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Add Bio
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update Profile
                         </button>
                         @else
                         <button type="submit" role="button" class="btn btn-warning">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Bio
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update Profile
                         </button>
                         @endif
                         @endif

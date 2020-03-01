@@ -11,7 +11,7 @@
                     @if(Auth::user()->username == 'derick.ruganuza' || Auth::user()->username == 'daudi.kabalika' || Auth::user()->username == 'fizza.moloo' || Auth::user()->username == 'max.wohlgemuth')
                     <div class="col-8">
                         <!-- Example Notifications Card -->
-                        <div class="card mb-3">
+                        <div class="card mb-3 mt-3">
                             <div class="card-header">
                                 <i class="fa fa-comments-o"></i> Sent Feedback
                             </div>
@@ -59,7 +59,7 @@
 
                     @if(Auth::user()->username != 'daudi.kabalika' && Auth::user()->username != 'fizza.moloo' && Auth::user()->username != 'max.wohlgemuth')
                     <div class="col-4">
-                        <div class="card">
+                        <div class="card mt-3">
                             <div class="card-header">
                                 <i class="fa fa-comments-o"></i> Send us your Feedback
                             </div>
