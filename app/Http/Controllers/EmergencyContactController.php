@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Auth;
 
 class EmergencyContactController extends Controller
 {
@@ -14,10 +15,14 @@ class EmergencyContactController extends Controller
      */
     public function index(){
         //
-        $emergecy_contacts = User::whereNotNull('emergencycontactform')->where('status',1)->get();
-        //dd($emergecy_contacts->count());
+        if(Auth::user()->department == 'HR'){
+            $emergecy_contacts = User::whereNotNull('emergencycontactform')->where('status',1)->get();
+            //dd($emergecy_contacts->count());
 
-        return view('emergencycontacts')->with('emergecy_contacts',$emergecy_contacts);
+            return view('emergencycontacts')->with('emergecy_contacts',$emergecy_contacts);
+        }else{
+            return back();
+        }
     }
 
     /**
