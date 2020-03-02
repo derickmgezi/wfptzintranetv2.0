@@ -37,7 +37,7 @@ class LoginController extends Controller{
                          ->first();
 
         if($localuser){
-            if(Auth::loginUsingId($localuser->id)){
+            if(Auth::loginUsingId($localuser->id, true)){
                 // Authentication passed...
 
                 $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
