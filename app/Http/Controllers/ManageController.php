@@ -11,6 +11,7 @@ use App\ResourceManager;
 use App\ResourceType;
 use App\AccessLog;
 use Illuminate\Validation\Rule;
+use Session;
 
 class ManageController extends Controller {
 
@@ -22,8 +23,8 @@ class ManageController extends Controller {
     public function index() {
         //
         if(Auth::user()->department == "IT"){
-            $users = User::all();
-            $editors = Editor::all();
+            $users = User::orderBy('id','desc')->get();
+            $editors = Editor::orderBy('id','desc')->get();
             $resource_types = ResourceType::where('status',1)->get();
             $managed_resources = ResourceManager::select('user','resource_type','status')->get();
             $resource_managers = ResourceManager::select('user')->groupBy('user')->get();
@@ -34,6 +35,10 @@ class ManageController extends Controller {
             $access_log->user = Auth::user()->username;
             $access_log->action_details = "Redirected to Admin Page";
             $access_log->save();
+
+            if(!(Session::has('add_user_error') || Session::has('add_user_status') || Session::has('edit_user') || Session::has('edit_user_status') || Session::has('edit_user_error') || Session::has('user_status') || Session::has('add_editor_error') || Session::has('add_editor_status') || Session::has('edit_editor') || Session::has('edit_editor_status') || Session::has('edit_editor_error') || Session::has('editor_status') || Session::has('add_resource_manager_error') || Session::has('add_resource_manager_status') || Session::has('edit_resource_manager') || Session::has('edit_resource_manager_status') || Session::has('edit_resource_manager_error') || Session::has('resource_manager_status'))){
+                Session::flash('view_users','All registered users');
+            }
 
             return view('manage')->withUsers($users)
                                 ->withEditors($editors)
