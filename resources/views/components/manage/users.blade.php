@@ -3,7 +3,7 @@
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link {{ Session::has('add_user_error') || Session::has('add_user_status') || Session::has('edit_user') || Session::has('edit_user_status') || Session::has('edit_user_error') || Session::has('user_status')?'active':'' }}" data-toggle="tab" href="#users" role="tab">Manage Users</a>
+                <a class="nav-link {{ Session::has('view_users') || Session::has('add_user_error') || Session::has('add_user_status') || Session::has('edit_user') || Session::has('edit_user_status') || Session::has('edit_user_error') || Session::has('user_status')?'active':'' }}" data-toggle="tab" href="#users" role="tab">Manage Users</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Session::has('add_editor_error') || Session::has('add_editor_status') || Session::has('edit_editor') || Session::has('edit_editor_status') || Session::has('edit_editor_error') || Session::has('editor_status')?'active':'' }}" data-toggle="tab" href="#editors" role="tab">Manage Editors</a>
@@ -16,7 +16,7 @@
     <div class="card-block">
         <!-- Tab panes -->
         <div class="tab-content">
-            <div class="tab-pane fade {{ Session::has('add_user_error') || Session::has('add_user_status') || Session::has('edit_user') || Session::has('edit_user_status') || Session::has('edit_user_error') || Session::has('user_status')?'show active':'' }}" id="users" role="tabpanel">
+            <div class="tab-pane fade {{ Session::has('view_users') || Session::has('add_user_error') || Session::has('add_user_status') || Session::has('edit_user') || Session::has('edit_user_status') || Session::has('edit_user_error') || Session::has('user_status')?'show active':'' }}" id="users" role="tabpanel">
                 <div class="card p-2">
                     <div class="">
                         @if(Session::has('add_user_status') || Session::has('edit_user_status') || Session::has('user_status'))
