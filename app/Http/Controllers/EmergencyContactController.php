@@ -16,7 +16,7 @@ class EmergencyContactController extends Controller
     public function index(){
         //
         if(Auth::user()->department == 'HR'){
-            $emergecy_contacts = User::whereNotNull('emergencycontactform')->where('status',1)->get();
+            $emergecy_contacts = User::whereNotNull('emergencycontactform')->where('status',1)->orderBy('updated_at','desc')->get();
             //dd($emergecy_contacts->count());
 
             return view('emergencycontacts')->with('emergecy_contacts',$emergecy_contacts);
