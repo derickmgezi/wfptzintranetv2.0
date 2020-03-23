@@ -124,119 +124,133 @@
         <!-- Vue.js code for media alert -->
         <script>
         var vm = new Vue ({
-        el:"#app",
-        data:{
-        mediatype:{!! json_encode(old('mediatype')) !!},
-        type:{!! ($errors->has('type'))?json_encode(Session::get('mediatype')):json_encode(old('type')) !!},
-        mediaisimage:false,
-        mediaislink:false,
-        header:{!! ($errors->has('header'))?json_encode(Session::get('header')):json_encode(old('header')) !!},
-        source:{!! ($errors->has('source'))?json_encode(Session::get('source')):json_encode(old('source')) !!},
-        mediacontent:{!! ($errors->has('mediacontent'))?json_encode(Session::get('mediacontent')):json_encode(Session::get('mediacontent')) !!},
-        mediaid:'edit_media_alert/' + {!! ($errors->any())?json_encode(Session::get('mediaid')):json_encode('') !!},
-        
-        @if(Request::is('home'))
-        news:{!! json_encode($news) !!},
-        stories:{!! json_encode($stories) !!},
-        showNewsBlock:'',
-        newscardcolor:'card-outline-primary',
-        newstextcolor:'text-primary',
-        showStoryBlock:'',
-        storycardcolor:'card-outline-primary',
-        storytextcolor:'text-primary',
-        @endif
+            el:"#app",
+            data:{
+                mediatype:{!! json_encode(old('mediatype')) !!},
+                type:{!! ($errors->has('type'))?json_encode(Session::get('mediatype')):json_encode(old('type')) !!},
+                mediaisimage:false,
+                mediaislink:false,
+                header:{!! ($errors->has('header'))?json_encode(Session::get('header')):json_encode(old('header')) !!},
+                source:{!! ($errors->has('source'))?json_encode(Session::get('source')):json_encode(old('source')) !!},
+                mediacontent:{!! ($errors->has('mediacontent'))?json_encode(Session::get('mediacontent')):json_encode(Session::get('mediacontent')) !!},
+                mediaid:'edit_media_alert/' + {!! ($errors->any())?json_encode(Session::get('mediaid')):json_encode('') !!},
+                
+                @if(Request::is('home'))
+                news:{!! json_encode($news) !!},
+                stories:{!! json_encode($stories) !!},
+                updates:{!! json_encode($updates) !!},
+                showNewsBlock:'',
+                newscardcolor:'card-outline-primary',
+                newstextcolor:'text-primary',
+                showStoryBlock:'',
+                storycardcolor:'card-outline-primary',
+                storytextcolor:'text-primary',
+                showUpdateBlock:'',
+                updatecardcolor:'card-outline-primary',
+                updatetextcolor:'text-primary',
+                @endif
 
-        @if(Session::has('edit_venue_booking'))
-        requirebeverages:{!! (Session::get('edit_venue_booking')->requirebeverages == 'Yes')?json_encode('Yes'):json_encode('No') !!},
-        @else
-        requirebeverages:{!! (old('requirebeverages') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
-        @endif
+                @if(Session::has('edit_venue_booking'))
+                requirebeverages:{!! (Session::get('edit_venue_booking')->requirebeverages == 'Yes')?json_encode('Yes'):json_encode('No') !!},
+                @else
+                requirebeverages:{!! (old('requirebeverages') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
+                @endif
 
-        @if(Session::has('resourcetype'))
-        resourceislink:{!! (old('resourceislink') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
-        @elseif(Session::has('editresource') && !old('resourceislink'))
-        resourceislink:{!! (Session::get('editresource')->external_link == 'Yes')?json_encode('Yes'):json_encode('No') !!},
-        @elseif(Session::has('editresource') && old('resourceislink'))
-        resourceislink:{!! json_encode(old('resourceislink')) !!},
-        @endif
+                @if(Session::has('resourcetype'))
+                resourceislink:{!! (old('resourceislink') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
+                @elseif(Session::has('editresource') && !old('resourceislink'))
+                resourceislink:{!! (Session::get('editresource')->external_link == 'Yes')?json_encode('Yes'):json_encode('No') !!},
+                @elseif(Session::has('editresource') && old('resourceislink'))
+                resourceislink:{!! json_encode(old('resourceislink')) !!},
+                @endif
 
-        reservationsubmited:false,
-        reservationedited:false,
-        reservationcanceled:false,
-        },
-        mounted: function(){
-        if(this.type == 'Image'){
-            this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + this.mediacontent;
-            this.mediaisimage = true;
-            this.mediaislink = false;
-        }
-        },
-        methods:{
-        showModal: function(media){
-            this.header = media.header;
-            this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
-            this.source = media.source;
-        },
-        editModal: function(media){
-            this.mediaid = 'edit_media_alert/' + media.id;
-            this.header = media.header;
-            this.type = media.type;
-            this.source = media.source;
-            if(this.type == 'Image'){
-                this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
-                this.mediaisimage = true;
-                this.mediaislink = false;
-            }else{
-                this.mediacontent = media.mediacontent;
-                this.mediaislink = true;
-                this.mediaisimage = false;
+                reservationsubmited:false,
+                reservationedited:false,
+                reservationcanceled:false,
+            },
+            mounted: function(){
+                if(this.type == 'Image'){
+                    this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + this.mediacontent;
+                    this.mediaisimage = true;
+                    this.mediaislink = false;
+                }
+            },
+            methods:{
+                showModal: function(media){
+                    this.header = media.header;
+                    this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
+                    this.source = media.source;
+                },
+                editModal: function(media){
+                    this.mediaid = 'edit_media_alert/' + media.id;
+                    this.header = media.header;
+                    this.type = media.type;
+                    this.source = media.source;
+                    if(this.type == 'Image'){
+                        this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
+                        this.mediaisimage = true;
+                        this.mediaislink = false;
+                    }else{
+                        this.mediacontent = media.mediacontent;
+                        this.mediaislink = true;
+                        this.mediaisimage = false;
+                    }
+                },
+                deleteModal: function(media){
+                    this.mediaid = 'delete_media_alert/' + media.id;
+                    this.header = media.header;
+                    this.type = media.type;
+                    this.source = media.source;
+                    if(this.type == 'Image'){
+                        this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
+                        this.mediaisimage = true;
+                        this.mediaislink = false;
+                    }else{
+                        this.mediacontent = media.mediacontent;
+                        this.mediaislink = true;
+                        this.mediaisimage = false;
+                    }
+                },
+                submitReservation: function(){
+                    this.reservationsubmited = true;
+                },
+                editReservation: function(){
+                    this.reservationedited = true;
+                },
+                cancelReservation: function(){
+                    this.reservationcanceled = true;
+                },
+                changenewscolor: function(news_update){
+                    this.showNewsBlock = news_update;
+                    this.newscardcolor = '';
+                    this.newstextcolor = 'text-white';
+                },
+                changebacknewscolor: function(news_update){
+                    this.showNewsBlock = '';
+                    this.newscardcolor = 'card-outline-primary';
+                    this.newstextcolor = 'text-primary';
+                },
+                changestorycolor: function(story){
+                    this.showStoryBlock = story;
+                    this.storycardcolor = '';
+                    this.storytextcolor = 'text-white';
+                },
+                changebackstorycolor: function(story){
+                    this.showStoryBlock = '';
+                    this.storycardcolor = 'card-outline-primary';
+                    this.storytextcolor = 'text-primary';
+                },
+                changeupdatecolor: function(update){
+                    this.showUpdateBlock = update;
+                    this.updatecardcolor = '';
+                    this.updatetextcolor = 'text-white';
+                },
+                changebackupdatecolor: function(update){
+                    this.showUpdateBlock = '';
+                    this.updatecardcolor = 'card-outline-primary';
+                    this.updatetextcolor = 'text-primary';
+                }
             }
-        },
-        deleteModal: function(media){
-            this.mediaid = 'delete_media_alert/' + media.id;
-            this.header = media.header;
-            this.type = media.type;
-            this.source = media.source;
-            if(this.type == 'Image'){
-                this.mediacontent = {!! json_encode(URL::to('imagecache/original')) !!} + '/' + media.mediacontent;
-                this.mediaisimage = true;
-                this.mediaislink = false;
-            }else{
-                this.mediacontent = media.mediacontent;
-                this.mediaislink = true;
-                this.mediaisimage = false;
-            }
-        },
-        submitReservation: function(){
-            this.reservationsubmited = true;
-        },
-        editReservation: function(){
-            this.reservationedited = true;
-        },
-        cancelReservation: function(){
-            this.reservationcanceled = true;
-        },
-        changenewscolor: function(news_update){
-            this.showNewsBlock = news_update;
-            this.newscardcolor = '';
-            this.newstextcolor = 'text-white';
-        },
-        changebacknewscolor: function(news_update){
-            this.showNewsBlock = '';
-            this.newscardcolor = 'card-outline-primary';
-            this.newstextcolor = 'text-primary';
-        },
-        changestorycolor: function(story){
-            this.showStoryBlock = story;
-            this.storycardcolor = '';
-            this.storytextcolor = 'text-white';
-        },
-        changebackstorycolor: function(story){
-            this.showStoryBlock = '';
-            this.storycardcolor = 'card-outline-primary';
-            this.storytextcolor = 'text-primary';
-        }
-        }
         });
         </script>
         

@@ -40,9 +40,10 @@ class HomeController extends Controller {
     public function index() {
         //Old Home Page code
         $news = News::where('status',1)->orderBy('created_at','desc')->take(6)->get();
-        //dd($news);
 
         $stories = Story::where('status', 1)->orderBy('created_at', 'desc')->take(6)->get();
+
+        $merged_stories_and_news = $news->merge($stories)->sortByDesc('created_at')->take(6);
         
         //$recent_media_alerts_date = MediaAlert::select(DB::raw("DATE_FORMAT(created_at,'%d %M %Y') as date"))
         //                                  ->where('status',1)
@@ -90,6 +91,7 @@ class HomeController extends Controller {
                            //->with('recent_media_alerts_date',$recent_media_alerts_date)
                            ->with("news",$news)
                            ->with('stories',$stories)
+                           ->with('updates',$merged_stories_and_news)
                            ->with('accessed_links',$accessed_links)
                            ->with('links',$frequent_visited_links);
     }
