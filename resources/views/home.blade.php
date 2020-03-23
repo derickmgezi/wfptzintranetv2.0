@@ -16,28 +16,32 @@
 
                 <div class="row">
                     <div class="col-md-9">
-                        @if($news->count() != 0)
+                        {{-- @if($news->count() != 0)
                         <div class="justify-content-start">
                             <h2 class="mr-3">
                                 <span class="small h4">WFP Updates</span>
                                 <span class="smaller font-weight-bold text-primary">recently posted</span>
                             </h2>
                         </div>
-                        
+
                         <div class="row no-gutters align-items-stretch">
-                            <div v-clock v-for="news_update in news" v-on:mouseover="changenewscolor(news_update.id)" v-on:mouseleave="changebacknewscolor(news_update.id)" class="col-md-4 p-1">
-                                <div v-if="showNewsBlock == news_update.id" class="card card-inverse card-primary h-100">
+                            <div v-clock v-for="news_update in news" v-on:mouseover="changenewscolor(news_update.id)"
+                                v-on:mouseleave="changebacknewscolor(news_update.id)" class="col-md-4 p-1">
+                                <div v-if="showNewsBlock == news_update.id"
+                                    class="card card-inverse card-primary h-100">
                                     <a :href="{{ json_encode(URL::to('read_update')) }} + '/' + news_update.id">
-                                        <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + news_update.image" alt="Card image cap">
+                                        <img class="card-img-top img-fluid"
+                                            :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + news_update.image"
+                                            alt="Card image cap">
                                     </a>
-                                    <transition
-                                    name="news-block-appear" 
-                                    enter-active-class="animated flipInX"
-                                    leave-active-class="animated flipOutX">
+                                    <transition name="news-block-appear" enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
                                         <!-- <div v-if="showNewsBlock == news_update.id" class="card-block"> -->
                                         <div class="card-block">
-                                            <a :href="{{ json_encode(URL::to('read_update')) }} + '/' + news_update.id" class="card-text text-white">
-                                                <strong v-if="news_update.header.length > 45" v-html="news_update.header.substring(0,45) + '...'"></strong>
+                                            <a :href="{{ json_encode(URL::to('read_update')) }} + '/' + news_update.id"
+                                                class="card-text text-white">
+                                                <strong v-if="news_update.header.length > 45"
+                                                    v-html="news_update.header.substring(0,45) + '...'"></strong>
                                                 <strong v-else v-html="news_update.header"></strong>
                                             </a>
                                         </div>
@@ -45,23 +49,24 @@
                                 </div>
                                 <div v-clock v-else class="card card-primary card-outline-primary h-100">
                                     <a href="{{URL::to('/news')}}">
-                                        <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + news_update.image" alt="Card image cap">
+                                        <img class="card-img-top img-fluid"
+                                            :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + news_update.image"
+                                            alt="Card image cap">
                                     </a>
-                                    <transition
-                                    name="news-block-appear" 
-                                    enter-active-class="animated flipInX"
-                                    leave-active-class="animated flipOutX">
+                                    <transition name="news-block-appear" enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
                                         <!-- <div v-if="showNewsBlock == news_update.id" class="card-block"> -->
                                         <div class="card-block">
                                             <a href="{{URL::to('/news')}}" class="card-text text-primary">
-                                                <strong v-if="news_update.header.length > 45" v-html="news_update.header.substring(0,45) + '...'"></strong>
+                                                <strong v-if="news_update.header.length > 45"
+                                                    v-html="news_update.header.substring(0,45) + '...'"></strong>
                                                 <strong v-else v-html="news_update.header"></strong>
                                             </a>
                                         </div>
                                     </transition>
                                 </div>
                             </div>
-                            
+
                         </div>
                         @endif
 
@@ -74,19 +79,22 @@
                         </div>
 
                         <div class="row no-gutters align-items-stretch">
-                            <div v-clock v-for="story in stories" v-on:mouseover="changestorycolor(story.id)" v-on:mouseleave="changebackstorycolor(story.id)" class="col-md-4 p-1">
+                            <div v-clock v-for="story in stories" v-on:mouseover="changestorycolor(story.id)"
+                                v-on:mouseleave="changebackstorycolor(story.id)" class="col-md-4 p-1">
                                 <div v-if="showStoryBlock == story.id" class="card card-inverse card-primary h-100">
                                     <a :href="{{ json_encode(URL::to('storiyangu')) }} + '/' + story.id">
-                                        <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + story.image" alt="Card image cap">
+                                        <img class="card-img-top img-fluid"
+                                            :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + story.image"
+                                            alt="Card image cap">
                                     </a>
-                                    <transition
-                                    name="story-block-appear" 
-                                    enter-active-class="animated flipInX"
-                                    leave-active-class="animated flipOutX">
+                                    <transition name="story-block-appear" enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
                                         <!-- <div v-if="showStoryBlock == story.id" class="card-block"> -->
                                         <div class="card-block">
-                                            <a :href="{{ json_encode(URL::to('storiyangu')) }} + '/' + story.id" class="card-text text-white">
-                                                <strong v-if="story.caption.length > 45" v-html="story.caption.substring(0,45) + '...'"></strong>
+                                            <a :href="{{ json_encode(URL::to('storiyangu')) }} + '/' + story.id"
+                                                class="card-text text-white">
+                                                <strong v-if="story.caption.length > 45"
+                                                    v-html="story.caption.substring(0,45) + '...'"></strong>
                                                 <strong v-else v-html="story.caption"></strong>
                                             </a>
                                         </div>
@@ -94,20 +102,107 @@
                                 </div>
                                 <div v-clock v-else class="card card-primary card-outline-primary h-100">
                                     <a href="{{URL::to('/storiyangu')}}">
-                                        <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + story.image" alt="Card image cap">
+                                        <img class="card-img-top img-fluid"
+                                            :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + story.image"
+                                            alt="Card image cap">
                                     </a>
-                                    <transition
-                                    name="story-block-appear" 
-                                    enter-active-class="animated flipInX"
-                                    leave-active-class="animated flipOutX">
+                                    <transition name="story-block-appear" enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
                                         <!-- <div v-if="showStoryBlock == story.id" class="card-block"> -->
                                         <div class="card-block">
                                             <a href="{{URL::to('/storiyangu')}}" class="card-text text-primary">
-                                                <strong v-if="story.caption.length > 45" v-html="story.caption.substring(0,45) + '...'"></strong>
+                                                <strong v-if="story.caption.length > 45"
+                                                    v-html="story.caption.substring(0,45) + '...'"></strong>
                                                 <strong v-else v-html="story.caption"></strong>
                                             </a>
                                         </div>
                                     </transition>
+                                </div>
+                            </div>
+                        </div>
+                        @endif --}}
+
+                        @if($updates->count() != 0)
+                        <div class="justify-content-start">
+                            <h2 class="mr-3">
+                                <span class="small">WFP Updates</span>
+                                <span class="smaller font-weight-bold text-primary">recently posted</span>
+                            </h2>
+                        </div>
+
+                        <div class="row no-gutters align-items-stretch">
+                            <div v-clock v-for="update in updates" v-on:mouseover="changeupdatecolor(update.id)" v-on:mouseleave="changebackupdatecolor(update.id)" class="col-md-4 p-1">
+                                <div v-if="update.caption">
+                                    <div v-if="showUpdateBlock == update.id" class="card card-inverse card-primary h-100">
+                                        <a :href="{{ json_encode(URL::to('storiyangu')) }} + '/' + update.id">
+                                            <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + update.image" alt="Card image cap">
+                                        </a>
+                                        <transition
+                                        name="update-block-appear" 
+                                        enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                            <!-- <div v-if="showUpdateBlock == update.id" class="card-block"> -->
+                                            <div class="card-block">
+                                                <a :href="{{ json_encode(URL::to('storiyangu')) }} + '/' + update.id" class="card-text text-white">
+                                                    <strong v-if="update.caption.length > 45" v-html="update.caption.substring(0,45) + '...'"></strong>
+                                                    <strong v-else v-html="update.caption"></strong>
+                                                </a>
+                                            </div>
+                                        </transition>
+                                    </div>
+                                    <div v-clock v-else class="card card-primary card-outline-primary h-100">
+                                        <a href="{{URL::to('/storiyangu')}}">
+                                            <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + update.image" alt="Card image cap">
+                                        </a>
+                                        <transition
+                                        name="update-block-appear" 
+                                        enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                            <!-- <div v-if="showUpdateBlock == update.id" class="card-block"> -->
+                                            <div class="card-block">
+                                                <a href="{{URL::to('/storiyangu')}}" class="card-text text-primary">
+                                                    <strong v-if="update.caption.length > 45" v-html="update.caption.substring(0,45) + '...'"></strong>
+                                                    <strong v-else v-html="update.caption"></strong>
+                                                </a>
+                                            </div>
+                                        </transition>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <div v-if="showUpdateBlock == update.id" class="card card-inverse card-primary h-100">
+                                        <a :href="{{ json_encode(URL::to('read_update')) }} + '/' + update.id">
+                                            <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + update.image" alt="Card image cap">
+                                        </a>
+                                        <transition
+                                        name="update-block-appear" 
+                                        enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                            <!-- <div v-if="showUpdateBlock == update.id" class="card-block"> -->
+                                            <div class="card-block">
+                                                <a :href="{{ json_encode(URL::to('read_update')) }} + '/' + update.id" class="card-text text-white">
+                                                    <strong v-if="update.header.length > 45" v-html="update.header.substring(0,45) + '...'"></strong>
+                                                    <strong v-else v-html="update.header"></strong>
+                                                </a>
+                                            </div>
+                                        </transition>
+                                    </div>
+                                    <div v-clock v-else class="card card-primary card-outline-primary h-100">
+                                        <a href="{{URL::to('/news')}}">
+                                            <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + update.image" alt="Card image cap">
+                                        </a>
+                                        <transition
+                                        name="update-block-appear" 
+                                        enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                            <!-- <div v-if="showUpdateBlock == update.id" class="card-block"> -->
+                                            <div class="card-block">
+                                                <a href="{{URL::to('/news')}}" class="card-text text-primary">
+                                                    <strong v-if="update.header.length > 45" v-html="update.header.substring(0,45) + '...'"></strong>
+                                                    <strong v-else v-html="update.header"></strong>
+                                                </a>
+                                            </div>
+                                        </transition>
+                                    </div>
                                 </div>
                             </div>
                         </div>

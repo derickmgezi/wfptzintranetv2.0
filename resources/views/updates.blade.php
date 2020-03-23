@@ -48,11 +48,12 @@
                                 </div>
 
                                 <div class="">
+                                    @if(Auth::id() == 2)
+                                    <a class="btn btn-warning btn-sm" href="{{ URL::to('/resizenewsthumbnails') }}">
+                                        <i class="fa fa-expand" aria-hidden="true"></i> Resize Thumbnails
+                                     </a>
+                                    @endif
                                     @if($editors->contains('editor', Auth::id()))
-                                    <!--                                    <a class="btn btn-warning" href="{{ URL::to('/resizenewsthumbnails') }}">
-                                                                           <i class="fa fa-expand" aria-hidden="true"></i>
-                                                                        </a>-->
-
                                     <a class="btn btn-success btn-sm" href="{{URL::to('/add_update')}}" role="button">
                                         <i class="fa fa-plus-square faa-vertical faa-slow animated" aria-hidden="true"></i> Add News Post
                                     </a>
