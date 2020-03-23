@@ -410,7 +410,7 @@ class UpdateController extends Controller {
             $imagepath = storage_path('app/'.$image);
             $imagename = Image::make($imagepath)->basename;
             $imagethumbnailpath = storage_path('app/public/thumbnails/pi_news/' . $imagename);
-            Image::make($imagepath)->fit(540, 304)->save($imagethumbnailpath);
+            Image::make($imagepath)->fit(540, 504)->save($imagethumbnailpath);
         }
         
         return back();
