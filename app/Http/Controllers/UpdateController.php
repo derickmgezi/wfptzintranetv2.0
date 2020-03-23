@@ -209,7 +209,7 @@ class UpdateController extends Controller {
             $path = storage_path('app/' . $thumb_image_name);
 
             //Load the image into the Image Intervention Package for manipulation
-            Image::make($path)->fit(540, 304)->save($path);
+            Image::make($path)->fit(540, 540)->save($path);
 
 
             //store the post credentials in database
@@ -316,7 +316,7 @@ class UpdateController extends Controller {
                 $path = storage_path('app/' . $thumb_image_name);
 
                 //Load the image into the Image Intervention Package for manipulation
-                Image::make($path)->fit(540, 304)->save($path);
+                Image::make($path)->fit(540, 540)->save($path);
 
                 //edit the the post credentials in database
                 $post = News::find($id);
@@ -410,7 +410,7 @@ class UpdateController extends Controller {
             $imagepath = storage_path('app/'.$image);
             $imagename = Image::make($imagepath)->basename;
             $imagethumbnailpath = storage_path('app/public/thumbnails/pi_news/' . $imagename);
-            Image::make($imagepath)->fit(540, 504)->save($imagethumbnailpath);
+            Image::make($imagepath)->fit(540, 540)->save($imagethumbnailpath);
         }
         
         return back();
