@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Validator;
 use App\User;
 use App\News;
+use App\Story;
+use App\Resource;
+use App\MediaAlert;
+use App\PhoneDirectory;
 use Session;
 use App\AccessLog;
 use Auth;
@@ -20,18 +24,33 @@ class SearchController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $news_search_results = News::search(Session::get('search_string'))->paginate(5);
-        $news_search_count = 1;
 
+        $news_search_results = News::search(Session::get('search_string'))->where('status', 1)->get();
+        $news_search_results_count= $news_search_results->count();
+
+        $story_search_results = Story::search(Session::get('search_string'))->where('status', 1)->get();
+        $story_search_results_count = $story_search_results->count();
+
+        $media_alert_search_results = MediaAlert::search(Session::get('search_string'))->where('status', 1)->get();
+        $media_alert_search_results_count = $media_alert_search_results->count();
+
+        $resource_search_results = Resource::search(Session::get('search_string'))->where('status', 1)->get();
+        $resource_search_results_count = $resource_search_results->count();
+
+        $phone_directory_search_results = PhoneDirectory::search(Session::get('search_string'))->get();
+        $phone_directory_search_results_count = $phone_directory_search_results->count();
+
+        $search_result_count = $news_search_results_count + $story_search_results_count + $media_alert_search_results_count + $resource_search_results_count + $phone_directory_search_results_count;
+        
         $access_log = new AccessLog;
         $access_log->user = Auth::user()->username;
         $access_log->link_accessed = str_replace(url('/'),"",url()->current());
         $access_log->action_taken = "Access Search Page";
-        $access_log->action_details = '"'.$news_search_results->total().'" results for search text "'.Session::get('search_string').'" displayed';
+        $access_log->action_details = '"'.$search_result_count.'" results for search text "'.Session::get('search_string').'" displayed';
         if(!Session::has('read_news_post'))
         $access_log->save();
 
-        return view('search', compact('news_search_results', 'news_search_count'));
+        return view('search', compact('news_search_results', 'news_search_results_count', 'story_search_results', 'story_search_results_count', 'resource_search_results', 'resource_search_results_count', 'media_alert_search_results', 'media_alert_search_results_count','phone_directory_search_results', 'phone_directory_search_results_count', 'search_result_count'));
     }
 
     /**

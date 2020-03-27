@@ -44,7 +44,7 @@ class HomeController extends Controller {
         $stories = Story::where('status', 1)->orderBy('created_at', 'desc')->take(6)->get();
 
         $merged_stories_and_news = $news->merge($stories)->sortByDesc('created_at')->take(6);
-        
+
         //$recent_media_alerts_date = MediaAlert::select(DB::raw("DATE_FORMAT(created_at,'%d %M %Y') as date"))
         //                                  ->where('status',1)
         //                                  ->orderBy('created_at', 'desc')

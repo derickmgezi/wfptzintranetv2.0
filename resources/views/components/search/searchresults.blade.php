@@ -1,283 +1,221 @@
-@if($news_search_results->total() != 0)
-    <!-- START THE FEATURETTES -->
-    @foreach ($news_search_results as $news_search_result)
-        @if($news_search_count%2 == 1)
-        <div class="row featurette align-items-center">
-            <div class="col-md-6" style="background-color:">
-                <h3 class="featurette-heading hidden-md-down text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</h3>
-                <h2 class="hidden-lg-up text-justify"><small class="text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</small></h2>
+<div class="row mt-3">
+    <div class="col-2">
+        <ul class="nav nav-pills flex-column" role="tablist" style="position: sticky;top: 80px;">
+            @if($news_search_results->isNotEmpty())
+            <li class="nav-item card" style="margin-bottom: 2.5px">
+                <a class="nav-link active justify-content-start" data-toggle="pill" role="tab" href="#updates">
+                    Updates
+                    <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search"
+                            aria-hidden="true"></i> {{ $news_search_results_count }}</span>
+                </a>
+            </li>
+            @endif
+            @if($story_search_results->isNotEmpty())
+            <li class="nav-item card" style="margin-bottom: 2.5px">
+                <a class="nav-link" data-toggle="pill" role="tab" href="#stories">
+                    Stories
+                    <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search"
+                            aria-hidden="true"></i> {{ $story_search_results_count }}</span>
+                </a>
+            </li>
+            @endif
+            @if($media_alert_search_results->isNotEmpty())
+            <li class="nav-item card" style="margin-bottom: 2.5px">
+                <a class="nav-link" data-toggle="pill" role="tab" href="#media">
+                    Media
+                    <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search"
+                            aria-hidden="true"></i> {{ $media_alert_search_results_count }}</span>
+                </a>
+            </li>
+            @endif
+            @if($resource_search_results->isNotEmpty())
+            <li class="nav-item card" style="margin-bottom: 2.5px">
+                <a class="nav-link" data-toggle="pill" role="tab" href="#resources">
+                    Resources
+                    <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search"
+                            aria-hidden="true"></i> {{ $resource_search_results_count }}</span>
+                </a>
+            </li>
+            @endif
+            @if($phone_directory_search_results->isNotEmpty())
+            <li class="nav-item card" style="margin-bottom: 2.5px">
+                <a class="nav-link" data-toggle="pill" role="tab" href="#directory">
+                    Directory
+                    <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search"
+                            aria-hidden="true"></i> {{ $phone_directory_search_results_count }}</span>
+                </a>
+            </li>
+            @endif
+        </ul>
+    </div>
 
-                <img class="featurette-image img-fluid mx-auto hidden-md-up" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-                <hr class="hidden-md-up">
-
-                <blockquote class="blockquote blockquote-reverse">
-                    <p class="lead text-justify">
-                        {{ substr(strip_tags($news_search_result->description),0,250) }}{{ strlen(strip_tags($news_search_result->description)) > 250 ? "...":"" }} <br>
-                        <a class="btn btn-primary btn-sm" href="{{URL::to('/read_news_post/'.$news_search_result->id)}}" role="button">
-                            <i class="fa fa-leanpub" aria-hidden="true"></i> Read more
-                        </a>
-                        @if(Auth::user()->department == 'PI')
-                        <a class="btn btn-warning btn-sm" href="{{URL::to('/edit_news_post/'.$news_search_result->id)}}" role="button">
-                            <i class="fa fa-edit" aria-hidden="true"></i> Edit
-                        </a>
-                        <a class="btn btn-danger btn-sm" href="{{URL::to('/remove_news_post/'.$news_search_result->id)}}" role="button">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
-                        </a>
-                        @endif
-                    </p>
-
-                    <footer class="blockquote-footer">Source <cite title="Source Title">{{ $news_search_result->source }}</cite></footer>
-                </blockquote>
-            </div>
-
-            <div class="col-md-6 hidden-sm-down" style="background-color:">
-                <img class="featurette-image img-fluid mx-auto" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+    <!-- Tab panes -->
+    <div class="col-10 tab-content card border-right-0 border-bottom-0 border-top-0">
+        @if($news_search_results->isNotEmpty())
+        <div class="tab-pane fade show active" id="updates" role="tabpanel">
+            <div class="row no-gutters">
+                @foreach($news_search_results as $news_search_result)
+                <div class="col-4 p-1">
+                    <div class="card card-inverse card-primary">
+                        <div class="caption">
+                            <a href="{{ URL::to('read_update/'.$news_search_result->id) }}">
+                                <img src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" class="img-fluid rounded" />
+                                <h2>{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</h2>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
-
-        <hr>
-        @else
-        <div class="row featurette align-items-center" style="background-color:">
-            <div class="col-md-6 push-md-6">
-                <h3 class="featurette-heading hidden-md-down text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</h3>
-                <h2 class="hidden-lg-up text-justify"><small class="text-primary">{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</small></h2>
-
-                <img class="featurette-image img-fluid mx-auto hidden-md-up" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-                <hr class="hidden-md-up">
-
-                <blockquote class="blockquote">
-                    <p class="text-justify lead"> 
-                        {{ substr(strip_tags($news_search_result->description),0,250) }}{{ strlen(strip_tags($news_search_result->description)) > 250 ? "...":"" }}<br>
-                        <a class="btn btn-primary btn-sm" href="{{URL::to('/read_news_post/'.$news_search_result->id)}}" role="button">
-                            <i class="fa fa-leanpub" aria-hidden="true"></i> Read more
-                        </a>
-                        @if(Auth::user()->department == 'PI')
-                        <a class="btn btn-warning btn-sm" href="{{URL::to('/edit_news_post/'.$news_search_result->id)}}" role="button">
-                            <i class="fa fa-edit" aria-hidden="true"></i> Edit
-                        </a>
-                        <a class="btn btn-danger btn-sm" href="{{URL::to('/remove_news_post/'.$news_search_result->id)}}" role="button">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
-                        </a>
-                        @endif
-                    </p>
-
-                    <footer class="blockquote-footer">Source <cite title="Source Title">{{ $news_search_result->source }}</cite></footer>
-                </blockquote>
-            </div>
-            <div class="col-md-6 pull-md-6  hidden-sm-down">
-                <img class="featurette-image img-fluid mx-auto" src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-            </div>
-        </div>
-
-        <hr>
         @endif
-        <?php ++$news_search_count; ?>
-    @endforeach
-
-
-    <div class="col-12">
-        <nav aria-label="Page navigation example">
-            {{ $news_search_results->links('vendor.pagination.bootstrap-4') }}
-
-            {{ $news_search_results->links('vendor.pagination.bootstrap-4-small') }}
-        </nav>
-    </div>
-@endif
-
-@if(Session::has('news_post_id'))
-<!-- Edit News Modal -->
-{{Form::open(array('url' => '/edit_news_post/'.Session::get('news_post_id'),'enctype' => "multipart/form-data",'role' => 'form'))}}
-<div class="modal fade add-news-modal" id="add-news-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Edit News Post</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="headerText"><strong>Header</strong></label>
-                            @if(old('header'))
-                            <input type="text" name='header' value="{{ (old('header')) }}" class="form-control" id="headerText" aria-describedby="text" placeholder="Enter News Post Header">
-                            @elseif(Session::has('news_post_id'))
-                            <input type="text" name='header' value="{{ App\News::find(Session::get('news_post_id'))->header }}" class="form-control" id="headerText" aria-describedby="text" placeholder="Enter News Post Header">
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for="image"><strong>Image</strong></label><br>
-                            <img class="featurette-image img-fluid mx-auto img-thumbnail" src="{{url('/storage/'.App\News::find(Session::get('news_post_id'))->image)}}">
-                            <hr>
-                            @if(old('image'))
-                            <input type="file" name='image' value="{{ (old('image')) }}" id="image" class="form-control">
-                            @elseif(Session::has('news_post_id'))
-                            <input type="file" name='image' value="{{ App\News::find(Session::get('news_post_id'))->image }}" id="image" class="form-control">
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for="source"><strong>Source</strong></label>
-                            @if(old('source'))
-                            <input type="text" name='source' value="{{ (old('source')) }}" class="form-control" id="source" aria-describedby="text" placeholder="Enter Source">
-                            @elseif(Session::has('news_post_id'))
-                            <input type="text" name='source' value="{{ App\News::find(Session::get('news_post_id'))->source }}" class="form-control" id="source" aria-describedby="text" placeholder="Enter Source">
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for="descriptionTextarea"><strong>Description</strong></label>
-                            @if(old('source'))
-                            <textarea class="form-control" name='description' id="descriptionTextarea" rows="5">{{ (old('description')) }}</textarea>
-                            @elseif(Session::has('news_post_id'))
-                            <textarea class="form-control" name='description' id="descriptionTextarea" rows="5">{{ App\News::find(Session::get('news_post_id'))->description }}</textarea>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for="storyTextarea"><strong>Story</strong></label>
-                            @if(old('story'))
-                            <textarea class="form-control" name='story' id="storyTextarea" rows="10">{{ (old('story')) }}</textarea>
-                            @elseif(Session::has('news_post_id'))
-                            <textarea class="form-control" name='story' id="storyTextarea" rows="10">{{ App\News::find(Session::get('news_post_id'))->story }}</textarea>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-12 text-center">
-                        @if(Session::has('new_news_post_error') || Session::has('edit_news_post_error'))
-                        <div class="panel-footer">
-                            <div class="alert alert-danger">{{$errors->first()}}</div>
-                        </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer bg-inverse text-white">
-                <div class="row">
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-warning"><i class="fa fa-edit fa-lg" aria-hidden="true"></i> Edit News Post</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-{{Form::token()}}
-{{Form::close()}}<!-- end Edit News Modal -->
-@elseif(Session::has('create_news_post') || Session::has('new_news_post_error'))
-<!-- Add News Modal -->
-{{Form::open(array('url' => '/store_news_post','enctype' => "multipart/form-data",'role' => 'form'))}}
-<div class="modal fade add-news-modal" id="add-news-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Add News Post</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="headerText"><strong>Header</strong></label>
-                            <input type="text" name='header' value="{{ (old('header')) }}" class="form-control" id="headerText" aria-describedby="text" placeholder="Enter News Post Header">
-                        </div>
-                        <div class="form-group">
-                            <label for="image"><strong>Image</strong></label>
-                            <input type="file" name='image' value="{{ (old('image')) }}" id="image" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="source"><strong>Source</strong></label>
-                            <input type="text" name='source' value="{{ (old('source')) }}" class="form-control" id="source" aria-describedby="text" placeholder="Enter Source">
-                        </div>
-                        <div class="form-group">
-                            <label for="headerText"><strong>Description</strong></label>
-                            <textarea class="form-control" name='description' id="exampleTextarea" rows="5">{{ (old('description')) }}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="headerText"><strong>Story</strong></label>
-                            <textarea class="form-control" name='story' id="exampleTextarea" rows="10">{{ (old('story')) }}</textarea>
-                        </div>
-                    </div>
-                    <div class="col-12 text-center">
-                        @if(Session::has('new_news_post_error'))
-                        <div class="panel-footer">
-                            <div class="alert alert-danger">{{ $errors->first() }}</div>
-                        </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer bg-inverse text-white">
-                <div class="row">
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-success"><i class="fa fa-edit fa-lg" aria-hidden="true"></i> Create News Post</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-{{Form::token()}}
-{{Form::close()}}<!-- end Add News Modal -->
-@endif
-
-<!-- start of News Pop Up Modal -->
-@if(Session::has('read_news_post'))
-<div class="modal fade read-news-modal" id='read-news-modal' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="exampleModalLabel">{{ App\News::find(Session::get('read_news_post'))->header }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <img class="featurette-image img-fluid mx-auto d-flex justify-content-center" src="{{url('/storage/'.App\News::find(Session::get('read_news_post'))->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-                        <hr>
-                    </div>
-                    <div class="col-12">
-                        <blockquote class="blockquote">
-                            <p class="text-justify lead">
-                                {!! App\News::find(Session::get('read_news_post'))->description !!}
-                            </p>
-                            <footer class="blockquote-footer">Source <cite title="Source Title" class=" text-primary">{{ App\News::find(Session::get('read_news_post'))->source }}</cite></footer>
-                        </blockquote>
-                    </div>
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-block">
-                                {!! App\News::find(Session::get('read_news_post'))->story !!}
+        @if($story_search_results->isNotEmpty())
+        <div class="tab-pane fade" id="stories" role="tabpanel">
+            <div class="tab-pane fade show active" id="updates" role="tabpanel">
+                <div class="row no-gutters">
+                    @foreach($story_search_results as $story_search_result)
+                    <div class="col-4 p-1">
+                        <div class="card card-inverse card-primary">
+                            <div class="caption">
+                                <a href="{{ URL::to('storiyangu/'.$story_search_result->id) }}">
+                                    <img src="{{url('/storage/thumbnails/'.$story_search_result->image)}}"
+                                        class="img-fluid rounded" />
+                                    <h2>{{ substr(strip_tags($story_search_result->caption),0,65) }}{{ strlen(strip_tags($story_search_result->caption)) > 65 ? "...":"" }}
+                                    </h2>
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12">
-                        <br>
-                        <blockquote class="blockquote blockquote-reverse">
-                            <p class="mb-0">By <em class="text-primary">{{ App\User::find(App\News::find(Session::get('read_news_post'))->created_by)->firstname.' '.App\User::find(App\News::find(Session::get('read_news_post'))->created_by)->secondname }}</em></p>
-                            <footer class="blockquote-footer text-success"><cite title="Source Title">{{ App\News::find(Session::get('read_news_post'))->created_at }}</cite></footer>
-                        </blockquote>
-                    </div>
+                    @endforeach
                 </div>
             </div>
-            <div class="modal-footer bg-inverse text-white">
-                @if(Auth::user()->department == 'PI')
-                <a class="btn btn-warning" href="{{URL::to('/edit_news_post/'.Session::get('read_news_post'))}}" role="button">
-                    <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Edit News Post
-                </a>
-                @endif
-                <a class="btn btn-danger" data-dismiss="modal" role="button">
-                    <i class="fa fa-close fa-lg" aria-hidden="true"></i> Close
-                </a>
+        </div>
+        @endif
+        @if($media_alert_search_results->isNotEmpty())
+        <div class="tab-pane fade" id="media" role="tabpanel">
+            <div id="media-alert-accordion" role="tablist" aria-multiselectable="true">
+                @foreach($media_alert_search_results as $media_alert_search_result)
+                <?php $date = new Jenssegers\Date\Date($media_alert_search_result->date); ?>
+                <div class="card mb-1">
+                    <div class="card-header" role="tab" id="heading{{ $media_alert_search_result->id }}">
+                        <h5 class="mb-0">
+                            <div class="d-flex">
+                                @if($media_alert_search_result->type == 'Link')
+                                <span><i class="fa fa-external-link p-1 text-primary" aria-hidden="true"></i></span>
+                                @else
+                                <span><i class="fa fa-newspaper-o p-1  text-primary" aria-hidden="true"></i></span>
+                                @endif
+                                <a data-toggle="collapse" data-parent="#media-alert-accordion"
+                                    href="#collapse{{ $media_alert_search_result->id }}" aria-expanded="true"
+                                    aria-controls="collapse{{ $media_alert_search_result->id }}">
+                                    <small>{{ $media_alert_search_result->header }}</small>
+                                    <!-- <small class="font-weight-bold">{{ $media_alert_search_result->header }}</small> -->
+                                </a>
+                            </div>
+                            <span
+                                class="badge badge-primary smaller font-italic">{{ $media_alert_search_result->source }}</span>
+                            @if(Auth::user()->department == "Comms")
+                            <div class="float-right">
+                                <a v-on:click="editModal({{$media_alert_search_result}})" role="button"
+                                    class="text-warning" data-toggle="modal" data-target="#edit-media-alert-modal">
+                                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                </a>
+                                <a v-on:click="deleteModal({{$media_alert_search_result}})" role="button"
+                                    class="text-danger" data-toggle="modal" data-target="#delete-media-alert-modal">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            @endif
+                        </h5>
+                    </div>
+                    <div id="collapse{{ $media_alert_search_result->id }}" class="collapse" role="tabpanel"
+                        aria-labelledby="heading{{ $media_alert_search_result->id }}">
+                        @if($media_alert_search_result->type == 'Image')
+                        <a role="button" v-on:click="showModal({{$media_alert_search_result}})" data-toggle="modal"
+                            data-target="#media-alert-modal">
+                            <img class="img-fluid img-responsive img-thumbnail w-100"
+                                src="{{ URL::to('imagecache/original/'.$media_alert_search_result->mediacontent) }}"
+                                alt="Image Alt">
+                        </a>
+                        @elseif($media_alert_search_result->type == 'Link')
+                        <div class="">
+                            <!-- <iframe class="embed-responsive-item" src="{{ $media_alert_search_result->mediacontent }}">
+                                    alternative content for browsers which do not support iframe.
+                                </iframe> -->
+                            <a class="badge badge-success m-3" target="_blank"
+                                href='{{ $media_alert_search_result->mediacontent }}'>
+                                {{ substr(strip_tags($media_alert_search_result->mediacontent),0,40) }}{{ strlen(strip_tags($media_alert_search_result->mediacontent)) > 40 ? "...":"" }}
+                            </a>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
+        @endif
+        @if($resource_search_results->isNotEmpty())
+        <div class="tab-pane fade" id="resources" role="tabpanel">
+            <?php
+            $resource_types = $resource_search_results->unique('resource_type');
+            ?>
+            @foreach($resource_types as $resource_type)
+            <h4 class="text-primary">{{ $resource_type->resource_type }}</h4>
+            <?php
+                $resources = $resource_search_results->where('resource_type',$resource_type->resource_type);
+                ?>
+            @foreach($resources as $resource)
+            &nbsp;&nbsp;<i @if($resource->external_link == "Yes") class="fa fa-link" @else class="fa fa-file-text"
+                @endif aria-hidden="true"></i>
+            <?php $date = new Jenssegers\Date\Date($resource->updated_at); ?>
+            <a class="text-muted font-italic" data-delay="300" data-trigger="hover" data-container="body"
+                data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Updated by"
+                data-content="{{ App\user::find($resource->edited_by)->firstname." ".App\user::find($resource->edited_by)->secondname }}<br>{{ $date->ago() }}"
+                @if($resource->external_link == "Yes") target="_blank"
+                href="{{URL::to('/resource/'.$resource->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}"
+                @else
+                href="{{URL::to('/resource/'.$resource->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}"
+                @endif>{{$resource->resource_name}}</a>
+            <br>
+            @endforeach
+            @endforeach
+        </div>
+        @endif
+        @if($phone_directory_search_results->isNotEmpty())
+        <div class="tab-pane fade" id="directory" role="tabpanel">
+            <table class="table table-striped table table-sm">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th class="text-center">
+                            <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> User
+                        </th>
+                        <th class="text-center">
+                            <i class="fa fa-address-card-o fa-lg" aria-hidden="true"></i> Role
+                        </th>
+                        <th class="text-center">
+                            <i class="fa fa-home" aria-hidden="true"></i> Duty Station
+                        </th>
+                        <th class="text-center">
+                            <i class="fa fa-phone fa-lg" aria-hidden="true"></i> Extension
+                        </th>
+                        <th class="text-center">
+                            <i class="fa fa-mobile fa-lg" aria-hidden="true"></i> Office Mobile
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($phone_directory_search_results as $phone_directory_search_result)
+                    <tr>
+                        <td class="text-center"><em>{{ $phone_directory_search_result->name }}</em></td>
+                        <td class="text-center"><em>{{ $phone_directory_search_result->function }}</em></td>
+                        <td class="text-center"><em>{{ $phone_directory_search_result->location }}</em></td>
+                        <td class="text-center"><em>{{ $phone_directory_search_result->ext_no }}</em></td>
+                        <td class="text-center"><em>{{ $phone_directory_search_result->number }}</em></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @endif
     </div>
-</div><!-- /.end News Modal -->
-@endif
+</div>

@@ -155,7 +155,7 @@
                                             @elseif(Session::has('edit_story_error'))
                                             <img class="card-img-top img-fluid" src="{{ URL::to('imagecache/large/'.Session::get('edit_story_error')->image) }}" alt="Card image cap">
                                             @endif
-                                            <input type="file" name='image' value="{{ (old('image')) }}" id="image" class="form-control">
+                                            <input type="file" name='image' value="{{ (old('image')) }}" id="image" class="form-control" multiple="">
                                         </div>
                                         <div class="form-group">
                                             <label for="message-text" class="form-control-label"><strong>Image Caption</strong></label>
