@@ -130,8 +130,8 @@
                             </h2>
                         </div>
 
-                        <div class="row no-gutters align-items-stretch">
-                            <div v-clock v-for="update in updates" v-on:mouseover="changeupdatecolor(update.id)" v-on:mouseleave="changebackupdatecolor(update.id)" class="col-md-4 p-1">
+                        <div class="row no-gutters">
+                            <div class="col-md-4 p-1 d-flex align-items-stretch" v-clock v-for="update in updates" v-on:mouseover="changeupdatecolor(update.id)" v-on:mouseleave="changebackupdatecolor(update.id)">
                                 <div v-if="update.caption">
                                     <div v-if="showUpdateBlock == update.id" class="card card-inverse card-primary h-100">
                                         <a :href="{{ json_encode(URL::to('storiyangu')) }} + '/' + update.id">

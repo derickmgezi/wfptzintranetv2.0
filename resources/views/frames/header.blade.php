@@ -194,42 +194,36 @@
                     @endif
                 </ul>
 
-                <div class="navbar-brand">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="img-fluid rounded-circle" src="{{ strlen(Auth::user()->image) != 0? url('/storage/thumbnails/'.Auth::user()->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto"> 
-                            {{ Auth::user()->firstname.' '.Auth::user()->secondname}} <i class="fa fa-angle-down"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            @if(Auth::user()->title != 'Administrator')
-                            <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}">
-                                <i class="fa fa-user-circle" aria-hidden="true"></i> My Profile
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            @endif
-                            @if(Auth::user()->department == 'IT')
-                            <a class="dropdown-item" href="{{URL::to('/manage')}}">
-                                <i class="fa fa-users" aria-hidden="true"></i> Manage Users
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            @endif
-                            <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-fluid rounded-circle" src="{{ strlen(Auth::user()->image) != 0? url('/storage/thumbnails/'.Auth::user()->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto"> 
+                                {{ Auth::user()->firstname.' '.Auth::user()->secondname}} <i class="fa fa-angle-down"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @if(Auth::user()->title != 'Administrator')
+                                <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}">
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i> My Profile
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                @endif
+                                @if(Auth::user()->department == 'IT')
+                                <a class="dropdown-item" href="{{URL::to('/manage')}}">
+                                    <i class="fa fa-users" aria-hidden="true"></i> Manage Users
+                                </a>
+                                {{-- <div class="dropdown-divider"></div> --}}
+                                @endif
+                                {{-- <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a> --}}
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <!--                @if(Auth::user()->title != 'Administrator')
-                                {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0','role' => 'form'))}}
-                                <div class="input-group">
-                                    <input type="text" name="search" class="form-control" placeholder="Search for...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-success" type="submit">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                {{Form::close()}}
-                                @endif-->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{URL::to('/signout')}}">
+                            <i class="fa fa-fw fa-sign-out"></i>Logout
+                        </a>
+                    </li>
+                </ul>
             </div>
         </nav>
 

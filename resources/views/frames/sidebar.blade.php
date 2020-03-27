@@ -38,7 +38,7 @@
                 <div class="input-group {{ old('search')?'has-success':'' }}">
                     <input type="text" name="search" value="{{ old('search') }}" class="form-control form-control-sm form-control-success" placeholder="Search for...">
                     <span class="input-group-btn">
-                        <button class="btn btn-success btn-sm" type="submit">
+                        <button class="btn btn-primary btn-sm" type="submit">
                             <i class="fa fa-search"></i>
                         </button>
                     </span>
@@ -46,6 +46,15 @@
                 {{Form::close()}}
             </a>
         </li>
+        @if(Request::is('search'))
+        <li class="nav-item">
+            <a class="nav-link {{((Request::is('search'))? 'active':'')}}" href="#">
+                <i class="fa fa-list-ul {{((Request::is('search'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> 
+                Search Results 
+                <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search" aria-hidden="true"></i> {{ $search_result_count }}</span>
+            </a>
+        </li>
+        @endif
         <!-- <li class="nav-item">
             <a class="nav-link" target="_blank" href="http://newgo.wfp.org/collection/integrated-road-map-irm">
                 <i class="fa fa-flag-o fa-lg" aria-hidden="true"></i> IRM
@@ -172,13 +181,6 @@
         <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link {{((Request::is('emergencycontacts'))? 'active':'')}}" href="{{URL::to('/emergencycontacts')}}">
                 <i class="fa fa-exclamation-circle {{((Request::is('emergencycontacts'))? 'faa-tada animated':'')}}" href="{{URL::to('/emergencycontacts')}}" aria-hidden="true"></i> Emergency Contacts
-            </a>
-        </li>
-        @endif
-        @if(Request::is('search'))
-        <li class="nav-item">
-            <a class="nav-link {{((Request::is('search'))? 'active':'')}}" href="#">
-                <i class="fa fa-list {{((Request::is('search'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Results
             </a>
         </li>
         @endif

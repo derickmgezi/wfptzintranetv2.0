@@ -258,7 +258,7 @@ class UpdateController extends Controller {
         $access_log->action_details = 'Wfp update with id "'.$id.'" displayed';
         $access_log->save();
 
-        if(ends_with(url()->previous(), "/home"))
+        if(ends_with(url()->previous(), "/home") || ends_with(url()->previous(), "/search"))
         return redirect('news');
         else
         return back();
