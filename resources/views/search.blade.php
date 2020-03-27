@@ -5,7 +5,7 @@
         @include('frames/sidebar')
 
         <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-            <div class="container">
+            <div class="container-fluid marketing">
                 
                 <!-- START THE FEATURETTES -->
                 @include('components/search/searchresults')
