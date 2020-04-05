@@ -36,7 +36,7 @@
             <a class="nav-link">
                 {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0','role' => 'form'))}}
                 <div class="input-group {{ old('search')?'has-success':'' }}">
-                    <input type="text" name="search" value="{{ old('search') }}" class="form-control form-control-sm form-control-success" placeholder="Search for...">
+                    <input type="text" name="search" value="{{ old('search') }}" class="form-control form-control-sm form-control-success" placeholder="Quick Search...">
                     <span class="input-group-btn">
                         <button class="btn btn-primary btn-sm" type="submit">
                             <i class="fa fa-search"></i>
@@ -50,8 +50,7 @@
         <li class="nav-item">
             <a class="nav-link {{((Request::is('search'))? 'active':'')}}" href="#">
                 <i class="fa fa-list-ul {{((Request::is('search'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> 
-                Search Results 
-                <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search" aria-hidden="true"></i> {{ $search_result_count }}</span>
+                Search Results
             </a>
         </li>
         @endif
@@ -76,8 +75,8 @@
             </a>
         </li> -->
         <li class="nav-item" data-toggle="tooltip" data-placement="right">
-            <a class="nav-link nav-link-collapse collapsed dropdown-toggle faa-horizontal animated-hover" data-toggle="collapse" href="#collapseCalendars">
-                <i class="fa fa-calendar" aria-hidden="true"></i> <span class="nav-link-text">Calendars</span>
+            <a class="nav-link nav-link-collapse collapsed faa-horizontal animated-hover" data-toggle="collapse" href="#collapseCalendars">
+                <i class="fa fa-calendar" aria-hidden="true"></i> <span class="nav-link-text">Calendars <i class="fa fa-angle-down"></i></span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseCalendars" style="padding-left: 0;list-style: none;">
                 <li class="nav-item">
@@ -94,48 +93,63 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link faa-horizontal animated-hover {{((Request::is('resource'))? 'active':'')}}" href="{{URL::to('/resource')}}">
-                <i class="fa fa-file-text {{((Request::is('resource'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('conferencereservation'))? 'active':'')}}" href="{{URL::to('/conferencereservation')}}">
                 <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Conference Booking
             </a>
         </li>
-        <li class="nav-item faa-horizontal animated-hover">
+        <li class="nav-item">
+            <a class="nav-link faa-horizontal animated-hover {{((Request::is('resource'))? 'active':'')}}" href="{{URL::to('/resource')}}">
+                <i class="fa fa-file-text {{((Request::is('resource'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources
+            </a>
+        </li>
+        {{-- <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Transport-Request/'.encrypt('https://humanitarianbooking.wfp.org/en/explore/country/tz/?service=UN+Driver+Hub'))}}">
                 <i class="fa fa-car" aria-hidden="true"></i> Transport Request
             </a>
+        </li> --}}
+        <li class="nav-item faa-horizontal animated-hover">
+            <a class="nav-link {{((Request::is('feedback'))? 'active':'')}}" href="{{URL::to('/feedback')}}">
+                <i class="fa fa-comments-o {{((Request::is('feedback'))? 'faa-tada animated':'')}}" href="{{URL::to('/feedback')}}" aria-hidden="true"></i> Feedback
+            </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right">
-            <a class="nav-link nav-link-collapse collapsed dropdown-toggle faa-horizontal animated-hover" data-toggle="collapse" href="#collapseSites">
-                <i class="fa fa-external-link" aria-hidden="true"></i> <span class="nav-link-text">WFP Sites</span>
+            <a class="nav-link nav-link-collapse collapsed faa-horizontal animated-hover" data-toggle="collapse" href="#collapseSites">
+                <i class="fa fa-external-link" aria-hidden="true"></i> <span class="nav-link-text">WFP Sites <i class="fa fa-angle-down"></i></span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseSites" style="padding-left: 0;list-style: none;">
-                <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/NewGo/'.encrypt('http://go.wfp.org'))}}" style="padding-left: 2em;"><i class="fa fa-sign-out" aria-hidden="true"></i> NewGo</a>
+                {{-- <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/NewGo/'.encrypt('https://newgo.wfp.org'))}}" style="padding-left: 2em;">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i> NewGo
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WINGSII/'.encrypt('http://mfapps.wfp.org'))}}" style="padding-left: 2em;"><i class="fa fa-paper-plane" aria-hidden="true"></i> WINGSII</a>
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/SelfService/'.encrypt('https://selfservice.go.wfp.org'))}}" style="padding-left: 2em;">
+                        <i class="fa fa-server" aria-hidden="true"></i> SelfService
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WeLearn/'.encrypt('http://welearn.wfp.org'))}}" style="padding-left: 2em;"><i class="fa fa-leanpub" aria-hidden="true"></i> WeLearn</a>
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WINGSII/'.encrypt('https://mfapps.wfp.org'))}}" style="padding-left: 2em;">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i> WINGSII
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/PACE/'.encrypt('http://pace.wfp.org'))}}" style="padding-left: 2em;"><i class="fa fa-tachometer" aria-hidden="true"></i> PACE</a>
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WeLearn/'.encrypt('https://welearn.wfp.org'))}}" style="padding-left: 2em;">
+                        <i class="fa fa-leanpub" aria-hidden="true"></i> WeLearn
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WebMail/'.encrypt('http://outlook.office365.com'))}}" style="padding-left: 2em;"><i class="fa fa-envelope" aria-hidden="true"></i> WebMail</a>
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/PACE/'.encrypt('https://pace.wfp.org'))}}" style="padding-left: 2em;">
+                        <i class="fa fa-tachometer" aria-hidden="true"></i> PACE
+                    </a>
+                </li> --}}
+                <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WebMail/'.encrypt('https://outlook.office365.com'))}}" style="padding-left: 2em;"><i class="fa fa-envelope" aria-hidden="true"></i> WebMail</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/SelfService/'.encrypt('https://selfservice.go.wfp.org'))}}" style="padding-left: 2em;"><i class="fa fa-server" aria-hidden="true"></i> SelfService</a>
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WFP-INFO/'.encrypt('https://info.wfp.org'))}}" style="padding-left: 2em;"><i class="fa fa-info-circle" aria-hidden="true"></i> INFO</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WFP-INFO/'.encrypt('http://info.wfp.org'))}}" style="padding-left: 2em;"><i class="fa fa-info-circle" aria-hidden="true"></i> INFO</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WFP-Manuals/'.encrypt('http://manuals.wfp.org'))}}" style="padding-left: 2em;"><i class="fa fa-book" aria-hidden="true"></i> WFP Manuals</a>
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WFP-Manuals/'.encrypt('https://manuals.wfp.org'))}}" style="padding-left: 2em;"><i class="fa fa-book" aria-hidden="true"></i> WFP Manuals</a>
                 </li>
                 <!--                <li class="nav-item">
                                     <a class="nav-link nav-link-collapse collapsed dropdown-toggle" data-toggle="collapse" href="#collapseMulti2" href="#" style="padding-left: 2em;">
@@ -152,31 +166,30 @@
                                 </li>-->
             </ul>
         </li>
-        <li class="nav-item faa-horizontal animated-hover">
-            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/DSA-Rates/'.encrypt('http://newgo.wfp.org/documents/daily-subsistence-allowance-dsa?country=tanzania-united-rep-of-shilling#block--dsa-rates'))}}">
+        {{-- <li class="nav-item faa-horizontal animated-hover">
+            <a class="nav-link" target="_blank"
+                href="{{URL::to('/external_link/DSA-Rates/'.encrypt('http://newgo.wfp.org/documents/daily-subsistence-allowance-dsa?country=tanzania-united-rep-of-shilling#block--dsa-rates'))}}">
                 <i class="fa fa-bar-chart" aria-hidden="true"></i> DSA Rates
             </a>
         </li>
         <li class="nav-item faa-horizontal animated-hover">
-            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/UN-Exchange-Rate/'.encrypt('https://treasury.un.org/operationalrates/OperationalRates.php#T'))}}">
+            <a class="nav-link" target="_blank"
+                href="{{URL::to('/external_link/UN-Exchange-Rate/'.encrypt('https://treasury.un.org/operationalrates/OperationalRates.php#T'))}}">
                 <i class="fa fa-exchange" aria-hidden="true"></i> UN Exchange Rate
             </a>
         </li>
         <li class="nav-item faa-horizontal animated-hover">
-            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Security-Clearance/'.encrypt('https://trip.dss.un.org/dssweb/WelcometoUNDSS/tabid/105/Default.aspx?returnurl=%2fdssweb%2f'))}}">
+            <a class="nav-link" target="_blank"
+                href="{{URL::to('/external_link/Security-Clearance/'.encrypt('https://trip.dss.un.org/dssweb/WelcometoUNDSS/tabid/105/Default.aspx?returnurl=%2fdssweb%2f'))}}">
                 <i class="fa fa-shield" aria-hidden="true"></i> Security Clearance
             </a>
         </li>
         <li class="nav-item faa-horizontal animated-hover">
-            <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Reset-Password/'.encrypt('https://password.go.wfp.org/'))}}">
+            <a class="nav-link" target="_blank"
+                href="{{URL::to('/external_link/Reset-Password/'.encrypt('https://password.go.wfp.org/'))}}">
                 <i class="fa fa-key" aria-hidden="true"></i> Change Password
             </a>
-        </li>
-        <li class="nav-item faa-horizontal animated-hover">
-            <a class="nav-link {{((Request::is('feedback'))? 'active':'')}}" href="{{URL::to('/feedback')}}">
-                <i class="fa fa-comments-o {{((Request::is('feedback'))? 'faa-tada animated':'')}}" href="{{URL::to('/feedback')}}" aria-hidden="true"></i> Feedback
-            </a>
-        </li>
+        </li> --}}
         @if(Auth::user()->department == 'HR')
         <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link {{((Request::is('emergencycontacts'))? 'active':'')}}" href="{{URL::to('/emergencycontacts')}}">
