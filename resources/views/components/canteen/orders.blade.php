@@ -31,7 +31,7 @@
                     </thead>
                     <tbody>
                         <tr class="table-info">
-                            <td class="text-center"><em>00001</em></td>
+                            <td class="text-center"><em>1</em></td>
                             <td><em>Mark Donald</em></td>
                             <td class="text-center"><em>Break Fast</em></td>
                             <td><em>Eggs with Tangarine and Pawpaw</em></td>
@@ -53,7 +53,7 @@
                             </td>
                         </tr>
                         <tr class="table-success">
-                            <td class="text-center"><em>00002</em></td>
+                            <td class="text-center"><em>2</em></td>
                             <td><em>John Doe</em></td>
                             <td class="text-center"><em>Break Fast</em></td>
                             <td><em>Eggs with Tangarine and Pawpaw</em></td>
@@ -75,7 +75,7 @@
                             </td>
                         </tr>
                         <tr class="table-danger">
-                            <td class="text-center"><em>00003</em></td>
+                            <td class="text-center"><em>3</em></td>
                             <td><em>John Doe</em></td>
                             <td class="text-center"><em>Break Fast</em></td>
                             <td><em>Eggs with Tangarine and Pawpaw</em></td>
@@ -92,7 +92,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center"><em>00004</em></td>
+                            <td class="text-center"><em>4</em></td>
                             <td><em>John Doe</em></td>
                             <td class="text-center"><em>Break Fast</em></td>
                             <td><em>Eggs with Tangarine and Pawpaw</em></td>
@@ -109,7 +109,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center"><em>00005</em></td>
+                            <td class="text-center"><em>5</em></td>
                             <td><em>Jane Doe</em></td>
                             <td class="text-center"><em>Break Fast</em></td>
                             <td><em>Fruit Mixture</em></td>
@@ -126,7 +126,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center"><em>00006</em></td>
+                            <td class="text-center"><em>6</em></td>
                             <td><em>Jane Doe</em></td>
                             <td class="text-center"><em>Lunch</em></td>
                             <td><em>Rice with roasted meat mixed with kachumbari and mchicha</em></td>
@@ -143,7 +143,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center"><em>00007</em></td>
+                            <td class="text-center"><em>7</em></td>
                             <td><em>Nataka Musosi</em></td>
                             <td class="text-center"><em>Lunch</em></td>
                             <td><em>Roasted Bananas with Chicken Salad</em></td>
@@ -160,7 +160,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center"><em>00008</em></td>
+                            <td class="text-center"><em>8</em></td>
                             <td><em>Nataka Musosi</em></td>
                             <td class="text-center"><em>Lunch</em></td>
                             <td><em>Roasted Bananas with Chicken Salad</em></td>
@@ -177,7 +177,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center"><em>00009</em></td>
+                            <td class="text-center"><em>9</em></td>
                             <td><em>Stella Novatus</em></td>
                             <td class="text-center"><em>Lunch</em></td>
                             <td><em>Potatoes with Goat Meat and salad</em></td>

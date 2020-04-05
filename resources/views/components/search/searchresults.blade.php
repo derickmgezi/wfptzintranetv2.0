@@ -1,48 +1,47 @@
 <div class="row mt-3">
+    <div class="col-12">
+        <div class="card mb-2 text-justified">
+            <div class="card-header text-primary">
+                Found <strong>{{ $search_result_count }} {{ ($search_result_count == 1)?"Result":"Results" }}</strong>
+            </div>
+        </div>
+    </div>
+
     <div class="col-2">
         <ul class="nav nav-pills flex-column" role="tablist" style="position: sticky;top: 80px;">
             @if($news_search_results->isNotEmpty())
             <li class="nav-item card" style="margin-bottom: 2.5px">
-                <a class="nav-link active justify-content-start" data-toggle="pill" role="tab" href="#updates">
+                <a class="nav-link active" data-toggle="pill" role="tab" href="#updates">
                     Updates
-                    <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search"
-                            aria-hidden="true"></i> {{ $news_search_results_count }}</span>
                 </a>
             </li>
             @endif
             @if($story_search_results->isNotEmpty())
             <li class="nav-item card" style="margin-bottom: 2.5px">
-                <a class="nav-link" data-toggle="pill" role="tab" href="#stories">
+                <a class="nav-link {{ $news_search_results->isEmpty()?'active':'' }}" data-toggle="pill" role="tab"
+                    href="#stories">
                     Stories
-                    <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search"
-                            aria-hidden="true"></i> {{ $story_search_results_count }}</span>
                 </a>
             </li>
             @endif
             @if($media_alert_search_results->isNotEmpty())
             <li class="nav-item card" style="margin-bottom: 2.5px">
-                <a class="nav-link" data-toggle="pill" role="tab" href="#media">
+                <a class="nav-link {{ ($news_search_results->isEmpty() && $story_search_results->isEmpty())?'active':'' }}" data-toggle="pill" role="tab" href="#media">
                     Media
-                    <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search"
-                            aria-hidden="true"></i> {{ $media_alert_search_results_count }}</span>
                 </a>
             </li>
             @endif
             @if($resource_search_results->isNotEmpty())
             <li class="nav-item card" style="margin-bottom: 2.5px">
-                <a class="nav-link" data-toggle="pill" role="tab" href="#resources">
+                <a class="nav-link {{ ($news_search_results->isEmpty() && $story_search_results->isEmpty() && $media_alert_search_results->isEmpty())?'active':'' }}" data-toggle="pill" role="tab" href="#resources">
                     Resources
-                    <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search"
-                            aria-hidden="true"></i> {{ $resource_search_results_count }}</span>
                 </a>
             </li>
             @endif
             @if($phone_directory_search_results->isNotEmpty())
             <li class="nav-item card" style="margin-bottom: 2.5px">
-                <a class="nav-link" data-toggle="pill" role="tab" href="#directory">
+                <a class="nav-link {{ ($news_search_results->isEmpty() && $story_search_results->isEmpty() && $media_alert_search_results->isEmpty() && $resource_search_results->isEmpty())?'active':'' }}" data-toggle="pill" role="tab" href="#directory">
                     Directory
-                    <span class="float-right badge badge-pill badge-danger"><i class="fa fa-search"
-                            aria-hidden="true"></i> {{ $phone_directory_search_results_count }}</span>
                 </a>
             </li>
             @endif
@@ -53,14 +52,23 @@
     <div class="col-10 tab-content card border-right-0 border-bottom-0 border-top-0">
         @if($news_search_results->isNotEmpty())
         <div class="tab-pane fade show active" id="updates" role="tabpanel">
+            <div class="card mb-2 text-justified">
+                <div class="card-header text-primary">
+                    Found <strong>{{ $news_search_results_count }}
+                        {{ ($news_search_results_count == 1)?"WFP Update":"WFP Updates" }}</strong>
+                </div>
+            </div>
+
             <div class="row no-gutters">
                 @foreach($news_search_results as $news_search_result)
                 <div class="col-4 p-1">
                     <div class="card card-inverse card-primary">
                         <div class="caption">
                             <a href="{{ URL::to('read_update/'.$news_search_result->id) }}">
-                                <img src="{{url('/storage/thumbnails/'.$news_search_result->image)}}" class="img-fluid rounded" />
-                                <h2>{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}</h2>
+                                <img src="{{url('/storage/thumbnails/'.$news_search_result->image)}}"
+                                    class="img-fluid rounded" />
+                                <h2>{{ substr(strip_tags($news_search_result->header),0,65) }}{{ strlen(strip_tags($news_search_result->header)) > 65 ? "...":"" }}
+                                </h2>
                             </a>
                         </div>
                     </div>
@@ -70,34 +78,46 @@
         </div>
         @endif
         @if($story_search_results->isNotEmpty())
-        <div class="tab-pane fade" id="stories" role="tabpanel">
-            <div class="tab-pane fade show active" id="updates" role="tabpanel">
-                <div class="row no-gutters">
-                    @foreach($story_search_results as $story_search_result)
-                    <div class="col-4 p-1">
-                        <div class="card card-inverse card-primary">
-                            <div class="caption">
-                                <a href="{{ URL::to('storiyangu/'.$story_search_result->id) }}">
-                                    <img src="{{url('/storage/thumbnails/'.$story_search_result->image)}}"
-                                        class="img-fluid rounded" />
-                                    <h2>{{ substr(strip_tags($story_search_result->caption),0,65) }}{{ strlen(strip_tags($story_search_result->caption)) > 65 ? "...":"" }}
-                                    </h2>
-                                </a>
-                            </div>
+        <div class="tab-pane fade {{ $news_search_results->isEmpty()?'show active':'' }}" id="stories" role="tabpanel">
+            <div class="card mb-2 text-justified">
+                <div class="card-header text-primary">
+                    Found <strong>{{ $story_search_results_count }}
+                        {{ ($story_search_results_count == 1)?"Story":"Stories" }}</strong>
+                </div>
+            </div>
+
+            <div class="row no-gutters">
+                @foreach($story_search_results as $story_search_result)
+                <div class="col-4 p-1">
+                    <div class="card card-inverse card-primary">
+                        <div class="caption">
+                            <a href="{{ URL::to('storiyangu/'.$story_search_result->id) }}">
+                                <img src="{{url('/storage/thumbnails/'.$story_search_result->image)}}"
+                                    class="img-fluid rounded" />
+                                <h2>{{ substr(strip_tags($story_search_result->caption),0,65) }}{{ strlen(strip_tags($story_search_result->caption)) > 65 ? "...":"" }}
+                                </h2>
+                            </a>
                         </div>
                     </div>
-                    @endforeach
                 </div>
+                @endforeach
             </div>
         </div>
         @endif
         @if($media_alert_search_results->isNotEmpty())
-        <div class="tab-pane fade" id="media" role="tabpanel">
+        <div class="tab-pane fade {{ ($news_search_results->isEmpty() && $story_search_results->isEmpty())?'show active':'' }}" id="media" role="tabpanel">
+            <div class="card mb-2 text-justified">
+                <div class="card-header text-primary">
+                    Found <strong>{{ $media_alert_search_results_count }}
+                        {{ ($media_alert_search_results_count == 1)?"Media Alert":"Media Alerts" }}</strong>
+                </div>
+            </div>
+
             <div id="media-alert-accordion" role="tablist" aria-multiselectable="true">
                 @foreach($media_alert_search_results as $media_alert_search_result)
                 <?php $date = new Jenssegers\Date\Date($media_alert_search_result->date); ?>
                 <div class="card mb-1">
-                    <div class="card-header" role="tab" id="heading{{ $media_alert_search_result->id }}">
+                    <div class="card-header text-primary" role="tab" id="heading{{ $media_alert_search_result->id }}">
                         <h5 class="mb-0">
                             <div class="d-flex">
                                 @if($media_alert_search_result->type == 'Link')
@@ -155,7 +175,14 @@
         </div>
         @endif
         @if($resource_search_results->isNotEmpty())
-        <div class="tab-pane fade" id="resources" role="tabpanel">
+        <div class="tab-pane fade {{ ($news_search_results->isEmpty() && $story_search_results->isEmpty() && $media_alert_search_results->isEmpty())?'show active':'' }}" id="resources" role="tabpanel">
+            <div class="card mb-2 text-justified">
+                <div class="card-header text-primary">
+                    Found <strong>{{ $resource_search_results_count }}
+                        {{ ($resource_search_results_count== 1)?"Resource":"Resources" }}</strong>
+                </div>
+            </div>
+
             <?php
             $resource_types = $resource_search_results->unique('resource_type');
             ?>
@@ -182,7 +209,14 @@
         </div>
         @endif
         @if($phone_directory_search_results->isNotEmpty())
-        <div class="tab-pane fade" id="directory" role="tabpanel">
+        <div class="tab-pane fade {{ ($news_search_results->isEmpty() && $story_search_results->isEmpty() && $media_alert_search_results->isEmpty() && $resource_search_results->isEmpty())?'show active':'' }}" id="directory" role="tabpanel">
+            <div class="card mb-2 text-justified">
+                <div class="card-header text-primary">
+                    Found <strong>{{ $phone_directory_search_results_count }}
+                        {{ ($phone_directory_search_results_count == 1)?"Contact":"Contacts" }}</strong>
+                </div>
+            </div>
+
             <table class="table table-striped table table-sm">
                 <thead class="thead-inverse">
                     <tr>
