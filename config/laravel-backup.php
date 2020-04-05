@@ -20,7 +20,7 @@ return [
                 'include' => [
                     base_path('storage/app/public'),
                     base_path('public/image'),
-                     base_path('public/photos'),
+                    base_path('public/photos'),
                 ],
 
                 /*
@@ -58,7 +58,7 @@ return [
             /*
              * The filename prefix used for the backup zip file.
              */
-            'filename_prefix' => 'Wazo Backup ',
+            'filename_prefix' => 'Wazo Backup',
 
             /*
              * The disk names on which the backups will be stored.
@@ -94,7 +94,7 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => 'derick.ruganuza@wfp.org',
+            'to' => 'co_tan_it_staff@wfp.org',
         ],
       
         'slack' => [

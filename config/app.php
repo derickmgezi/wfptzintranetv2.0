@@ -179,6 +179,8 @@ return [
         Spatie\Backup\BackupServiceProvider::class,
         BC\Laravel\DropboxDriver\ServiceProvider::class,
         \hisorange\BrowserDetect\ServiceProvider::class,
+        \Ecrmnn\LaravelHttps\Providers\ServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
 
         /*
          * Application Service Providers...

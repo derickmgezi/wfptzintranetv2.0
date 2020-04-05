@@ -13,6 +13,10 @@ use Session;
 use App\User;
 use App\View;
 use App\Like;
+use App\AccessLog;
+use Route;
+use Date;
+use Illuminate\Database\Eloquent\Collection;
 
 class PIController extends Controller {
 
@@ -237,18 +241,6 @@ class PIController extends Controller {
         }
     }
 
-    public function show_news_post($id) {
-        //Record the view in the Database
-        $view = new View;
-        $view->view_id = $id;
-        $view->viewed_by = Auth::id();
-        $view->save();
-
-        $news_post = News::find($id);
-        Session::flash('read_news_post', $id);
-        return back();
-    }
-
     public function edit_news_post($id) {
         Session::flash('news_post_id', $id);
         return back();
@@ -331,62 +323,4 @@ class PIController extends Controller {
         Session::flash('read_news_post', $id);
         return back();
     }
-
-    public function show_user_bio($id) {
-        Session::flash('view_user_bio', $id);
-        return back();
-    }
-
-    public function add_user_bio($id) {
-        Session::flash('add_user_bio', $id);
-        return back();
-    }
-
-    public function update_user_bio(Request $request, $id) {
-        //
-        $validator = Validator::make($request->all(), [
-                    'image' => 'mimes:jpeg,bmp,png,bmp,gif,svg',
-        ]);
-
-        if ($validator->fails()) {
-            Session::flash('add_user_bio', $id);
-            Session::flash('add_bio_error', 'Bio Update Error');
-            return back()
-                            ->withErrors($validator)
-                            ->withInput();
-        } else {
-            if ($request->image) {
-                //Upload the file in storage/app/public/profile_pictures folder
-                $image_name = (string) ($request->image->store('public/profile_pictures'));
-                $image_name = str_replace('public/','',$image_name);
-
-                //Upload the file in storage thumbnail public folder
-                $thumb_image_name = (string) ($request->image->store('public/thumbnails/profile_pictures'));
-                
-                //Get full path of uploaded image from the thumbnails
-                $path = storage_path('app/'.$thumb_image_name);
-
-                //Load the image into the Image Intervention Package for manipulation
-                Image::make($path)->fit(300, 300)->save($path);
-                
-                //Update User Bio
-                $Update_bio = User::find($id);
-                $Update_bio->image = $image_name;
-                $Update_bio->bio = Purifier::clean($request->bio, 'youtube');
-                $Update_bio->save();
-
-                Session::flash('view_user_bio', $id);
-                return back();
-            } else {
-                //Update User Bio
-                $Update_bio = User::find($id);
-                $Update_bio->bio = Purifier::clean($request->bio, 'youtube');
-                $Update_bio->save();
-
-                Session::flash('view_user_bio', $id);
-                return back();
-            }
-        }
-    }
-
 }

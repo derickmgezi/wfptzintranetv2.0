@@ -4,7 +4,7 @@
 
         @include('frames/sidebar')
 
-        <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+        <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" id="app">
 
             <!--            @include('components/pi/picarousel')-->
 
@@ -15,181 +15,283 @@
             <div class="container-fluid marketing">                        
 
                 <div class="row">
-                    <div class="col-md-8">
-                        @if($recent_posts->count() != 0)
-                        <h2>
-                            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-                            Latest Posts
-                        </h2>
-                        <div class="card-deck">
-                            @foreach($recent_posts as $recent_post)
-                            <div class="card m-1">
-                                <img class="card-img-top img-fluid" src="{{ url('/storage/thumbnails/'.$recent_post->image) }}" alt="Card image cap">
-                                <div class="card-block">
-                                    <a href="{{URL::to('/read_update/'.$recent_post->id)}}" class="card-text text-primary">
-                                        <strong>{{ substr(strip_tags($recent_post->header),0,65) }}{{ strlen(strip_tags($recent_post->header)) > 65 ? "...":"" }}</strong>
-                                    </a>
-                                    <?php $date = new Jenssegers\Date\Date($recent_post->created_at); ?>
-                                    <p class="card-text"><small class="text-muted">Posted {{ $date->ago() }}</small></p>
-                                </div>
-                                <?php
-                                $unique_views = App\View::select('viewed_by','created_at')->where('view_id', $recent_post->id)->orderBy('created_at')->get();
-                                $unique_views = $unique_views->unique('viewed_by');
-                                $total_unique_view_count = $unique_views->count();
-                                ?>
-                                <div class="card-footer text-center">
-                                    <a href="#" class="btn btn-sm btn-warning {{ Auth::user()->username == 'derick.ruganuza'? '':'disabled' }}" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($total_unique_view_count == 0) No Views @else @foreach($unique_views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif"><i class="fa fa-eye" aria-hidden="true"></i> {{ $total_unique_view_count }} {{ $total_unique_view_count == 1?'viewer':'viewers' }}</a>
-                                    <a href="{{URL::to('/read_update/'.$recent_post->id)}}" class="btn btn-sm btn-success"><i class="fa fa-book" aria-hidden="true"></i> Read</a>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        @endif
-                        
-                        @if($most_viewed_posts->count() != 0)
-                        <h2>
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                            Most viewed Posts
+                    <div class="col-md-9">
+                        {{-- @if($news->count() != 0)
+                        <div class="justify-content-start">
+                            <h2 class="mr-3">
+                                <span class="small h4">WFP Updates</span>
+                                <span class="smaller font-weight-bold text-primary">posted recently</span>
                             </h2>
-                        
-                        <div class="card-deck">
-                            @foreach($most_viewed_posts as $most_viewed_post)
-                            <div class="card m-1">
-                                <img class="card-img-top img-fluid" src="{{ url('/storage/thumbnails/'.$most_viewed_post->image) }}" alt="Card image cap">
-                                <div class="card-block">
-                                    <a href="{{URL::to('/read_update/'.$most_viewed_post->view_id)}}" class="card-text text-primary">
-                                        <strong>{{ substr(strip_tags($most_viewed_post->header),0,65) }}{{ strlen(strip_tags($most_viewed_post->header)) > 65 ? "...":"" }}</strong>
+                        </div>
+
+                        <div class="row no-gutters align-items-stretch">
+                            <div v-clock v-for="news_update in news" v-on:mouseover="changenewscolor(news_update.id)"
+                                v-on:mouseleave="changebacknewscolor(news_update.id)" class="col-md-4 p-1">
+                                <div v-if="showNewsBlock == news_update.id"
+                                    class="card card-inverse card-primary h-100">
+                                    <a :href="{{ json_encode(URL::to('read_update')) }} + '/' + news_update.id">
+                                        <img class="card-img-top img-fluid"
+                                            :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + news_update.image"
+                                            alt="Card image cap">
                                     </a>
-                                    <?php $date = new Jenssegers\Date\Date($most_viewed_post->created_at); ?>
-                                    <p class="card-text"><small class="text-muted">Posted {{ $date->ago() }}</small></p>
+                                    <transition name="news-block-appear" enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                        <!-- <div v-if="showNewsBlock == news_update.id" class="card-block"> -->
+                                        <div class="card-block">
+                                            <a :href="{{ json_encode(URL::to('read_update')) }} + '/' + news_update.id"
+                                                class="card-text text-white">
+                                                <strong v-if="news_update.header.length > 45"
+                                                    v-html="news_update.header.substring(0,45) + '...'"></strong>
+                                                <strong v-else v-html="news_update.header"></strong>
+                                            </a>
+                                        </div>
+                                    </transition>
                                 </div>
-                                <?php
-                                $unique_views = App\View::select('viewed_by','created_at')->where('view_id', $most_viewed_post->view_id)->orderBy('created_at')->get();
-                                $unique_views = $unique_views->unique('viewed_by');
-                                $total_unique_view_count = $unique_views->count();
-                                ?>
-                                <div class="card-footer text-center">
-                                    <a href="#" class="btn btn-sm btn-warning {{ Auth::user()->username == 'derick.ruganuza'? '':'disabled' }}" data-delay="300" data-trigger="{{ Auth::user()->username == 'derick.ruganuza'? 'hover':'' }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Viewed By" data-content="@if($total_unique_view_count == 0) No Views @else @foreach($unique_views as $view) {{ App\User::find($view->viewed_by)->firstname.' '.App\User::find($view->viewed_by)->secondname }} <br>@endforeach @endif"><i class="fa fa-eye" aria-hidden="true"></i> {{ $most_viewed_post->viewed_by }} {{ $most_viewed_post->viewed_by == 1?'viewer':'viewers' }}</a>
-                                    <a href="{{URL::to('/read_update/'.$most_viewed_post->view_id)}}" class="btn btn-sm btn-success"><i class="fa fa-book" aria-hidden="true"></i> Read</a>
+                                <div v-clock v-else class="card card-primary card-outline-primary h-100">
+                                    <a href="{{URL::to('/news')}}">
+                                        <img class="card-img-top img-fluid"
+                                            :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + news_update.image"
+                                            alt="Card image cap">
+                                    </a>
+                                    <transition name="news-block-appear" enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                        <!-- <div v-if="showNewsBlock == news_update.id" class="card-block"> -->
+                                        <div class="card-block">
+                                            <a href="{{URL::to('/news')}}" class="card-text text-primary">
+                                                <strong v-if="news_update.header.length > 45"
+                                                    v-html="news_update.header.substring(0,45) + '...'"></strong>
+                                                <strong v-else v-html="news_update.header"></strong>
+                                            </a>
+                                        </div>
+                                    </transition>
                                 </div>
                             </div>
-                            @endforeach
+
                         </div>
                         @endif
 
-                        @if(Session::has('read_update'))
-                        <!-- start of News Pop Up Modal -->
-                        <div class="modal fade read-update-modal" id='read-update-modal' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header bg-primary text-white">
-                                        <h5 class="modal-title" id="exampleModalLabel">{{ App\News::find(Session::get('read_update'))->header }}</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <img class="featurette-image img-fluid mx-auto d-flex justify-content-center" src="{{url('/storage/'.App\News::find(Session::get('read_update'))->image)}}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-                                                <hr>
-                                            </div>
-                                            <div class="col-12">
-                                                <blockquote class="blockquote">
-                                                    <p class="text-justify lead">
-                                                        {!! App\News::find(Session::get('read_update'))->description !!}
-                                                    </p>
-                                                    <footer class="blockquote-footer">Source <cite title="Source Title" class=" text-primary">{{ App\News::find(Session::get('read_update'))->source }}</cite></footer>
-                                                </blockquote>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="card">
-                                                    <div class="card-block">
-                                                        {!! App\News::find(Session::get('read_update'))->story !!}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <br>
-                                                <blockquote class="blockquote blockquote-reverse">
-                                                    <p class="mb-0">Uploaded By <em class="text-primary">{{ App\User::find(App\News::find(Session::get('read_update'))->created_by)->firstname.' '.App\User::find(App\News::find(Session::get('read_update'))->created_by)->secondname }}</em></p>
-                                                    <?php $date = new Jenssegers\Date\Date(App\News::find(Session::get('read_update'))->created_at); ?>
-                                                    <footer class="text-success"><small>{{ $date->format('l j F Y').' at '.$date->format('h:i A') }}</small></footer>
-                                                </blockquote>
-                                            </div>
+                        @if($stories->count() != 0)
+                        <div class="justify-content-start">
+                            <h2 class="mr-3 mt-3">
+                                <span class="small">Stori Yangu</span>
+                                <span class="smaller font-weight-bold text-primary">posted recently</span>
+                            </h2>
+                        </div>
+
+                        <div class="row no-gutters align-items-stretch">
+                            <div v-clock v-for="story in stories" v-on:mouseover="changestorycolor(story.id)"
+                                v-on:mouseleave="changebackstorycolor(story.id)" class="col-md-4 p-1">
+                                <div v-if="showStoryBlock == story.id" class="card card-inverse card-primary h-100">
+                                    <a :href="{{ json_encode(URL::to('storiyangu')) }} + '/' + story.id">
+                                        <img class="card-img-top img-fluid"
+                                            :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + story.image"
+                                            alt="Card image cap">
+                                    </a>
+                                    <transition name="story-block-appear" enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                        <!-- <div v-if="showStoryBlock == story.id" class="card-block"> -->
+                                        <div class="card-block">
+                                            <a :href="{{ json_encode(URL::to('storiyangu')) }} + '/' + story.id"
+                                                class="card-text text-white">
+                                                <strong v-if="story.caption.length > 45"
+                                                    v-html="story.caption.substring(0,45) + '...'"></strong>
+                                                <strong v-else v-html="story.caption"></strong>
+                                            </a>
                                         </div>
+                                    </transition>
+                                </div>
+                                <div v-clock v-else class="card card-primary card-outline-primary h-100">
+                                    <a href="{{URL::to('/storiyangu')}}">
+                                        <img class="card-img-top img-fluid"
+                                            :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + story.image"
+                                            alt="Card image cap">
+                                    </a>
+                                    <transition name="story-block-appear" enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                        <!-- <div v-if="showStoryBlock == story.id" class="card-block"> -->
+                                        <div class="card-block">
+                                            <a href="{{URL::to('/storiyangu')}}" class="card-text text-primary">
+                                                <strong v-if="story.caption.length > 45"
+                                                    v-html="story.caption.substring(0,45) + '...'"></strong>
+                                                <strong v-else v-html="story.caption"></strong>
+                                            </a>
+                                        </div>
+                                    </transition>
+                                </div>
+                            </div>
+                        </div>
+                        @endif --}}
+
+                        @if($updates->count() != 0)
+                        <div class="justify-content-start">
+                            <h2 class="mr-3">
+                                <span class="small">WFP Updates</span>
+                                <span class="smaller font-weight-bold text-primary">posted recently</span>
+                            </h2>
+                        </div>
+
+                        <div class="row no-gutters">
+                            <div class="col-md-4 p-1 d-flex align-items-stretch" v-clock v-for="update in updates" v-on:mouseover="changeupdatecolor(update.id)" v-on:mouseleave="changebackupdatecolor(update.id)">
+                                <div v-if="update.caption">
+                                    <div v-if="showUpdateBlock == update.id" class="card card-inverse card-primary h-100">
+                                        <a :href="{{ json_encode(URL::to('storiyangu')) }} + '/' + update.id">
+                                            <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + update.image" alt="Card image cap">
+                                        </a>
+                                        <transition
+                                        name="update-block-appear" 
+                                        enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                            <!-- <div v-if="showUpdateBlock == update.id" class="card-block"> -->
+                                            <div class="card-block">
+                                                <a :href="{{ json_encode(URL::to('storiyangu')) }} + '/' + update.id" class="card-text text-white">
+                                                    <strong v-if="update.caption.length > 45" v-html="update.caption.substring(0,45) + '...'"></strong>
+                                                    <strong v-else v-html="update.caption"></strong>
+                                                </a>
+                                            </div>
+                                        </transition>
                                     </div>
-                                    <div class="modal-footer bg-inverse text-white">
-                                        <a class="btn btn-primary" href="{{URL::to('/like_update/'.App\News::find(Session::get('read_update'))->id)}}" role="button">
-                                            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> like
+                                    <div v-clock v-else class="card card-primary card-outline-primary h-100">
+                                        <a href="{{URL::to('/storiyangu')}}">
+                                            <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + update.image" alt="Card image cap">
                                         </a>
-                                        <a class="btn btn-danger" data-dismiss="modal" role="button">
-                                            <i class="fa fa-close fa-lg" aria-hidden="true"></i> Close
+                                        <transition
+                                        name="update-block-appear" 
+                                        enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                            <!-- <div v-if="showUpdateBlock == update.id" class="card-block"> -->
+                                            <div class="card-block">
+                                                <a href="{{URL::to('/storiyangu')}}" class="card-text text-primary">
+                                                    <strong v-if="update.caption.length > 45" v-html="update.caption.substring(0,45) + '...'"></strong>
+                                                    <strong v-else v-html="update.caption"></strong>
+                                                </a>
+                                            </div>
+                                        </transition>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <div v-if="showUpdateBlock == update.id" class="card card-inverse card-primary h-100">
+                                        <a :href="{{ json_encode(URL::to('read_update')) }} + '/' + update.id">
+                                            <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + update.image" alt="Card image cap">
                                         </a>
+                                        <transition
+                                        name="update-block-appear" 
+                                        enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                            <!-- <div v-if="showUpdateBlock == update.id" class="card-block"> -->
+                                            <div class="card-block">
+                                                <a :href="{{ json_encode(URL::to('read_update')) }} + '/' + update.id" class="card-text text-white">
+                                                    <strong v-if="update.header.length > 45" v-html="update.header.substring(0,45) + '...'"></strong>
+                                                    <strong v-else v-html="update.header"></strong>
+                                                </a>
+                                            </div>
+                                        </transition>
+                                    </div>
+                                    <div v-clock v-else class="card card-primary card-outline-primary h-100">
+                                        <a href="{{URL::to('/news')}}">
+                                            <img class="card-img-top img-fluid" :src="{{ json_encode(URL::to('imagecache/original/thumbnails')) }} + '/' + update.image" alt="Card image cap">
+                                        </a>
+                                        <transition
+                                        name="update-block-appear" 
+                                        enter-active-class="animated flipInX"
+                                        leave-active-class="animated flipOutX">
+                                            <!-- <div v-if="showUpdateBlock == update.id" class="card-block"> -->
+                                            <div class="card-block">
+                                                <a href="{{URL::to('/news')}}" class="card-text text-primary">
+                                                    <strong v-if="update.header.length > 45" v-html="update.header.substring(0,45) + '...'"></strong>
+                                                    <strong v-else v-html="update.header"></strong>
+                                                </a>
+                                            </div>
+                                        </transition>
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- /.end News Modal -->
+                        </div>
                         @endif
-
-<!--                        <h1 class="text-center featurette-heading">
-                            <i class="fa fa-list" aria-hidden="true"></i> Canteen
-                        </h1>
-
-                        <div class="card-deck">
-                            <div class="card card-inverse card-success">
-                                <a href="{{URL::to('/canteen/break_fast')}}" style="text-decoration: none;">
-                                    <div class="card-block">
-                                        <h3 class="card-title">Break Fast</h3>
-                                    </div>
-                                </a>
-                                <img class="card-img-bottom img-fluid" src="{{url('/image/breakfast-recipes-that-include-english-muffins.jpg')}}" alt="Card image cap">
-                            </div>
-                            <div class="card card-inverse card-primary">
-                                <img class="card-img-top img-fluid" src="{{url('/image/pexels-photo-70497.jpeg')}}" alt="Card image cap">
-                                <a href="{{URL::to('/canteen/lunch')}}" style="text-decoration: none;">
-                                    <div class="card-block">
-                                        <h3 class="card-title">Lunch</h3>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>-->
-
                     </div>
 
-                    <div class="col-md-4">
-                        <h2>
-                            <i class="fa fa-link" aria-hidden="true"></i> 
-                            Links
-                        </h2>
-
-                        <div class="card m-2">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item" style="background-color: ">
-                                    <a target="_blank" href="http://newgo.wfp.org/documents/daily-subsistence-allowance-dsa?country=tanzania-united-rep-of-shilling#block--dsa-rates" class="card-link"><i class="fa fa-link" aria-hidden="true"></i> DSA Rates</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a target="_blank" href="https://treasury.un.org/operationalrates/OperationalRates.php#T" class="card-link"><i class="fa fa-link" aria-hidden="true"></i> UN Exchange Rates</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a target="_blank" href="https://trip.dss.un.org/dssweb/WelcometoUNDSS/tabid/105/Default.aspx?returnurl=%2fdssweb%2f" class="card-link"><i class="fa fa-link" aria-hidden="true"></i> Security Clearance</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a target="_blank" href="https://wga.wfp.org/accounts/Reset" class="card-link"><i class="fa fa-link" aria-hidden="true"></i> Reset your Password</a>
-                                </li>
-                            </ul>
+                    <div class="col-md-3">
+                        <div class="justify-content-start">
+                            <h2 class="mr-3">
+                                <span class="small">Links</span>
+                                <span class="smaller font-weight-bold text-primary">WFP favorites</span>
+                            </h2>
+                        </div>
+                        <div class="list-group">
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/Transport-Request/'.encrypt('https://humanitarianbooking.wfp.org/en/explore/country/tz/?service=UN+Driver+Hub'))}}">
+                                <i class="fa fa-car"aria-hidden="true"></i>&nbsp;Transport Request
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/NewGo/'.encrypt('https://newgo.wfp.org'))}}">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;NewGo
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/SelfService/'.encrypt('https://selfservice.go.wfp.org'))}}">
+                                <i class="fa fa-server" aria-hidden="true"></i>&nbsp;Self Service
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/WINGSII/'.encrypt('https://mfapps.wfp.org'))}}">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;WINGSII
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/DSA-Rates/'.encrypt('https://newgo.wfp.org/documents/daily-subsistence-allowance-dsa?country=tanzania-united-rep-of-shilling#block--dsa-rates'))}}">
+                                <i class="fa fa-bar-chart"aria-hidden="true"></i>&nbsp;DSA Rates
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/UN-Exchange-Rate/'.encrypt('https://treasury.un.org/operationalrates/OperationalRates.php#T'))}}">
+                                <i class="fa fa-exchange"aria-hidden="true"></i>&nbsp;UN Exchange Rate
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/Security-Clearance/'.encrypt('https://trip.dss.un.org/dssweb/WelcometoUNDSS/tabid/105/Default.aspx?returnurl=%2fdssweb%2f'))}}">
+                                <i class="fa fa-shield"aria-hidden="true"></i>&nbsp;Security Clearance
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/PACE/'.encrypt('https://pace.wfp.org'))}}">
+                                <i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;PACE
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/WeLearn/'.encrypt('https://welearn.wfp.org'))}}">
+                                <i class="fa fa-leanpub"aria-hidden="true"></i>&nbsp;WeLearn
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/Reset-Password/'.encrypt('https://password.go.wfp.org/'))}}">
+                                <i class="fa fa-key"aria-hidden="true"></i>&nbsp;Change Password
+                            </a>
                         </div>
 
-                        <a class="twitter-timeline" data-height="500" href="https://twitter.com/WFP_Tanzania">
-                            Tweets by WFP_Tanzania
-                        </a> 
-                        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        {{-- <div class="justify-content-start">
+                            <h2 class="mr-3">
+                                <span class="small">Links</span>
+                                <span class="smaller font-weight-bold text-primary">my favorites</span>
+                            </h2>
+                        </div>
+                        <div class="list-group">
+                            @if($links->count() >= 5)
+                                @foreach($links as $link)
+                                    @foreach($accessed_links as $accessed_link)
+                                        @if($accessed_link->action_details == $link->action_details)
+                                        <a class="list-group-item list-group-item-action active mb-1" @if($accessed_link->link_type == "External")target="_blank"@endif href="{{URL::to($accessed_link->link_accessed)}}">
+                                            <php 
+                                                $strings_to_be_replace = array("Redirected ", "to ", " Page", " displayed", "Accessed ", "");
+                                                $link->action_details = str_replace($strings_to_be_replace, "", $link->action_details);
+                                            ?>
+                                            {{ $link->action_details }}
+                                        </a>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            @else
+                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/internaldirectory')}}">
+                                Telephone Directory
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/NewGo/'.encrypt('http://go.wfp.org'))}}">
+                                WFPgo
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/WINGSII/'.encrypt('http://mfapps.wfp.org'))}}">
+                                WINGSII
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/mediaalerts')}}">
+                                News Alerts
+                            </a>
+                            <a class="list-group-item list-group-item-action active mb-1" href="{{URL::to('/resource#sop')}}">
+                                Resources
+                            </a>
+                            @endif
+                        </div> --}}
                     </div>
                 </div>
 
                 <!-- Three columns of text below the carousel -->
-
-
                 <hr class="featurette-divider">
 
                 <!-- FOOTER -->

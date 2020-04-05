@@ -10,26 +10,28 @@
         "algolia/algoliasearch-client-php": "^1.18",
         "benjamincrozat/laravel-dropbox-driver": "^2.0",
         "doctrine/dbal": "v2.5.13",
+        "ecrmnn/laravel-https": "^1.0",
         "filp/whoops": "^2.1",
         "guzzlehttp/guzzle": "^6.3",
         "hisorange/browser-detect": "^3.1",
         "intervention/image": "^2.3",
         "intervention/imagecache": "^2.3",
         "jenssegers/date": "^3.2",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "5.5.0",
         "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.3.0",
         "maatwebsite/excel": "~2.1.0",
         "mews/purifier": "^2.0",
         "spatie/flysystem-dropbox": "^1.0",
-        "spatie/laravel-backup": "^4.0.0",
+        "spatie/laravel-backup": "^6.7",
         "unisharp/laravel-filemanager": "~1.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "~6.0",
+        "filp/whoops": "~2.0"
     },
     "autoload": {
         "classmap": [
@@ -58,6 +60,10 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
         ]
     },
     "config": {

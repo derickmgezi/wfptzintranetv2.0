@@ -1,3 +1,8 @@
+/* Hide Vue elements during loading */
+[v-clock]{
+  display: none;
+}
+
 /* Let's get this party started */
 ::-webkit-scrollbar {
     width: 12px;
@@ -244,4 +249,46 @@ $color-green: #87C97F;
   }
 }
 
+.row-striped:nth-of-type(odd){
+  background-color: #efefef;
+  border-left: 4px #000000 solid;
+}
 
+.row-striped:nth-of-type(even){
+  background-color: #ffffff;
+  border-left: 4px #efefef solid;
+}
+
+.row-striped {
+    padding: 15px 0;
+}
+
+.caption {
+  position: relative;
+  display: inline-block;
+}
+.caption img {
+  vertical-align: bottom; 
+}
+.caption h2 {
+  font-size: 18.72px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .5);
+  margin: 0;
+  padding: 15px;
+  color: #fff;
+}
+.caption:hover h2 {
+  font-size: 18.72px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #0b77c2;
+  margin: 0;
+  padding: 15px;
+  color: #fff;
+}

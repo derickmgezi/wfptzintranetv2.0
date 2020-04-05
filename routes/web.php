@@ -12,30 +12,39 @@
 */
 Route::get('/', 'UserController@index');
 
-Route::post('/signin', 'UserController@store');
+Route::post('/signin', 'UserController@signin');
 
 Route::get('/signout', 'UserController@logout');
 
+Route::get('/logon', 'LoginController@redirectToProvider');
+
+Route::get('/auth', 'LoginController@handleProviderCallback');
 
 Route::group(['middleware' => ['guest']], function () {
-
+    
     Route::get('/home', 'HomeController@index');
-    
-    Route::get('/innovation', 'InnovationController@index');
 
-    Route::get('/newsalerts', 'NewsalertsController@index');
-    
-    Route::get('/latestnewsupdates', 'HomeController@latestnewsupdates');
-    
-    Route::get('/unreadnewsupdate', 'HomeController@unreadnewsupdate');
+    Route::get('/view_user_bio/{id}', 'HomeController@show_user_bio');
 
-    Route::get('/newsupdateviews', 'HomeController@newsupdateviews');
+    Route::get('/add_bio/{id}', 'HomeController@add_user_bio');
+
+    Route::post('/update_bio/{id}', 'HomeController@update_user_bio');
+
+    Route::get('/edit_bio/{id}', 'HomeController@add_user_bio');
+
+    Route::get('/news', 'UpdateController@index');
     
-    Route::get('/newsupdatelikes', 'HomeController@newsupdatelikes');
+    Route::get('/latestnewsupdates', 'UpdateController@latestnewsupdates');
     
-    Route::get('/newsupdatecomments', 'HomeController@newsupdatecomments');
+    Route::get('/unreadnewsupdate', 'UpdateController@unreadnewsupdate');
+
+    Route::get('/newsupdateviews', 'UpdateController@newsupdateviews');
     
-    Route::get('/mynewsupdate', 'HomeController@mynewsupdate');
+    Route::get('/newsupdatelikes', 'UpdateController@newsupdatelikes');
+    
+    Route::get('/newsupdatecomments', 'UpdateController@newsupdatecomments');
+    
+    Route::get('/mynewsupdate', 'UpdateController@mynewsupdate');
     
     Route::get('/communications', 'PIController@index');
 
@@ -61,9 +70,29 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/remove_news_post/{id}', 'PIController@delete_news_post');
 
-    Route::get('/read_news_post/{id}', 'PIController@show_news_post');
-
     Route::get('/like_news_post/{id}', 'PIController@like_news_post');
+
+    Route::get('/conferencereservation', 'VenueBookingController@index');
+
+    Route::post('/create_venue_booking', 'VenueBookingController@store');
+
+    Route::get('/previousmonth/{timestamp}', 'VenueBookingController@previousmonth');
+
+    Route::get('/nextmonth/{timestamp}', 'VenueBookingController@nextmonth');
+
+    Route::get('/calendar/{timestamp}', 'VenueBookingController@calendar');
+
+    Route::post('/filter_bookings', 'VenueBookingController@filterbookings');
+
+    Route::get('/conferencebooking/{id}', 'VenueBookingController@showbooking');
+
+    Route::get('/editconferencebooking/{id}', 'VenueBookingController@editbooking');
+
+    Route::get('/cancelconferencebooking/{id}', 'VenueBookingController@cancelbooking');
+
+    Route::post('/edit_venue_booking', 'VenueBookingController@edit_booking');
+
+    Route::get('/confirmconferencebookingcancellation/{id}', 'VenueBookingController@cancel_booking');
 
     Route::get('/internaldirectory', 'PhoneDirectoryController@index');
 
@@ -73,17 +102,11 @@ Route::group(['middleware' => ['guest']], function () {
     
     Route::get('/public/{id}', 'PhoneDirectoryController@make_call_public');
 
-    Route::get('/view_user_bio/{id}', 'PIController@show_user_bio');
+    Route::get('/search', 'SearchController@index');
 
-    Route::get('/add_bio/{id}', 'PIController@add_user_bio');
-
-    Route::post('/update_bio/{id}', 'PIController@update_user_bio');
-
-    Route::get('/edit_bio/{id}', 'PIController@add_user_bio');
+    Route::get('/read_news_post/{id}', 'SearchController@show_news_post');
 
     Route::post('/search', 'SearchController@search');
-
-    Route::get('/search', 'SearchController@index');
 
     Route::get('/it', 'ITController@index');
 
@@ -121,7 +144,7 @@ Route::group(['middleware' => ['guest']], function () {
     
     Route::get('/lateststory', 'StoryController@lateststory');
     
-    Route::get('/resizethumbnails', 'StoryController@resizethumbnails');
+    Route::get('/resizestorythumbnails', 'StoryController@resizestorythumbnails');
     
     Route::get('/unreadstory', 'StoryController@unreadstory');
     
@@ -150,14 +173,60 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/edit_story/{id}', 'StoryController@update');
     
     Route::post('/store_story_comment/{id}', 'StoryController@storecomment');
+    
+    Route::get('/newsalerts', 'MediaalertController@index');
+    
+    Route::post('/store_media_alert', 'MediaalertController@store');
+    
+    Route::post('/edit_media_alert/{id}', 'MediaalertController@update');
+
+    Route::get('/delete_media_alert/{id}', 'MediaalertController@delete');
+    
+    Route::get('/innovation', 'InnovationController@index');
 
     Route::get('/resource', 'ResourceController@index');
     
-    Route::get('/resource/{url}', 'ResourceController@show');
-    
-    Route::get('/previous', function () {
-        return view('previous');
-    });
+    Route::get('/resource/{type}/{link}/resources/{url}', 'ResourceController@show');
+
+    Route::get('/resource/{type}/{link}/{url}', 'ResourceController@show');
+
+    Route::get('/moveresource/{direction}/{id}', 'ResourceController@position');
+
+    Route::get('/editresource/{id}', 'ResourceController@edit');
+
+    Route::post('/editresource/{id}', 'ResourceController@update');
+
+    Route::get('/deleteresourceconfirmation/{id}', 'ResourceController@delete');
+
+    Route::get('/deleteresource/{id}', 'ResourceController@destroy');
+
+    Route::get('/addresourcetab', 'ResourceController@addtab');
+
+    Route::post('/addresourcetab', 'ResourceController@storetab');
+
+    Route::get('/editresourcetab/{id}', 'ResourceController@edittab');
+
+    Route::post('/editresourcetab/{id}', 'ResourceController@changetab');
+
+    Route::get('/deleteresourcetab/{id}', 'ResourceController@deletetab');
+
+    Route::get('/removeresourcetab/{id}', 'ResourceController@removetab');
+
+    Route::get('/addresource/{type}', 'ResourceController@create');
+
+    Route::post('/addresource/{type}', 'ResourceController@store');
+
+    Route::get('/addfolder/{type}', 'ResourceController@createfolder');
+
+    Route::post('/addfolder/{type}', 'ResourceController@storefolder');
+
+    Route::get('/editfolder/{id}', 'ResourceController@editfolder');
+
+    Route::post('/changefolder/{id}', 'ResourceController@changefolder');
+
+    Route::get('/deletefolder/{id}', 'ResourceController@deletefolder');
+
+    Route::get('/removefolder/{id}', 'ResourceController@removefolder');
     
     Route::get('/finance', function () {
         return view('finance')->with('department','Finance')->with('dutystation','Country Office');
@@ -220,12 +289,24 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/editpageeditor/{id}', 'EditorController@update');
     
     Route::get('/deletepageeditor/{id}', 'EditorController@destroy');
+
+    Route::post('/addresourcemanager', 'ManageController@storeResourceManager');
+
+    Route::get('/editresourcemanager/{id}', 'ManageController@editResourceManager');
+
+    Route::post('/changeresourcemanager/{id}', 'ManageController@changeResourceManager');
     
     Route::get('/feedback', 'FeedbackController@index');
 
     Route::post('/feedback', 'FeedbackController@store');
+
+    Route::get('/announcement', 'FeedbackController@announcement');
     
     Route::get('/canteen/{meal}', 'CanteenController@index');
+
+    Route::get('/external_link/{name}/{url}', 'ResourceController@show_external_link');
+
+    Route::get('/emergencycontacts', 'EmergencyContactController@index');
 });
 
 Auth::routes();

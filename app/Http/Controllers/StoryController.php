@@ -16,6 +16,7 @@ use Route;
 use Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
+use App\AccessLog;
 
 class StoryController extends Controller {
 
@@ -25,8 +26,15 @@ class StoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        //        
+        //
+        $access_log = new AccessLog;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+        $access_log->user = Auth::user()->username;
+        $access_log->action_taken = "Access Stori Yangu Page";
+        
         if (session('storyurl') == 'storyviews') {
+            $access_log->action_details = "Most visited Stories displayed";
+
             $stories = DB::table('stories')->join('storyviews', 'storyviews.story_id', '=', 'stories.id')
                     ->select(DB::raw('stories.id,stories.caption,stories.posted_by,stories.image,stories.created_at,storyviews.story_id,storyviews.viewed_by'))
                     ->groupBy('storyviews.story_id', 'storyviews.viewed_by')
@@ -39,6 +47,8 @@ class StoryController extends Controller {
                     ->orderBy('views', 'desc')
                     ->paginate(9);
         } elseif (session('storyurl') == 'storylikes') {
+            $access_log->action_details = "Most liked Stories displayed";
+
             $stories = DB::table('stories')->join('storylikes', 'stories.id', '=', 'storylikes.story_id')
                     ->select(DB::raw('stories.*,count(storylikes.liked_by) as likes'))
                     ->groupBy('storylikes.story_id')
@@ -46,6 +56,8 @@ class StoryController extends Controller {
                     ->orderBy('likes', 'desc')
                     ->paginate(9);
         } elseif (session('storyurl') == 'storycomments') {
+            $access_log->action_details = "Most commented on Stories displayed";
+
             $stories = DB::table('stories')->join('storycomments', 'stories.id', '=', 'storycomments.story_id')
                     ->select(DB::raw('stories.*,count(storycomments.comment_by) as comments'))
                     ->groupBy('storycomments.story_id')
@@ -53,25 +65,46 @@ class StoryController extends Controller {
                     ->orderBy('comments', 'desc')
                     ->paginate(9);
         } elseif (session('storyurl') == NULL || session('storyurl') == 'lateststory') {
+            $access_log->action_details = "Recent Story Yangu displayed";
+
             $stories = Story::where('status', 1)->orderBy('created_at', 'desc')
                     ->paginate(9);
         } elseif (session('storyurl') == 'mystory') {
+            $access_log->action_details = "Stories uploaded by the user displayed";
+
             $stories = Story::where('status', 1)->where('posted_by', Auth::id())
                     ->orderBy('created_at', 'desc')
                     ->paginate(9);
         } elseif (session('storyurl') == 'unreadstory') {
-            $stories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = " . Auth::id() . " GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
+            $access_log->action_details = "Unread Stories displayed";
+
+            //$stories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = " . Auth::id() . " GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
             //$stories = Story::hydrate($stories);
-            $stories = new \Illuminate\Support\Collection($stories);
+            //$stories = new \Illuminate\Support\Collection($stories);
             //dd($stories);
+            
+            $stories = DB::table('storyviews')->select('story_id')->where('viewed_by',Auth::id())->groupBy('story_id');
+            
+            $stories = DB::table('stories')->leftJoin(DB::raw("({$stories->toSql()}) as readstories"), 'readstories.story_id', 'stories.id')
+                                           ->mergeBindings($stories)
+                                           ->whereNull('readstories.story_id')
+                                           ->where('status',1)
+                                           ->orderBy('id','desc')
+                                           ->paginate(9);
         }
 
         $likes = Storylike::select("story_id", "liked_by")->orderBy('created_at')->get();
         $comments = Storycomment::select("story_id", "comment_by")->get();
         $views = Storyview::select("story_id", "viewed_by", "created_at")->orderBy('created_at', 'asc')->get();
 
+        $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
+        session(['unreadnewsupdates' => count($unreadnewsupdates)]);
+            
         $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = " . Auth::id() . " GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
         session(['unreadstories' => count($unreadstories)]);
+
+        if(!Session::has('create_story') && !Session::has('new_story') && !Session::has('new_story_error') && !Session::has('edit_story_error') && !Session::has('delete_story'))
+        $access_log->save();
 
         return view('storiyangu', compact('stories', 'likes', 'comments', 'views', 'unreadstories'));
     }
@@ -121,6 +154,15 @@ class StoryController extends Controller {
                 $liked = 0;
             }
             Session::flash('story_id', Session::get('story_id'));
+
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Display Story";
+            $access_log->action_details = 'Story with id "'.Session::get('story_id').'" displayed';
+            if(!Session::has('new_story') && !Session::has('like_story') && !Session::has('add_story_comment_error') && !Session::has('story_comment'))
+            $access_log->save();
+
             return view('stori', compact('story', 'likes', 'liked', 'comments', 'views'));
         }
     }
@@ -133,6 +175,14 @@ class StoryController extends Controller {
     public function create() {
         //
         Session::flash('create_story', 'Story Addition');
+
+        $access_log = new AccessLog;
+        $access_log->user = Auth::user()->username;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+        $access_log->action_taken = "Add Story";
+        $access_log->action_details = 'Add Story Modal displayed';
+        $access_log->save();
+
         return back();
     }
 
@@ -151,6 +201,15 @@ class StoryController extends Controller {
 
         if ($validator->fails()) {
             Session::flash('new_story_error', 'Story Creation Error');
+
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Store Story";
+            $access_log->action_details = 'Storing of new story interrupted due to validation errors';
+            $access_log->action_status = "Failed";
+            $access_log->save();
+
             return back()->withErrors($validator)->withInput();
         } else {
             //Upload the file in storage public folder
@@ -164,7 +223,7 @@ class StoryController extends Controller {
             $path = storage_path('app/' . $thumb_image_name);
 
             //Load the image into Intervention Package for manipulation
-            Image::make($path)->fit(1080, 1080)->save($path);
+            Image::make($path)->fit(540, 540)->save($path);
 
 
             //store the post credentials in database
@@ -173,6 +232,15 @@ class StoryController extends Controller {
             $story->image = $image_name;
             $story->posted_by = Auth::id();
             $story->save();
+
+            Session::flash('new_story', 'New Story cretaed');
+
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Store Story";
+            $access_log->action_details = 'New story stored';
+            $access_log->save();
 
             return redirect('/storiyangu');
         }
@@ -186,16 +254,34 @@ class StoryController extends Controller {
 
         if ($validator->fails()) {
             Session::flash('add_story_comment_error', 'Comment Empty');
-            return back()->withErrors($validator)->withInput();
+
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Store Comment";
+            $access_log->action_details = 'Storing of new comment in story with id "'.$id.'" interrupted due to validation errors';
+            $access_log->action_status = "Failed";
+            $access_log->save();
+
+            return $this->show($id)->withErrors($validator)->withInput();
         } else {
             $comment = new Storycomment;
             $comment->comment = Purifier::clean($request->comment, 'youtube');
             $comment->story_id = $id;
             $comment->comment_by = Auth::id();
             $comment->save();
-        }
 
-        return $this->show($id);
+            Session::flash('story_comment', $id);
+
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Store Comment";
+            $access_log->action_details = 'New comment in story with id "'.$id.'" stored';
+            $access_log->save();
+
+            return $this->show($id);
+        }
     }
 
     /**
@@ -228,6 +314,13 @@ class StoryController extends Controller {
         //
         $editstory = Story::find($id);
 
+        $access_log = new AccessLog;
+        $access_log->user = Auth::user()->username;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+        $access_log->action_taken = "Edit Story";
+        $access_log->action_details = 'Edit Story modal for story with id "'.$id.'" displayed';
+        $access_log->save();
+
         return back()->with('edit_story', $editstory);
     }
 
@@ -241,6 +334,15 @@ class StoryController extends Controller {
             $likestory->liked_by = Auth::id();
             $likestory->save();
         }
+
+        Session::flash('like_story', $id);
+
+        $access_log = new AccessLog;
+        $access_log->user = Auth::user()->username;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+        $access_log->action_taken = "Like Story";
+        $access_log->action_details = 'Story with id "'.$id.'" liked';
+        $access_log->save();
 
         return $this->show($id);
     }
@@ -260,6 +362,15 @@ class StoryController extends Controller {
         if ($validator->fails()) {
             $editstory = Story::find($id);
             Session::flash('edit_story_error', $editstory);
+
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Edit Story";
+            $access_log->action_details = 'Editing story with id "'.$id.'" interrupted due to validation errors';
+            $access_log->action_status = "Failed";
+            $access_log->save();
+
             return back()->withErrors($validator)->withInput();
         } else {
             //store the post credentials in database
@@ -278,18 +389,27 @@ class StoryController extends Controller {
                 $path = storage_path('app/' . $thumb_image_name);
 
                 //Load the image into Intervention Package for manipulation
-                Image::make($path)->fit(1080, 1080)->save($path);
+                Image::make($path)->fit(540, 540)->save($path);
 
                 $story->image = $image_name;
             }
 
             $story->save();
 
+            Session::flash('edit_story', $id);
+
+            $access_log = new AccessLog;
+            $access_log->user = Auth::user()->username;
+            $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            $access_log->action_taken = "Edit Story";
+            $access_log->action_details = 'Story with id "'.$id.'" edited';
+            $access_log->save();
+
             return redirect('/storiyangu/' . $id);
         }
     }
 
-    public function resizethumbnails() {
+    public function resizestorythumbnails() {
         //Delete all image thumnails
         $allimagethumbnails = Storage::files('public/thumbnails/stories');
         foreach ($allimagethumbnails as $imagethumbnail) {
@@ -302,7 +422,7 @@ class StoryController extends Controller {
             $imagepath = storage_path('app/' . $image);
             $imagename = Image::make($imagepath)->basename;
             $imagethumbnailpath = storage_path('app/public/thumbnails/stories/' . $imagename);
-            Image::make($imagepath)->fit(1080, 1080)->save($imagethumbnailpath);
+            Image::make($imagepath)->fit(540, 540)->save($imagethumbnailpath);
         }
 
         return back();
@@ -319,6 +439,15 @@ class StoryController extends Controller {
         $story = Story::find($id);
         $story->status = 0;
         $story->save();
+
+        Session::flash('delete_story', $id);
+
+        $access_log = new AccessLog;
+        $access_log->user = Auth::user()->username;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+        $access_log->action_taken = "Delete Story";
+        $access_log->action_details = 'Story with id "'.$id.'" deleted';
+        $access_log->save();
 
         return back();
     }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PhoneDirectory extends Model {
     
-    //use Searchable;
+    use Searchable;
     
     /**
      * Get the index name for the model.

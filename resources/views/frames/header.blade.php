@@ -11,18 +11,15 @@
 
         <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
 
-<!--  <script src="//code.jquery.com/jquery.min.js"></script> -->
+        <!--  <script src="//code.jquery.com/jquery.min.js"></script> -->
 
-        <title>Dashboard Template for Bootstrap</title>
+        <title>Wazo</title>
 
         <!-- My CSS -->
         {{ Html::style('css/my-css.css') }}
 
         <!-- Bootstrap core CSS -->
         {{ Html::style('css/bootstrap.css') }}
-
-        <!-- Custom style for pinterest layout plugin -->
-        {{ Html::style('css/style.css') }}
 
         <!-- Custom styles for Dashboard Template -->
         {{ Html::style('css/dashboard.css') }}
@@ -46,6 +43,16 @@
         <!-- for zooming image-->
         {{ Html::style('css/xzoom.css') }}
 
+        <!-- Animated CSS Library from https://daneden.github.io/animate.css/ -->
+        {{ Html::style('css/animate.css') }}
+
+        <!-- Select2 core CSS -->
+        {{ Html::style('css/select2.min.css') }}
+
+        <!-- Select2-Bootstrap-Themes core CSS -->
+        {{ Html::style('css/select2-bootstrap.css') }}
+        {{-- {{ Html::style('css/select2-bootstrap4.css') }} --}}
+
         <!-- XZOOM JQUERY PLUGIN  -->
         {{HTML::script("js/jquery.min.js")}}
 
@@ -54,8 +61,9 @@
 
         <!-- Custom Java Script styles for Tinymce Text Editor -->
         {{HTML::script("js/tinymce.min.js")}}
-
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.6/tinymce.min.js"></script> -->
+        
+        <!-- Vue.js library -->
+        {{HTML::script("js/vue.js")}}
 
         <!-- Custom Java Script styles for My Tinymce Text Editor -->
         <!-- <script src="http://wazo.wfp.org/js/mytinymce.js"></script> -->
@@ -146,7 +154,7 @@
 
     </head>
 
-    <body data-spy="scroll" data-target="#news-navbar">
+    <body class="container" data-spy="scroll" data-target="#news-navbar">
         <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-primary">
             <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -157,25 +165,15 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
-                    <!--                    <li class="nav-item active">
-                                            <a target="_blank" class="nav-link" href="http://go.wfp.org">WFP Go<span class="sr-only">(current)</span></a>
-                                        </li>
-                                        <li class="nav-item active">
-                                            <a target="_blank" class="nav-link" href="http://mfapps.wfp.org">WINGS</a>
-                                        </li>
-                                        <li class="nav-item active">
-                                            <a target="_blank" class="nav-link" href="http://mail.wfp.org">WEB Mail</a>
-                                        </li>
-                                        <li class="nav-item active">
-                                            <a target="_blank" class="nav-link" href="http://pace.wfp.org">PACE</a>
-                                        </li>
-                                        <li class="nav-item active">
-                                            <a target="_blank" class="nav-link" href="http://info.wfp.org">WFP Info</a>
-                                        </li>-->
                     @if(Auth::user()->title != 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/home')}}">
-                            | <i class="fa fa-home fa-lg {{((Request::is('home'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span> @if(session('unreadnewsupdates')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadnewsupdates') }} unread News Updat{{ session('unreadnewsupdates') != 1?"es":"e" }}">{{ session('unreadnewsupdates') }}+</span>@endif
+                            | <i class="fa fa-home fa-lg {{((Request::is('home'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Home</small> <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{URL::to('/news')}}">
+                            | <i class="fa fa-television fa-lg {{((Request::is('news'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>WFP Updates</small> <span class="sr-only">(current)</span> @if(session('unreadnewsupdates')>0)<span class="badge" style="background-color: red;" data-toggle="tooltip" data-placement="bottom" title="{{ session('unreadnewsupdates') }} unread News Updat{{ session('unreadnewsupdates') != 1?"es":"e" }}">{{ session('unreadnewsupdates') }}+</span>@endif
                         </a>
                     </li>
                     <li class="nav-item">
@@ -185,53 +183,47 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/newsalerts')}}">
-                            | <i class="fa fa-bullhorn fa-lg {{((Request::is('newsalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>News Alerts</small> <span class="sr-only">(current)</span>
+                            | <i class="fa fa-newspaper-o fa-lg {{((Request::is('newsalerts'))? 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>News Alerts</small> <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link active" href="{{URL::to('/innovation')}}">
                             | <i class="fa fa-lightbulb-o fa-lg {{Request::is('innovation')}} 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Innovation Corner</small> <span class="badge" style="background-color: red;">99+</span>
                         </a>
-                    </li>
-                    <!--  <li class="nav-item">
-                         <a class="nav-link active" href="{{URL::to('/innovation')}}" data-toggle="modal" data-target="#exampleModalLong">
-                             | <i class="fa fa-lightbulb-o faa-pulse animated fa-lg {{request::is('innovation')}} 'faa-tada faa-slow animated':'')}}" aria-hidden="true"></i> <small>Innovation Corner</small> <span class="badge" style="background-color: red;">99+</span>
-                         </a>
-                     </li> -->
+                    </li> -->
                     @endif
-
                 </ul>
 
-                <div class="navbar-brand">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="img-fluid rounded-circle" src="{{ strlen(Auth::user()->image) != 0? url('/storage/thumbnails/'.Auth::user()->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto"> 
-                            {{ Auth::user()->firstname.' '.Auth::user()->secondname}} <i class="fa fa-angle-down"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            @if(Auth::user()->title != 'Administrator')
-                            <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}">
-                                <i class="fa fa-user-circle" aria-hidden="true"></i> Manage Profile
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            @endif
-                            <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-fluid rounded-circle" src="{{ strlen(Auth::user()->image) != 0? url('/storage/thumbnails/'.Auth::user()->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" alt="Generic placeholder image" width="29" data-src="holder.js/25x25/auto"> 
+                                {{ Auth::user()->firstname.' '.Auth::user()->secondname}} <i class="fa fa-angle-down"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @if(Auth::user()->title != 'Administrator')
+                                <a class="dropdown-item" href="{{URL::to('/view_user_bio/'.Auth::user()->id)}}">
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i> My Profile
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                @endif
+                                @if(Auth::user()->department == 'IT')
+                                <a class="dropdown-item" href="{{URL::to('/manage')}}">
+                                    <i class="fa fa-users" aria-hidden="true"></i> Manage Users
+                                </a>
+                                {{-- <div class="dropdown-divider"></div> --}}
+                                @endif
+                                {{-- <a class="dropdown-item" href="{{URL::to('/signout')}}"><i class="fa fa-sign-out"></i> Logout</a> --}}
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <!--                @if(Auth::user()->title != 'Administrator')
-                                {{Form::open(array('url' => '/search','class' => 'form-inline mt-2 mt-md-0','role' => 'form'))}}
-                                <div class="input-group">
-                                    <input type="text" name="search" class="form-control" placeholder="Search for...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-success" type="submit">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                {{Form::close()}}
-                                @endif-->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{URL::to('/signout')}}">
+                            <i class="fa fa-fw fa-sign-out"></i>Logout
+                        </a>
+                    </li>
+                </ul>
             </div>
         </nav>
 
@@ -239,50 +231,103 @@
         <div class="modal fade" id="user-bio-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 class="modal-title" id="exampleModalLabel">{{ App\user::find(Session::get('view_user_bio'))->firstname }}'s Bio</h2>
+                    {{-- <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel">{{ App\user::find(Session::get('view_user_bio'))->firstname }}'s Profile</h2>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    </div>
+                    </div> --}}
                     <div class="modal-body bg-inverse text-white">
                         <div class="row">
                             <div class="col-12 text-center">
                                 <img class="img-fluid img-thumbnail rounded-circle" src="{{ strlen(App\User::find(Session::get('view_user_bio'))->image) != 0? url('/storage/thumbnails/'.App\User::find(Session::get('view_user_bio'))->image):url('/image/default_profile_picture.jpg') }}" alt="Responsive image" src="" alt="Generic placeholder image" width="140" height="140" data-src="holder.js/140x140/auto">
-                                <h6 class="display-4">{{ App\user::find(Session::get('view_user_bio'))->firstname.' '.App\user::find(Session::get('view_user_bio'))->secondname }}</h6>
+                                
+                                <h2 class="lead">{{ App\user::find(Session::get('view_user_bio'))->firstname.' '.App\user::find(Session::get('view_user_bio'))->secondname }}</h2>
+                                
+                                <h2 class="lead">{{ App\user::find(Session::get('view_user_bio'))->title }}</h2>
+
+                                @if(Auth::user()->id == Session::get('view_user_bio'))
+                                    @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) == 0)
+                                        <a role="button" class="btn btn-sm btn-warning" href="{{URL::to('/add_bio/'.Auth::user()->id)}}">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+                                        </a>
+                                    @else
+                                        <a role="button" class="btn btn-sm btn-warning" href="{{URL::to('/edit_bio/'.Auth::user()->id)}}">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+                                        </a>
+                                    @endif
+                                @endif
+                                
+                                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">
+                                    <i class="fa fa-close" aria-hidden="true"></i> Close
+                                </button>
                             </div>
                             <div class="col-12">
+
                                 <hr style="background-color: white">
-                                @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) == 0 &&  Auth::user()->id == Session::get('view_user_bio'))
-                                <div class="alert alert-info" role="alert">
-                                    <strong>Heads up!</strong> Please update your Bio.
+
+                                <div class="row no-gutters">
+                                    <div class="col-2 offset-2 text-center"><i class="fa fa-envelope" aria-hidden="true"></i></div>
+                                    <div class="col-8 text-left lead">{{ App\user::find(Session::get('view_user_bio'))->email }}</div>
                                 </div>
-                                @elseif(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) == 0)
-                                <div class="alert alert-info" role="alert">
-                                    <strong>{{ App\user::find(Session::get('view_user_bio'))->firstname.' '.App\user::find(Session::get('view_user_bio'))->secondname }}'s</strong> Bio hasn't been updated.
+
+                                {{-- <div class="row no-gutters">
+                                    <div class="col-2 offset-2 text-center font-weight-bold">VSAT</div>
+                                    <div class="col-8 text-left">1340-7387</div>
                                 </div>
-                                @else
-                                <p class="text-justify">{!! App\user::find(Session::get('view_user_bio'))->bio !!}</p>
+
+                                <div class="row no-gutters">
+                                    <div class="col-2 offset-2 text-center"><i class="fa fa-mobile" aria-hidden="true"></i></div>
+                                    <div class="col-8 text-left">+255-692-197-387</div>
+                                </div> --}}
+
+                                <div class="row no-gutters">
+                                    <div class="col-2 offset-2 text-center"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
+                                    <div class="col-8 text-left lead">
+                                        {{ App\user::find(Session::get('view_user_bio'))->dutystation }} {{ strlen(App\user::find(Session::get('view_user_bio'))->country) != 0?', '.App\user::find(Session::get('view_user_bio'))->country:'' }} {{ strlen(App\user::find(Session::get('view_user_bio'))->region) != 0 ?', '.App\user::find(Session::get('view_user_bio'))->region:'' }}
+                                    </div>
+                                </div>
+
+                                @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) != 0 || strlen(App\user::find(Session::get('view_user_bio'))->emergencycontactform) != 0)
+                                    <hr style="background-color: white">
+
+                                    @if(strlen(App\user::find(Session::get('view_user_bio'))->emergencycontactform) != 0)
+                                        <div class="row no-gutters">
+                                            <div class="col-2 offset-2 text-center"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></div>
+                                            <div class="col-8 text-left lead">
+                                                <a target="_blank" href="{{ url('/storage/'.App\user::find(Session::get('view_user_bio'))->emergencycontactform) }}">
+                                                    <u>Emergency Contacts</u>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) != 0)
+                                        <div class="row no-gutters">
+                                            <div class="col-2 offset-2 text-center"><i class="fa fa-bold" aria-hidden="true"></i> <i class="fa fa-info" aria-hidden="true"></i> <i class="fa fa-opera" aria-hidden="true"></i></div>
+                                            <div class="col-8 text-left">{!! App\user::find(Session::get('view_user_bio'))->bio !!}</div>
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    {{-- <div class="modal-footer">
                         @if(Auth::user()->id == Session::get('view_user_bio'))
                         @if(strlen(strip_tags(App\user::find(Session::get('view_user_bio'))->bio)) == 0)
                         <a role="button" class="btn btn-success" href="{{URL::to('/add_bio/'.Auth::user()->id)}}">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Add Bio
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile
                         </a>
                         @else
                         <a role="button" class="btn btn-warning" href="{{URL::to('/edit_bio/'.Auth::user()->id)}}">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Bio
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile
                         </a>
                         @endif
                         @endif
                         <button type="button" class="btn btn-danger" data-dismiss="modal">
                             <i class="fa fa-close" aria-hidden="true"></i> Close
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -292,7 +337,7 @@
                 <div class="modal-content">
                     {{ Form::open(array('url' => '/update_bio/'.Auth::user()->id,'enctype' => "multipart/form-data",'role' => 'form')) }}
                     <div class="modal-header bg-faded">
-                        <h2 class="modal-title" id="exampleModalLabel">Update Your Bio</h2>
+                        <h4 class="modal-title" id="exampleModalLabel">Update Your Profile</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -301,15 +346,41 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="image"><strong>Change Image</strong></label><br>
-                                    <img class="img-fluid img-thumbnail" alt="Responsive image" src="{{ url('/storage/'.App\User::find(Session::get('add_user_bio'))->image) }}" alt="Generic placeholder image" width="140" height="140" data-src="holder.js/140x140/auto">
-                                    <hr style="background-color: white">
+                                    <img class="img-fluid img-thumbnail  rounded-circle" alt="Responsive image" src="{{ strlen(App\User::find(Session::get('add_user_bio'))->image) != 0? url('/storage/thumbnails/'.App\User::find(Session::get('add_user_bio'))->image):url('/image/default_profile_picture.jpg') }}" alt="Generic placeholder image" width="140" height="140" data-src="holder.js/140x140/auto"><br>
+                                    
+                                    <label for="image"><strong>Change photo</strong></label>
+                                    
                                     @if(old('image'))
-                                    <input type="file" name='image' value="{{ (old('image')) }}" id="image" class="form-control">
+                                    <input type="file" name='image' value="{{ (old('image')) }}" id="image" class="form-control-file">
                                     @elseif(Session::has('add_user_bio'))
-                                    <input type="file" name='image' value="{{ App\User::find(Session::get('add_user_bio'))->image }}" id="image" class="form-control">
+                                    <input type="file" name='image' value="{{ App\User::find(Session::get('add_user_bio'))->image }}" id="image" class="form-control-file">
                                     @endif
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="title"><strong>Change Title</strong></label>
+                                    
+                                    @if(old('title'))
+                                    <input type="text" name='title' value="{{ (old('title')) }}" id="title" class="form-control">
+                                    @elseif(Session::has('add_user_bio'))
+                                    <input type="text" name='title' value="{{ App\User::find(Session::get('add_user_bio'))->title }}" id="title" class="form-control">
+                                    @endif
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="title"><strong>Upload Emergency Contact Form</strong></label>
+                                    
+                                    @if(old('title'))
+                                    <input type="file" name='emergencycontactform' value="{{ (old('emergency_contact_form')) }}" id="title" class="form-control">
+                                    @elseif(Session::has('add_user_bio'))
+                                    <input type="file" name='emergencycontactform' value="{{ App\User::find(Session::get('add_user_bio'))->emergencycontactform }}" id="title" class="form-control-file">
+                                    @endif
+                                    <small id="emailEmergencycontactform" class="form-text text-muted">
+                                        Make sure that the Emergency Contact Form is filled, signed and scaned to your computer.<br>
+                                        Go to the <strong class="text-primary">Resource TAB (located on the left side bar)</strong> then <strong class="text-primary">HR resources</strong> to access the Emergecy Contact Form.
+                                    </small>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="headerText"><strong>Update Bio</strong></label>
                                     @if(old('bio'))
@@ -330,11 +401,11 @@
                         @if(Auth::user()->id == Session::get('add_user_bio'))
                         @if(strlen(strip_tags(App\user::find(Session::get('add_user_bio'))->bio)) == 0)
                         <button type="submit" role="button" class="btn btn-success">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Add Bio
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update Profile
                         </button>
                         @else
                         <button type="submit" role="button" class="btn btn-warning">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Bio
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update Profile
                         </button>
                         @endif
                         @endif
@@ -348,32 +419,29 @@
         </div>
         @endif
         
-        <!-- Start of Innovation Cover Modal -->
-        <div class="modal hide fade in" id="announcement" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        @if(!Session::has('announcement'))
+        <!-- Start of Announcement Modal
+        <div class="modal hide fade in" id="announcementModal" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #0758ee; color: white;">
-                        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-thumb-tack faa-tada animated fa-lg" aria-hidden="true"></i> Unread Notifications</h5>
+                    <div class="modal-header text-white" style="background-color: orange;">
+                        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-bullhorn faa-tada animated fa-lg" aria-hidden="true"></i> Gender Based Violence Facts</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    {{-- <div class="modal-body" style="background: url('../image/Copyright WFP Jen Kunz.jpg') no-repeat center center fixed;"> --}}
                     <div class="modal-body">
-                        <p>
-
-                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget  
-                            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-
-                            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-
-                            na, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-
+                        <img class="img-fluid" src="{{ URL::to('image/stop violence against women.jpg') }}">
+                        <p class="font-weight-bold font-italic">
+                            "Addressing GBV saves lives. Sexual violence is often fatal and its consequences prevent victims form reaching life-saving services"
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save Announcements</button>
+                        <a href="{{URL::to('/announcement')}}" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i> Now I am aware</a>
+                        {{-- <button type="button" class="btn btn-primary">Save Announcements</button> --}}
                     </div>
                 </div>
             </div>
-        </div><!-- End of Innovation Cover Modal -->
+        </div><!-- End of Announcement Modal -->
+        @endif

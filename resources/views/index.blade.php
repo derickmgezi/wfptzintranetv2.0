@@ -7,7 +7,7 @@
         <meta name="author" content="">
         <link rel="shortcut icon" href="{{ asset('image/wfp_logo05.png') }}">
 
-        <title>World Food Programme.</title>
+        <title>Login into Wazo</title>
 
         <!-- Bootstrap core CSS -->
         {{ Html::style('css/bootstrap.css') }}
@@ -20,6 +20,9 @@
 
         <!-- Custom styles for Font Awesome template -->
         {{ Html::style('css/font-awesome.min.css') }}
+        
+        <!-- Vue.js library -->
+        {{HTML::script("js/vue.js")}}
     </head>
 
     <body>
@@ -47,7 +50,7 @@
             </div>
         </div>
 
-        <div class="container-fluid">
+        <div class="container-fluid" id="index">
 
             <div class="inner cover">
                 <div class="row align-items-center">
@@ -89,27 +92,22 @@
                 </div>
             </div>
 
-            <!-- Modal -->
-            <div class="modal fade loginModal modal-position" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <!-- New Login Modal -->
+            <div class="modal fade loginModal modal-position" data-backdrop="static" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
                             <h3 class="modal-title" id="exampleModalLabel">
-                                <img class="img-fluid" src="{{ URL::to('image/wfp_logo09.png') }}" alt="Responsive image" alt="Generic placeholder image" width="50" data-src="holder.js/25x25/auto"> wazo.tz.net
+                                <img class="img-fluid" src="{{ URL::to('image/wfp_logo09.png') }}" alt="Responsive image" alt="Generic placeholder image" width="50" data-src="holder.js/25x25/auto"> wazo.tza.wfp.org
                             </h3>
                         </div>
                         <div class="modal-body" style="background-color: ">
-                            {{ Form::open(array('url' => '/signin','class' => 'form-signin','role' => 'form')) }}
-                            <label for="inputUsername" class="sr-only">Username</label>
-                            <input type="text" name="username" value="{{(old('username'))? e(old('username')):''}}" id="inputUserName" class="form-control" placeholder="Username eg. john.doe" required autofocus>
-                            <label for="inputPassword" class="sr-only">Password</label>
-                            <input type="password" name="password" value="{{(old('password'))? e(old('password')):''}}" id="inputPassword" class="form-control" placeholder="Password" required>
-                            <button class="btn btn-lg btn-success btn-block" type="submit"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login</button>
-                            {{Form::token()}}
-                            {{ Form::close() }}
+                            <i v-if="logingin" class="fa fa-spinner fa-pulse fa-4x fa-fw" style="color: black"></i>
 
+                            <a v-else v-on:click="login()" href="{{URL::to('/logon')}}" class="btn btn-lg btn-success btn-block"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login with Single sign-on</a>
+                            <br>
                             @if(Session::has('error'))
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <div v-if="!logingin" class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
                                 </button>
@@ -121,6 +119,41 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Old Login Modal -->
+            {{-- <div class="modal fade loginModal modal-position" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h3 class="modal-title" id="exampleModalLabel">
+                                <img class="img-fluid" src="{{ URL::to('image/wfp_logo09.png') }}" alt="Responsive image" alt="Generic placeholder image" width="50" data-src="holder.js/25x25/auto"> wazo.wfp.org
+                            </h3>
+                        </div>
+                        <div class="modal-body" style="background-color: ">
+                            <i v-if="logingin" class="fa fa-spinner fa-pulse fa-4x fa-fw" style="color: black"></i>
+                            
+                            {{ Form::open(array('url' => '/signin','class' => 'form-signin','role' => 'form', 'v-else' => 'logingin')) }}
+                            <label for="inputUsername" class="sr-only">Username</label>
+                            <input type="text" name="username" value="{{(old('username'))? e(old('username')):''}}" id="inputUserName" class="form-control" placeholder="Username eg. john.doe" autofocus>
+                            <label for="inputPassword" class="sr-only">Password</label>
+                            <input type="password" name="password" value="{{(old('password'))? e(old('password')):''}}" id="inputPassword" class="form-control" placeholder="Password">
+                            <button v-on:click="login()" class="btn btn-lg btn-success btn-block" type="submit"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login</button>
+                            {{Form::token()}}
+                            {{ Form::close() }}
+
+                            @if(Session::has('error'))
+                            <div v-if="!logingin" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                                </button>
+                                <i class="fa fa-exclamation " aria-hidden="true"></i> {{Session::get('error')}}
+                            </div>
+                            @endif
+
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
 
         </div>
 
@@ -136,12 +169,37 @@
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-        <script>window.jQuery || document.write('<script src="./js/vendor/jquery.min.js"><\/script>')</script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-        <script src="./js/bootstrap.min.js"></script>
+        {{HTML::script("js/jquery-3.1.1.slim.min.js")}}
+        
+        <!-- jQuery Library -->
+        {{HTML::script("js/jquery-3.3.1.min.js")}}
+        
+        <!-- Tether Library -->
+        {{HTML::script("js/tether.min.js")}}
+        
+        <!-- Bootstrap Library -->
+        {{HTML::script("js/bootstrap.min.js")}}
+
+        <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+        {{HTML::script("js/holder.min.js")}}
+        
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="./js/ie10-viewport-bug-workaround.js"></script>
+        {{HTML::script("js/ie10-viewport-bug-workaround.js")}}
+        
+        <script>
+            var vm = new Vue ({
+                el:"#index",
+                data:{
+                    logingin:false
+                },
+                methods:{
+                    login: function(){
+                        this.logingin = true;
+                    }
+                }
+            });
+        </script>
+        
         @if(!Auth::check())
         <script>$('#loginModal').modal('show');</script>
         @endif
