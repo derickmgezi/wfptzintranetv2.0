@@ -96,7 +96,9 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/internaldirectory', 'PhoneDirectoryController@index');
 
-    Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts');
+    //Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts');
+
+    Route::post('/update_contacts', 'PhoneDirectoryController@import');
     
     Route::get('/private/{id}', 'PhoneDirectoryController@make_call_private');
     
