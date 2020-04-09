@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Validator;
-use Session;
-use Excel;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
+use App\Imports\PhoneDirectoryImport;
+use App\Imports\PhoneBillImport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\PhoneDirectory;
 use App\PhoneBill;
-use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Jenssegers\Date\Date;
 use App\AccessLog;
-use Route;
 
 class PhoneDirectoryController extends Controller {
 
@@ -24,6 +24,10 @@ class PhoneDirectoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        $duty_stations = PhoneDirectory::select('duty_station')->where('status','Active')->groupBy('duty_station')->get();
+        $duty_station_count = $duty_stations->count();
+        $active_link_status = 1;
+
         $months_of_user_phone_bill = PhoneBill::select(DB::raw("DATE_FORMAT(date_time,'%M %Y') as date,date_time"))
                 ->orderBy('date_time', 'desc')
                 ->get();
@@ -70,7 +74,7 @@ class PhoneDirectoryController extends Controller {
         if(!Session::has('upload_message') && !Session::has('unfound_ext') && !Session::has('edit_bill_message'))
         $access_log->save();
 
-        return view('internaldirectory', compact('months_of_user_phone_bill', 'user_phone_bill', 'user_phone_bill_total_cost', 'all_users_phone_bill', 'all_users_phone_bill_total_cost'));
+        return view('internaldirectory', compact('duty_stations','duty_station_count','active_link_status','months_of_user_phone_bill', 'user_phone_bill', 'user_phone_bill_total_cost', 'all_users_phone_bill', 'all_users_phone_bill_total_cost'));
     }
 
     /**
@@ -88,6 +92,109 @@ class PhoneDirectoryController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function import(Request $request){
+        //
+        $access_log = new AccessLog;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+        $access_log->user = Auth::user()->username;
+        $access_log->action_taken = "Upload File";
+
+        $validator = Validator::make($request->all(), [
+                    'file' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $access_log->action_details = "Upload File to update Contacts List or the Phone Bills. No File was selected for Uploaded";
+            $access_log->action_status = "Failed";
+            $access_log->save();
+
+            Session::flash('upload_message', 'No File was Uploaded');
+            return redirect('/internaldirectory')->withErrors($validator)->withInput();
+        } else {
+            //Get file Extension
+            $file_extension = $request->file->getClientOriginalExtension();
+
+            //Get file name ->pathinfor was used to trim/remove the extension from the filename
+            $file_name = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+
+            //Check if extensions correspond to excel formats
+            if ($file_extension == 'xls' || $file_extension == 'xlsx') {
+
+                if (str_contains($file_name, 'Phone Bill')) {
+                    $import = new PhoneBillImport();
+                    $import->import($request->file);
+                    $failures = $import->failures();
+                    $errors = $import->errors();
+
+                    if($errors->isNotEmpty()){
+                        $access_log->action_details = 'The file named '.$file_name.' was uploaded but with errors';
+                        $access_log->save();
+
+                        Session::flash('upload_message', 'Phone Bill partially or not uploaded with errors');
+                        return redirect('internaldirectory')->with('errors', $errors);
+
+                    }elseif($failures->isNotEmpty()){
+                        $access_log->action_details = 'The file named '.$file_name.' was uploaded but with failures';
+                        $access_log->save();
+
+                        Session::flash('upload_message', 'Phone Bill partially or not uploaded with failures');
+                        return redirect('internaldirectory')->with('failures', $failures);
+
+                    }else{
+                        $access_log->action_details = 'Phone Bill File with name '.$file_name.' uploaded';
+                        $access_log->save();
+
+                        Session::flash('upload_message', 'File Uploaded Succesfully');
+                        return redirect('internaldirectory');
+                    }
+
+                }elseif(str_contains($file_name, 'WFP Tanzania Contact List')){
+                    $import = new PhoneDirectoryImport();
+                    $import->import($request->file);
+                    $failures = $import->failures();
+                    $errors = $import->errors();
+
+                    if($failures->isNotEmpty()){
+                        $access_log->action_details = 'File with name '.$file_name.' was uploaded but with failures';
+                        $access_log->save();
+
+                        Session::flash('upload_message', 'File was Uploaded with failures');
+                        return redirect('internaldirectory')->with('failures', $failures);
+                    }elseif($errors->isNotEmpty()){
+                        $access_log->action_details = 'File with name '.$file_name.' was uploaded but with errors';
+                        $access_log->save();
+
+                        Session::flash('upload_message', 'File was Uploaded with errors');
+                        return redirect('internaldirectory')->with('errors', $errors);
+                    }else{
+                        $access_log->action_details = 'File with name '.$file_name.' was uploaded succesfully';
+                        $access_log->save();
+
+                        Session::flash('upload_message', 'File Uploaded Succesfully');
+                        return redirect('internaldirectory');
+                    }
+                }else{
+                    
+                    $access_log->action_details = 'Upload File to update Contacts List or the Phone Bills. Uploaded Excel File has an invalid name';
+                    $access_log->action_status = "Failed";
+                    $access_log->save();
+
+                    Session::flash('upload_message', 'Uploaded Excel File has an invalid name. Please upload Excel File with a valid name');
+                    return redirect('internaldirectory');
+                }
+                
+            } else {
+                
+                $access_log->action_details = 'Upload File to update Contacts List or the Phone Bills. File Uploaded was .' . $file_extension . ' which is not an Excel File';
+                $access_log->action_status = "Failed";
+                $access_log->save();
+
+                Session::flash('upload_message', 'File Uploaded was .' . $file_extension . ', please upload an Excel File');
+                return redirect('internaldirectory');
+            }
+        }
+    }
+
     public function store_contacts(Request $request) {
         //
         $access_log = new AccessLog;
