@@ -210,7 +210,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <div class="justify-content-start">
+                        {{-- <div class="justify-content-start">
                             <h2 class="mr-3">
                                 <span class="small">Links</span>
                                 <span class="smaller font-weight-bold text-primary">WFP favorites</span>
@@ -247,9 +247,9 @@
                             <a class="list-group-item list-group-item-action active mb-1" target="_blank" href="{{URL::to('/external_link/Reset-Password/'.encrypt('https://password.go.wfp.org/'))}}">
                                 <i class="fa fa-key"aria-hidden="true"></i>&nbsp;Change Password
                             </a>
-                        </div>
+                        </div> --}}
 
-                        {{-- <div class="justify-content-start">
+                        <div class="justify-content-start">
                             <h2 class="mr-3">
                                 <span class="small">Links</span>
                                 <span class="smaller font-weight-bold text-primary">my favorites</span>
@@ -261,7 +261,7 @@
                                     @foreach($accessed_links as $accessed_link)
                                         @if($accessed_link->action_details == $link->action_details)
                                         <a class="list-group-item list-group-item-action active mb-1" @if($accessed_link->link_type == "External")target="_blank"@endif href="{{URL::to($accessed_link->link_accessed)}}">
-                                            <php 
+                                            <?php 
                                                 $strings_to_be_replace = array("Redirected ", "to ", " Page", " displayed", "Accessed ", "");
                                                 $link->action_details = str_replace($strings_to_be_replace, "", $link->action_details);
                                             ?>
@@ -287,7 +287,7 @@
                                 Resources
                             </a>
                             @endif
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
 

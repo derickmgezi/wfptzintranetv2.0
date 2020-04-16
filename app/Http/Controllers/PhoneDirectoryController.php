@@ -120,25 +120,35 @@ class PhoneDirectoryController extends Controller {
             //Check if extensions correspond to excel formats
             if ($file_extension == 'xls' || $file_extension == 'xlsx') {
 
+                //Forget error session generated from Import Classes
+                $request->session()->forget('errors');
+
                 if (str_contains($file_name, 'Phone Bill')) {
                     $import = new PhoneBillImport();
                     $import->import($request->file);
                     $failures = $import->failures();
                     $errors = $import->errors();
 
-                    if($errors->isNotEmpty()){
+                    if($failures->isNotEmpty() && $errors->isNotEmpty()){
+                        $access_log->action_details = 'The file named '.$file_name.' was partially uploaded but with failures and errors';
+                        $access_log->save();
+
+                        Session::flash('upload_message', 'Phone Bill Partially Uploaded with Failures and Errors');
+                        return redirect('internaldirectory')->with('failures', $failures)->with('errors',$errors);
+
+                    }elseif($failures->isNotEmpty()){
+                        $access_log->action_details = 'The file named '.$file_name.' was partially uploaded but with failures';
+                        $access_log->save();
+
+                        Session::flash('upload_message', 'Phone Bill Partially Uploaded with Failures');
+                        return redirect('internaldirectory')->with('failures', $failures);
+
+                    }elseif($errors->isNotEmpty()){
                         $access_log->action_details = 'The file named '.$file_name.' was uploaded but with errors';
                         $access_log->save();
 
-                        Session::flash('upload_message', 'Phone Bill partially or not uploaded with errors');
-                        return redirect('internaldirectory')->with('errors', $errors);
-
-                    }elseif($failures->isNotEmpty()){
-                        $access_log->action_details = 'The file named '.$file_name.' was uploaded but with failures';
-                        $access_log->save();
-
-                        Session::flash('upload_message', 'Phone Bill partially or not uploaded with failures');
-                        return redirect('internaldirectory')->with('failures', $failures);
+                        Session::flash('upload_message', 'Phone Bill Partially Uploaded with Errors');
+                        return redirect('internaldirectory')->withErrors('errors');
 
                     }else{
                         $access_log->action_details = 'Phone Bill File with name '.$file_name.' uploaded';
@@ -152,7 +162,7 @@ class PhoneDirectoryController extends Controller {
                     $import = new PhoneDirectoryImport();
                     $import->import($request->file);
                     $failures = $import->failures();
-                    $errors = $import->errors();
+                    //$errors = $import->errors();
 
                     if($failures->isNotEmpty()){
                         $access_log->action_details = 'File with name '.$file_name.' was uploaded but with failures';
@@ -160,12 +170,12 @@ class PhoneDirectoryController extends Controller {
 
                         Session::flash('upload_message', 'File was Uploaded with failures');
                         return redirect('internaldirectory')->with('failures', $failures);
-                    }elseif($errors->isNotEmpty()){
+                    }elseif(session('errors')){
                         $access_log->action_details = 'File with name '.$file_name.' was uploaded but with errors';
                         $access_log->save();
 
                         Session::flash('upload_message', 'File was Uploaded with errors');
-                        return redirect('internaldirectory')->with('errors', $errors);
+                        return redirect('internaldirectory');
                     }else{
                         $access_log->action_details = 'File with name '.$file_name.' was uploaded succesfully';
                         $access_log->save();

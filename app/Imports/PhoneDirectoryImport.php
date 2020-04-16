@@ -42,8 +42,11 @@ class PhoneDirectoryImport implements ToModel, WithHeadingRow, WithValidation, S
                    'personal_mobile_no'  =>  $row['personal_mobile_no'],
                    'status'  =>  $row['status'],
                 ]);
-            }catch(\Throwable $e){
-                throw($e);
+            }catch(\Exception $e){
+                $row = last($e->getBindings());
+                $error = last($e->errorInfo);
+                $errors = array_add(['row' => $row+1], 'error', $error);
+                session(['errors.'.$row => $errors]);
             }
             
         }else{//If extension doesnt exist update phonedirectory using name
@@ -60,7 +63,10 @@ class PhoneDirectoryImport implements ToModel, WithHeadingRow, WithValidation, S
                    'status'  =>  $row['status'],
                 ]);
             }catch(\Exception $e){
-                throw $e;
+                $row = last($e->getBindings());
+                $error = last($e->errorInfo);
+                $errors = array_add(['row' => $row+1], 'error', $error);
+                session(['errors.'.$row => $errors]);
             }
             
         }
@@ -73,9 +79,9 @@ class PhoneDirectoryImport implements ToModel, WithHeadingRow, WithValidation, S
             '*.function'  =>  'required',
             '*.department'  =>  'required',
             '*.duty_station'  =>  'required',
-            //'*.ext_no'  => 'nullable|unique:phonedirectories,ext_no',
-            //'*.official_mobile_no'  =>  'nullable|unique:phonedirectories,official_mobile_no',
-            //'*.personal_mobile_no'  =>  'nullable|unique:phonedirectories,personal_mobile_no',
+            // '*.ext_no'  => 'nullable|unique:phonedirectories,ext_no',
+            // '*.official_mobile_no'  =>  'nullable|unique:phonedirectories,official_mobile_no',
+            // '*.personal_mobile_no'  =>  'nullable|unique:phonedirectories,personal_mobile_no',
             '*.status'  =>  'required',
         ];
     }
