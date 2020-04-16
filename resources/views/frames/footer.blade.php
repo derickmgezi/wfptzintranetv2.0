@@ -126,6 +126,7 @@
         var vm = new Vue ({
             el:"#app",
             data:{
+                @if(Request::is('newsalerts'))
                 mediatype:{!! json_encode(old('mediatype')) !!},
                 type:{!! ($errors->has('type'))?json_encode(Session::get('mediatype')):json_encode(old('type')) !!},
                 mediaisimage:false,
@@ -134,7 +135,8 @@
                 source:{!! ($errors->has('source'))?json_encode(Session::get('source')):json_encode(old('source')) !!},
                 mediacontent:{!! ($errors->has('mediacontent'))?json_encode(Session::get('mediacontent')):json_encode(Session::get('mediacontent')) !!},
                 mediaid:'edit_media_alert/' + {!! ($errors->any())?json_encode(Session::get('mediaid')):json_encode('') !!},
-                
+                @endif
+
                 @if(Request::is('home'))
                 news:{!! json_encode($news) !!},
                 stories:{!! json_encode($stories) !!},

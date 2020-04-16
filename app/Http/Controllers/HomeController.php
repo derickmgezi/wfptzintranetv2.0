@@ -54,23 +54,23 @@ class HomeController extends Controller {
                                             ->where('status',1)
                                             ->get();
         
-        // $accessed_links = DB::table('access_logs')->get();
-        // $accessed_links = $accessed_links->unique('action_details');                             
+        $accessed_links = DB::table('access_logs')->get();
+        $accessed_links = $accessed_links->unique('action_details');                             
 
-        // $frequent_visited_links = DB::table('access_logs')->select('id','action_details')
-        //                                ->where('user',Auth::user()->username)
-        //                                ->whereNotIn('action_details', ['Redirected to Home Page','Personal Biography update modal accessed','Biography plus profile picture changed','Biography plus profile picture not changed'])
-        //                                //->whereNotIn('action_taken', ['Edit Personal Biography','Update Personal Biography'])
-        //                                ->where('action_status','Success');
-        //                                //->groupBy('action_taken')
+        $frequent_visited_links = DB::table('access_logs')->select('id','action_details')
+                                       ->where('user',Auth::user()->username)
+                                       ->whereNotIn('action_details', ['Redirected to Home Page','Personal Biography update modal accessed','Biography plus profile picture changed','Biography plus profile picture not changed'])
+                                       //->whereNotIn('action_taken', ['Edit Personal Biography','Update Personal Biography'])
+                                       ->where('action_status','Success');
+                                       //->groupBy('action_taken')
          
-        // $frequent_visited_links = DB::table(DB::raw("({$frequent_visited_links->toSql()}) as access_logs"))
-        //                         ->mergeBindings($frequent_visited_links)
-        //                         ->select(DB::raw('access_logs.action_details,count(access_logs.action_details) as access_count'))
-        //                         ->groupBy('access_logs.action_details')
-        //                         ->orderBy('access_count', 'desc')
-        //                         ->take(5)
-        //                         ->get();
+        $frequent_visited_links = DB::table(DB::raw("({$frequent_visited_links->toSql()}) as access_logs"))
+                                ->mergeBindings($frequent_visited_links)
+                                ->select(DB::raw('access_logs.action_details,count(access_logs.action_details) as access_count'))
+                                ->groupBy('access_logs.action_details')
+                                ->orderBy('access_count', 'desc')
+                                ->take(5)
+                                ->get();
         //dd($frequent_visited_links);                                   
         
         $unreadnewsupdates = DB::select("SELECT * FROM news LEFT JOIN (SELECT view_id FROM views WHERE viewed_by = " . Auth::id() . " GROUP BY views.view_id) AS readposts ON readposts.view_id = news.id WHERE readposts.view_id IS NULL  AND status = 1 ORDER BY id DESC");
@@ -91,9 +91,9 @@ class HomeController extends Controller {
                            //->with('recent_media_alerts_date',$recent_media_alerts_date)
                            ->with("news",$news)
                            ->with('stories',$stories)
-                           ->with('updates',$merged_stories_and_news);
-                           //->with('accessed_links',$accessed_links)
-                           //->with('links',$frequent_visited_links);
+                           ->with('updates',$merged_stories_and_news)
+                           ->with('accessed_links',$accessed_links)
+                           ->with('links',$frequent_visited_links);
     }
 
     public function show_user_bio($id) {

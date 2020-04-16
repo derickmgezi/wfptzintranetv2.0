@@ -8,11 +8,6 @@
 {{Form::token()}}
 {{ Form::close() }}
 <br>
-@if(session('errors'))
-<div class="alert alert-danger" role="alert">
-    <strong>Oh snap!</strong> <a href="#" class="alert-link">Change a few things up</a> and try submitting again.
-  </div>
-@endif
 
 @if(session('upload_message'))
 <div class="alert alert-{{ session('upload_message') == 'File Uploaded Succesfully'? 'success':'danger' }} alert-dismissible fade show" role="alert">
@@ -20,18 +15,20 @@
         <span aria-hidden="true"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
     </button>
 
-    @if(session('failures'))
+    @if(session('failures') || session('errors'))
         <h6><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ session('upload_message') }}</h6>
 
-        @foreach(session('failures') as $failure)
-            {{ 'Please check row number '.$failure->row().' "'.head($failure->errors()).'"' }}<br>
-        @endforeach
-    @elseif(session('errors'))
-        <h6><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ session('upload_message') }}</h6>
+        @if(session('failures'))
+            @foreach(session('failures') as $failure)
+                {{ 'Please check row number '.$failure->row().' "'.head($failure->errors()).'"' }}<br>
+            @endforeach
+        @endif
 
-        @foreach(session('errors') as $error)
-            {{ 'Derick' }}<br>
-        @endforeach
+        @if(session('errors'))
+            @foreach(session('errors') as $error)
+            {{ str_replace("for key 'phonedirectories_number_unique'", '', data_get($error,'error')).' on row number '.data_get($error,'row') }}<br>
+            @endforeach
+        @endif
     @else
         <h6><i class="fa fa-check-square-o" aria-hidden="true"></i> {{ session('upload_message') }}</h6>
     @endif
