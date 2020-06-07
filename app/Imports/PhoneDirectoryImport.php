@@ -80,7 +80,7 @@ class PhoneDirectoryImport implements ToModel, WithHeadingRow, WithValidation, S
             '*.function'  =>  'required',
             '*.department'  =>  'required',
             '*.duty_station'  =>  'required',
-            '*.ext_no'  => 'nullable|unique:phonedirectories,ext_no',
+            // '*.ext_no'  => 'nullable|unique:phonedirectories,ext_no',
             // '*.official_mobile_no'  =>  'nullable|unique:phonedirectories,official_mobile_no',
             // '*.personal_mobile_no'  =>  'nullable|unique:phonedirectories,personal_mobile_no',
             '*.status'  =>  'required',
