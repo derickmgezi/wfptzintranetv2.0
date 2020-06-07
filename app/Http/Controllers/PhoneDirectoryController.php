@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use App\Imports\PhoneDirectoryImport;
 use App\Imports\PhoneBillImport;
+use App\Exports\PhoneDirectoryExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\PhoneDirectory;
 use App\PhoneBill;
@@ -123,7 +124,7 @@ class PhoneDirectoryController extends Controller {
                 //Forget error session generated from Import Classes
                 $request->session()->forget('errors');
 
-                if (str_contains($file_name, 'Phone Bill')) {
+                if (str_contains($file_name, 'Phone_Bill')) {
                     $import = new PhoneBillImport();
                     $import->import($request->file);
                     $failures = $import->failures();
@@ -158,7 +159,7 @@ class PhoneDirectoryController extends Controller {
                         return redirect('internaldirectory');
                     }
 
-                }elseif(str_contains($file_name, 'WFP Tanzania Contact List')){
+                }elseif(str_contains($file_name, 'WFP_Tanzania_Contact_List')){
                     $import = new PhoneDirectoryImport();
                     $import->import($request->file);
                     $failures = $import->failures();
@@ -382,6 +383,12 @@ class PhoneDirectoryController extends Controller {
                 return redirect('internaldirectory');
             }
         }
+    }
+    
+     public function export(Excel $excel, $directory){
+        $date = Date::now()->format('F_j_Y_H_i_s');
+         
+        return Excel::download(new PhoneDirectoryExport($directory), 'WFP_Tanzania_Contact_List_'.$date.'.xlsx');
     }
 
     public function make_call_private($id) {
