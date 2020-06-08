@@ -21,7 +21,7 @@
                 $units = App\PhoneDirectory::select('department')->where('duty_station', $duty_station->duty_station)->where('status','Active')->groupBy('department')->get();
                 $active_department_status = 1;
                 ?>
-                <a href="{{URL::to('exportdirectory/'.$duty_station->duty_station)}}" class="btn btn-primary mb-2"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i> Download {{ $duty_station->duty_station }} Contact List</a>
+                <a href="{{URL::to('exportdirectory/'.$duty_station->duty_station.'/'.Auth::user()->department)}}" class="btn btn-primary mb-2"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i> Download {{ $duty_station->duty_station }} Contact List</a>
                 <div class="card">
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
