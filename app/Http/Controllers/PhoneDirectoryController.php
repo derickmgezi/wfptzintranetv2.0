@@ -385,10 +385,10 @@ class PhoneDirectoryController extends Controller {
         }
     }
     
-     public function export(Excel $excel, $directory){
+     public function export(Excel $excel, $directory, $unit){
         $date = Date::now()->format('F_j_Y_H_i_s');
          
-        return Excel::download(new PhoneDirectoryExport($directory), 'WFP_Tanzania_Contact_List_'.$date.'.xlsx');
+        return Excel::download(new PhoneDirectoryExport($directory,$unit), 'WFP_Tanzania_Contact_List_'.$date.'.xlsx');
     }
 
     public function make_call_private($id) {
