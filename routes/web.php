@@ -100,7 +100,7 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::post('/update_contacts', 'PhoneDirectoryController@import');
     
-    Route::get('exportdirectory/{directory}', 'PhoneDirectoryController@export');
+    Route::get('exportdirectory/{directory}/{unit}', 'PhoneDirectoryController@export');
     
     Route::get('/private/{id}', 'PhoneDirectoryController@make_call_private');
     

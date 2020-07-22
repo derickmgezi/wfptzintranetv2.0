@@ -14,13 +14,16 @@ class PhoneDirectoryExport implements FromCollection, WithHeadings, WithColumnFo
     * @return \Illuminate\Support\Collection
     */
     protected $directory;
+    protected $unit;
     
-    public function __construct($directory){
+    public function __construct($directory,$unit){
         $this->directory = $directory;
+        $this->unit = $unit;
     }
     
     public function headings(): array{
-        return [
+        if($this->unit == 'IT'){
+            return [
             'Name',
             'Function',
             'Department',
@@ -29,22 +32,50 @@ class PhoneDirectoryExport implements FromCollection, WithHeadings, WithColumnFo
             'Official_Mobile_No',
             'Personal_Mobile_No',
             'Status',
-        ];
+            ];
+        }else{
+            return [
+            'Name',
+            'Function',
+            'Department',
+            'Duty_Station',
+            'Ext_No',
+            'Official_Mobile_No',
+            ];
+        }
+        
     }
     
     public function columnFormats(): array{
-        return [
+        if($this->unit == 'IT'){
+            return [
             'F' => NumberFormat::FORMAT_NUMBER,
             'G' => NumberFormat::FORMAT_NUMBER,
-        ];
+            ];
+        }else{
+            return [
+            'F' => NumberFormat::FORMAT_NUMBER,
+            ];
+        }
+        
     }
     
     public function collection()
     {
         if($this->directory == "all"){
-            return PhoneDirectory::all('name','function','department','duty_station','ext_no','official_mobile_no','personal_mobile_no','status');
+            if($this->unit == 'IT'){
+                return PhoneDirectory::all('name','function','department','duty_station','ext_no','official_mobile_no','personal_mobile_no','status');
+            }else{
+                return PhoneDirectory::all('name','function','department','duty_station','ext_no','official_mobile_no');
+            }
+            
         }else{
-            return PhoneDirectory::where('duty_station',$this->directory)->get(['name','function','department','duty_station','ext_no','official_mobile_no','personal_mobile_no','status']);
+            if($this->unit == 'IT'){
+                return PhoneDirectory::where('duty_station',$this->directory)->get(['name','function','department','duty_station','ext_no','official_mobile_no','personal_mobile_no','status']);
+            }else{
+                return PhoneDirectory::where('duty_station',$this->directory)->get(['name','function','department','duty_station','ext_no','official_mobile_no']);
+            }
+            
         }
     }
 }
