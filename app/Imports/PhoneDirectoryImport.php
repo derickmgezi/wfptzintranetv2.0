@@ -43,11 +43,27 @@ class PhoneDirectoryImport implements ToModel, WithHeadingRow, WithValidation, S
                    'status'  =>  $row['status'],
                 ]);
             }catch(\Exception $e){
-                //dd($e);
-                $row = last($e->getBindings());
-                $error = last($e->errorInfo);
-                $errors = array_add(['row' => $row+1], 'error', $error);
-                session(['errors.'.$row => $errors]);
+                try{
+                    //If user's extension number has been changed
+                    return PhoneDirectory::updateOrCreate([
+                        'name'  =>  $row['name'],
+                       'official_mobile_no'  =>  $row['official_mobile_no'],
+                       'personal_mobile_no'  =>  $row['personal_mobile_no'],
+                    ],[
+                        'ext_no'  =>  $row['ext_no'],
+                        'function'  =>  $row['function'],
+                       'department'  =>  $row['department'],
+                       'duty_station'  =>  $row['duty_station'],
+                       'status'  =>  $row['status'],
+                    ]);
+                }catch(\Exception $e){
+                    //dd($e);
+                    $row = data_get($e->getBindings(),1);
+                    //dd($row);
+                    $error = last($e->errorInfo);
+                    $errors = array_add(['row' => $row], 'error', $error);
+                    session(['errors.'.$row => $errors]);
+                }
             }
             
         }else{//If extension doesnt exist update phonedirectory using name
