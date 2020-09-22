@@ -64,16 +64,16 @@ class PhoneDirectoryExport implements FromCollection, WithHeadings, WithColumnFo
     {
         if($this->directory == "all"){
             if($this->unit == 'IT'){
-                return PhoneDirectory::all('name','function','department','duty_station','ext_no','official_mobile_no','personal_mobile_no','status');
+                return PhoneDirectory::orderBy('duty_station','asc')->orderBy('department','asc')->orderBy('ext_no','asc')->get(['name','function','department','duty_station','ext_no','official_mobile_no','personal_mobile_no','status']);
             }else{
-                return PhoneDirectory::all('name','function','department','duty_station','ext_no','official_mobile_no');
+                return PhoneDirectory::where('status','Active')->orderBy('duty_station','asc')->orderBy('department','asc')->orderBy('ext_no','asc')->get(['name','function','department','duty_station','ext_no','official_mobile_no']);
             }
             
         }else{
             if($this->unit == 'IT'){
-                return PhoneDirectory::where('duty_station',$this->directory)->get(['name','function','department','duty_station','ext_no','official_mobile_no','personal_mobile_no','status']);
+                return PhoneDirectory::where('duty_station',$this->directory)->orderBy('duty_station','asc')->orderBy('department','asc')->orderBy('ext_no','asc')->get(['name','function','department','duty_station','ext_no','official_mobile_no','personal_mobile_no','status']);
             }else{
-                return PhoneDirectory::where('duty_station',$this->directory)->get(['name','function','department','duty_station','ext_no','official_mobile_no']);
+                return PhoneDirectory::where('duty_station',$this->directory)->where('status','Active')->orderBy('duty_station','asc')->orderBy('department','asc')->orderBy('ext_no','asc')->get(['name','function','department','duty_station','ext_no','official_mobile_no']);
             }
             
         }
