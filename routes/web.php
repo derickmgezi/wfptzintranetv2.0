@@ -311,6 +311,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/external_link/{name}/{url}', 'ResourceController@show_external_link');
 
     Route::get('/emergencycontacts', 'EmergencyContactController@index');
+    
+    Route::get('/loanform', 'LoanFormController@index');
 });
 
 Auth::routes();

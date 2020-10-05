@@ -115,6 +115,20 @@
                     width:  '100%',
                 });
             });
+            
+            $(document).ready(function () {
+                $('.js-itemRequestedFor-single').select2({
+                    placeholder: "Staff Name",
+                    width:  '100%',
+                });
+            });
+            
+            $(document).ready(function () {
+                $('.js-requestedItems-multiple').select2({
+                    placeholder: "Items",
+                    width:  '100%',
+                });
+            });
 
             // Set the "bootstrap" theme as the default theme for all Select2
             $.fn.select2.defaults.set( "theme", "bootstrap" );

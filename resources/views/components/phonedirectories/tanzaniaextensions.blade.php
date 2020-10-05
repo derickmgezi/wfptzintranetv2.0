@@ -40,23 +40,15 @@
                     <div class="card-block">
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="{{ str_replace(' ', '',$duty_station->duty_station) }}-full-list" role="tabpanel" aria-labelledby="{{ str_replace(' ', '',$duty_station->duty_station) }}-full-list-tab">
-                                @if($duty_station->duty_station == 'Country Office')
+                                @if($duty_station->duty_station == 'Country Office' || $duty_station->duty_station == 'Dar es salaam Port')
                                 <button type="button" class="btn btn-success mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $duty_station->duty_station }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+25522219-XXXX</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720055</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                     <i class="fa fa-hand-o-right fa-lg" aria-hidden="true"></i> Dialing Instructions
                                 </button>
-                                @elseif($duty_station->duty_station == 'Dar es salaam Port')
-                                <button type="button" class="btn btn-success mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $duty_station->duty_station }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+25522219-XXXX</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720055</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
+                                @elseif($duty_station->duty_station == 'Dodoma Main Office' || $duty_station->duty_station == 'Dodoma Warehouse')
+                                <button type="button" class="btn btn-success mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $duty_station->duty_station }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL</strong> dial <strong><em>+255262320096</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720021</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                     <i class="fa fa-hand-o-right fa-lg" aria-hidden="true"></i> Dialing Instructions
                                 </button>
-                                @elseif($duty_station->duty_station == 'Dodoma Main Office')
-                                <button type="button" class="btn btn-success mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $duty_station->duty_station }}" data-content="Via <strong>TTCL</strong> dial <strong><em>+255262320096</em></strong><br>Via <strong>Office Mobile</strong> dial <strong><em>0784720021</em></strong>">
-                                    <i class="fa fa-hand-o-right fa-lg" aria-hidden="true"></i> Dialing Instructions
-                                </button>
-                                @elseif($duty_station->duty_station == 'Dodoma Warehouse')
-                                <button type="button" class="btn btn-success mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $duty_station->duty_station }}" data-content="Via <strong>TTCL</strong> dial <strong><em>+255262340853</em></strong>">
-                                    <i class="fa fa-hand-o-right fa-lg" aria-hidden="true"></i> Dialing Instructions
-                                </button>
-                                @elseif($duty_station->duty_station == 'Kibondo' || $duty_station->duty_station == 'Kasulu')
+                                @elseif($duty_station->duty_station == 'Kibondo' || $duty_station->duty_station == 'Kasulu' || $duty_station->duty_station == 'Kigoma')
                                 <button type="button" class="btn btn-success mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="To contact staff in {{ $duty_station->duty_station }}" data-content="Via <strong>VSAT</strong> dial <strong><em>1340-XXXX</em></strong> <br>Via <strong>TTCL Line 1</strong> dial <strong><em>+255282820156</em></strong><br>Via <strong>TTCL Line 2</strong> dial <strong><em>+255282820157</em></strong><br><strong>XXXX</strong> = <em>Extension Number</em>">
                                     <i class="fa fa-hand-o-right fa-lg" aria-hidden="true"></i> Dialing Instructions
                                 </button>
