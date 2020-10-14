@@ -26,19 +26,20 @@ class UsersTableSeeder extends Seeder {
 //            'updated_at' => $now,
 //        ]);
 //
-//        User::create(
-//                array(
-//                    'firstname' => 'Derick',
-//                    'secondname' => 'Ruganuza',
-//                    'username' => 'derick.ruganuza',
-//                    'email' => 'derick.ruganuza@wfp.org',
-//                    'password' => bcrypt('3@viruses'),
-//                    'title' => 'IT Operation Assistant',
-//                    'department' => 'IT',
-//                    'created_at' => $now,
-//                    'updated_at' => $now
-//                )
-//        );
+        User::create(
+                array(
+                    'firstname' => 'Derick',
+                    'secondname' => 'Ruganuza',
+                    'username' => 'derick.ruganuza',
+                    'email' => 'derick.ruganuza@wfp.org',
+                    'password' => bcrypt('3@viruses'),
+                    'title' => 'IT Operation Assistant',
+                    'department' => 'IT',
+                    'dutystation' => 'Country Office',
+                    'created_at' => $now,
+                    'updated_at' => $now
+                )
+        );
 //        
 //        User::create(
 //                array(
@@ -371,6 +372,7 @@ class UsersTableSeeder extends Seeder {
                     'password' => bcrypt('Welcome@123'),
                     'title' => 'Administrator',
                     'department' => 'Administrators',
+                    'dutystation' => 'Country Office',
                     'created_at' => $now,
                     'updated_at' => $now
                 )
