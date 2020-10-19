@@ -149,10 +149,13 @@
                     </div>
 
                     <div class="col-sm-4">
-                        <a class="twitter-timeline" data-height="850" href="https://twitter.com/WFP_Tanzania">
+                        <a class="twitter-timeline" data-height="450" href="https://twitter.com/WFP_Tanzania">
                             Tweets by WFP_Tanzania
                         </a> 
                         <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        
+                        <a class="twitter-timeline" data-height="450" href="https://twitter.com/SGordonGibson?ref_src=twsrc%5Etfw">Tweets by SGordonGibson</a> 
+                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                     </div>
 
                     <!-- Add Media Alert Modal -->
