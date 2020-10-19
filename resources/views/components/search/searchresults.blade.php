@@ -27,7 +27,7 @@
             @if($media_alert_search_results->isNotEmpty())
             <li class="nav-item card" style="margin-bottom: 2.5px">
                 <a class="nav-link {{ ($news_search_results->isEmpty() && $story_search_results->isEmpty())?'active':'' }}" data-toggle="pill" role="tab" href="#media">
-                    Media
+                    News
                 </a>
             </li>
             @endif
@@ -109,7 +109,7 @@
             <div class="card mb-2 text-justified">
                 <div class="card-header text-primary">
                     Found <strong>{{ $media_alert_search_results_count }}
-                        {{ ($media_alert_search_results_count == 1)?"Media Alert":"Media Alerts" }}</strong>
+                        {{ ($media_alert_search_results_count == 1)?"News Alert":"News Alerts" }}</strong>
                 </div>
             </div>
 
@@ -117,13 +117,13 @@
                 @foreach($media_alert_search_results as $media_alert_search_result)
                 <?php $date = new Jenssegers\Date\Date($media_alert_search_result->date); ?>
                 <div class="card mb-1">
-                    <div class="card-header text-primary" role="tab" id="heading{{ $media_alert_search_result->id }}">
+                    <div class="card-header text-secondary" role="tab" id="heading{{ $media_alert_search_result->id }}">
                         <h5 class="mb-0">
                             <div class="d-flex">
                                 @if($media_alert_search_result->type == 'Link')
-                                <span><i class="fa fa-external-link p-1 text-primary" aria-hidden="true"></i></span>
+                                <span><i class="fa fa-external-link p-1 text-secondary" aria-hidden="true"></i></span>
                                 @else
-                                <span><i class="fa fa-newspaper-o p-1  text-primary" aria-hidden="true"></i></span>
+                                <span><i class="fa fa-newspaper-o p-1  text-secondary" aria-hidden="true"></i></span>
                                 @endif
                                 <a data-toggle="collapse" data-parent="#media-alert-accordion"
                                     href="#collapse{{ $media_alert_search_result->id }}" aria-expanded="true"
@@ -132,9 +132,10 @@
                                     <!-- <small class="font-weight-bold">{{ $media_alert_search_result->header }}</small> -->
                                 </a>
                             </div>
-                            <span
-                                class="badge badge-primary smaller font-italic">{{ $media_alert_search_result->source }}</span>
-                            @if(Auth::user()->department == "Comms")
+                            <span class="badge badge-success smaller font-italic">{{ $media_alert_search_result->source }}</span>
+                            <?php $date = new Jenssegers\Date\Date($media_alert_search_result->created_at); ?>
+                            <span class="badge badge-default smaller font-italic float-right">{{ $date->format('jS F, Y') }}</span>
+<!--                            @if(Auth::user()->department == "Comms")
                             <div class="float-right">
                                 <a v-on:click="editModal({{$media_alert_search_result}})" role="button"
                                     class="text-warning" data-toggle="modal" data-target="#edit-media-alert-modal">
@@ -145,7 +146,7 @@
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </a>
                             </div>
-                            @endif
+                            @endif-->
                         </h5>
                     </div>
                     <div id="collapse{{ $media_alert_search_result->id }}" class="collapse" role="tabpanel"
@@ -242,9 +243,9 @@
                     <tr>
                         <td class="text-center"><em>{{ $phone_directory_search_result->name }}</em></td>
                         <td class="text-center"><em>{{ $phone_directory_search_result->function }}</em></td>
-                        <td class="text-center"><em>{{ $phone_directory_search_result->location }}</em></td>
+                        <td class="text-center"><em>{{ $phone_directory_search_result->duty_station }}</em></td>
                         <td class="text-center"><em>{{ $phone_directory_search_result->ext_no }}</em></td>
-                        <td class="text-center"><em>{{ $phone_directory_search_result->number }}</em></td>
+                        <td class="text-center"><em>{{ $phone_directory_search_result->official_mobile_no }}</em></td>
                     </tr>
                     @endforeach
                 </tbody>

@@ -96,7 +96,11 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/internaldirectory', 'PhoneDirectoryController@index');
 
-    Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts');
+    //Route::post('/update_contacts', 'PhoneDirectoryController@store_contacts');
+
+    Route::post('/update_contacts', 'PhoneDirectoryController@import');
+    
+    Route::get('exportdirectory/{directory}/{unit}', 'PhoneDirectoryController@export');
     
     Route::get('/private/{id}', 'PhoneDirectoryController@make_call_private');
     
@@ -307,6 +311,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/external_link/{name}/{url}', 'ResourceController@show_external_link');
 
     Route::get('/emergencycontacts', 'EmergencyContactController@index');
+    
+    Route::get('/loanform', 'LoanFormController@index');
 });
 
 Auth::routes();

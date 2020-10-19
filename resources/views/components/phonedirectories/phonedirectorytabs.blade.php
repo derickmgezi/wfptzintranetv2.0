@@ -24,6 +24,7 @@
         <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane fade show {{ Session::has('upload_message') || Session::has('edit_bill_message')? '':'active' }}" id="extension" role="tabpanel">
+                <a href="{{URL::to('exportdirectory/all/'.Auth::user()->department)}}" class="btn btn-primary mb-2"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i> Download Full Contact List</a>
                 @include('components/phonedirectories/tanzaniaextensions')
             </div>
             <div class="tab-pane fade show {{ Session::has('edit_bill_message')? 'active':'' }}" id="bill" role="tabpanel">

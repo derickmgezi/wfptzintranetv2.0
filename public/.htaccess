@@ -3,6 +3,10 @@
         Options -MultiViews
     </IfModule>
 
+    # disable directory index listing
+    Options -Indexes
+
+    Options +FollowSymLinks
     RewriteEngine On
 
     # Redirect Trailing Slashes If Not A Folder...

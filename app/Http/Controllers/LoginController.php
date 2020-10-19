@@ -11,6 +11,8 @@ use Validator;
 use DB;
 use App\AccessLog;
 use Session;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 
 class LoginController extends Controller{
     /**
@@ -45,7 +47,44 @@ class LoginController extends Controller{
                 
                 $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = ".Auth::id()." GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
                 session(['unreadstories' => count($unreadstories)]);
-
+/*                
+                //Get data from WFP HR API
+                // Create a client with a base URI
+                $client = new Client([
+                    'base_uri' => 'https://api.efs.wfp.org/hr/1.1.0/'
+                    ]);
+                
+                // Get All Users from API
+                $response = $client->request('GET', 'glass/users?size=10000', [
+                    RequestOptions::HEADERS => [
+                        'Authorization' => 'Bearer 9866916d-c011-3ebf-969e-281018fe3e3b'
+                    ],
+//                    RequestOptions::QUERY => [
+//                        'hits.hits._source.email' => 'derick.ruganuza@wfp.org'
+//                    ]
+                ]);
+                
+                //Get Body will all users
+                //dd($response->getStatusCode());
+                //dd($response->getReasonPhrase());
+                //dd($response->getHeaders());
+                //dd($response->getBody());
+                //dd((string) $response->getBody());
+                //dd($response->getBody()->read(10));
+                //dd($response->getBody()->getContents());
+                
+                //Convert JSON Data into an Array
+                $array_response = json_decode($response->getBody(), true);
+                
+                //Convert Array into a collection
+                $collection_response = collect($array_response);
+                
+                //Data
+                dd($collection_response);
+                
+                //Actual Data
+                dd($collection_response['hits']['hits']);
+*/              
                 //Update Local database User details incase they differ with details from Azure
                 if($localuser->country != $azureuser->user['country'] || $localuser->region != $azureuser->user['department']){
                     $user = User::find($localuser->id);
@@ -65,7 +104,7 @@ class LoginController extends Controller{
             $access_log->action_status = "Failed";
             $access_log->save();
 
-            return redirect('/')->with('error', 'Access Denied. Please contact local IT personnel for support');
+            return redirect('/')->with('error', 'Access Denied. Please contact any local IT Officer in Tanzania or send an email to tanzaniza.itservicedesk@wfp.org for support');
         }
     }
 

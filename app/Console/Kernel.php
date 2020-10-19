@@ -25,14 +25,14 @@ class Kernel extends ConsoleKernel {
     protected function schedule(Schedule $schedule) {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('backup:clean')->dailyAt('23:00');
-        $schedule->command('backup:run')->dailyAt('00:00');
+        //$schedule->command('backup:clean')->daily()->at('23:00');
+        //$schedule->command('backup:run')->daily()->at('00:00');
         
-        $schedule->command('backup:clean')->weekly()->fridays()->at('01:00');
-        $schedule->command('backup:run')->weekly()->fridays()->at('02:00');
+        $schedule->command('backup:clean')->weekly()->wednesdays()->at('23:00');
+        $schedule->command('backup:run')->weekly()->wednesdays()->at('00:00');
         
-        $schedule->command('backup:clean')->monthlyOn(28, '03:00');
-        $schedule->command('backup:run')->monthlyOn(28, '04:00'); 
+        //$schedule->command('backup:clean')->monthlyOn(28, '23:00');
+        //$schedule->command('backup:run')->monthlyOn(28, '00:00'); 
     }
 
     /**

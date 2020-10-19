@@ -3,25 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/stori.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/updates.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/footer.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/mediaalerts.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/phonedirectories/phonedirectorytabs.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/PhoneDirectoryController.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/storiyangu.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/UpdateController.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/home.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/sidebar.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/StoryController.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/index.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/.env</file>
-            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/MediaalertController.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/app/Http/Controllers/HomeController.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/routes/web.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/frames/header.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/internaldirectory.blade.php</file>
-            <file>file:/C:/wamp64/www/tzintranet/resources/views/components/phonedirectories/telephonebill.blade.php</file>
+            <file>file:/C:/wamp64/www/wazo/resources/views/frames/header.blade.php</file>
+            <file>file:/C:/wamp64/www/wazo/routes/web.php</file>
+            <file>file:/C:/wamp64/www/wazo/app/Http/Controllers/PhoneDirectoryController.php</file>
+            <file>file:/C:/wamp64/www/wazo/app/Exports/PhoneDirectoryExport.php</file>
+            <file>file:/C:/wamp64/www/wazo/resources/views/components/phonedirectories/tanzaniaextensions.blade.php</file>
+            <file>file:/C:/wamp64/www/wazo/resources/views/components/phonedirectories/phonedirectorytabs.blade.php</file>
         </group>
     </open-files>
 </project-private>
