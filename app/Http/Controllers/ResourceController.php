@@ -25,6 +25,7 @@ class ResourceController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        return view('resourcetabs');
         //
         $access_log = new AccessLog;
         $access_log->link_accessed = str_replace(url('/'),"",url()->current());
