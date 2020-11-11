@@ -190,6 +190,7 @@ class VenueBookingController extends Controller
         $access_log->user = Auth::user()->username;
         //
         $startdate = new Date($request->startdate);
+        $researvationdate = $startdate->format("Y-m-d");
         $enddate = new Date($request->enddate);
         $timestamp = $startdate->timestamp;
 
@@ -340,10 +341,11 @@ class VenueBookingController extends Controller
             $startdate = new Date($timestamp);
             $startdate = $startdate->format("Y-m-d");
 
-            $booking = VenueBooking::where('date',$startdate)
+            $booking = VenueBooking::where('date',$researvationdate)
                                    ->where('start_time',$starttime)
                                    ->where('end_time',$endtime)
                                    ->first();
+            
             try{
                 //Sent Email Notification to user(s)
                 //$user->notify(new ConferenceRoomBooked($booking)); //Sends Notification to a single user
