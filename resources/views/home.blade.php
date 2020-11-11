@@ -177,8 +177,8 @@
                             </div>
                         </div>
                         @else
-                        <div class="alert alert-success mb-4" role="alert">
-                            <h4 class="alert-heading">Welcome to WFP Updates Page</h4>
+                        <div class="alert alert-success mt-2" role="alert">
+                            <h4 class="alert-heading">Welcome!</h4>
                             <strong>Currently</strong> no updates or stories have been posted yet.
                         </div>
                         @endif

@@ -110,7 +110,7 @@
                         <div class="alert alert-success mb-4" role="alert">
                             <h4 class="alert-heading">Welcome to News Alerts Page</h4>
                             <strong>Currently</strong> no news alerts have been posted yet.
-                            <a href="#" class="alert-link">Soon our communication unit</a>, will start posting news alerts daily.
+                            <p><a href="#" class="alert-link">Soon our communication unit</a>, will start posting news alerts daily.</p>
                         </div>
                         @endif
 
