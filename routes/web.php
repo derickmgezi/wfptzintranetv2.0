@@ -189,6 +189,12 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/innovation', 'InnovationController@index');
 
     Route::get('/resource', 'ResourceController@index');
+
+    Route::get('/resourcetabs', 'ResourceController@resourcetabs');
+    
+    Route::get('/resourcestabs/{id}', 'ResourceController@resourcestabs');
+
+    Route::get('/resourcesnew', 'ResourceController@resourcesnew');
     
     Route::get('/resource/{type}/{link}/resources/{url}', 'ResourceController@show');
 
