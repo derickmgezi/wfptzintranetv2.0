@@ -3,12 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/wamp64/www/wazo/app/Http/Controllers/LoginController.php</file>
+            <file>file:/C:/wamp64/www/wazo/app/Http/Controllers/HomeController.php</file>
+            <file>file:/C:/wamp64/www/wazo/resources/views/loantabs.blade.php</file>
+            <file>file:/C:/wamp64/www/wazo/resources/views/home.blade.php</file>
             <file>file:/C:/wamp64/www/wazo/resources/views/frames/header.blade.php</file>
             <file>file:/C:/wamp64/www/wazo/routes/web.php</file>
-            <file>file:/C:/wamp64/www/wazo/app/Http/Controllers/PhoneDirectoryController.php</file>
-            <file>file:/C:/wamp64/www/wazo/app/Exports/PhoneDirectoryExport.php</file>
+            <file>file:/C:/wamp64/www/wazo/resources/views/components/loandirectories/requests.blade.php</file>
+            <file>file:/C:/wamp64/www/wazo/.env</file>
+            <file>file:/C:/wamp64/www/wazo/resources/views/components/loandirectories/loanform.blade.php</file>
+            <file>file:/C:/wamp64/www/wazo/database/seeds/UsersTableSeeder.php</file>
+            <file>file:/C:/wamp64/www/wazo/app/Http/Controllers/LoanFormController.php</file>
+            <file>file:/C:/wamp64/www/wazo/resources/views/frames/footer.blade.php</file>
+            <file>file:/C:/wamp64/www/wazo/resources/views/components/loandirectories/loaneditems.blade.php</file>
             <file>file:/C:/wamp64/www/wazo/resources/views/components/phonedirectories/tanzaniaextensions.blade.php</file>
-            <file>file:/C:/wamp64/www/wazo/resources/views/components/phonedirectories/phonedirectorytabs.blade.php</file>
+            <file>file:/C:/wamp64/www/wazo/.gitignore</file>
+            <file>file:/C:/wamp64/www/wazo/resources/views/components/pi/pinewscalender.blade.php</file>
         </group>
     </open-files>
 </project-private>

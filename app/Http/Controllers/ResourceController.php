@@ -25,7 +25,6 @@ class ResourceController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        //return view('resourcetabs');
         //
         $access_log = new AccessLog;
         $access_log->link_accessed = str_replace(url('/'),"",url()->current());
@@ -40,6 +39,25 @@ class ResourceController extends Controller {
         $resource_managers= ResourceManager::where('status',1)->get();
 
         return view('resources')->with('all_resources',$all_resources)->with('resource_subfolders',$resource_subfolders)->with('resource_types',$resource_types)->with('resource_managers',$resource_managers);
+    }
+
+    public function resourcetabs() {
+
+        $resource_supporting_units = ResourceType::select('id','resource_type')->where('status',1)->get();
+
+        return view('resourcetabsnew')->with('resource_supporting_units',$resource_supporting_units);
+    }
+
+    public function resourcesnew() {
+        return view('resourcesnew');
+    }
+    
+    public function resourcestabs($resource_type) {
+
+        $resource_supporting_units_subfolders = ResourceSubfolder::select('id','resource_type','subfolder_name')->where('resource_type',$resource_type)->where('status',1)->orderBy('created_at')->get();
+        $supporting_unit_resources = Resource::where('resource_type',$resource_type)->where('status',1)->orderBy('position','desc')->get();
+
+        return view('resourcestabs')->with('resource_type',$resource_type)->with('resource_supporting_units_subfolders',$resource_supporting_units_subfolders)->with('supporting_unit_resources',$supporting_unit_resources);
     }
 
     /**
