@@ -398,6 +398,10 @@
         <script>$('#venueBookingCancellationModal').modal('show');</script>
         @endif
 
+        @if(Session::has('add_resource_category') || Session::has('add_resource_category_error'))
+        <script>$('#addResourceCategoryModal').modal('show');</script>
+        @endif
+
         @if(Session::has('add_resource_tab') || Session::has('add_resource_tab_error'))
         <script>$('#addResourceTabModal').modal('show');</script>
         @endif

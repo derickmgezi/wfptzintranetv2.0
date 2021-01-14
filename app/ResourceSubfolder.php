@@ -18,6 +18,6 @@ class ResourceSubfolder extends Model{
      * @var array
      */
     protected $fillable = [
-        'resource_type_id','subfolder_name','status','created_by','edited_by',
+        'resource_type_id','subfolder_name','position','status','created_by','edited_by','image',
     ];
 }

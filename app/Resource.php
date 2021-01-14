@@ -22,6 +22,6 @@ class Resource extends Model{
      * @var array
      */
     protected $fillable = [
-        'resource_name','resource_type','position','status','resource_location','external_link','uploaded_by','edited_by',
+        'resource_name','position','subfolder_id'.'status','resource_location','external_link','uploaded_by','edited_by','image',
     ];
 }

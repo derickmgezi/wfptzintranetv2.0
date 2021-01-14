@@ -12,9 +12,16 @@
                     <div class="col-3">
                         <ul class="nav nav-pills flex-column" role="tablist" style="position: sticky;top: 80px;">
                             
-                            <li class="nav-item card" style="margin-bottom: 2.5px">
-                                <a class="nav-link active" data-toggle="pill" role="tab" href="#updates">
-                                    SOPs
+                            <li class="nav-item" style="margin-bottom: 2.5px">
+                                <a class="nav-link active" data-toggle="pill" role="tab" href="#updates" style="padding: 0">
+                                    <div class="card card-outline-primary">
+                                        <div class="caption">
+                                            <img class="img-fluid" src="{{ URL::to('image/dashboard.png') }}" >
+                                            <h2 class="text-center">
+                                                CO Managment Dashboard
+                                            </h2>
+                                        </div>
+                                    </div>
                                 </a>
                             </li>
                             <li class="nav-item card" style="margin-bottom: 2.5px">

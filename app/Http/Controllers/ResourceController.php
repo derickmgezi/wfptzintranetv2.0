@@ -16,6 +16,8 @@ use Route;
 use Auth;
 use Redirect;
 use App\Resource;
+use Image;
+Use App\ResourceCategory;
 
 class ResourceController extends Controller {
 
@@ -43,19 +45,22 @@ class ResourceController extends Controller {
 
     public function resourcetabs() {
 
-        $resource_supporting_units = ResourceType::select('id','resource_type')->where('status',1)->get();
+        $resource_categories = ResourceCategory::where('status',1)->orderBy('position')->get();
+        $resource_supporting_units = ResourceType::select('id','resource_type','image','category_id')->where('status',1)->get();
+        //dd($resource_supporting_units->where('category_id',4));
 
-        return view('resourcetabsnew')->with('resource_supporting_units',$resource_supporting_units);
+        return view('resourcetabsnew')->with('resource_supporting_units',$resource_supporting_units)->with('resource_categories',$resource_categories);
     }
 
     public function resourcesnew() {
         return view('resourcesnew');
     }
     
-    public function resourcestabs($resource_type) {
+    public function resourcestabs($id) {
 
-        $resource_supporting_units_subfolders = ResourceSubfolder::select('id','resource_type','subfolder_name')->where('resource_type',$resource_type)->where('status',1)->orderBy('created_at')->get();
-        $supporting_unit_resources = Resource::where('resource_type',$resource_type)->where('status',1)->orderBy('position','desc')->get();
+        $resource_type = ResourceType::find($id);
+        $resource_supporting_units_subfolders = ResourceSubfolder::select('id','resource_type_id','subfolder_name','image')->where('resource_type_id',$id)->where('status',1)->orderBy('position')->get();
+        $supporting_unit_resources = Resource::all();
 
         return view('resourcestabs')->with('resource_type',$resource_type)->with('resource_supporting_units_subfolders',$resource_supporting_units_subfolders)->with('supporting_unit_resources',$supporting_unit_resources);
     }
@@ -65,14 +70,20 @@ class ResourceController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function addtab() {
-        //                                             
-        return back()->with('add_resource_tab','Add new resource tab');
+    public function addcategory(){
+        return back()->with('add_resource_category','Add new resource category');
+    }
+
+    public function addtab($id) {
+        //
+        $category = ResourceCategory::find($id);                                            
+        return back()->with('add_resource_tab','Add new resource tab')->with('category',$category);
     }
 
     public function edittab($id) {
         //
         $resourcetype = ResourceType::find($id);
+        //dd($resourcetype->image);
         
         return back()->with('edit_resource_tab',$resourcetype);
     }
@@ -82,7 +93,8 @@ class ResourceController extends Controller {
         $resourcetype = ResourceType::find($id);
 
         $validator = Validator::make($request->all(), [
-            'resource_tab_name' => 'required|unique:resourcetypes,resource_type',
+            'image' => 'mimes:jpeg,bmp,png,bmp,gif,svg',
+            'resource_tab_name' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -98,11 +110,39 @@ class ResourceController extends Controller {
 
             return back()->withErrors($validator)->withInput()->with('edit_resource_tab', $resourcetype);
         }else{
-                $resourcetype->resource_type = $request->resource_tab_name;
-                $resourcetype->edited_by = Auth::id();
-                $resourcetype->save();
+            $image_name = '';
+
+            if ($request->image) {
+                //Upload the file in storage/app/public/profile_pictures folder
+                $image_name = (string) ($request->image->store('public/resource_unit_images'));
+                $image_name = str_replace('public/','',$image_name);
+
+                //Upload the file in storage thumbnail public folder
+                $thumb_image_name = (string) ($request->image->store('public/thumbnails/resource_unit_images'));
                 
-                return back();
+                //Get full path of uploaded image from the thumbnails
+                $path = storage_path('app/'.$thumb_image_name);
+
+                //Load the image into the Image Intervention Package for manipulation
+                Image::make($path)->fit(300, 300)->save($path);
+
+            }
+            //dd($request->image);
+
+            $resourcetype->resource_type = $request->resource_tab_name;
+            $resourcetype->edited_by = Auth::id();
+            if($request->image){
+                $resourcetype->image = $image_name;
+            }
+            $resourcetype->save();
+
+            if($request->image){
+                $null_subfolder = ResourceSubfolder::where('subfolder_name',NULL)
+                                                    ->where('resource_type',$request->resource_tab_name)
+                                                    ->update(['image' => $image_name]);
+            }
+            
+            return back()->with('resource_type',$resourcetype);
         }
     }
 
@@ -186,8 +226,10 @@ class ResourceController extends Controller {
     public function create($type) {
         //
         Session::flash('add_resource', 'Add new resource');
+        $resource_types = ResourceType::where('status',1)->get();
+        $resource_subfolders = ResourceSubfolder::where('status',1)->get();
 
-        return back()->with('resourcetype',$type);
+        return back()->with('resourcetype',$type)->with('resource_types',$resource_types)->with('resource_subfolders',$resource_subfolders);
     }
 
     /**
@@ -225,8 +267,62 @@ class ResourceController extends Controller {
         }
     }
 
+    public function storecategory(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'image' => 'mimes:jpeg,bmp,png,bmp,gif,svg',
+            'resource_category_name' => 'required|unique:resourcecategory,category',
+        ]);
+
+        if ($validator->fails()) {
+            Session::flash('add_resource_category_error', 'New Resource Category Validation Failed');
+            
+            // $access_log = new AccessLog;
+            // $access_log->user = Auth::user()->username;
+            // $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            // $access_log->action_taken = "Store ".$type." Resource";
+            // $access_log->action_details = "Storing of new ".$type." Resource interrupted due to validation errors";
+            // $access_log->action_status = "Failed";
+            // $access_log->save();
+
+            return back()->withErrors($validator)->withInput()->with('add_resource_category_error', 'New Resource Category Validation Failed');
+        }else{
+
+            if ($request->image) {
+                //Upload the file in storage/app/public/profile_pictures folder
+                $image_name = (string) ($request->image->store('public/resource_category_images'));
+                $image_name = str_replace('public/','',$image_name);
+
+                //Upload the file in storage thumbnail public folder
+                $thumb_image_name = (string) ($request->image->store('public/thumbnails/resource_category_images'));
+                
+                //Get full path of uploaded image from the thumbnails
+                $path = storage_path('app/'.$thumb_image_name);
+
+                //Load the image into the Image Intervention Package for manipulation
+                Image::make($path)->fit(300, 300)->save($path);
+
+            }
+            //Count number of active Resource Categories
+            $count_resource_categories = ResourceCategory::where('status',1)->count();
+
+            $new_category = new ResourceCategory;
+            $new_category->category = $request->resource_category_name;
+            $new_category->position = $count_resource_categories + 1;
+            $new_category->created_by = Auth::id();
+            $new_category->edited_by = Auth::id();
+            if ($request->image){
+                $new_category->image = $image_name;
+            }
+            $new_category->save();
+            
+            return back();
+        }
+    }
+
     public function storetab(Request $request) {
         $validator = Validator::make($request->all(), [
+            'image' => 'required|mimes:jpeg,bmp,png,bmp,gif,svg',
+            'resource_category' => 'required',
             'resource_tab_name' => 'required|unique:resourcetypes,resource_type',
         ]);
 
@@ -243,20 +339,47 @@ class ResourceController extends Controller {
 
             return back()->withErrors($validator)->withInput()->with('add_resource_tab_error', 'New Resource Tab Validation Failed');
         }else{
-                $new_tab = new ResourceType;
-                $new_tab->resource_type = $request->resource_tab_name;
-                $new_tab->created_by = Auth::id();
-                $new_tab->edited_by = Auth::id();
-                $new_tab->save();
+
+            if ($request->image) {
+                //Upload the file in storage/app/public/profile_pictures folder
+                $image_name = (string) ($request->image->store('public/resource_unit_images'));
+                $image_name = str_replace('public/','',$image_name);
+
+                //Upload the file in storage thumbnail public folder
+                $thumb_image_name = (string) ($request->image->store('public/thumbnails/resource_unit_images'));
                 
-                $new_null_folder = new ResourceSubfolder;
-                $new_null_folder->resource_type = $request->resource_tab_name;
-                $new_null_folder->subfolder_name = NULL;
-                $new_null_folder->created_by = Auth::id();
-                $new_null_folder->edited_by = Auth::id();
-                $new_null_folder->save();
-                
-                return back();
+                //Get full path of uploaded image from the thumbnails
+                $path = storage_path('app/'.$thumb_image_name);
+
+                //Load the image into the Image Intervention Package for manipulation
+                Image::make($path)->fit(300, 300)->save($path);
+
+            }
+            $resource_category = ResourceCategory::where('category',$request->resource_category)->first();
+
+            $count_resource_types = ResourceType::where('status',1)->where('category_id',$resource_category->id)->count();            
+
+            $new_tab = new ResourceType;
+            $new_tab->resource_type = $request->resource_tab_name;
+            $new_tab->position = $count_resource_types + 1;
+            $new_tab->category_id = $resource_category->id;
+            $new_tab->created_by = Auth::id();
+            $new_tab->edited_by = Auth::id();
+            $new_tab->image = $image_name;
+            $new_tab->save();
+
+            $count_resource_subfolders = ResourceSubfolder::where('resource_type_id',$new_tab->id)->count();
+            
+            $new_null_folder = new ResourceSubfolder;
+            $new_null_folder->subfolder_name = NULL;
+            $new_null_folder->position = $count_resource_subfolders + 1;
+            $new_null_folder->resource_type_id = $new_tab->id;
+            $new_null_folder->created_by = Auth::id();
+            $new_null_folder->edited_by = Auth::id();
+            $new_null_folder->image = $image_name;
+            $new_null_folder->save();
+            
+            return back();
         }
     }
 

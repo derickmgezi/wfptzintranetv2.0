@@ -102,11 +102,11 @@
                 <i class="fa fa-file-text {{((Request::is('resource'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources
             </a>
         </li>
-        {{-- <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('resourcetabs'))? 'active':'')}}" href="{{URL::to('/resourcetabs')}}">
                 <i class="fa fa-file-text {{((Request::is('resourcetabs'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources <span class="badge badge-success">new</span>
             </a>
-        </li> --}}
+        </li>
         <li class="nav-item faa-horizontal animated-hover">
             <a class="nav-link" target="_blank" href="{{URL::to('/external_link/Transport-Request/'.encrypt('https://humanitarianbooking.wfp.org/en/explore/country/tz/?service=UN+Driver+Hub'))}}">
                 <i class="fa fa-car" aria-hidden="true"></i> Transport Request
