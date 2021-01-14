@@ -4,13 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ResourceManager extends Model{
-   /**
+class ResourceCategory extends Model
+{
+     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'resourcemanagers';
+    protected $table = 'resourcecategory';
     
     /**
      * The attributes that are mass assignable.
@@ -18,6 +19,6 @@ class ResourceManager extends Model{
      * @var array
      */
     protected $fillable = [
-        'user','resource_type_id','status','created_by','edited_by',
+        'category','position','status','created_by','edited_by','image',
     ];
 }

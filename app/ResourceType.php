@@ -18,6 +18,6 @@ class ResourceType extends Model{
      * @var array
      */
     protected $fillable = [
-        'resource_type','status','created_by','edited_by',
+        'resource_type','position','category_id','status','created_by','edited_by','image',
     ];
 }

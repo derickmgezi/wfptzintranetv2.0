@@ -210,7 +210,11 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/deleteresource/{id}', 'ResourceController@destroy');
 
-    Route::get('/addresourcetab', 'ResourceController@addtab');
+    Route::get('/addresourcecategory', 'ResourceController@addcategory');
+
+    Route::post('/addresourcecategory', 'ResourceController@storecategory');
+
+    Route::get('/addresourcetab/{id}', 'ResourceController@addtab');
 
     Route::post('/addresourcetab', 'ResourceController@storetab');
 
