@@ -7,7 +7,7 @@
         <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" id="app">
 
             <div class="container-fluid marketing">
-                <a href="{{URL::to('/addresourcecategory/')}}" class="btn btn-success btn-sm pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource Category</a>
+                <a href="{{URL::to('/addresourcecategory/')}}" class="btn btn-warning btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource Category</a>
                 
                 @foreach ($resource_categories as $resource_category)
                 <h4>
