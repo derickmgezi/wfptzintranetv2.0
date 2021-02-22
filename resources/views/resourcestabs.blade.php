@@ -285,7 +285,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-primary" id="exampleModalLabel">
-                                    Add New @if(Session::get('resourcetype') != 'null') {{Session::get('resourcetype')}} @endif Resource
+                                    Add New {{$resource_type->resource_type}} Resources
                                 </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -313,9 +313,8 @@
                                     <label class="font-weight-bold">Subfolder</label>
                                     <select id="subfolder_id" name="subfolder_id" class="form-control js-subfolderid-single">
                                         <option></option>
-                                        <?php $subfolders = Session::get('resource_subfolders')->where('resource_type', Session::get('resourcetype')) ?>
-                                        @foreach ($subfolders as $subfolder)
-                                        <option value="{{ $subfolder->id }}" @if(old('subfolder_id') == $subfolder->id) selected @endif>{{ ($subfolder->subfolder_name == NULL)?"Root File":$subfolder->subfolder_name }}</option>
+                                        @foreach ($resource_supporting_units_subfolders as $subfolder)
+                                        <option value="{{ $subfolder->id }}" @if(old('subfolder_id') == $subfolder->id) selected @endif>{{ ($subfolder->subfolder_name == NULL)?Session::get('resourcetype')." Resources":$subfolder->subfolder_name }}</option>
                                         @endforeach
                                     </select>
                                     @if($errors->first('subfolder_id'))

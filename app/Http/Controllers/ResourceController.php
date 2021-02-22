@@ -47,7 +47,6 @@ class ResourceController extends Controller {
 
         $resource_categories = ResourceCategory::where('status',1)->orderBy('position')->get();
         $resource_supporting_units = ResourceType::select('id','resource_type','image','category_id')->where('status',1)->get();
-        //dd($resource_supporting_units->where('category_id',4));
 
         return view('resourcetabsnew')->with('resource_supporting_units',$resource_supporting_units)->with('resource_categories',$resource_categories);
     }
@@ -240,7 +239,7 @@ class ResourceController extends Controller {
      */
     public function storefolder(Request $request,$type) {
         $validator = Validator::make($request->all(), [
-            'subfolder_name' => 'required|unique:resourcesubfolders,subfolder_name',
+            'subfolder_name' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -256,14 +255,19 @@ class ResourceController extends Controller {
 
             return back()->withErrors($validator)->withInput()->with('resourcetype',$type);
         }else{
-                $new_subfolder = new ResourceSubfolder;
-                $new_subfolder->resource_type = $type;
-                $new_subfolder->subfolder_name = $request->subfolder_name;
-                $new_subfolder->created_by = Auth::id();
-                $new_subfolder->edited_by = Auth::id();
-                $new_subfolder->save();
+            $resource_type_id = ResourceType::where('resource_type',$type)->where('status',1)->value('id');
 
-                return back();
+            $count_resource_subfolder = ResourceSubfolder::where('resource_type_id',$resource_type_id)->where('status',1)->count();
+
+            $new_subfolder = new ResourceSubfolder;
+            $new_subfolder->resource_type_id = $resource_type_id;
+            $new_subfolder->subfolder_name = $request->subfolder_name;
+            $new_subfolder->position = $count_resource_subfolder + 1;
+            $new_subfolder->created_by = Auth::id();
+            $new_subfolder->edited_by = Auth::id();
+            $new_subfolder->save();
+
+            return back();
         }
     }
 
@@ -428,7 +432,9 @@ class ResourceController extends Controller {
             $access_log->action_status = "Failed";
             $access_log->save();
 
-            return back()->withErrors($validator)->withInput()->with('resourcetype',$type);
+            $resource_types = ResourceType::where('status',1)->get();
+
+            return back()->withErrors($validator)->withInput()->with('resourcetype',$type)->with('resource_types',$resource_types);
         }else{
             if($request->resourceislink == "Yes"){
                 $file_name = $request->file;
@@ -442,14 +448,12 @@ class ResourceController extends Controller {
             $new_resource->resource_name = $request->resource_name;
             $new_resource->subfolder_id = $request->subfolder_id;
 
-            if($type == 'null')
-            $new_resource->resource_type = $request->resource_type;
-            else
-            $new_resource->resource_type = $type;
+            //if($type == 'null')
+            //$new_resource->resource_type = $request->resource_type;
+            //else
+            //$new_resource->resource_type = $type;
 
-            $file_position = Resource::where('resource_type',$type)
-                                     ->where('status',1)
-                                     ->count();
+            $file_position = Resource::where('subfolder_id',$request->subfolder_id)->where('status',1)->count();
 
             $new_resource->position = $file_position+1;
 
@@ -460,15 +464,15 @@ class ResourceController extends Controller {
             $new_resource->edited_by = Auth::id();
             $new_resource->save();
 
-            $delete_files = Resource::where('resource_type',$type)
-                                    ->where('status',0)
-                                    ->get();
-            
-            foreach($delete_files as $delete_file){
-                $file = Resource::find($delete_file->id);
-                $file->position = $delete_file->position + 1;
-                $file->save();
-            }
+            //$delete_files = Resource::where('resource_type',$type)
+            //                        ->where('status',0)
+            //                        ->get();
+            //
+            //foreach($delete_files as $delete_file){
+            //    $file = Resource::find($delete_file->id);
+            //    $file->position = $delete_file->position + 1;
+            //    $file->save();
+            //}
 
             return back()->with('resouce','Resource was succesfully uploaded')->with('resoucetype',$type);
         }
