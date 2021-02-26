@@ -133,6 +133,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WeLearn/'.encrypt('https://erpapps.wfp.org:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html#ZWETRAVEL-createTravelReq&/'))}}" style="padding-left: 2em;">
+                        <i class="fa fa-globe" aria-hidden="true"></i> WeTravel
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" target="_blank" href="{{URL::to('/external_link/WeLearn/'.encrypt('https://welearn.wfp.org'))}}" style="padding-left: 2em;">
                         <i class="fa fa-leanpub" aria-hidden="true"></i> WeLearn
                     </a>
