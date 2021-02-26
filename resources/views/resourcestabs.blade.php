@@ -52,14 +52,12 @@
                         ?>
                             @if ($resources->isNotEmpty())
                             <div class="tab-pane fade show {{ ($active_tab)?'active':'' }}" id="{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}" role="tabpanel">
-                                <div class="card card-outline-primary">
-                                    <ul class="list-group list-group-flush">
-                                        @foreach ($resources as $resource)
-                                        <li class="list-group-item">
-                                            <a href="#"><i class="fa fa-external-link" aria-hidden="true"></i> {{ $resource->resource_name }}</a>
-                                        </li>
-                                        @endforeach
-                                    </ul>
+                                <div class="list-group">
+                                    @foreach ($resources as $resource)
+                                    <a class="list-group-item list-group-item-action active mb-1" href="#">
+                                        <i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;{{ $resource->resource_name }}
+                                    </a>
+                                    @endforeach
                                 </div>
                             </div>
                             <?php $active_tab=false; ?>
