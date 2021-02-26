@@ -7,7 +7,7 @@
         <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" id="app">
 
             <div class="container-fluid marketing">
-                <a href="{{URL::to('/addresourcecategory/')}}" class="btn btn-warning btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource Category</a>
+                <a href="{{URL::to('/addresourcecategory/')}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource Category</a>
                 
                 @foreach ($resource_categories as $resource_category)
                 <h4>
@@ -27,7 +27,7 @@
                         <div class="card card-outline-primary">
                             <div class="caption">
                                 <a href="{{URL::to('/resourcestabs/'.$resource_type->id)}}">
-                                    <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_type->image) != 0? url('/storage/thumbnails/'.$resource_type->image):url('/image/external resources.png') }}" alt="Generic placeholder image">
+                                    <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_type->image) != 0? url('imagecache/original/thumbnails/'.$resource_type->image):url('/image/external resources.png') }}" alt="Generic placeholder image">
                                     <h2 class="text-center">
                                         {{ $resource_type->resource_type }}
                                     </h2>

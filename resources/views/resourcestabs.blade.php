@@ -27,10 +27,10 @@
                             ?>
                                 @if ($resources->isNotEmpty())
                                 <li class="nav-item mb-2">
-                                    <a class="nav-link {{ ($active_pill)?'active':'' }}" data-toggle="pill" role="tab" href="#{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":$resource_supporting_units_subfolder->subfolder_name }}" style="padding: 0">
+                                    <a class="nav-link {{ ($active_pill)?'active':'' }}" data-toggle="pill" role="tab" href="#{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}" style="padding: 0">
                                         <div class="card card-outline-primary">
                                             <div class="caption">
-                                                <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('/storage/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/white-background.png') }}" alt="Generic placeholder image">
+                                                <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/white-background.png') }}" alt="Generic placeholder image">
                                                 <h2 class="text-center">
                                                     {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":$resource_supporting_units_subfolder->subfolder_name }}
                                                 </h2>
@@ -51,7 +51,7 @@
                             $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
                         ?>
                             @if ($resources->isNotEmpty())
-                            <div class="tab-pane fade show {{ ($active_tab)?'active':'' }}" id="{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":$resource_supporting_units_subfolder->subfolder_name }}" role="tabpanel">
+                            <div class="tab-pane fade show {{ ($active_tab)?'active':'' }}" id="{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}" role="tabpanel">
                                 <div class="card card-outline-primary">
                                     <ul class="list-group list-group-flush">
                                         @foreach ($resources as $resource)
