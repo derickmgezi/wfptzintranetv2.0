@@ -97,11 +97,11 @@
                 <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Conference Booking
             </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('resource'))? 'active':'')}}" href="{{URL::to('/resource')}}">
                 <i class="fa fa-file-text {{((Request::is('resource'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('resourcetabs'))? 'active':'')}}" href="{{URL::to('/resourcetabs')}}">
                 <i class="fa fa-file-text {{((Request::is('resourcetabs'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources <span class="badge badge-success">new</span>
