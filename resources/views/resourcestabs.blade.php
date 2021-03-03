@@ -30,9 +30,9 @@
                                     <a class="nav-link {{ ($active_pill)?'active':'' }}" data-toggle="pill" role="tab" href="#{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}" style="padding: 0">
                                         <div class="card card-outline-primary">
                                             <div class="caption">
-                                                <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/white-background.png') }}" alt="Generic placeholder image">
+                                                <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/blue.jpg') }}" alt="Generic placeholder image">
                                                 <h2 class="text-center">
-                                                    {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":$resource_supporting_units_subfolder->subfolder_name }}
+                                                    {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?$resource_type->resource_type." Resources":$resource_supporting_units_subfolder->subfolder_name }}
                                                 </h2>
                                             </div>
                                         </div>
