@@ -32,7 +32,7 @@
                                             <div class="caption">
                                                 <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/blue.jpg') }}" alt="Generic placeholder image">
                                                 <h2 class="text-center">
-                                                    {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?$resource_type->resource_type." Resources":$resource_supporting_units_subfolder->subfolder_name }}
+                                                    {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?$resource_type->resource_type:$resource_supporting_units_subfolder->subfolder_name }}
                                                 </h2>
                                             </div>
                                         </div>
