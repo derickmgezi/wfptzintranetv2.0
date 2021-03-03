@@ -30,7 +30,7 @@
                                     <a class="nav-link {{ ($active_pill)?'active':'' }}" data-toggle="pill" role="tab" href="#{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}" style="padding: 0">
                                         <div class="card card-outline-primary">
                                             <div class="caption">
-                                                <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/blue.jpg') }}" alt="Generic placeholder image">
+                                                <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/WFP blue background.png') }}" alt="Generic placeholder image">
                                                 <h2 class="text-center">
                                                     {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?$resource_type->resource_type:$resource_supporting_units_subfolder->subfolder_name }}
                                                 </h2>
@@ -68,7 +68,7 @@
                 </div>
                 
                 
-                <!-- <div class="row no-gutters">
+                <div class="row no-gutters">
 
                     @foreach ($resource_supporting_units_subfolders as $resource_supporting_units_subfolder)
                     <?php 
@@ -79,7 +79,7 @@
                             <div class="card card-outline-primary">
                                 <div class="caption">
                                     <a data-toggle="collapse" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                                        <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('/storage/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/external resources.png') }}" alt="Generic placeholder image">
+                                        <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('/storage/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/WFP blue background.png') }}" alt="Generic placeholder image">
                                         <h2 class="text-center">
                                             @if($resource_supporting_units_subfolder->subfolder_name == NULL)
                                             {{ $resource_supporting_units_subfolder->resource_type }} Resources 
@@ -104,7 +104,7 @@
                         </div>
                         @endif
                     @endforeach
-                </div> -->
+                </div>
 
                 <!-- Start of Edit Supporting Unit Modal -->
                 @if(Session::has('edit_resource_tab') || Session::has('edit_resource_tab_error'))
