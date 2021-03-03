@@ -7,104 +7,187 @@
         <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" id="app">
 
             <div class="container-fluid marketing">
-                
-                
-                <div class="h5 mt-2">
-                    <span class="lead text-primary">{{ $resource_type->resource_type }}</span>
-                    <a href="{{URL::to('/addfolder/'.$resource_type->resource_type)}}" data-toggle="tooltip" data-placement="bottom" title="create subfolder" class="text-muted"><i class="fa fa-folder-open-o" aria-hidden="true"></i></a>
-                    <a href="{{URL::to('/addresource/'.$resource_type->resource_type)}}" data-toggle="tooltip" data-placement="bottom" title="add resource" class="text-muted"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
-                    <a href="{{URL::to('/editresourcetab/'.$resource_type->id)}}" data-toggle="tooltip" data-placement="bottom" title="edit" class="text-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                    <a href="{{URL::to('/deleteresourcetab/'.$resource_type->id)}}" data-toggle="tooltip" data-placement="bottom" title="delete" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                </div>
 
-                <div class="row mt-2">
-                    <div class="col-2">
-                        <ul class="nav nav-pills flex-column" role="tablist" style="position: sticky;top: 80px;">
-                            <?php $active_pill=true; ?>
-                            @foreach ($resource_supporting_units_subfolders as $resource_supporting_units_subfolder)
-                            <?php 
-                                $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
-                            ?>
-                                @if ($resources->isNotEmpty())
-                                <li class="nav-item mb-2">
-                                    <a class="nav-link {{ ($active_pill)?'active':'' }}" data-toggle="pill" role="tab" href="#{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}" style="padding: 0">
-                                        <div class="card card-outline-primary">
-                                            <div class="caption">
-                                                <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/WFP blue background.png') }}" alt="Generic placeholder image">
-                                                <h2 class="text-center">
-                                                    {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?$resource_type->resource_type:$resource_supporting_units_subfolder->subfolder_name }}
-                                                </h2>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <?php $active_pill=false; ?>
-                                @endif
-                            @endforeach
+                <div class="card mt-2">
+                    <div class="card-header">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">
+                                    <i class="fa fa-list-ul fa-lg" aria-hidden="true"></i> Full List
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#home" role="tab">
+                                    <i class="fa fa-th-large fa-lg" aria-hidden="true"></i> Tiles
+                                </a>
+                            </li>
                         </ul>
                     </div>
-                    <!-- Tab panes -->
-                    <div class="col-10 tab-content card border-right-0 border-bottom-0 border-top-0">
-                        <?php $active_tab=true; ?>
-                        @foreach ($resource_supporting_units_subfolders as $resource_supporting_units_subfolder)
-                        <?php 
-                            $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
-                        ?>
-                            @if ($resources->isNotEmpty())
-                            <div class="tab-pane fade show {{ ($active_tab)?'active':'' }}" id="{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}" role="tabpanel">
-                                <div class="list-group">
-                                    @foreach ($resources as $resource)
-                                        <?php $date = new Jenssegers\Date\Date($resource->updated_at); ?>
-                                        <a class="list-group-item list-group-item-action active mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Updated by" data-content="{{ App\user::find($resource->edited_by)->firstname." ".App\user::find($resource->edited_by)->secondname }}<br>{{ $date->ago() }}" @if($resource->external_link == "Yes") target="_blank" href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}" @else href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}" @endif>
-                                            <i @if($resource->external_link == "Yes") class="fa fa-external-link" @else class="fa fa-file-text" @endif aria-hidden="true"></i>&nbsp;{{ $resource->resource_name }}
-                                        </a>
-                                    @endforeach
+                    <div class="card-block">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane" id="home" role="tabpanel">
+                                <div class="h5 mt-2">
+                                    <span class="lead text-primary">{{ $resource_type->resource_type }}</span>
+                                    <a href="{{URL::to('/addfolder/'.$resource_type->resource_type)}}"
+                                        data-toggle="tooltip" data-placement="bottom" title="create subfolder"
+                                        class="text-muted"><i class="fa fa-folder-open-o" aria-hidden="true"></i></a>
+                                    <a href="{{URL::to('/addresource/'.$resource_type->resource_type)}}"
+                                        data-toggle="tooltip" data-placement="bottom" title="add resource"
+                                        class="text-muted"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+                                    <a href="{{URL::to('/editresourcetab/'.$resource_type->id)}}" data-toggle="tooltip"
+                                        data-placement="bottom" title="edit" class="text-warning"><i
+                                            class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <a href="{{URL::to('/deleteresourcetab/'.$resource_type->id)}}"
+                                        data-toggle="tooltip" data-placement="bottom" title="delete"
+                                        class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                 </div>
-                            </div>
-                            <?php $active_tab=false; ?>
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
-                
-                
-                <!-- <div class="row no-gutters">
 
-                    @foreach ($resource_supporting_units_subfolders as $resource_supporting_units_subfolder)
-                    <?php 
-                    $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
-                    ?>
-                        @if ($resources->isNotEmpty())
-                        <div class="col-3 p-1">
-                            <div class="card card-outline-primary">
-                                <div class="caption">
-                                    <a data-toggle="collapse" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                                        <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('/storage/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/WFP blue background.png') }}" alt="Generic placeholder image">
-                                        <h2 class="text-center">
-                                            @if($resource_supporting_units_subfolder->subfolder_name == NULL)
-                                            {{ $resource_supporting_units_subfolder->resource_type }} Resources 
-                                            @else
-                                            {{ $resource_supporting_units_subfolder->subfolder_name }}
+                                <div class="row mt-2">
+                                    <div class="col-2">
+                                        <ul class="nav nav-pills flex-column" role="tablist"
+                                            style="position: sticky;top: 80px;">
+                                            <?php $active_pill=true; ?>
+                                            @foreach ($resource_supporting_units_subfolders as
+                                            $resource_supporting_units_subfolder)
+                                            <?php 
+                                        $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
+                                    ?>
+                                            @if ($resources->isNotEmpty())
+                                            <li class="nav-item mb-2">
+                                                <a class="nav-link {{ ($active_pill)?'active':'' }}" data-toggle="pill"
+                                                    role="tab"
+                                                    href="#{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}"
+                                                    style="padding: 0">
+                                                    <div class="card">
+                                                        <div class="caption">
+                                                            <img class="img-fluid" alt="Responsive image"
+                                                                src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/WFP blue background.png') }}"
+                                                                alt="Generic placeholder image">
+                                                            <h2 class="text-center">
+                                                                {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?$resource_type->resource_type:$resource_supporting_units_subfolder->subfolder_name }}
+                                                            </h2>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <?php $active_pill=false; ?>
                                             @endif
-                                        </h2>
-                                    </a>
-                                </div>
-                                <div class="collapse show" id="collapse1">
-                                    <div class="card" @if($resources->count() >= 4)style="height: 320px; overflow-y: scroll"@endif>
-                                        <ul class="list-group list-group-flush">
-                                            @foreach ($resources as $resource)
-                                            <li class="list-group-item">
-                                                <a href="#"><i class="fa fa-external-link" aria-hidden="true"></i> {{ $resource->resource_name }}</a>
-                                            </li> 
                                             @endforeach
                                         </ul>
                                     </div>
+                                    <!-- Tab panes -->
+                                    <div class="col-10 tab-content card border-right-0 border-bottom-0 border-top-0">
+                                        <?php $active_tab=true; ?>
+                                        @foreach ($resource_supporting_units_subfolders as
+                                        $resource_supporting_units_subfolder)
+                                        <?php 
+                                    $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
+                                ?>
+                                        @if ($resources->isNotEmpty())
+                                        <div class="tab-pane fade show {{ ($active_tab)?'active':'' }}"
+                                            id="{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}"
+                                            role="tabpanel">
+                                            <div class="list-group">
+                                                @foreach ($resources as $resource)
+                                                <?php $date = new Jenssegers\Date\Date($resource->updated_at); ?>
+                                                <a class="list-group-item list-group-item-action text-primary"
+                                                    data-delay="300" data-trigger="hover" data-container="body"
+                                                    data-toggle="popover" data-trigger="focus" data-placement="right"
+                                                    data-html="true" title="Updated by"
+                                                    data-content="{{ App\user::find($resource->edited_by)->firstname." ".App\user::find($resource->edited_by)->secondname }}<br>{{ $date->ago() }}"
+                                                    @if($resource->external_link == "Yes") target="_blank"
+                                                    href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}"
+                                                    @else
+                                                    href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}"
+                                                    @endif>
+                                                    <i @if($resource->external_link == "Yes") class="fa
+                                                        fa-external-link" @else class="fa fa-file-text" @endif
+                                                        aria-hidden="true"></i>&nbsp;{{ $resource->resource_name }}
+                                                </a>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <?php $active_tab=false; ?>
+                                        @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane  active" id="profile" role="tabpanel">
+                                <div class="h5 mt-2">
+                                    <span class="lead text-primary">{{ $resource_type->resource_type }}</span>
+                                    <a href="{{URL::to('/addfolder/'.$resource_type->resource_type)}}"
+                                        data-toggle="tooltip" data-placement="bottom" title="create subfolder"
+                                        class="text-muted"><i class="fa fa-folder-open-o" aria-hidden="true"></i></a>
+                                    <a href="{{URL::to('/addresource/'.$resource_type->resource_type)}}"
+                                        data-toggle="tooltip" data-placement="bottom" title="add resource"
+                                        class="text-muted"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+                                    <a href="{{URL::to('/editresourcetab/'.$resource_type->id)}}" data-toggle="tooltip"
+                                        data-placement="bottom" title="edit" class="text-warning"><i
+                                            class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <a href="{{URL::to('/deleteresourcetab/'.$resource_type->id)}}"
+                                        data-toggle="tooltip" data-placement="bottom" title="delete"
+                                        class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                </div>
+
+                                <div class="row no-gutters">
+
+                                    @foreach ($resource_supporting_units_subfolders as
+                                    $resource_supporting_units_subfolder)
+                                    <?php 
+                            $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
+                            ?>
+                                    @if ($resources->isNotEmpty())
+                                    <div class="col-3 p-1">
+                                        <div class="card">
+                                            <div class="caption">
+                                                <a data-toggle="collapse" href="#collapse1" aria-expanded="true"
+                                                    aria-controls="collapse1">
+                                                    <img class="img-fluid" alt="Responsive image"
+                                                        src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('/storage/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/WFP blue background.png') }}"
+                                                        alt="Generic placeholder image">
+                                                    <h2 class="text-center">
+                                                        @if($resource_supporting_units_subfolder->subfolder_name ==
+                                                        NULL)
+                                                        {{ $resource_type->resource_type }}
+                                                        @else
+                                                        {{ $resource_supporting_units_subfolder->subfolder_name }}
+                                                        @endif
+                                                    </h2>
+                                                </a>
+                                            </div>
+                                            <div class="collapse show" id="collapse1">
+                                                <div class="card" @if($resources->count() >= 4)style="height: 320px;
+                                                    overflow-y: scroll"@endif>
+                                                    <ul class="list-group list-group-flush">
+                                                        @foreach ($resources as $resource)
+                                                        <li class="list-group-item">
+                                                            <a @if($resource->external_link == "Yes") target="_blank"
+                                                                href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}"
+                                                                @else
+                                                                href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}"
+                                                                @endif>
+                                                                <i @if($resource->external_link == "Yes") class="fa
+                                                                    fa-external-link" @else class="fa fa-file-text"
+                                                                    @endif
+                                                                    aria-hidden="true"></i>&nbsp;{{ $resource->resource_name }}
+                                                            </a>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
-                        @endif
-                    @endforeach
-                </div> -->
+                    </div>
+                </div>
 
                 <!-- Start of Edit Supporting Unit Modal -->
                 @if(Session::has('edit_resource_tab') || Session::has('edit_resource_tab_error'))
