@@ -56,7 +56,7 @@
                                     @foreach ($resources as $resource)
                                         <?php $date = new Jenssegers\Date\Date($resource->updated_at); ?>
                                         <a class="list-group-item list-group-item-action active mb-1" data-delay="300" data-trigger="hover" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" title="Updated by" data-content="{{ App\user::find($resource->edited_by)->firstname." ".App\user::find($resource->edited_by)->secondname }}<br>{{ $date->ago() }}" @if($resource->external_link == "Yes") target="_blank" href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}" @else href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}" @endif>
-                                            <i @if($resource->external_link == "Yes") class="fa fa-link" @else class="fa fa-file-text" @endif aria-hidden="true"></i>&nbsp;{{ $resource->resource_name }}
+                                            <i @if($resource->external_link == "Yes") class="fa fa-external-link" @else class="fa fa-file-text" @endif aria-hidden="true"></i>&nbsp;{{ $resource->resource_name }}
                                         </a>
                                     @endforeach
                                 </div>
@@ -68,7 +68,7 @@
                 </div>
                 
                 
-                <div class="row no-gutters">
+                <!-- <div class="row no-gutters">
 
                     @foreach ($resource_supporting_units_subfolders as $resource_supporting_units_subfolder)
                     <?php 
@@ -104,7 +104,7 @@
                         </div>
                         @endif
                     @endforeach
-                </div>
+                </div> -->
 
                 <!-- Start of Edit Supporting Unit Modal -->
                 @if(Session::has('edit_resource_tab') || Session::has('edit_resource_tab_error'))
