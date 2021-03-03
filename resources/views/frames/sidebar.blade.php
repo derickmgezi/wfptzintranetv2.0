@@ -104,7 +104,7 @@
         </li> --}}
         <li class="nav-item">
             <a class="nav-link faa-horizontal animated-hover {{((Request::is('resourcetabs'))? 'active':'')}}" href="{{URL::to('/resourcetabs')}}">
-                <i class="fa fa-file-text {{((Request::is('resourcetabs'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Resources <span class="badge badge-success">new</span>
+                <i class="fa fa-file-text {{((Request::is('resourcetabs'))? 'faa-tada animated':'')}}" aria-hidden="true"></i> Key Materials <span class="badge badge-success">new</span>
             </a>
         </li>
         <li class="nav-item faa-horizontal animated-hover">
