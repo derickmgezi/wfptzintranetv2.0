@@ -137,7 +137,7 @@ class ResourceController extends Controller {
 
             if($request->image){
                 $null_subfolder = ResourceSubfolder::where('subfolder_name',NULL)
-                                                    ->where('resource_type',$request->resource_tab_name)
+                                                    ->where('resource_type_id',$id)
                                                     ->update(['image' => $image_name]);
             }
             
