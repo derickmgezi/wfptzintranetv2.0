@@ -7,18 +7,19 @@
         <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" id="app">
 
             <div class="container-fluid marketing">
-                <a href="{{URL::to('/addresourcecategory/')}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource Category</a>
-                
+                @if(Auth::id() == 2)
+                <a href="{{URL::to('/addresourcecategory/')}}" class="btn btn-success btn-sm mb-1 mt-1"><i class="fa fa-plus-circle" aria-hidden="true"></i> add Resource Category</a>
+                @endif
+
                 @foreach ($resource_categories as $resource_category)
-                <h4>
-                    <div class="d-flex justify-content-start  hidden-sm-down">
-                        <div class="">
-                            <span class="lead text-primary">{{ $resource_category->category }}</span>
-                            <a href="{{URL::to('/addresourcetab/'.$resource_category->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add {{ $resource_category->category }}</a>
-                        </div>
-                    </div>
-                </h4>
-                <div class="row no-gutters">
+                <div class="d-flex justify-content-start">
+                    <span class="lead text-primary"><strong>{{ $resource_category->category }}</strong></span>&nbsp;
+                    @if(Auth::id() == 2)
+                    <a href="{{URL::to('/addresourcetab/'.$resource_category->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle" aria-hidden="true"></i> add {{ $resource_category->category }}</a>
+                    @endif
+                </div>
+
+                <div class="row no-gutters mb-2">
                     <?php 
                     $resource_types = $resource_supporting_units->where('category_id', $resource_category->id);
                     ?>

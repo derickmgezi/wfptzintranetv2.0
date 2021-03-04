@@ -92,7 +92,7 @@
                                             <div class="list-group">
                                                 @foreach ($resources as $resource)
                                                 <?php $date = new Jenssegers\Date\Date($resource->updated_at); ?>
-                                                <a class="list-group-item list-group-item-action text-primary"
+                                                <a class="list-group-item list-group-item-action text-primary mb-1"
                                                     data-delay="300" data-trigger="hover" data-container="body"
                                                     data-toggle="popover" data-trigger="focus" data-placement="right"
                                                     data-html="true" title="Updated by"
