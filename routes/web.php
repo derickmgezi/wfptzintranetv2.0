@@ -218,6 +218,8 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::post('/addresourcetab', 'ResourceController@storetab');
 
+    Route::post('/addquicklink', 'ResourceController@storequicklink');
+
     Route::get('/editresourcetab/{id}', 'ResourceController@edittab');
 
     Route::post('/editresourcetab/{id}', 'ResourceController@changetab');
