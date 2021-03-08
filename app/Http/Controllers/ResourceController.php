@@ -18,6 +18,7 @@ use Redirect;
 use App\Resource;
 use Image;
 Use App\ResourceCategory;
+use Illuminate\Support\Facades\DB;
 
 class ResourceController extends Controller {
 
@@ -45,10 +46,24 @@ class ResourceController extends Controller {
 
     public function resourcetabs() {
 
+        $quick_links = DB::table('resourcecategory')
+                         ->join('resourcetypes','resourcecategory.id','=','resourcetypes.category_id')
+                         ->join('resourcesubfolders','resourcetypes.id','=','resourcesubfolders.resource_type_id')
+                         ->join('resources','resourcesubfolders.id','=','resources.subfolder_id')
+                         ->where('resourcecategory.category','Quick links')
+                         ->where('resourcecategory.status',1)
+                         ->where('resourcetypes.status',1)
+                         ->where('resourcesubfolders.status',1)
+                         ->where('resources.status',1)
+                         ->orderBy('resources.id')
+                         ->select('resourcecategory.category','resourcetypes.resource_type','resources.resource_name','resources.resource_location','resources.external_link')
+                         ->get();
+        //dd($quick_links);
+
         $resource_categories = ResourceCategory::where('status',1)->orderBy('position')->get();
         $resource_supporting_units = ResourceType::select('id','resource_type','image','category_id')->where('status',1)->get();
 
-        return view('resourcetabsnew')->with('resource_supporting_units',$resource_supporting_units)->with('resource_categories',$resource_categories);
+        return view('resourcetabsnew')->with('resource_supporting_units',$resource_supporting_units)->with('resource_categories',$resource_categories)->with('quick_links',$quick_links);
     }
 
     public function resourcesnew() {
@@ -75,8 +90,14 @@ class ResourceController extends Controller {
 
     public function addtab($id) {
         //
-        $category = ResourceCategory::find($id);                                            
-        return back()->with('add_resource_tab','Add new resource tab')->with('category',$category);
+        $category = ResourceCategory::find($id);
+
+        if($category->category == 'Quick links'){
+            return back()->with('add_quick_link','Add new Quick link resource tab')->with('category',$category);
+        }else{
+            return back()->with('add_resource_tab','Add new resource tab')->with('category',$category);
+        }
+        
     }
 
     public function edittab($id) {
@@ -318,6 +339,73 @@ class ResourceController extends Controller {
                 $new_category->image = $image_name;
             }
             $new_category->save();
+            
+            return back();
+        }
+    }
+
+    public function storequicklink(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|mimes:jpeg,bmp,png,bmp,gif,svg',
+            'resource_category' => 'required',
+            'resource_tab_name' => 'required|unique:resourcetypes,resource_type',
+            'resourceislink' => 'required',
+            'file' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            // $access_log = new AccessLog;
+            // $access_log->user = Auth::user()->username;
+            // $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+            // $access_log->action_taken = "Store ".$type." Resource";
+            // $access_log->action_details = "Storing of new ".$type." Resource interrupted due to validation errors";
+            // $access_log->action_status = "Failed";
+            // $access_log->save();
+
+            return back()->withErrors($validator)->withInput()->with('add_quick_link_error', 'New Quick Link Validation Failed');
+        }else{
+
+            if ($request->image) {
+                //Upload the file in storage/app/public/profile_pictures folder
+                $image_name = (string) ($request->image->store('public/resource_unit_images'));
+                $image_name = str_replace('public/','',$image_name);
+
+                //Upload the file in storage thumbnail public folder
+                $thumb_image_name = (string) ($request->image->store('public/thumbnails/resource_unit_images'));
+                
+                //Get full path of uploaded image from the thumbnails
+                $path = storage_path('app/'.$thumb_image_name);
+
+                //Load the image into the Image Intervention Package for manipulation
+                Image::make($path)->fit(300, 300)->save($path);
+
+            }
+            $resource_category = ResourceCategory::where('category',$request->resource_category)->first();
+
+            $count_resource_types = ResourceType::where('status',1)->where('category_id',$resource_category->id)->count();            
+
+            $new_tab = new ResourceType;
+            $new_tab->resource_type = $request->resource_tab_name;
+            $new_tab->position = $count_resource_types + 1;
+            $new_tab->category_id = $resource_category->id;
+            $new_tab->created_by = Auth::id();
+            $new_tab->edited_by = Auth::id();
+            $new_tab->image = $image_name;
+            $new_tab->save();
+
+            $count_resource_subfolders = ResourceSubfolder::where('resource_type_id',$new_tab->id)->count();
+            
+            $new_null_folder = new ResourceSubfolder;
+            $new_null_folder->subfolder_name = NULL;
+            $new_null_folder->position = $count_resource_subfolders + 1;
+            $new_null_folder->resource_type_id = $new_tab->id;
+            $new_null_folder->created_by = Auth::id();
+            $new_null_folder->edited_by = Auth::id();
+            $new_null_folder->image = $image_name;
+            $new_null_folder->save();
+
+            $new_quick_link = new Resource;
+            
             
             return back();
         }
