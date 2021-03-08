@@ -14,12 +14,17 @@
                         <ul class="nav nav-tabs card-header-tabs">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">
-                                    <i class="fa fa-list-ul fa-lg" aria-hidden="true"></i> Full List
+                                    <i class="fa fa-list-ul fa-lg" aria-hidden="true"></i> List
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#home" role="tab">
                                     <i class="fa fa-th-large fa-lg" aria-hidden="true"></i> Tiles
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#list" role="tab">
+                                    <i class="fa fa-list" aria-hidden="true"></i> Full List
                                 </a>
                             </li>
                         </ul>
@@ -52,8 +57,8 @@
                                             @foreach ($resource_supporting_units_subfolders as
                                             $resource_supporting_units_subfolder)
                                             <?php 
-                                        $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
-                                    ?>
+                                            $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
+                                            ?>
                                             @if ($resources->isNotEmpty())
                                             <li class="nav-item mb-2">
                                                 <a class="nav-link {{ ($active_pill)?'active':'' }}" data-toggle="pill"
@@ -83,8 +88,8 @@
                                         @foreach ($resource_supporting_units_subfolders as
                                         $resource_supporting_units_subfolder)
                                         <?php 
-                                    $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
-                                ?>
+                                        $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
+                                        ?>
                                         @if ($resources->isNotEmpty())
                                         <div class="tab-pane fade show {{ ($active_tab)?'active':'' }}"
                                             id="{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}"
@@ -115,6 +120,79 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="tab-pane" id="list" role="tabpanel">
+                                <div class="h5 mt-2">
+                                    <span class="lead text-primary">{{ $resource_type->resource_type }}</span>
+                                    <a href="{{URL::to('/addfolder/'.$resource_type->resource_type)}}"
+                                        data-toggle="tooltip" data-placement="bottom" title="create subfolder"
+                                        class="text-muted"><i class="fa fa-folder-open-o" aria-hidden="true"></i></a>
+                                    <a href="{{URL::to('/addresource/'.$resource_type->resource_type)}}"
+                                        data-toggle="tooltip" data-placement="bottom" title="add resource"
+                                        class="text-muted"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+                                    <a href="{{URL::to('/editresourcetab/'.$resource_type->id)}}" data-toggle="tooltip"
+                                        data-placement="bottom" title="edit" class="text-warning"><i
+                                            class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <a href="{{URL::to('/deleteresourcetab/'.$resource_type->id)}}"
+                                        data-toggle="tooltip" data-placement="bottom" title="delete"
+                                        class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                </div>
+                                @foreach ($resource_supporting_units_subfolders as $resource_supporting_units_subfolder)
+                                <?php $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id); ?>
+                                @if ($resources->isNotEmpty())
+                                <div class="row mt-1">
+                                    <div class="col-2">
+                                        <ul class="nav nav-pills flex-column" role="tablist"
+                                            style="position: sticky;top: 80px;">
+                                            <li class="nav-item mb-2">
+                                                <a class="nav-link active" data-toggle="pill"
+                                                    role="tab"
+                                                    href="#{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}"
+                                                    style="padding: 0">
+                                                    <div class="card">
+                                                        <div class="caption">
+                                                            <img class="img-fluid" alt="Responsive image"
+                                                                src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/WFP blue background.png') }}"
+                                                                alt="Generic placeholder image">
+                                                            <h2 class="text-center">
+                                                                {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?$resource_type->resource_type:$resource_supporting_units_subfolder->subfolder_name }}
+                                                            </h2>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Tab panes -->
+                                    <div class="col-8 tab-content card border-right-0 border-bottom-0 border-top-0">
+                                        <div class="tab-pane fade show active"
+                                            id="{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}"
+                                            role="tabpanel">
+                                            <div class="list-group">
+                                                @foreach ($resources as $resource)
+                                                <?php $date = new Jenssegers\Date\Date($resource->updated_at); ?>
+                                                <a class="list-group-item list-group-item-action mb-1 text-primary font-weight-bold"
+                                                    data-delay="300" data-trigger="hover" data-container="body"
+                                                    data-toggle="popover" data-trigger="focus" data-placement="right"
+                                                    data-html="true" title="Updated by"
+                                                    data-content="{{ App\user::find($resource->edited_by)->firstname." ".App\user::find($resource->edited_by)->secondname }}<br>{{ $date->ago() }}"
+                                                    @if($resource->external_link == "Yes") target="_blank"
+                                                    href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}"
+                                                    @else
+                                                    href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}"
+                                                    @endif>
+                                                    <i @if($resource->external_link == "Yes") class="fa
+                                                        fa-external-link" @else class="fa fa-file-text" @endif
+                                                        aria-hidden="true"></i>&nbsp;{{ $resource->resource_name }}
+                                                </a>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                @endif
+                                @endforeach
+                            </div>
                             <div class="tab-pane  active" id="profile" role="tabpanel">
                                 <div class="h5 mt-2">
                                     <span class="lead text-primary">{{ $resource_type->resource_type }}</span>
@@ -137,8 +215,8 @@
                                     @foreach ($resource_supporting_units_subfolders as
                                     $resource_supporting_units_subfolder)
                                     <?php 
-                            $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
-                            ?>
+                                    $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id);
+                                    ?>
                                     @if ($resources->isNotEmpty())
                                     <div class="col-3 p-1">
                                         <div class="card">
