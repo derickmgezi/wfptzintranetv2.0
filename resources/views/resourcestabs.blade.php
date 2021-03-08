@@ -13,8 +13,8 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs card-header-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">
-                                    <i class="fa fa-list-ul fa-lg" aria-hidden="true"></i> List
+                                <a class="nav-link active" data-toggle="tab" href="#list" role="tab">
+                                    <i class="fa fa-list" aria-hidden="true"></i> Full List
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -23,8 +23,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#list" role="tab">
-                                    <i class="fa fa-list" aria-hidden="true"></i> Full List
+                                <a class="nav-link" data-toggle="tab" href="#profile" role="tab">
+                                    <i class="fa fa-list-ul fa-lg" aria-hidden="true"></i> List
                                 </a>
                             </li>
                         </ul>
@@ -120,7 +120,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="list" role="tabpanel">
+                            <div class="tab-pane active" id="list" role="tabpanel">
                                 <div class="h5 mt-2">
                                     <span class="lead text-primary">{{ $resource_type->resource_type }}</span>
                                     <a href="{{URL::to('/addfolder/'.$resource_type->resource_type)}}"
@@ -170,7 +170,7 @@
                                             <div class="list-group">
                                                 @foreach ($resources as $resource)
                                                 <?php $date = new Jenssegers\Date\Date($resource->updated_at); ?>
-                                                <a class="list-group-item list-group-item-action mb-1 text-primary font-weight-bold"
+                                                <a class="list-group-item list-group-item-action mb-1 text-secondary font-italic"
                                                     data-delay="300" data-trigger="hover" data-container="body"
                                                     data-toggle="popover" data-trigger="focus" data-placement="right"
                                                     data-html="true" title="Updated by"
@@ -193,7 +193,7 @@
                                 @endif
                                 @endforeach
                             </div>
-                            <div class="tab-pane  active" id="profile" role="tabpanel">
+                            <div class="tab-pane" id="profile" role="tabpanel">
                                 <div class="h5 mt-2">
                                     <span class="lead text-primary">{{ $resource_type->resource_type }}</span>
                                     <a href="{{URL::to('/addfolder/'.$resource_type->resource_type)}}"
