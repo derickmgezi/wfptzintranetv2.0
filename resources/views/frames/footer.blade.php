@@ -172,7 +172,7 @@
                 requirebeverages:{!! (old('requirebeverages') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
                 @endif
 
-                @if(Session::has('resourcetype') || Session::has('add_resource_tab_quick_link') || Session::has('add_quick_link_error'))
+                @if(Session::has('resourcetype') || Session::has('add_quick_link') || Session::has('add_quick_link_error'))
                 resourceislink:{!! (old('resourceislink') == 'Yes')?json_encode('Yes'):json_encode('No') !!},
                 @elseif(Session::has('editresource') && !old('resourceislink'))
                 resourceislink:{!! (Session::get('editresource')->external_link == 'Yes')?json_encode('Yes'):json_encode('No') !!},

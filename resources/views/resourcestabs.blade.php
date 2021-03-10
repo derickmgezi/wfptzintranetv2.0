@@ -151,7 +151,7 @@
                                                     <div class="card">
                                                         <div class="caption">
                                                             <img class="img-fluid" alt="Responsive image"
-                                                                src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/WFP blue background.png') }}"
+                                                                src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/library-icon.png') }}"
                                                                 alt="Generic placeholder image">
                                                             <h2 class="text-center">
                                                                 {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?$resource_type->resource_type:$resource_supporting_units_subfolder->subfolder_name }}
@@ -362,6 +362,18 @@
                                     @endif
                                     <small class="form-text text-muted">
                                         Make sure you have entered the name of the new subfolder
+                                    </small>
+                                </div>
+                                <div class="form-group @if($errors->first('image')) has-danger @elseif(old('image')) has-success @endif">
+                                    <label class="font-weight-bold">Subfolder Image</label>
+                                    <input name="image" value="{{old('image')}}" type="file" class="form-control @if($errors->first('image')) form-control-danger @elseif(old('image')) form-control-success @endif">
+                                    @if($errors->first('image'))
+                                    <div class="form-control-feedback">
+                                        <small class="font-weight-bold">{{ $errors->first('image') }}</small>
+                                    </div>
+                                    @endif
+                                    <small class="form-text text-muted">
+                                        It's not mandatory to select an Image for the Subfolder
                                     </small>
                                 </div>
                             </div>
