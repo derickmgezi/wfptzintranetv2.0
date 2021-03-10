@@ -261,6 +261,7 @@ class ResourceController extends Controller {
     public function storefolder(Request $request,$type) {
         $validator = Validator::make($request->all(), [
             'subfolder_name' => 'required',
+            'image' => 'mimes:jpeg,bmp,png,bmp,gif,svg',
         ]);
 
         if ($validator->fails()) {
@@ -276,6 +277,22 @@ class ResourceController extends Controller {
 
             return back()->withErrors($validator)->withInput()->with('resourcetype',$type);
         }else{
+            if ($request->image) {
+                //Upload the file in storage/app/public/profile_pictures folder
+                $image_name = (string) ($request->image->store('public/resource_unit_images'));
+                $image_name = str_replace('public/','',$image_name);
+
+                //Upload the file in storage thumbnail public folder
+                $thumb_image_name = (string) ($request->image->store('public/thumbnails/resource_unit_images'));
+                
+                //Get full path of uploaded image from the thumbnails
+                $path = storage_path('app/'.$thumb_image_name);
+
+                //Load the image into the Image Intervention Package for manipulation
+                Image::make($path)->fit(300, 300)->save($path);
+
+            }
+
             $resource_type_id = ResourceType::where('resource_type',$type)->where('status',1)->value('id');
 
             $count_resource_subfolder = ResourceSubfolder::where('resource_type_id',$resource_type_id)->where('status',1)->count();
@@ -284,6 +301,9 @@ class ResourceController extends Controller {
             $new_subfolder->resource_type_id = $resource_type_id;
             $new_subfolder->subfolder_name = $request->subfolder_name;
             $new_subfolder->position = $count_resource_subfolder + 1;
+            if($request->image){
+                $new_subfolder->image = $image_name;
+            }
             $new_subfolder->created_by = Auth::id();
             $new_subfolder->edited_by = Auth::id();
             $new_subfolder->save();
@@ -364,6 +384,13 @@ class ResourceController extends Controller {
 
             return back()->withErrors($validator)->withInput()->with('add_quick_link_error', 'New Quick Link Validation Failed');
         }else{
+            if($request->resourceislink == "Yes"){
+                $file_name = $request->file;
+            }else{
+                //Upload the resource file in storage/app/public/resources folder 
+                $file_name = (string) ($request->file->store('public/resources'));
+                $file_name = str_replace('public/', '', $file_name);
+            }
 
             if ($request->image) {
                 //Upload the file in storage/app/public/profile_pictures folder
@@ -404,8 +431,18 @@ class ResourceController extends Controller {
             $new_null_folder->image = $image_name;
             $new_null_folder->save();
 
+            $count_resources = Resource::where('subfolder_id',$new_null_folder->id)->count();
+
             $new_quick_link = new Resource;
-            
+            $new_quick_link->resource_name = $request->resource_tab_name;
+            $new_quick_link->position = $count_resources + 1;
+            $new_quick_link->subfolder_id = $new_null_folder->id;
+            $new_quick_link->resource_location = $file_name;
+            if($request->resourceislink == "Yes")
+            $new_quick_link->external_link = $request->resourceislink;
+            $new_quick_link->uploaded_by = Auth::id();
+            $new_quick_link->edited_by = Auth::id();
+            $new_quick_link->save();
             
             return back();
         }
