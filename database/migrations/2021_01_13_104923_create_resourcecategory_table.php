@@ -18,7 +18,7 @@ class CreateResourcecategoryTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->bigIncrements('id');
-            $table->string('category',50)->unique();
+            $table->string('category',100)->unique();
             $table->integer('position');
             $table->boolean('status')->default(1);
             $table->integer('created_by')->unsigned();
