@@ -18,7 +18,7 @@ class ReCreateResourcetypesTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->bigIncrements('id');
-            $table->string('resource_type',50)->unique();
+            $table->string('resource_type',100)->unique();
             $table->integer('position');
             $table->bigInteger('category_id')->unsigned();
             $table->boolean('status')->default(1);
