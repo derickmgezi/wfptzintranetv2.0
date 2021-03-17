@@ -26,7 +26,7 @@ class ManageController extends Controller {
             $users = User::orderBy('id','desc')->get();
             $editors = Editor::orderBy('id','desc')->get();
             $resource_types = ResourceType::where('status',1)->get();
-            $managed_resources = ResourceManager::select('user','resource_type','status')->get();
+            $managed_resources = ResourceManager::select('user','resource_type_id','status')->get();
             $resource_managers = ResourceManager::select('user')->groupBy('user')->get();
 
             $access_log = new AccessLog;

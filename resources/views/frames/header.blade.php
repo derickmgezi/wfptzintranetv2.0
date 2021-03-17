@@ -66,8 +66,7 @@
         {{HTML::script("js/vue.js")}}
 
         <!-- Custom Java Script styles for My Tinymce Text Editor -->
-        <!-- <script src="http://wazo.wfp.org/js/mytinymce.js"></script> -->
-
+        <!-- {{HTML::script("js/mytinymce.js")}} -->
 
         <script>
             var editor_config = {
