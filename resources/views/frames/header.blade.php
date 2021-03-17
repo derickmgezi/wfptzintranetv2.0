@@ -16,7 +16,7 @@
         <title>Wazo</title>
 
         <!-- My CSS -->
-        {{ Html::style('css/my-css.css') }}
+        {{ Html::style('css/mycss.css') }}
 
         <!-- Bootstrap core CSS -->
         {{ Html::style('css/bootstrap.css') }}
