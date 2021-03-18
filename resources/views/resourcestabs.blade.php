@@ -64,9 +64,9 @@
                                     data-html="true" title="Updated by"
                                     data-content="{{ App\user::find($resource->edited_by)->firstname." ".App\user::find($resource->edited_by)->secondname }}<br>{{ $date->ago() }}"
                                     @if($resource->external_link == "Yes") target="_blank"
-                                    href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}"
+                                    href="{{URL::to('/resource/'.$resource->id.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}"
                                     @else
-                                    href="{{URL::to('/resource/'.$resource_type->resource_type.'/'.$resource->external_link.'/'.$resource->resource_location)}}"
+                                    href="{{URL::to('/resource/'.$resource->id.'/'.$resource->external_link.'/'.$resource->resource_location)}}"
                                     @endif>
                                     <i @if($resource->external_link == "Yes") class="fa
                                         fa-external-link" @else class="fa fa-file-text" @endif

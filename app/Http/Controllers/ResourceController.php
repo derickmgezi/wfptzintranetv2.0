@@ -58,7 +58,13 @@ class ResourceController extends Controller {
                          ->orderBy('resources.id')
                          ->select('resourcecategory.category','resourcetypes.resource_type','resources.resource_name','resources.resource_location','resources.external_link')
                          ->get();
-        //dd($quick_links);
+
+        $access_log = new AccessLog;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+        $access_log->action_taken = "Access Key Materials Page";
+        $access_log->action_details = "Redirected to Key Materials Page";
+        $access_log->user = Auth::user()->username;
+        $access_log->save();
 
         $resource_categories = ResourceCategory::where('status',1)->orderBy('position')->get();
         $resource_supporting_units = ResourceType::select('id','resource_type','image','category_id')->where('status',1)->get();
@@ -73,8 +79,16 @@ class ResourceController extends Controller {
     public function resourcestabs($id) {
 
         $resource_type = ResourceType::find($id);
+        $resource_category = ResourceCategory::find($resource_type->category_id);
         $resource_supporting_units_subfolders = ResourceSubfolder::select('id','resource_type_id','subfolder_name','image')->where('resource_type_id',$id)->where('status',1)->orderBy('position')->get();
         $supporting_unit_resources = Resource::all();
+
+        $access_log = new AccessLog;
+        $access_log->link_accessed = str_replace(url('/'),"",url()->current());
+        $access_log->action_taken = "Access ".$resource_category->category." category in Key Materials Page";
+        $access_log->action_details = "Redirected to ".$resource_type->resource_type." materials Page inside ".$resource_category->category." category";
+        $access_log->user = Auth::user()->username;
+        $access_log->save();
 
         return view('resourcestabs')->with('resource_type',$resource_type)->with('resource_supporting_units_subfolders',$resource_supporting_units_subfolders)->with('supporting_unit_resources',$supporting_unit_resources);
     }
@@ -609,14 +623,23 @@ class ResourceController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($type,$link,$url) {
+    public function show($id,$link,$url) {
+        $resource = Resource::find($id);
+        $resource_sufolder = ResourceSubfolder::find($resource->subfolder_id);
+        $resource_type = ResourceType::find($resource_sufolder->resource_type_id);
+
+        if($resource_sufolder->subfolder_name == NULL)
+            $subfolder_name = $resource_type->resource_type;
+        else
+            $subfolder_name = $resource_sufolder->subfolder_name;
+
         if($link == "Yes"){
             $decrepted_url = (string) decrypt($url);
 
             $access_log = new AccessLog;
             $access_log->link_accessed = $decrepted_url;
-            $access_log->action_taken = 'View "'.$type.'" Resource';
-            $access_log->action_details = 'Accessed '.$type.' resource';
+            $access_log->action_taken = 'View '.$subfolder_name." resource under ".$resource_type->resource_type." resources";
+            $access_log->action_details = 'Accessed '.$resource->resource_name." resource under ".$subfolder_name." resource subfolder under ".$resource_type->resource_type." resources";
             $access_log->link_type = "External";
             $access_log->user = Auth::user()->username;
             $access_log->save();
@@ -635,8 +658,8 @@ class ResourceController extends Controller {
             }
             $access_log = new AccessLog;
             $access_log->link_accessed = str_replace(url('/'),"",url()->current());
-            $access_log->action_taken = 'View "'.$type.'" Resource';
-            $access_log->action_details = 'Accessed '.$type.' resource';
+            $access_log->action_taken = 'View '.$subfolder_name." resource under ".$resource_type->resource_type." resources";
+            $access_log->action_details = 'Accessed '.$resource->resource_name." resource under ".$subfolder_name." resource subfolder under ".$resource_type->resource_type." resources";
             $access_log->user = Auth::user()->username;
             $access_log->save();
             
