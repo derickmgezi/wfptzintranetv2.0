@@ -56,7 +56,7 @@ class ResourceController extends Controller {
                          ->where('resourcesubfolders.status',1)
                          ->where('resources.status',1)
                          ->orderBy('resources.id')
-                         ->select('resourcecategory.category','resourcetypes.resource_type','resources.resource_name','resources.resource_location','resources.external_link')
+                         ->select('resources.id','resourcecategory.category','resourcetypes.resource_type','resources.resource_name','resources.resource_location','resources.external_link')
                          ->get();
 
         $access_log = new AccessLog;
