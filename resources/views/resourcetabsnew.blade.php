@@ -36,9 +36,9 @@
                                 @if($resource_category->category == 'Quick links')
                                 <?php $quick_link = $quick_links->where('resource_type',$resource_type->resource_type)->first(); ?>
                                 <a  @if($quick_link->external_link == "Yes") target="_blank"
-                                    href="{{URL::to('/resource/'.$quick_link->resource_type.'/'.$quick_link->external_link.'/'.encrypt($quick_link->resource_location))}}"
+                                    href="{{URL::to('/resource/'.$quick_link->id.'/'.$quick_link->external_link.'/'.encrypt($quick_link->resource_location))}}"
                                     @else
-                                    href="{{URL::to('/resource/'.$quick_link->resource_type.'/'.$quick_link->external_link.'/'.$quick_link->resource_location)}}"
+                                    href="{{URL::to('/resource/'.$quick_link->id.'/'.$quick_link->external_link.'/'.$quick_link->resource_location)}}"
                                     @endif>
                                     <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_type->image) != 0? url('imagecache/original/thumbnails/'.$resource_type->image):url('/image/external resources.png') }}" alt="Generic placeholder image">
                                     <h2 class="text-center">
