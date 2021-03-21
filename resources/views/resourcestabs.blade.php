@@ -25,6 +25,7 @@
                         class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                     @endif
                 </div>
+                <?php $last_resource_supporting_units_subfolder =  $resource_supporting_units_subfolders->last(); ?>
                 @foreach ($resource_supporting_units_subfolders as $resource_supporting_units_subfolder)
                 <?php $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id); ?>
                 @if ($resources->isNotEmpty())
@@ -93,7 +94,9 @@
                         </div>
                     </div>
                 </div>
+                @if($last_resource_supporting_units_subfolder->id != $resource_supporting_units_subfolder->id)
                 <hr>
+                @endif
                 @endif
                 @endforeach
 
