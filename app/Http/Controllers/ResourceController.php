@@ -81,7 +81,7 @@ class ResourceController extends Controller {
         $resource_type = ResourceType::find($id);
         $resource_category = ResourceCategory::find($resource_type->category_id);
         $resource_supporting_units_subfolders = ResourceSubfolder::select('id','resource_type_id','subfolder_name','image')->where('resource_type_id',$id)->where('status',1)->orderBy('position')->get();
-        $supporting_unit_resources = Resource::all();
+        $supporting_unit_resources = Resource::where('status',1)->orderBy('position')->get();
 
         $access_log = new AccessLog;
         $access_log->link_accessed = str_replace(url('/'),"",url()->current());
@@ -688,15 +688,15 @@ class ResourceController extends Controller {
         //
         $resource = Resource::find($id);
         $current_position = $resource->position;
-        $resource_type = $resource->resource_type;
-        $number_of_all_resources = Resource::where('resource_type',$resource_type)->count();
+        $resource_subfolder = $resource->subfolder_id;
+        $number_of_all_resources = Resource::where('subfolder_id',$resource_subfolder)->where('status',1)->count();
 
         if($direction == 'up'){
-            if($current_position < $number_of_all_resources){
-                $new_position = $current_position+1;
+            if($current_position <= $number_of_all_resources && $current_position!= 1){
+                $new_position = $current_position - 1;
 
                 //Find resource that was in the new position
-                $edit_resource_position = Resource::where('resource_type',$resource_type)
+                $edit_resource_position = Resource::where('subfolder_id',$resource_subfolder)
                                                   ->where('position',$new_position)
                                                   ->update(['position' => $current_position]);
                 
@@ -704,11 +704,11 @@ class ResourceController extends Controller {
                 $resource->save();
             }
         }elseif($direction == 'down'){
-            if($current_position > 1){
-                $new_position = $current_position-1;
+            if($current_position >= 1 && $current_position != $number_of_all_resources){
+                $new_position = $current_position + 1;
 
                 //Find resource that was in the new position
-                $edit_resource_position = Resource::where('resource_type',$resource_type)
+                $edit_resource_position = Resource::where('subfolder_id',$resource_subfolder)
                                                   ->where('position',$new_position)
                                                   ->update(['position' => $current_position]);
                 
@@ -729,7 +729,9 @@ class ResourceController extends Controller {
     public function edit($id) {
         //
         $resource = Resource::find($id);
-        return back()->with('editresource',$resource);
+        $resource_subfolder = ResourceSubfolder::find($resource->subfolder_id);
+        $resource_type = ResourceType::find($resource_subfolder->resource_type_id);
+        return back()->with('editresource',$resource)->with('resource_subfolder',$resource_subfolder)->with('resource_type',$resource_type);
     }
 
     /**
@@ -742,6 +744,8 @@ class ResourceController extends Controller {
     public function update(Request $request, $id) {
         //
         $resource = Resource::find($id);
+        $resource_subfolder = ResourceSubfolder::find($resource->subfolder_id);
+        $resource_type = ResourceType::find($resource_subfolder->resource_type_id);
         if($request->resourceislink == "No"){
             if($resource->external_link == "Yes"){
                 $validator = Validator::make($request->all(), [
@@ -769,7 +773,7 @@ class ResourceController extends Controller {
             $access_log->action_status = "Failed";
             $access_log->save();
 
-            return back()->withErrors($validator)->withInput()->with('editresource',$resource);
+            return back()->withErrors($validator)->withInput()->with('editresource',$resource)->with('resource_subfolder',$resource_subfolder)->with('resource_type',$resource_type);
         }else{
             if($request->resourceislink == "No"){
                 if($request->file){
@@ -812,23 +816,21 @@ class ResourceController extends Controller {
     public function delete($id) {
         //
         $resource = Resource::find($id);
-        return back()->with('delete_resource',$resource);
+        $resource_subfolder = ResourceSubfolder::find($resource->subfolder_id);
+        $resource_type = ResourceType::find($resource_subfolder->resource_type_id);
+        return back()->with('delete_resource',$resource)->with('resource_type',$resource_type);
     }
 
     public function destroy($id) {
         //
         $deleted_resource = Resource::find($id);
-        
-        $all_resources_before_delete = Resource::where('resource_type',$deleted_resource->resource_type)
-                                               ->where('status',1)
-                                               ->get();
-
         $deleted_resource_position = $deleted_resource->position;
+
         $deleted_resource->status = 0;
-        $deleted_resource->position = $all_resources_before_delete->count();
+        $deleted_resource->position = 0;
         $deleted_resource->save();
 
-        $update_resources = Resource::where('resource_type',$deleted_resource->resource_type)
+        $update_resources = Resource::where('subfolder_id',$deleted_resource->subfolder_id)
                                               ->where('status',1)
                                               ->where('position','>',$deleted_resource_position)
                                               ->get();

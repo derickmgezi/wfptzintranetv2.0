@@ -74,7 +74,6 @@
                     placeholder: "Select Resource Type",
                     allowClear: true,
                     width:  '100%',
-                    disabled: true,
                 });
             });
 
@@ -87,7 +86,7 @@
             });
 
             $(document).ready(function () {
-                $('.js-subfolderid-single').select2({
+                $('.js-subfolderid-disabled').select2({
                     placeholder: "Select Resource Type",
                     allowClear: true,
                     width:  '100%',
