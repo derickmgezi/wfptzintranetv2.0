@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.2",
         "adldap2/adldap2-laravel": "^6.0",
-        "algolia/algoliasearch-client-php": "^1.18",
+        "algolia/algoliasearch-client-php": "^2.2",
         "benjamincrozat/laravel-dropbox-driver": "^2.0",
         "doctrine/dbal": "v2.5.13",
         "ecrmnn/laravel-https": "^1.0",
