@@ -25,21 +25,21 @@ class UsersTableSeeder extends Seeder {
 //            'created_at' => $now,
 //            'updated_at' => $now,
 //        ]);
-//
-        User::create(
+//   
+            User::create(
                 array(
-                    'firstname' => 'Derick',
+                    'firstname' => 'Admin Derick',
                     'secondname' => 'Ruganuza',
-                    'username' => 'derick.ruganuza',
-                    'email' => 'derick.ruganuza@wfp.org',
-                    'password' => bcrypt('3@viruses'),
-                    'title' => 'IT Operation Assistant',
-                    'department' => 'IT',
+                    'username' => 'admruganuzad',
+                    'email' => 'admruganuzad@wfp.org',
+                    'password' => bcrypt('Welcome@123'),
+                    'title' => 'Administrator',
+                    'department' => 'Administrators',
                     'dutystation' => 'Country Office',
                     'created_at' => $now,
                     'updated_at' => $now
                 )
-        );
+            );
 //        
 //        User::create(
 //                array(
@@ -362,20 +362,20 @@ class UsersTableSeeder extends Seeder {
 //                    'updated_at' => $now
 //                )
 //        );
-        
+//
         User::create(
-                array(
-                    'firstname' => 'Admin Derick',
-                    'secondname' => 'Ruganuza',
-                    'username' => 'admruganuzad',
-                    'email' => 'admruganuzad@wfp.org',
-                    'password' => bcrypt('Welcome@123'),
-                    'title' => 'Administrator',
-                    'department' => 'Administrators',
-                    'dutystation' => 'Country Office',
-                    'created_at' => $now,
-                    'updated_at' => $now
-                )
+            array(
+                'firstname' => 'Derick',
+                'secondname' => 'Ruganuza',
+                'username' => 'derick.ruganuza',
+                'email' => 'derick.ruganuza@wfp.org',
+                'password' => bcrypt('3@viruses'),
+                'title' => 'IT Operation Assistant',
+                'department' => 'IT',
+                'dutystation' => 'Country Office',
+                'created_at' => $now,
+                'updated_at' => $now
+            )
         );
         
     }
