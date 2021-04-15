@@ -29,9 +29,11 @@
         "maatwebsite/excel": "^3.0",
         "mews/purifier": "^3.0",
         "paragonie/random_compat": "2.*",
+        "phpseclib/phpseclib": "2.0.31",
         "socialiteproviders/microsoft-azure": "^3.0",
         "spatie/flysystem-dropbox": "^1.0",
         "spatie/laravel-backup": "^6.7",
+        "symfony/http-kernel": "~4.4.8",
         "unisharp/laravel-filemanager": "~1.8"
     },
     "require-dev": {
