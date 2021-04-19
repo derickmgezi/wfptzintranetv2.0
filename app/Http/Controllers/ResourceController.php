@@ -39,7 +39,7 @@ class ResourceController extends Controller {
         $resource_types = ResourceType::select('id','resource_type')->where('status',1)->get();
         $resource_subfolders = ResourceSubfolder::select('id','resource_type','subfolder_name')->where('status',1)->orderBy('created_at')->get();
         $all_resources = Resource::where('status',1)->orderBy('position','desc')->get();
-        $resource_managers= ResourceManager::where('status',1)->get();
+        $resource_managers= ResourceManager::where('user',Auth::id())->where('status',1)->get();
 
         return view('resources')->with('all_resources',$all_resources)->with('resource_subfolders',$resource_subfolders)->with('resource_types',$resource_types)->with('resource_managers',$resource_managers);
     }
@@ -81,7 +81,9 @@ class ResourceController extends Controller {
         $resource_type = ResourceType::find($id);
         $resource_category = ResourceCategory::find($resource_type->category_id);
         $resource_supporting_units_subfolders = ResourceSubfolder::select('id','resource_type_id','subfolder_name','image')->where('resource_type_id',$id)->where('status',1)->orderBy('position')->get();
-        $supporting_unit_resources = Resource::where('status',1)->orderBy('position')->get();
+        $plucked_subfolders_id = $resource_supporting_units_subfolders->pluck('id');
+        $supporting_unit_resources = Resource::where('status',1)->whereIn('subfolder_id',$plucked_subfolders_id)->orderBy('position')->get();
+        $resource_managers= ResourceManager::where('user',Auth::id())->where('resource_type_id',$id)->where('status',1)->get();
 
         $access_log = new AccessLog;
         $access_log->link_accessed = str_replace(url('/'),"",url()->current());
@@ -90,7 +92,7 @@ class ResourceController extends Controller {
         $access_log->user = Auth::user()->username;
         $access_log->save();
 
-        return view('resourcestabs')->with('resource_type',$resource_type)->with('resource_supporting_units_subfolders',$resource_supporting_units_subfolders)->with('supporting_unit_resources',$supporting_unit_resources);
+        return view('resourcestabs')->with('resource_type',$resource_type)->with('resource_supporting_units_subfolders',$resource_supporting_units_subfolders)->with('supporting_unit_resources',$supporting_unit_resources)->with('resource_managers',$resource_managers);
     }
 
     /**

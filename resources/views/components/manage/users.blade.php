@@ -398,7 +398,7 @@
                                         <div class="form-group row @if($errors->has('username')){{ 'has-danger' }}@elseif(old('username')){{ 'has-success' }}@endif">
                                             <label for="inputHorizontalSuccess" class="col-sm-3 col-form-label text-right"><small>User Name</small></label>
                                             <div class="col-sm-9">
-                                                <fieldset {{ Session::has('edit_resource_manager')?'disabled':'' }}>
+                                                <fieldset {{ Session::has('edit_resource_manager')? 'disabled':'' }}>
                                                     <select id='username' name="username" class="form-control custom-select @if($errors->has('username')){{ 'form-control-danger' }}@elseif(old('username')){{ 'form-control-success' }}@endif" id="inputHorizontalSuccess" id="inlineFormCustomSelect">
                                                         <option selected value="">Choose...</option>
                                                         @foreach($users as $user)
@@ -421,7 +421,7 @@
                                                 ?>
                                                 <select id="resource" name="resource[]" class="form-control js-resource-multiple @if($errors->first('resource')) form-control-danger @elseif(old('resource')) form-control-success @endif" multiple>
                                                     @foreach ($resourcetypes as $resource_type)
-                                                        <option @if(old('resource') && in_array($resource_type->id,old('resource'))) selected @elseif((Session::has('edit_resource_manager') || Session::has('edit_resource_manager_error')) && $resource_types->contains('resource_type',$resource_type->id)) selected @endif value="{{ $resource_type->id }}">{{ $resource_type->resource_type }}</option>
+                                                        <option @if(old('resource') && in_array($resource_type->id,old('resource'))) selected @elseif((Session::has('edit_resource_manager') || Session::has('edit_resource_manager_error')) && $resource_types->contains('resource_type_id',$resource_type->id)) selected @endif value="{{ $resource_type->id }}">{{ $resource_type->resource_type }}</option>
                                                     @endforeach
                                                 </select>
                                                 <!-- <input type="text" name="firstname" value="{{ Session::has('edit_user')?Session::get('edit_user')->firstname:old('firstname') }}" class="form-control @if($errors->has('firstname')){{ 'form-control-danger' }}@elseif(old('firstname')){{ 'form-control-success' }}@endif" id="inputHorizontalSuccess" placeholder="Eg. Masumbuko">-->
@@ -486,24 +486,24 @@
                                                 @if($loop->last)
                                                     <strong class="text-success">
                                                         <i class="fa fa-check-circle" aria-hidden="true"></i> 
-                                                        {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                        {{ App\ResourceType::find($managed_resource->resource_type_id)->resource_type }}
                                                     </strong>
                                                 @else 
                                                     <strong class="text-success">
                                                         <i class="fa fa-check-circle" aria-hidden="true"></i> 
-                                                        {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                        {{ App\ResourceType::find($managed_resource->resource_type_id)->resource_type }}
                                                     </strong>,
                                                 @endif
                                             @else
                                                 @if($loop->last)
                                                     <strong class="text-danger">
                                                         <i class="fa fa-lock" aria-hidden="true"></i>
-                                                        {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                        {{ App\ResourceType::find($managed_resource->resource_type_id)->resource_type }}
                                                     </strong>
                                                 @else 
                                                     <strong class="text-danger">
                                                         <i class="fa fa-lock" aria-hidden="true"></i>
-                                                        {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                        {{ App\ResourceType::find($managed_resource->resource_type_id)->resource_type }}
                                                     </strong>,
                                                 @endif
                                             @endif
@@ -533,24 +533,24 @@
                                             @if($loop->last)
                                                 <strong class="text-success">
                                                     <i class="fa fa-check-circle" aria-hidden="true"></i> 
-                                                    {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                    {{ App\ResourceType::find($managed_resource->resource_type_id)->resource_type }}
                                                 </strong>
                                             @else 
                                                 <strong class="text-success">
                                                     <i class="fa fa-check-circle" aria-hidden="true"></i> 
-                                                    {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                    {{ App\ResourceType::find($managed_resource->resource_type_id)->resource_type }}
                                                 </strong>,
                                             @endif
                                         @else
                                             @if($loop->last)
                                                 <strong class="text-danger">
                                                     <i class="fa fa-lock" aria-hidden="true"></i>
-                                                    {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                    {{ App\ResourceType::find($managed_resource->resource_type_id)->resource_type }}
                                                 </strong>
                                             @else 
                                                 <strong class="text-danger">
                                                     <i class="fa fa-lock" aria-hidden="true"></i>
-                                                    {{ App\ResourceType::find($managed_resource->resource_type)->resource_type }}
+                                                    {{ App\ResourceType::find($managed_resource->resource_type_id)->resource_type }}
                                                 </strong>,
                                             @endif
                                         @endif

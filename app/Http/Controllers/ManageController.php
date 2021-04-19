@@ -103,7 +103,7 @@ class ManageController extends Controller {
     public function storeResourceManager(Request $request) {
         //
         $validator = Validator::make($request->all(), [
-                    'username' => 'required|unique:resource_managers,user',
+                    'username' => 'required|unique:resourcemanagers,user',
                     'resource' => 'required',
         ]);
 
@@ -116,7 +116,7 @@ class ManageController extends Controller {
             foreach($request->resource as $resource){
                 $resource_manager = new ResourceManager;
                 $resource_manager->user = $request->username;
-                $resource_manager->resource_type = $resource;
+                $resource_manager->resource_type_id = $resource;
                 $resource_manager->created_by = Auth::id();
                 $resource_manager->edited_by = Auth::id();
                 $resource_manager->save();
@@ -142,10 +142,10 @@ class ManageController extends Controller {
         $unmanaged_resources = ResourceManager::where('user',$id)->where('status',0)->get();
 
         //Get all managed and unmanaged resources
-        $all_resources = ResourceManager::select('resource_type')->where('user',$id)->get();
+        $all_resources = ResourceManager::select('resource_type_id')->where('user',$id)->get();
 
         //Update status of managed resources to 0
-        $update_managed_resources = $managed_resources->whereNotIn('resource_type' , $request->resource);
+        $update_managed_resources = $managed_resources->whereNotIn('resource_type_id' , $request->resource);
 
         foreach($update_managed_resources as $update_managed_resource){
             $unmanage_resource = ResourceManager::find($update_managed_resource->id);
@@ -154,7 +154,7 @@ class ManageController extends Controller {
         }
 
         //Update status of unmanaged resources to 1
-        $unmanaged_resources = $unmanaged_resources->whereIn('resource_type' , $request->resource);
+        $unmanaged_resources = $unmanaged_resources->whereIn('resource_type_id' , $request->resource);
 
         foreach($unmanaged_resources as $unmanaged_resource){
             $manage_resource = ResourceManager::find($unmanaged_resource->id);
@@ -164,12 +164,12 @@ class ManageController extends Controller {
 
         //Add new managed resource
         $form_resources = collect($request->resource);
-        $new_resources = $form_resources->diff($all_resources->pluck('resource_type'));
+        $new_resources = $form_resources->diff($all_resources->pluck('resource_type_id'));
 
         foreach($new_resources as $new_resource){
             $add_resource = new ResourceManager;
             $add_resource->user = $id;
-            $add_resource->resource_type = $new_resource;
+            $add_resource->resource_type_id = $new_resource;
             $add_resource->created_by = Auth::id();
             $add_resource->edited_by = Auth::id();
             $add_resource->save();
