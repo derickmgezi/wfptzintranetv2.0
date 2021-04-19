@@ -10,7 +10,7 @@
 
                 <div class="h5 mt-2">
                     <span class="lead text-primary">{{ $resource_type->resource_type }}</span>
-                    @if(Auth::id() == 2)
+                    @if($resource_managers->isNotEmpty())
                     <a href="{{URL::to('/addfolder/'.$resource_type->resource_type)}}"
                         data-toggle="tooltip" data-placement="bottom" title="create subfolder"
                         class="text-muted"><i class="fa fa-folder-open-o" aria-hidden="true"></i></a>
@@ -25,81 +25,87 @@
                         class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                     @endif
                 </div>
-                <?php $last_resource_supporting_units_subfolder =  $resource_supporting_units_subfolders->last(); ?>
-                @foreach ($resource_supporting_units_subfolders as $resource_supporting_units_subfolder)
-                <?php $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id); ?>
-                @if ($resources->isNotEmpty())
-                <div class="row mt-1">
-                    <div class="col-2">
-                        <ul class="nav nav-pills flex-column" role="tablist"
-                            style="position: sticky;top: 80px;">
-                            <li class="nav-item mb-2">
-                                <a class="nav-link active" data-toggle="pill"
-                                    role="tab"
-                                    href="#{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}"
-                                    style="padding: 0">
-                                    <div class="card">
-                                        <div class="caption">
-                                            <img class="img-fluid" alt="Responsive image"
-                                                src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/library-icon.png') }}"
-                                                alt="Generic placeholder image">
-                                            <h2 class="text-center">
-                                                {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?$resource_type->resource_type:$resource_supporting_units_subfolder->subfolder_name }}
-                                            </h2>
+
+                @if($supporting_unit_resources->count() == 0)
+                <div class="alert alert-success mt-2" role="alert">
+                    No <strong>Resource</strong> has been added.
+                </div>
+                @else
+                    <?php $last_resource_supporting_units_subfolder =  $resource_supporting_units_subfolders->last(); ?>
+                    @foreach ($resource_supporting_units_subfolders as $resource_supporting_units_subfolder)
+                    <?php $resources = $supporting_unit_resources->where('subfolder_id',$resource_supporting_units_subfolder->id); ?>
+                    @if ($resources->isNotEmpty())
+                    <div class="row mt-1">
+                        <div class="col-2">
+                            <ul class="nav nav-pills flex-column" role="tablist"
+                                style="position: sticky;top: 80px;">
+                                <li class="nav-item mb-2">
+                                    <a class="nav-link active" data-toggle="pill"
+                                        role="tab"
+                                        href="#{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}"
+                                        style="padding: 0">
+                                        <div class="card">
+                                            <div class="caption">
+                                                <img class="img-fluid" alt="Responsive image"
+                                                    src="{{ strlen($resource_supporting_units_subfolder->image) != 0? url('imagecache/original/thumbnails/'.$resource_supporting_units_subfolder->image):url('/image/library-icon.png') }}"
+                                                    alt="Generic placeholder image">
+                                                <h2 class="text-center">
+                                                    {{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?$resource_type->resource_type:$resource_supporting_units_subfolder->subfolder_name }}
+                                                </h2>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- Tab panes -->
-                    <div class="col-8 tab-content card border-right-0 border-bottom-0 border-top-0">
-                        <div class="tab-pane fade show active"
-                            id="{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}"
-                            role="tabpanel">
-                            <ul class="list-group">
-                                @foreach ($resources as $resource)
-                                <?php $date = new Jenssegers\Date\Date($resource->updated_at); ?>
-                                <li class="list-group-item list-group-item-action mb-1 text-secondary"
-                                    style=""
-                                    data-delay="300" data-trigger="hover" data-container="body"
-                                    data-toggle="popover" data-trigger="focus" data-placement="right"
-                                    data-html="true" title="Updated by"
-                                    data-content="{{ App\user::find($resource->edited_by)->firstname.' '.App\user::find($resource->edited_by)->secondname }}<br>{{ $date->ago() }}">
-                                    <div>
-                                        <i @if($resource->external_link == "Yes") class="fa
-                                            fa-external-link" @else class="fa fa-file-text" @endif
-                                            aria-hidden="true">
-                                        </i>
-                                       
-                                        <a @if($resource->external_link == "Yes") 
-                                            target="_blank"
-                                            href="{{URL::to('/resource/'.$resource->id.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}"
-                                            @else
-                                            href="{{URL::to('/resource/'.$resource->id.'/'.$resource->external_link.'/'.$resource->resource_location)}}"
-                                            @endif
-                                            style="font-size: 14px">
-                                            {{ $resource->resource_name }}
-                                        </a>
-                                        @if(Auth::id() == 2)
-                                        <a href="{{URL::to('/moveresource/up/'.$resource->id)}}" class="text-primary"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
-                                        <a href="{{URL::to('/moveresource/down/'.$resource->id)}}" class="text-primary"><i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
-                                        <a href="{{URL::to('/editresource/'.$resource->id)}}" class="text-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                        <a href="{{URL::to('/deleteresourceconfirmation/'.$resource->id)}}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                        @endif
-                                    </div>
+                                    </a>
                                 </li>
-                                @endforeach
                             </ul>
                         </div>
-                    </div>
-                </div>
-                @if($last_resource_supporting_units_subfolder->id != $resource_supporting_units_subfolder->id)
-                <hr>
-                @endif
-                @endif
-                @endforeach
+                        <!-- Tab panes -->
+                        <div class="col-8 tab-content card border-right-0 border-bottom-0 border-top-0">
+                            <div class="tab-pane fade show active"
+                                id="{{ ($resource_supporting_units_subfolder->subfolder_name == NULL)?"Resources":str_replace(' ', '', $resource_supporting_units_subfolder->subfolder_name) }}"
+                                role="tabpanel">
+                                <ul class="list-group">
+                                    @foreach ($resources as $resource)
+                                    <?php $date = new Jenssegers\Date\Date($resource->updated_at); ?>
+                                    <li class="list-group-item list-group-item-action mb-1 text-secondary"
+                                        style=""
+                                        data-delay="300" data-trigger="hover" data-container="body"
+                                        data-toggle="popover" data-trigger="focus" data-placement="right"
+                                        data-html="true" title="Updated by"
+                                        data-content="{{ App\user::find($resource->edited_by)->firstname.' '.App\user::find($resource->edited_by)->secondname }}<br>{{ $date->ago() }}">
+                                        <div>
+                                            <i @if($resource->external_link == "Yes") class="fa
+                                                fa-external-link" @else class="fa fa-file-text" @endif
+                                                aria-hidden="true">
+                                            </i>
 
+                                            <a @if($resource->external_link == "Yes") 
+                                                target="_blank"
+                                                href="{{URL::to('/resource/'.$resource->id.'/'.$resource->external_link.'/'.encrypt($resource->resource_location))}}"
+                                                @else
+                                                href="{{URL::to('/resource/'.$resource->id.'/'.$resource->external_link.'/'.$resource->resource_location)}}"
+                                                @endif
+                                                style="font-size: 14px">
+                                                {{ $resource->resource_name }}
+                                            </a>
+                                            @if($resource_managers->isNotEmpty())
+                                            <a href="{{URL::to('/moveresource/up/'.$resource->id)}}" class="text-primary"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
+                                            <a href="{{URL::to('/moveresource/down/'.$resource->id)}}" class="text-primary"><i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+                                            <a href="{{URL::to('/editresource/'.$resource->id)}}" class="text-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                            <a href="{{URL::to('/deleteresourceconfirmation/'.$resource->id)}}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                            @endif
+                                        </div>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    @if($last_resource_supporting_units_subfolder->id != $resource_supporting_units_subfolder->id)
+                    <hr>
+                    @endif
+                    @endif
+                    @endforeach
+                @endif
                 <!-- Start of Edit Resource Type Modal -->
                 @if(Session::has('edit_resource_tab') || Session::has('edit_resource_tab_error'))
                 {{Form::open(array('url' => '/editresourcetab/'.Session::get('edit_resource_tab')->id,'multiple' => true,'role' => 'form', 'enctype' => 'multipart/form-data'))}}

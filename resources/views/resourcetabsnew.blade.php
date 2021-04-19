@@ -13,52 +13,64 @@
                 </div>
                 @endif
 
-                @foreach ($resource_categories as $resource_category)
-                <div class="d-flex mt-1">
-                    <span class="lead text-primary">
-                        <strong>{{ $resource_category->category }}</strong>
-                    </span>&nbsp;
-                    @if(Auth::id() == 2)
-                    <a href="{{URL::to('/addresourcetab/'.$resource_category->id)}}" class="btn btn-secondary btn-sm">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i> add {{ $resource_category->category }}
-                    </a>
-                    @endif
+                @if($resource_categories->count() == 0)
+                <div class="alert alert-success mt-2" role="alert">
+                    <strong>No Categories have been added</strong>. Click on the add Resource Category button to add a Category.
                 </div>
+                @else
+                    @foreach ($resource_categories as $resource_category)
+                    <div class="d-flex mt-1">
+                        <span class="lead text-primary">
+                            <strong>{{ $resource_category->category }}</strong>
+                        </span>&nbsp;
+                        @if(Auth::id() == 2)
+                        <a href="{{URL::to('/addresourcetab/'.$resource_category->id)}}" class="btn btn-secondary btn-sm">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i> add {{ $resource_category->category }}
+                        </a>
+                        @endif
+                    </div>
 
-                <div class="row no-gutters">
-                    <?php 
-                    $resource_types = $resource_supporting_units->where('category_id', $resource_category->id);
-                    ?>
-                    @foreach ($resource_types as $resource_type)
-                    <div class="col-2 p-1">
-                        <div class="card card-outline-primary">
-                            <div class="caption">
-                                @if($resource_category->category == 'Quick links')
-                                <?php $quick_link = $quick_links->where('resource_type',$resource_type->resource_type)->first(); ?>
-                                <a  @if($quick_link->external_link == "Yes") target="_blank"
-                                    href="{{URL::to('/resource/'.$quick_link->id.'/'.$quick_link->external_link.'/'.encrypt($quick_link->resource_location))}}"
-                                    @else
-                                    href="{{URL::to('/resource/'.$quick_link->id.'/'.$quick_link->external_link.'/'.$quick_link->resource_location)}}"
-                                    @endif>
-                                    <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_type->image) != 0? url('imagecache/original/thumbnails/'.$resource_type->image):url('/image/external resources.png') }}" alt="Generic placeholder image">
-                                    <h2 class="text-center">
-                                        {{ $resource_type->resource_type }}
-                                    </h2>
-                                </a>
-                                @else
-                                <a href="{{ URL::to('/resourcestabs/'.$resource_type->id) }}">
-                                    <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_type->image) != 0? url('imagecache/original/thumbnails/'.$resource_type->image):url('/image/external resources.png') }}" alt="Generic placeholder image">
-                                    <h2 class="text-center">
-                                        {{ $resource_type->resource_type }}
-                                    </h2>
-                                </a>
-                                @endif
-                            </div>
+                    <div class="row no-gutters">
+                        <?php 
+                        $resource_types = $resource_supporting_units->where('category_id', $resource_category->id);
+                        ?>
+                        @if($resource_types->count() == 0)
+                        <div class="alert alert-success mt-2" role="alert">
+                            No <strong>{{ $resource_category->category }}</strong> have been added.
                         </div>
+                        @else
+                            @foreach ($resource_types as $resource_type)
+                            <div class="col-2 p-1">
+                                <div class="card card-outline-primary">
+                                    <div class="caption">
+                                        @if($resource_category->category == 'Quick links')
+                                        <?php $quick_link = $quick_links->where('resource_type',$resource_type->resource_type)->first(); ?>
+                                        <a  @if($quick_link->external_link == "Yes") target="_blank"
+                                            href="{{URL::to('/resource/'.$quick_link->id.'/'.$quick_link->external_link.'/'.encrypt($quick_link->resource_location))}}"
+                                            @else
+                                            href="{{URL::to('/resource/'.$quick_link->id.'/'.$quick_link->external_link.'/'.$quick_link->resource_location)}}"
+                                            @endif>
+                                            <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_type->image) != 0? url('imagecache/original/thumbnails/'.$resource_type->image):url('/image/external resources.png') }}" alt="Generic placeholder image">
+                                            <h2 class="text-center">
+                                                {{ $resource_type->resource_type }}
+                                            </h2>
+                                        </a>
+                                        @else
+                                        <a href="{{ URL::to('/resourcestabs/'.$resource_type->id) }}">
+                                            <img class="img-fluid" alt="Responsive image" src="{{ strlen($resource_type->image) != 0? url('imagecache/original/thumbnails/'.$resource_type->image):url('/image/external resources.png') }}" alt="Generic placeholder image">
+                                            <h2 class="text-center">
+                                                {{ $resource_type->resource_type }}
+                                            </h2>
+                                        </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        @endif
                     </div>
                     @endforeach
-                </div>
-                @endforeach
+                @endif
 
                 <!-- Start of Add Resource Category Modal -->
                 @if(Session::has('add_resource_category') || Session::has('add_resource_category_error'))
