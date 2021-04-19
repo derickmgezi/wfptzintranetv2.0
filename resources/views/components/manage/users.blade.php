@@ -157,6 +157,7 @@
                             <td><small><strong><i class="fa fa-header fa-2x" aria-hidden="true"></i><br><a href="#">Title</a></strong></small></td>
                             <td><small><strong><i class="fa fa-building-o fa-2x" aria-hidden="true"></i><br><a href="#">Department</a></strong></small></td>
                             <td><small><strong><i class="fa fa-home fa-2x" aria-hidden="true"></i><br><a href="#">Station</a></strong></small></td>
+                            <td><small><strong><i class="fa fa-eye fa-2x" aria-hidden="true"></i><br><a href="#">Logon</a></strong></small></td>
                             <td><small><strong><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i><br>Edit</strong></small></td>
                             <td><small><strong><i class="fa fa-unlock-alt fa-2x" aria-hidden="true"></i><br>Access</strong></small></td>
                         </tr>
@@ -176,6 +177,8 @@
                             <td><small>{{ $user->title }}</small></td>
                             <td><small>{{ $user->department }}</small></td>
                             <td><small>{{ $user->dutystation }}</small></td>
+                            <?php $date = new Jenssegers\Date\Date($user->updated_at); ?>
+                            <td><small>{{ $date->ago() }}</small></td>
                             <td><a role="button" href="{{ URL::to('/edituser/'.$user->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
                             <td><a role="button" href="{{ URL::to('/deleteuser/'.$user->id) }}" class="btn btn-sm {{ $user->status?'btn-danger':'btn-success' }}"><i class="fa {{ $user->status?'fa-lock':'fa-unlock' }} fa-lg" aria-hidden="true"></i> {{ $user->status?'Lock':'Unlock' }}</a></td>
                         </tr>
@@ -191,6 +194,8 @@
                                     <td><small>{{ $user->title }}</small></td>
                                     <td><small>{{ $user->department }}</small></td>
                                     <td><small>{{ $user->dutystation }}</small></td>
+                                    <?php $date = new Jenssegers\Date\Date($user->updated_at); ?>
+                                    <td><small>{{ $date->ago() }}</small></td>
                                     <td><a role="button" href="{{ URL::to('/edituser/'.$user->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
                                     <td><a role="button" href="{{ URL::to('/deleteuser/'.$user->id) }}" class="btn btn-sm {{ $user->status?'btn-danger':'btn-success' }}"><i class="fa {{ $user->status?'fa-lock':'fa-unlock' }} fa-lg" aria-hidden="true"></i> {{ $user->status?'Lock':'Unlock' }}</a></td>
                         </tr>
