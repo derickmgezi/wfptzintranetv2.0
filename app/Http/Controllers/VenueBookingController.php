@@ -352,7 +352,7 @@ class VenueBookingController extends Controller
                 Notification::send($users, new ConferenceRoomBooked($booking,$enddate)); //Sends Notification to multiple users
             }catch(\Exception $e){
                 //dd($e->getMessage());
-                $access_log->action_details = 'New Reservation was created but email notification failed due to Internet inavailability or email authentication errors';
+                $access_log->action_details = 'New Reservation was created but email notification failed due to '.$e->getMessage();
             }
 
             if($access_log->action_details == NULL){
