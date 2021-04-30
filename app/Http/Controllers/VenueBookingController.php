@@ -548,7 +548,7 @@ class VenueBookingController extends Controller
                 Notification::send($users, new ConferenceRoomBookingAmended($booking)); //Sends Notification to multiple users
             }catch(\Exception $e){
                 //dd($e->getMessage());
-                $access_log->action_details = 'Conference Reservation with ID ' .$request->reservationid. ' was successful but email notification failed due to Internet inavailability or email authentication errors';
+                $access_log->action_details = 'Conference Reservation with ID ' .$request->reservationid. ' was successful but email notification failed due to '.$e->getMessage();
             }
 
             if($access_log->action_details == NULL){
@@ -628,7 +628,7 @@ class VenueBookingController extends Controller
             Notification::send($users, new ConferenceReservationCanceled($booking)); //Sends Notification to multiple users
         }catch(\Exception $e){
             //dd($e->getMessage());
-            $access_log->action_details = "Conference Reservation with ID " .$id. " was Canceled but email notification failed due to Internet inavailability or email authentication errors";
+            $access_log->action_details = "Conference Reservation with ID " .$id. " was Canceled but email notification failed due to ".$e->getMessage();
         }
 
         if($access_log->action_details == NULL)
