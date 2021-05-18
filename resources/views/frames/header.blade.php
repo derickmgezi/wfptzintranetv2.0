@@ -59,8 +59,8 @@
         <!-- jQuery-->
         {{HTML::script("js/jquery.min.js")}}
 
-        <!-- Custom Java Script styles for Tinymce Text Editor -->
-        {{HTML::script("js/tinymce.min.js")}}
+        <!-- Custom Java Script styles for Tinymce4 Text Editor -->
+        <!-- {{HTML::script("js/tinymce.min.js")}} -->
         
         <!-- Vue.js library -->
         {{HTML::script("js/vue.js")}}
@@ -68,7 +68,52 @@
         <!-- Custom Java Script styles for My Tinymce Text Editor -->
         <!-- {{HTML::script("js/mytinymce.js")}} -->
 
-        <script>
+        <!-- Custom Java Script styles for Tinymce5 Text Editor -->
+        <!-- <script src="https://cdn.tiny.cloud/1/wyyhqvqudtv7t15hz9pi66r0w72zwogypai1cfhf1s7ba4co/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
+
+        <!-- Custom Java Script styles for Tinymce5 Text Editor -->
+        {{HTML::script("js/tinymce5.min.js")}}
+        <script >
+            var editor_config = {
+                path_absolute: "{{ URL::to('/') }}/",
+                selector: 'textarea.my-editor',
+                relative_urls: false,
+                plugins: [
+                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen",
+                    "insertdatetime media nonbreaking save table directionality",
+                    "emoticons template paste textpattern"
+                ],
+                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+                file_picker_callback: function (callback, value, meta) {
+                    var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+                    var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+
+                    var cmsURL = editor_config.path_absolute + 'laravel-filemanager?editor=' + meta.fieldname;
+                    if (meta.filetype == 'image') {
+                        cmsURL = cmsURL + "&type=Images";
+                    } else {
+                        cmsURL = cmsURL + "&type=Files";
+                    }
+
+                    tinyMCE.activeEditor.windowManager.openUrl({
+                        url: cmsURL,
+                        title: 'Filemanager',
+                        width: x * 0.8,
+                        height: y * 0.8,
+                        resizable: "yes",
+                        close_previous: "no",
+                        onMessage: (api, message) => {
+                            callback(message.content);
+                        }
+                    });
+                }
+            };
+
+        tinymce.init(editor_config); 
+        </script>
+
+        <!-- <script>
             var editor_config = {
                 path_absolute: "{{ URL::to('/') }}/",
                 selector: ".complete-tinymce",
@@ -149,7 +194,7 @@
             };
 
             tinymce.init(editor_config);
-        </script>
+        </script> -->
 
     </head>
 
@@ -385,7 +430,7 @@
                                     @if(old('bio'))
                                     <textarea class="simple-tinymce form-control" name='bio' id="exampleTextarea" rows="10">{{ (old('description')) }}</textarea>
                                     @elseif(Session::has('add_user_bio'))
-                                    <textarea class="simple-tinymce form-control" name='bio' id="exampleTextarea" rows="10">{{ App\User::find(Session::get('add_user_bio'))->bio }}</textarea>
+                                    <textarea class="my-editor form-control" name='bio' id="exampleTextarea" rows="10">{{ App\User::find(Session::get('add_user_bio'))->bio }}</textarea>
                                     @endif
                                 </div>
                                 @if(Session::has('add_bio_error'))
