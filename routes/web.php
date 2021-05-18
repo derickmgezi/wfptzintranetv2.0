@@ -21,6 +21,9 @@ Route::get('/logon', 'LoginController@redirectToProvider');
 Route::get('/auth', 'LoginController@handleProviderCallback');
 
 Route::group(['middleware' => ['guest']], function () {
+    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
     
     Route::get('/home', 'HomeController@index');
 
