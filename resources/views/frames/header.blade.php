@@ -68,23 +68,66 @@
         <!-- Custom Java Script styles for My Tinymce Text Editor -->
         <!-- {{HTML::script("js/mytinymce.js")}} -->
 
-        <!-- Custom Java Script styles for Tinymce5 Text Editor -->
-        <!-- <script src="https://cdn.tiny.cloud/1/wyyhqvqudtv7t15hz9pi66r0w72zwogypai1cfhf1s7ba4co/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
+        <!-- Custom Java Script CDN styles for Tinymce5 Text Editor -->
+        <script src="https://cdn.tiny.cloud/1/wyyhqvqudtv7t15hz9pi66r0w72zwogypai1cfhf1s7ba4co/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
         <!-- Custom Java Script styles for Tinymce5 Text Editor -->
-        {{HTML::script("js/tinymce5.min.js")}}
+        <!-- {{HTML::script("js/tinymce5.min.js")}} -->
         <script >
             var editor_config = {
                 path_absolute: "{{ URL::to('/') }}/",
-                selector: 'textarea.my-editor',
+                selector: 'textarea.complete-tinymce',
+                height: 500,
+                relative_urls: false,
+                plugins: [
+                    "advlist autolink lists link image media charmap print preview hr anchor pagebreak",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen",
+                    "insertdatetime nonbreaking save table contextmenu directionality",
+                    "emoticons template paste textcolor colorpicker textpattern"
+                ],
+                toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+                toolbar2: "preview | forecolor backcolor | emoticons | codesample",
+                file_picker_callback: function (callback, value, meta) {
+                    var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+                    var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+
+                    var cmsURL = editor_config.path_absolute + 'laravel-filemanager?editor=' + meta.fieldname;
+                    if (meta.filetype == 'image') {
+                        cmsURL = cmsURL + "&type=Images";
+                    } else {
+                        cmsURL = cmsURL + "&type=Files";
+                    }
+
+                    tinyMCE.activeEditor.windowManager.openUrl({
+                        url: cmsURL,
+                        title: 'Filemanager',
+                        width: x * 0.8,
+                        height: y * 0.8,
+                        resizable: "yes",
+                        close_previous: "no",
+                        onMessage: (api, message) => {
+                            callback(message.content);
+                        }
+                    });
+                }
+            };
+
+        tinymce.init(editor_config); 
+        
+        var editor_config = {
+                path_absolute: "{{ URL::to('/') }}/",
+                selector: 'textarea.simple-tinymce',
+                height: 200,
+                menubar: false,
+                browser_spellcheck: true,
                 relative_urls: false,
                 plugins: [
                     "advlist autolink lists link image charmap print preview hr anchor pagebreak",
                     "searchreplace wordcount visualblocks visualchars code fullscreen",
-                    "insertdatetime media nonbreaking save table directionality",
-                    "emoticons template paste textpattern"
+                    "insertdatetime nonbreaking save table contextmenu directionality",
+                    "emoticons template paste textcolor colorpicker textpattern"
                 ],
-                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+                toolbar1: "insertfile undo redo | styleselect | outdent indent | bold italic |  bullist numlist | emoticons | forecolor backcolor | codesample | link | preview",
                 file_picker_callback: function (callback, value, meta) {
                     var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
                     var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
@@ -112,89 +155,6 @@
 
         tinymce.init(editor_config); 
         </script>
-
-        <!-- <script>
-            var editor_config = {
-                path_absolute: "{{ URL::to('/') }}/",
-                selector: ".complete-tinymce",
-                skin: 'charcoal',
-                height: 300,
-                menubar: true,
-                theme: 'modern',
-                browser_spellcheck: true,
-                plugins: [
-                    "advlist autolink lists link image media charmap print preview hr anchor pagebreak",
-                    "searchreplace wordcount visualblocks visualchars code fullscreen",
-                    "insertdatetime nonbreaking save table contextmenu directionality",
-                    "emoticons template paste textcolor colorpicker textpattern"
-                ],
-                toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
-                toolbar2: "preview | forecolor backcolor | emoticons | codesample",
-                relative_urls: true,
-                file_browser_callback: function (field_name, url, type, win) {
-                    var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-                    var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
-
-                    var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-                    if (type == 'image') {
-                        cmsURL = cmsURL + "&type=Images";
-                    } else {
-                        cmsURL = cmsURL + "&type=Files";
-                    }
-
-                    tinyMCE.activeEditor.windowManager.open({
-                        file: cmsURL,
-                        title: 'Filemanager',
-                        width: x * 0.8,
-                        height: y * 0.8,
-                        resizable: "yes",
-                        close_previous: "no"
-                    });
-                }
-            };
-
-            tinymce.init(editor_config);
-
-            var editor_config = {
-                path_absolute: "{{ URL::to('/') }}/",
-                selector: ".simple-tinymce",
-                skin: 'charcoal',
-                height: 100,
-                menubar: false,
-                theme: 'modern',
-                browser_spellcheck: true,
-                plugins: [
-                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                    "searchreplace wordcount visualblocks visualchars code fullscreen",
-                    "insertdatetime nonbreaking save table contextmenu directionality",
-                    "emoticons template paste textcolor colorpicker textpattern"
-                ],
-                toolbar1: "insertfile undo redo | alignleft aligncenter alignright alignjustify | outdent indent | bold italic | styleselect |  bullist numlist | emoticons | forecolor backcolor | codesample | link | preview",
-                relative_urls: true,
-                file_browser_callback: function (field_name, url, type, win) {
-                    var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-                    var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
-
-                    var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-                    if (type == 'image') {
-                        cmsURL = cmsURL + "&type=Images";
-                    } else {
-                        cmsURL = cmsURL + "&type=Files";
-                    }
-
-                    tinyMCE.activeEditor.windowManager.open({
-                        file: cmsURL,
-                        title: 'Filemanager',
-                        width: x * 0.8,
-                        height: y * 0.8,
-                        resizable: "yes",
-                        close_previous: "no"
-                    });
-                }
-            };
-
-            tinymce.init(editor_config);
-        </script> -->
 
     </head>
 
@@ -430,7 +390,7 @@
                                     @if(old('bio'))
                                     <textarea class="simple-tinymce form-control" name='bio' id="exampleTextarea" rows="10">{{ (old('description')) }}</textarea>
                                     @elseif(Session::has('add_user_bio'))
-                                    <textarea class="my-editor form-control" name='bio' id="exampleTextarea" rows="10">{{ App\User::find(Session::get('add_user_bio'))->bio }}</textarea>
+                                    <textarea class="simple-tinymce form-control" name='bio' id="exampleTextarea" rows="10">{{ App\User::find(Session::get('add_user_bio'))->bio }}</textarea>
                                     @endif
                                 </div>
                                 @if(Session::has('add_bio_error'))
