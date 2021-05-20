@@ -19,7 +19,7 @@ class FeedbackController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $feedback = Feedback::orderBy('id','desc')->paginate(5);
+        $feedback = Feedback::orderBy('id','desc')->paginate(3);
 
         $access_log = new AccessLog;
         $access_log->user = Auth::user()->username;

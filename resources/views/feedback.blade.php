@@ -8,8 +8,8 @@
 
             <div class="container-fluid marketing">
                 <div class="row">
-                    @if(Auth::user()->username == 'derick.ruganuza' || Auth::user()->username == 'daudi.kabalika' || Auth::user()->username == 'fizza.moloo' || Auth::user()->username == 'max.wohlgemuth')
-                    <div class="col-8">
+                   
+                    <div class="offset-2 col-8">
                         <!-- Example Notifications Card -->
                         <div class="card mb-3 mt-3">
                             <div class="card-header">
@@ -46,7 +46,7 @@
                                 @endforeach
                                 @endif
                             </div>
-                            @if($feedback->total() > 5)
+                            @if($feedback->total() > 3)
                             <div class="card-footer text-center">
                                 <nav aria-label="...">
                                     {{ $feedback->links('vendor.pagination.bootstrap-4-small-feedback') }}
@@ -54,11 +54,7 @@
                             </div>
                             @endif
                         </div>
-                    </div>
-                    @endif
 
-                    @if(Auth::user()->username != 'daudi.kabalika' && Auth::user()->username != 'fizza.moloo' && Auth::user()->username != 'max.wohlgemuth')
-                    <div class="col-4">
                         <div class="card mt-3">
                             <div class="card-header">
                                 <i class="fa fa-comments-o"></i> Send us your Feedback
@@ -84,7 +80,6 @@
                             {{Form::close()}}
                         </div>
                     </div>
-                    @endif
                 </div>
 
                 <hr class="featurette-divider">
