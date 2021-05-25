@@ -12,6 +12,8 @@ use App\ResourceType;
 use App\AccessLog;
 use Illuminate\Validation\Rule;
 use Session;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 
 class ManageController extends Controller {
 
@@ -58,6 +60,105 @@ class ManageController extends Controller {
     public function create() {
         //
         return back()->with('add_user', 'Create new User');
+    }
+
+    public function autoCreate() {
+        //Get data from WFP HR API
+        // Create a client with a base URI
+        $client = new Client([
+            'base_uri' => 'https://api.wfp.org/'
+            ]);
+        
+        // Get Glass User info from API
+        //$response = $client->request('GET', 'glass/3.2.0/users?q=email:carolyne.ndumbalo@wfp.org', [
+        $response = $client->request('GET', 'glass/3.2.0/users?q=country_iso_code_alpha_3:TZA', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer 727c39b0-bd2e-31c1-bcbe-2b1d55a7d45d'
+            ],
+        //    RequestOptions::QUERY => [
+        //        'email' => 'derick.ruganuza@wfp.org'
+        //    ]
+        ]);
+        
+        //Get Body will all users
+        //dd($response);
+        //dd($response->getStatusCode());
+        //dd($response->getReasonPhrase());
+        //dd($response->getHeaders());
+        //dd($response->getBody());
+        //dd((string) $response->getBody());
+        //dd($response->getBody()->read(10));
+        //dd($response->getBody()->getContents());
+        
+        //Convert JSON Data into an Array
+        $array_response = json_decode($response->getBody(), true);
+        
+        //Convert Array into a collection
+        $collection_response = collect($array_response);
+        
+        //Data
+        //dd($collection_response)
+
+        //Multiple Actual User Data
+        $glass_users= collect($collection_response['hits']['hits']);
+        //dd($glass_users);
+        
+        //Single Actual User Data
+        //$glass_user= collect($collection_response['hits']['hits'][0]['_source']);
+        //dd($glass_user);
+        //dd($glass_user->get('nte'));
+        
+        //Update Local database User details incase they differ with details from Azure
+        // if($localuser->country != $azureuser->user['country'] || $localuser->region != $azureuser->user['department']){
+        //     $user = User::find($localuser->id);
+        //     $user->country = $azureuser->user['country'];
+        //     $user->region = $azureuser->user['department'];
+        //     $user->save();
+         
+        //Update Local database User details incase they differ with details from Glass
+        foreach($glass_users as $glass_user){
+            //Convert Array into a collection
+            $glass_user = collect($glass_user);
+            
+            //Multiple Actual User Data
+            $glass_user= collect( $glass_user['_source']);
+            //dd($glass_user->get('region_code'));
+
+            //If Glass User doesn't exist Create User in Local database
+            try{
+                $user = User::firstOrCreate(
+                    ['email' => $glass_user->get('email')],
+                    [
+                        'firstname' => $glass_user->get('first_name'),
+                        'secondname' => $glass_user->get('last_name'),
+                        'username' => $glass_user->get('login_name'),
+                        'title' => $glass_user->get('position_title'),
+                        'department' => $glass_user->get('org_unit_description'),
+                        'dutystation' => $glass_user->get('location_hierarchy'),
+                        'country' => $glass_user->get('country_name'),
+                        'region' => $glass_user->get('region_code'),
+                        'password' => bcrypt('Welcome@123')
+                    ]
+                );
+
+                // $user = User::firstOrNew(array('email' => $glass_user->get('email')));
+                // $user->firstname = $glass_user->get('first_name');
+                // $user->secondname = $glass_user->get('last_name');
+                // $user->username = $glass_user->get('login_name');
+                // $user->title = $glass_user->get('position_title');
+                // $user->department = $glass_user->get('org_unit_description');
+                // $user->dutystation = $glass_user->get('location_hierarchy');
+                // $user->country = $glass_user->get('country_name');
+                // $user->region = $glass_user->get('region_code');
+                // $user->password = bcrypt('Welcome@123');
+                // $user->save();
+
+            }catch (\Illuminate\Database\QueryException $exception) {
+                //dd($exception->getMessage());
+            }
+        }
+        
+        return back()->with('add_user_status', 'Users has been automatically been added successfuly');
     }
 
     /**

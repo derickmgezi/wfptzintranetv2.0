@@ -47,24 +47,27 @@ class LoginController extends Controller{
                 
                 $unreadstories = DB::select("SELECT * FROM stories LEFT JOIN (SELECT story_id FROM storyviews WHERE viewed_by = ".Auth::id()." GROUP BY storyviews.story_id) AS readstories ON readstories.story_id = stories.id WHERE readstories.story_id IS NULL  AND status = 1 ORDER BY id DESC");
                 session(['unreadstories' => count($unreadstories)]);
-/*                
+                
                 //Get data from WFP HR API
                 // Create a client with a base URI
                 $client = new Client([
-                    'base_uri' => 'https://api.efs.wfp.org/hr/1.1.0/'
+                    'base_uri' => 'https://api.wfp.org/'
                     ]);
                 
-                // Get All Users from API
-                $response = $client->request('GET', 'glass/users?size=10000', [
+                // Get Glass User info from API
+                //$response = $client->request('GET', 'glass/3.2.0/users?q=country_iso_code_alpha_3:TZA', [
+                //$response = $client->request('GET', 'glass/3.2.0/users?q=email:william.laswai@wfp.org', [
+                $response = $client->request('GET', 'glass/3.2.0/users?q=email:'.$azureuser->email, [
                     RequestOptions::HEADERS => [
-                        'Authorization' => 'Bearer 9866916d-c011-3ebf-969e-281018fe3e3b'
+                        'Authorization' => 'Bearer 727c39b0-bd2e-31c1-bcbe-2b1d55a7d45d'
                     ],
-//                    RequestOptions::QUERY => [
-//                        'hits.hits._source.email' => 'derick.ruganuza@wfp.org'
-//                    ]
+                //    RequestOptions::QUERY => [
+                //        'email' => 'derick.ruganuza@wfp.org'
+                //    ]
                 ]);
                 
                 //Get Body will all users
+                //dd($response);
                 //dd($response->getStatusCode());
                 //dd($response->getReasonPhrase());
                 //dd($response->getHeaders());
@@ -80,16 +83,30 @@ class LoginController extends Controller{
                 $collection_response = collect($array_response);
                 
                 //Data
-                dd($collection_response);
+                //dd($collection_response);
+
+                //Multiple Actual User Data
+                //$glass_users= collect($collection_response['hits']['hits']);
                 
-                //Actual Data
-                dd($collection_response['hits']['hits']);
-*/              
+                //Single Actual User Data
+                $glass_user= collect($collection_response['hits']['hits'][0]['_source']);
+                //dd($glass_user);
+                //dd($glass_user->get('nte'));
+             
                 //Update Local database User details incase they differ with details from Azure
-                if($localuser->country != $azureuser->user['country'] || $localuser->region != $azureuser->user['department']){
+                // if($localuser->country != $azureuser->user['country'] || $localuser->region != $azureuser->user['department']){
+                //     $user = User::find($localuser->id);
+                //     $user->country = $azureuser->user['country'];
+                //     $user->region = $azureuser->user['department'];
+                //     $user->save();
+                // }
+
+                //Update Local database User details incase they differ with details from Glass
+                if($localuser->country != $glass_user->get('country_name') || $localuser->region != $glass_user->get('region_code')){
                     $user = User::find($localuser->id);
-                    $user->country = $azureuser->user['country'];
-                    $user->region = $azureuser->user['department'];
+                    $user->country = $glass_user->get('country_name');
+                    $user->region = $glass_user->get('region_code');
+                    $user->title = $glass_user->get('position_title');
                     $user->save();
                 }
 

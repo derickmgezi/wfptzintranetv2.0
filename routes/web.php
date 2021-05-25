@@ -290,6 +290,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/manage', 'ManageController@index');
     
     Route::get('/createuser', 'ManageController@create');
+
+    Route::get('/auto_create_users', 'ManageController@autoCreate');
     
     Route::post('/adduser', 'ManageController@store');
     

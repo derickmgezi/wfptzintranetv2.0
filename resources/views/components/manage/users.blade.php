@@ -2,17 +2,21 @@
 <div class="card mt-2 text-center">
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-                <a class="nav-link {{ Session::has('view_users') || Session::has('add_user_error') || Session::has('add_user_status')?'active':'' }}" data-toggle="tab" href="#addUsers" role="tab">Add Users</a>
+            <li class="nav-item">
+                <a class="nav-link {{ Session::has('view_users') || Session::has('add_user_error') || Session::has('add_user_status')?'active':'' }}"
+                    data-toggle="tab" href="#addUsers" role="tab">Add Users</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Session::has('edit_user') || Session::has('edit_user_status') || Session::has('edit_user_error') || Session::has('user_status')?'active':'' }}" data-toggle="tab" href="#manageUsers" role="tab">Manage Users</a>
+                <a class="nav-link {{ Session::has('edit_user') || Session::has('edit_user_status') || Session::has('edit_user_error') || Session::has('user_status')?'active':'' }}"
+                    data-toggle="tab" href="#manageUsers" role="tab">Manage Users</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Session::has('add_editor_error') || Session::has('add_editor_status') || Session::has('edit_editor') || Session::has('edit_editor_status') || Session::has('edit_editor_error') || Session::has('editor_status')?'active':'' }}" data-toggle="tab" href="#editors" role="tab">Manage Editors</a>
+                <a class="nav-link {{ Session::has('add_editor_error') || Session::has('add_editor_status') || Session::has('edit_editor') || Session::has('edit_editor_status') || Session::has('edit_editor_error') || Session::has('editor_status')?'active':'' }}"
+                    data-toggle="tab" href="#editors" role="tab">Manage Editors</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Session::has('add_resource_manager_error') || Session::has('add_resource_manager_status') || Session::has('edit_resource_manager') || Session::has('edit_resource_manager_status') || Session::has('edit_resource_manager_error') || Session::has('resource_manager_status')?'active':'' }}" data-toggle="tab" href="#resourceManagers" role="tab">Resource Managers</a>
+                <a class="nav-link {{ Session::has('add_resource_manager_error') || Session::has('add_resource_manager_status') || Session::has('edit_resource_manager') || Session::has('edit_resource_manager_status') || Session::has('edit_resource_manager_error') || Session::has('resource_manager_status')?'active':'' }}"
+                    data-toggle="tab" href="#resourceManagers" role="tab">Resource Managers</a>
             </li>
         </ul>
     </div>
@@ -34,6 +38,9 @@
                         <div class="pull-left">
                             <a role="button" href="{{ (Session::has('edit_user') || Session::has('edit_user_error'))?URL::to('/createuser/'):'#' }}" class="btn btn-success" {!! (Session::has('edit_user') || Session::has('edit_user_error'))?"":"data-toggle='modal' data-target='#addUserModal'" !!} >
                                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add User
+                            </a>
+                            <a role="button" href="{{ URL::to('/auto_create_users/') }}" class="btn btn-primary" >
+                               <i class="fa fa-plus-circle" aria-hidden="true"></i> Auto Add Users from AD
                             </a>
                         </div>
 
@@ -136,9 +143,8 @@
                 <table class="table table-responsive">
                     <thead>
                         <tr>
-                            <td><small><strong><i class="fa fa-user-circle fa-2x" aria-hidden="true"></i><br><a href="#">User Name</a></strong></small></td>
                             <td><small><strong><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i><br><a href="#">Email</a></strong></small></td>
-                            <td><small><strong><i class="fa fa-building-o fa-2x" aria-hidden="true"></i><br><a href="#">Region</a></strong></small></td>
+                            <td><small><strong><i class="fa fa-building-o fa-2x" aria-hidden="true"></i><br><a href="#">Country</a></strong></small></td>
                             <td><small><strong><i class="fa fa-eye fa-2x" aria-hidden="true"></i><br><a href="#">Logon</a></strong></small></td>
                             <td><small><strong><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i><br>Edit</strong></small></td>
                             <td><small><strong><i class="fa fa-unlock-alt fa-2x" aria-hidden="true"></i><br>Access</strong></small></td>
@@ -154,9 +160,8 @@
                         @foreach($users as $user)
                         @if($row_status)
                         <tr class="{{ array_get($row_color,$color_id) }}">
-                            <td><small>{{ $user->username }}</small></td>
                             <td><small>{{ $user->email }}</small></td>
-                            <td><small>{{ $user->region }}</small></td>
+                            <td><small>{{ $user->country }}</small></td>
                             <?php $date = new Jenssegers\Date\Date($user->updated_at); ?>
                             <td><small>{{ $date->ago() }}</small></td>
                             <td><a role="button" href="{{ URL::to('/edituser/'.$user->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
@@ -168,9 +173,8 @@
                         ?>
                         @else
                         <tr>
-                            <td><small>{{ $user->username }}</small></td>
                             <td><small>{{ $user->email }}</small></td>
-                            <td><small>{{ $user->region }}</small></td>
+                            <td><small>{{ $user->country }}</small></td>
                             <?php $date = new Jenssegers\Date\Date($user->updated_at); ?>
                             <td><small>{{ $date->ago() }}</small></td>
                             <td><a role="button" href="{{ URL::to('/edituser/'.$user->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
