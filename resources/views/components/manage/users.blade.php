@@ -157,7 +157,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        $users = $users->sortByDesc('nte');
+                        $users = $users->sortByDesc('id');
                         $row_color = array('table-active', 'table-success', 'table-info', 'table-danger', 'table-warning');
                         $color_id = 0;
                         $row_status = 1;
