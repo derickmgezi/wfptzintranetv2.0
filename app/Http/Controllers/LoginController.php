@@ -51,15 +51,15 @@ class LoginController extends Controller{
                 //Get data from WFP HR API
                 // Create a client with a base URI
                 $client = new Client([
-                    'base_uri' => 'https://api.wfp.org/'
+                    'base_uri' => env('WFP_GLASS_BASE_URI')
                     ]);
                 
                 // Get Glass User info from API
-                //$response = $client->request('GET', 'glass/3.2.0/users?q=country_iso_code_alpha_3:TZA', [
-                //$response = $client->request('GET', 'glass/3.2.0/users?q=email:william.laswai@wfp.org', [
-                $response = $client->request('GET', 'glass/3.2.0/users?q=email:'.$azureuser->email, [
+                //$response = $client->request('GET', '?q=country_iso_code_alpha_3:TZA', [
+                //$response = $client->request('GET', '?q=email:william.laswai@wfp.org', [
+                $response = $client->request('GET', '?q=email:'.$azureuser->email, [
                     RequestOptions::HEADERS => [
-                        'Authorization' => 'Bearer 727c39b0-bd2e-31c1-bcbe-2b1d55a7d45d'
+                        'Authorization' => 'Bearer '.env('WFP_GLASS_BEARER_TOKEN')
                     ],
                 //    RequestOptions::QUERY => [
                 //        'email' => 'derick.ruganuza@wfp.org'
@@ -101,12 +101,13 @@ class LoginController extends Controller{
                 //     $user->save();
                 // }
 
-                //Update Local database User details incase they differ with details from Glass
-                if($localuser->country != $glass_user->get('country_name') || $localuser->region != $glass_user->get('region_code')){
+                //Update Local database User nte incase they differ with that from Glass
+                if($localuser->nte != $glass_user->get('nte')){
                     $user = User::find($localuser->id);
+                    $user->nte = $glass_user->get('nte');
+                    $user->title = $glass_user->get('position_title');
                     $user->country = $glass_user->get('country_name');
                     $user->region = $glass_user->get('region_code');
-                    $user->title = $glass_user->get('position_title');
                     $user->save();
                 }
 

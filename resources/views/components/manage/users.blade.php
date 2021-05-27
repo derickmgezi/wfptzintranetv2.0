@@ -120,6 +120,9 @@
                         @endif
 
                         <div class="pull-left">
+                            <a role="button" href="{{ URL::to('/auto_update_users/') }}" class="btn btn-primary" >
+                               <i class="fa fa-edit" aria-hidden="true"></i> Auto update User details from AD
+                            </a>
                             @if(Session::has('edit_user') || Session::has('edit_user_error'))
                             <a role="button" href="#" class="btn btn-warning" data-toggle='modal' data-target='#addUserModal'>
                                 <i class="fa fa-edit" aria-hidden="true"></i> Edit Previous User
@@ -145,14 +148,16 @@
                         <tr>
                             <td><small><strong><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i><br><a href="#">Email</a></strong></small></td>
                             <td><small><strong><i class="fa fa-building-o fa-2x" aria-hidden="true"></i><br><a href="#">Country</a></strong></small></td>
-                            <td><small><strong><i class="fa fa-eye fa-2x" aria-hidden="true"></i><br><a href="#">Logon</a></strong></small></td>
+                            <td><small><strong><i class="fa fa-building-o fa-2x" aria-hidden="true"></i><br><a href="#">Region</a></strong></small></td>
+                            <td><small><strong><i class="fa fa-eye fa-2x" aria-hidden="true"></i><br><a href="#">NTE</a></strong></small></td>
+                            <td><small><strong><i class="fa fa-refresh  fa-2x" aria-hidden="true"></i><br>Update</strong></small></td>
                             <td><small><strong><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i><br>Edit</strong></small></td>
                             <td><small><strong><i class="fa fa-unlock-alt fa-2x" aria-hidden="true"></i><br>Access</strong></small></td>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $users = $users->sortBy('updated_at');
+                        $users = $users->sortByDesc('nte');
                         $row_color = array('table-active', 'table-success', 'table-info', 'table-danger', 'table-warning');
                         $color_id = 0;
                         $row_status = 1;
@@ -162,8 +167,10 @@
                         <tr class="{{ array_get($row_color,$color_id) }}">
                             <td><small>{{ $user->email }}</small></td>
                             <td><small>{{ $user->country }}</small></td>
-                            <?php $date = new Jenssegers\Date\Date($user->updated_at); ?>
+                            <td><small>{{ $user->region }}</small></td>
+                            <?php $date = new Jenssegers\Date\Date($user->nte); ?>
                             <td><small>{{ $date->ago() }}</small></td>
+                            <td><a role="button" href="{{ URL::to('/autoupdateuser/'.$user->id) }}" class="btn btn-sm btn-info"><i class="fa fa-refresh fa-lg" aria-hidden="true"></i> Update</a></td>
                             <td><a role="button" href="{{ URL::to('/edituser/'.$user->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
                             <td><a role="button" href="{{ URL::to('/deleteuser/'.$user->id) }}" class="btn btn-sm {{ $user->status?'btn-danger':'btn-success' }}"><i class="fa {{ $user->status?'fa-lock':'fa-unlock' }} fa-lg" aria-hidden="true"></i> {{ $user->status?'Lock':'Unlock' }}</a></td>
                         </tr>
@@ -175,8 +182,10 @@
                         <tr>
                             <td><small>{{ $user->email }}</small></td>
                             <td><small>{{ $user->country }}</small></td>
-                            <?php $date = new Jenssegers\Date\Date($user->updated_at); ?>
+                            <td><small>{{ $user->region }}</small></td>
+                            <?php $date = new Jenssegers\Date\Date($user->nte); ?>
                             <td><small>{{ $date->ago() }}</small></td>
+                            <td><a role="button" href="{{ URL::to('/autoupdateuser/'.$user->id) }}" class="btn btn-sm btn-info"><i class="fa fa-refresh fa-lg" aria-hidden="true"></i> Update</a></td>
                             <td><a role="button" href="{{ URL::to('/edituser/'.$user->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></td>
                             <td><a role="button" href="{{ URL::to('/deleteuser/'.$user->id) }}" class="btn btn-sm {{ $user->status?'btn-danger':'btn-success' }}"><i class="fa {{ $user->status?'fa-lock':'fa-unlock' }} fa-lg" aria-hidden="true"></i> {{ $user->status?'Lock':'Unlock' }}</a></td>
                         </tr>

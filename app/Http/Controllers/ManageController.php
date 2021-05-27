@@ -66,14 +66,14 @@ class ManageController extends Controller {
         //Get data from WFP HR API
         // Create a client with a base URI
         $client = new Client([
-            'base_uri' => 'https://api.wfp.org/'
+            'base_uri' => env('WFP_GLASS_BASE_URI')
             ]);
         
         // Get Glass User info from API
-        //$response = $client->request('GET', 'glass/3.2.0/users?q=email:carolyne.ndumbalo@wfp.org', [
-        $response = $client->request('GET', 'glass/3.2.0/users?q=country_iso_code_alpha_3:TZA', [
+        //$response = $client->request('GET', '?q=email:eunice.mosha@wfp.org', [
+        $response = $client->request('GET', '?q=country_iso_code_alpha_3:TZA', [
             RequestOptions::HEADERS => [
-                'Authorization' => 'Bearer 727c39b0-bd2e-31c1-bcbe-2b1d55a7d45d'
+                'Authorization' => 'Bearer '.env('WFP_GLASS_BEARER_TOKEN')
             ],
         //    RequestOptions::QUERY => [
         //        'email' => 'derick.ruganuza@wfp.org'
@@ -114,15 +114,17 @@ class ManageController extends Controller {
         //     $user->country = $azureuser->user['country'];
         //     $user->region = $azureuser->user['department'];
         //     $user->save();
+        // }
          
         //Update Local database User details incase they differ with details from Glass
         foreach($glass_users as $glass_user){
             //Convert Array into a collection
-            $glass_user = collect($glass_user);
+            //$glass_user = collect($glass_user);
             
             //Multiple Actual User Data
             $glass_user= collect( $glass_user['_source']);
-            //dd($glass_user->get('region_code'));
+            //dd($glass_user);
+            //dd($glass_user->get('nte'));
 
             //If Glass User doesn't exist Create User in Local database
             try{
@@ -137,28 +139,157 @@ class ManageController extends Controller {
                         'dutystation' => $glass_user->get('location_hierarchy'),
                         'country' => $glass_user->get('country_name'),
                         'region' => $glass_user->get('region_code'),
+                        'nte' => $glass_user->get('nte'),
                         'password' => bcrypt('Welcome@123')
                     ]
                 );
-
-                // $user = User::firstOrNew(array('email' => $glass_user->get('email')));
-                // $user->firstname = $glass_user->get('first_name');
-                // $user->secondname = $glass_user->get('last_name');
-                // $user->username = $glass_user->get('login_name');
-                // $user->title = $glass_user->get('position_title');
-                // $user->department = $glass_user->get('org_unit_description');
-                // $user->dutystation = $glass_user->get('location_hierarchy');
-                // $user->country = $glass_user->get('country_name');
-                // $user->region = $glass_user->get('region_code');
-                // $user->password = bcrypt('Welcome@123');
-                // $user->save();
-
             }catch (\Illuminate\Database\QueryException $exception) {
                 //dd($exception->getMessage());
             }
         }
         
-        return back()->with('add_user_status', 'Users has been automatically been added successfuly');
+        return back()->with('add_user_status', 'Users have automatically been added successfuly');
+    }
+
+    public function autoUpdateAllUsers() {
+        //Retrive all users in the user database and update details from Glass databse
+        $localusers = User::all();
+        foreach ($localusers->sortBy('created_at') as $localuser) {
+            //Get data from WFP HR API
+            // Create a client with a base URI
+            $client = new Client([
+                'base_uri' => env('WFP_GLASS_BASE_URI')
+                ]);
+            
+            // Get Glass User info from API
+            //$response = $client->request('GET', '?q=email:wendy.bigham@wfp.org', [
+            $response = $client->request('GET', '?q=email:'.$localuser->email, [
+                RequestOptions::HEADERS => [
+                    'Authorization' => 'Bearer '.env('WFP_GLASS_BEARER_TOKEN')
+                ],
+            //    RequestOptions::QUERY => [
+            //        'email' => 'derick.ruganuza@wfp.org'
+            //    ]
+            ]);
+            
+            //Get Body will all users
+            //dd($response);
+            //dd($response->getStatusCode());
+            //dd($response->getReasonPhrase());
+            //dd($response->getHeaders());
+            //dd($response->getBody());
+            //dd((string) $response->getBody());
+            //dd($response->getBody()->read(10));
+            //dd($response->getBody()->getContents());
+            
+            //Convert JSON Data into an Array
+            $array_response = json_decode($response->getBody(), true);
+            
+            //Convert Array into a collection
+            $collection_response = collect($array_response);
+            
+            //Data
+            //dd($collection_response)
+
+            //Multiple Actual User Data
+            //$glass_users= collect($collection_response['hits']['hits']);
+            //dd($glass_users);
+            
+            try{
+                //Single Actual User Data
+                $glass_user= collect($collection_response['hits']['hits'][0]['_source']);
+                //dd($glass_user);
+                //dd($glass_user->get('nte'));
+            }catch(\Exception $exception){
+                //If user doesn't exist in Glass set nte to NULL
+                $glass_user = collect(['nte' => NULL, 'email' => $localuser->email]);
+                //dd($exception->getMessage());
+                //dd($glass_user);
+                //dd($localuser->email);
+            }
+            
+            //Update Local database User details incase they differ with details from Glass
+            if($localuser->nte != $glass_user->get('nte') && $glass_user->get('nte') != NULL){
+                $user = User::find($localuser->id);
+                if($glass_user->get('position_title'))
+                $user->title = $glass_user->get('position_title');
+                $user->country = $glass_user->get('country_name');
+                $user->region = $glass_user->get('region_code');
+                $user->nte = $glass_user->get('nte');
+                $user->save();
+            }
+        }
+        return back()->with('edit_user_status', 'Users details have been updated successfuly');
+    }
+
+    public function autoUpdateUser($id) {
+        //Retrive all users in the user database and update details from Glass databse
+        $localuser = User::find($id);
+        
+        //Get data from WFP HR API
+        // Create a client with a base URI
+        $client = new Client([
+            'base_uri' => env('WFP_GLASS_BASE_URI')
+            ]);
+        
+        // Get Glass User info from API
+        //$response = $client->request('GET', '?q=email:wendy.bigham@wfp.org', [
+        $response = $client->request('GET', '?q=email:'.$localuser->email, [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.env('WFP_GLASS_BEARER_TOKEN')
+            ],
+        //    RequestOptions::QUERY => [
+        //        'email' => 'derick.ruganuza@wfp.org'
+        //    ]
+        ]);
+        
+        //Get Body will all users
+        //dd($response);
+        //dd($response->getStatusCode());
+        //dd($response->getReasonPhrase());
+        //dd($response->getHeaders());
+        //dd($response->getBody());
+        //dd((string) $response->getBody());
+        //dd($response->getBody()->read(10));
+        //dd($response->getBody()->getContents());
+        
+        //Convert JSON Data into an Array
+        $array_response = json_decode($response->getBody(), true);
+        
+        //Convert Array into a collection
+        $collection_response = collect($array_response);
+        
+        //Data
+        //dd($collection_response)
+        //Multiple Actual User Data
+        //$glass_users= collect($collection_response['hits']['hits']);
+        //dd($glass_users);
+        
+        try{
+            //Single Actual User Data
+            $glass_user= collect($collection_response['hits']['hits'][0]['_source']);
+            //dd($glass_user);
+            //dd($glass_user->get('nte'));
+        }catch(\Exception $exception){
+            //If user doesn't exist in Glass set nte to NULL
+            $glass_user = collect(['email' => NULL]);
+            //dd($exception->getMessage());
+            //dd($glass_user);
+            //dd($localuser->email);
+        }
+        
+        //Update Local database User details incase they differ with details from Glass
+        if($localuser->nte != $glass_user->get('nte') && $glass_user->get('email') != NULL){
+            $user = User::find($localuser->id);
+            if($glass_user->get('position_title'))
+            $user->title = $glass_user->get('position_title');
+            $user->country = $glass_user->get('country_name');
+            $user->region = $glass_user->get('region_code');
+            $user->nte = $glass_user->get('nte');
+            $user->save();
+        }
+        
+        return back()->with('edit_user_status', 'User details have been updated successfuly');
     }
 
     /**
