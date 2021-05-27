@@ -290,10 +290,16 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/manage', 'ManageController@index');
     
     Route::get('/createuser', 'ManageController@create');
+
+    Route::get('/auto_create_users', 'ManageController@autoCreate');
+
+    Route::get('/auto_update_users', 'ManageController@autoUpdateAllUsers');
     
     Route::post('/adduser', 'ManageController@store');
     
     Route::get('/edituser/{id}', 'ManageController@edit');
+
+    Route::get('/autoupdateuser/{id}', 'ManageController@autoUpdateUser');
     
     Route::post('/edituser/{id}', 'ManageController@update');
     
