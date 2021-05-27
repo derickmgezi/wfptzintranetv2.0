@@ -13,6 +13,8 @@ use App\AccessLog;
 use Session;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use Notification;
+use App\Notifications\UserProfileUpdated;
 
 class LoginController extends Controller{
     /**
@@ -109,6 +111,13 @@ class LoginController extends Controller{
                     $user->country = $glass_user->get('country_name');
                     $user->region = $glass_user->get('region_code');
                     $user->save();
+
+                    try{
+                        //Send Email Notification to user that profile has been updated
+                        Notification::send($user, new UserProfileUpdated($user));
+                    }catch(\Exception $e){
+                        //dd($e->getMessage());
+                    }
                 }
 
                 return redirect()->intended(Session::get('intended_url'));
