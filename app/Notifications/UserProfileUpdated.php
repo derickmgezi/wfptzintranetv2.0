@@ -41,16 +41,16 @@ class UserProfileUpdated extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/view_user_bio/'.$this->user->id);
+        $url = url('/feedback');
         
         return (new MailMessage)
-                    ->line('Below detials in your user profile have been updated.')
+                    ->line('Your user profile has been updated.')
                     ->line('NTE: '.$this->user->nte)
                     ->line('Title: '.$this->user->title)
                     ->line('Country: '.$this->user->country)
                     ->line('Region: '.$this->user->region)
-                    ->line('Click on the buton below to access your full profile details')
-                    ->action('Booking Details', $url)
+                    ->line('Please provide your feedback on how we can improve Wazo by clicking on below button')
+                    ->action('Send us your Feedback', $url)
                     ->line('Thank you for using Wazo!');
     }
 
