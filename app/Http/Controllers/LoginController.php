@@ -15,6 +15,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Notification;
 use App\Notifications\UserProfileUpdated;
+use Date;
 
 class LoginController extends Controller{
     /**
@@ -103,10 +104,16 @@ class LoginController extends Controller{
                 //     $user->save();
                 // }
 
+                $localusernte = new Date($localuser->nte);
+                $localusernte = $localusernte->format("Y-m-d H:i:s");
+
+                $glassusernte = new Date($glass_user->get('nte'));
+                $glassusernte = $glassusernte->format("Y-m-d H:i:s");
+
                 //Update Local database User nte incase they differ with that from Glass
-                if($localuser->nte != $glass_user->get('nte')){
+                if($localusernte != $glassusernte){
                     $user = User::find($localuser->id);
-                    $user->nte = $glass_user->get('nte');
+                    $user->nte = $glassusernte;
                     $user->title = $glass_user->get('position_title');
                     $user->country = $glass_user->get('country_name');
                     $user->region = $glass_user->get('region_code');

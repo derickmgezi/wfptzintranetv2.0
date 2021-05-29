@@ -14,6 +14,7 @@ use Illuminate\Validation\Rule;
 use Session;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use Date;
 
 class ManageController extends Controller {
 
@@ -127,6 +128,9 @@ class ManageController extends Controller {
             //dd($glass_user->get('nte'));
 
             //If Glass User doesn't exist Create User in Local database
+            $glassusernte = new Date($glass_user->get('nte'));
+            $glassusernte = $glassusernte->format("Y-m-d H:i:s");
+
             try{
                 $user = User::firstOrCreate(
                     ['email' => $glass_user->get('email')],
@@ -139,7 +143,7 @@ class ManageController extends Controller {
                         'dutystation' => $glass_user->get('location_hierarchy'),
                         'country' => $glass_user->get('country_name'),
                         'region' => $glass_user->get('region_code'),
-                        'nte' => $glass_user->get('nte'),
+                        'nte' => $glassusernte,
                         'password' => bcrypt('Welcome@123')
                     ]
                 );
@@ -209,13 +213,19 @@ class ManageController extends Controller {
             }
             
             //Update Local database User details incase they differ with details from Glass
-            if($localuser->nte != $glass_user->get('nte') && $glass_user->get('nte') != NULL){
+            $localusernte = new Date($localuser->nte);
+            $localusernte = $localusernte->format("Y-m-d H:i:s");
+
+            $glassusernte = new Date($glass_user->get('nte'));
+            $glassusernte = $glassusernte->format("Y-m-d H:i:s");
+
+            if($localusernte != $glassusernte && $glassusernte != NULL){
                 $user = User::find($localuser->id);
                 if($glass_user->get('position_title'))
                 $user->title = $glass_user->get('position_title');
                 $user->country = $glass_user->get('country_name');
                 $user->region = $glass_user->get('region_code');
-                $user->nte = $glass_user->get('nte');
+                $user->nte = $glassusernte;
                 $user->save();
             }
         }
@@ -279,13 +289,19 @@ class ManageController extends Controller {
         }
         
         //Update Local database User details incase they differ with details from Glass
-        if($localuser->nte != $glass_user->get('nte') && $glass_user->get('email') != NULL){
+        $localusernte = new Date($localuser->nte);
+        $localusernte = $localusernte->format("Y-m-d H:i:s");
+
+        $glassusernte = new Date($glass_user->get('nte'));
+        $glassusernte = $glassusernte->format("Y-m-d H:i:s");
+
+        if($localusernte != $glassusernte && $glass_user->get('email') != NULL){
             $user = User::find($localuser->id);
             if($glass_user->get('position_title'))
             $user->title = $glass_user->get('position_title');
             $user->country = $glass_user->get('country_name');
             $user->region = $glass_user->get('region_code');
-            $user->nte = $glass_user->get('nte');
+            $user->nte = $glassusernte;
             $user->save();
         }
         
