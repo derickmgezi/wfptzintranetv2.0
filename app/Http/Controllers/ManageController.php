@@ -147,6 +147,15 @@ class ManageController extends Controller {
                         'password' => bcrypt('Welcome@123')
                     ]
                 );
+
+                if($user->wasRecentlyCreated){
+                    try{
+                        //Send Email Notification to user after account has been created in Wazo
+                        Notification::send($user, new UserProfileCreated($user));
+                    }catch(\Exception $e){
+                        //dd($e->getMessage());
+                    }
+                }
             }catch (\Illuminate\Database\QueryException $exception) {
                 //dd($exception->getMessage());
             }
@@ -156,79 +165,86 @@ class ManageController extends Controller {
     }
 
     public function autoUpdateAllUsers() {
-        //Retrive all users in the user database and update details from Glass databse
-        $localusers = User::all();
-        foreach ($localusers->sortBy('created_at') as $localuser) {
-            //Get data from WFP HR API
-            // Create a client with a base URI
-            $client = new Client([
-                'base_uri' => env('WFP_GLASS_BASE_URI')
+        //Retrive all users in the user database in a chunk of 50 and update details from Glass databse
+        User::chunk(50, function ($localusers) {
+            foreach ($localusers->sortBy('created_at') as $localuser) {
+                //Get data from WFP HR API
+                // Create a client with a base URI
+                $client = new Client([
+                    'base_uri' => env('WFP_GLASS_BASE_URI')
+                    ]);
+                
+                // Get Glass User info from API
+                $response = $client->request('GET', '?q=email:martine.nicole', [
+                //$response = $client->request('GET', '?q=email:'.$localuser->email, [
+                    RequestOptions::HEADERS => [
+                        'Authorization' => 'Bearer '.env('WFP_GLASS_BEARER_TOKEN')
+                    ],
+                //    RequestOptions::QUERY => [
+                //        'email' => 'derick.ruganuza@wfp.org'
+                //    ]
                 ]);
-            
-            // Get Glass User info from API
-            //$response = $client->request('GET', '?q=email:wendy.bigham@wfp.org', [
-            $response = $client->request('GET', '?q=email:'.$localuser->email, [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.env('WFP_GLASS_BEARER_TOKEN')
-                ],
-            //    RequestOptions::QUERY => [
-            //        'email' => 'derick.ruganuza@wfp.org'
-            //    ]
-            ]);
-            
-            //Get Body will all users
-            //dd($response);
-            //dd($response->getStatusCode());
-            //dd($response->getReasonPhrase());
-            //dd($response->getHeaders());
-            //dd($response->getBody());
-            //dd((string) $response->getBody());
-            //dd($response->getBody()->read(10));
-            //dd($response->getBody()->getContents());
-            
-            //Convert JSON Data into an Array
-            $array_response = json_decode($response->getBody(), true);
-            
-            //Convert Array into a collection
-            $collection_response = collect($array_response);
-            
-            //Data
-            //dd($collection_response)
-
-            //Multiple Actual User Data
-            //$glass_users= collect($collection_response['hits']['hits']);
-            //dd($glass_users);
-            
-            try{
-                //Single Actual User Data
-                $glass_user= collect($collection_response['hits']['hits'][0]['_source']);
-                //dd($glass_user);
-                //dd($glass_user->get('nte'));
-            }catch(\Exception $exception){
-                //If user doesn't exist in Glass set nte to NULL
-                $glass_user = collect(['nte' => NULL, 'email' => $localuser->email]);
-                //dd($exception->getMessage());
-                //dd($glass_user);
-                //dd($localuser->email);
+                
+                //Get Body will all users
+                //dd($response);
+                //dd($response->getStatusCode());
+                //dd($response->getReasonPhrase());
+                //dd($response->getHeaders());
+                //dd($response->getBody());
+                //dd((string) $response->getBody());
+                //dd($response->getBody()->read(10));
+                //dd($response->getBody()->getContents());
+                
+                //Convert JSON Data into an Array
+                $array_response = json_decode($response->getBody(), true);
+                
+                //Convert Array into a collection
+                $collection_response = collect($array_response);
+                
+                //Data
+                //dd($collection_response)
+    
+                //Multiple Actual User Data
+                //$glass_users= collect($collection_response['hits']['hits']);
+                //dd($glass_users);
+                
+                try{
+                    //Single Actual User Data
+                    $glass_user= collect($collection_response['hits']['hits'][0]['_source']);
+                    //dd($glass_user);
+                    //dd($glass_user->get('nte'));
+                }catch(\Exception $exception){
+                    //If user doesn't exist in Glass set nte to NULL
+                    $glass_user = collect(['nte' => NULL, 'email' => $localuser->email]);
+                    //dd($exception->getMessage());
+                    //dd($glass_user);
+                    //dd($localuser->email);
+                }
+                
+                //Update Local database User details incase they differ with details from Glass
+                $localusernte = new Date($localuser->nte);
+                $localusernte = $localusernte->format("Y-m-d H:i:s");
+    
+                $glassusernte = new Date($glass_user->get('nte'));
+                $glassusernte = $glassusernte->format("Y-m-d H:i:s");
+    
+                if($localusernte != $glassusernte && $glassusernte != NULL){
+                    $user = User::find($localuser->id);
+                    if($glass_user->get('position_title'))
+                    $user->title = $glass_user->get('position_title');
+                    $user->country = $glass_user->get('country_name');
+                    $user->region = $glass_user->get('region_code');
+                    $user->nte = $glassusernte;
+                    if($glass_user->get('position_number')){
+                        $user->account_status = "Active";
+                    }else{
+                        $user->account_status = "Inactive";
+                    }
+                    $user->save();
+                }
             }
-            
-            //Update Local database User details incase they differ with details from Glass
-            $localusernte = new Date($localuser->nte);
-            $localusernte = $localusernte->format("Y-m-d H:i:s");
+        });
 
-            $glassusernte = new Date($glass_user->get('nte'));
-            $glassusernte = $glassusernte->format("Y-m-d H:i:s");
-
-            if($localusernte != $glassusernte && $glassusernte != NULL){
-                $user = User::find($localuser->id);
-                if($glass_user->get('position_title'))
-                $user->title = $glass_user->get('position_title');
-                $user->country = $glass_user->get('country_name');
-                $user->region = $glass_user->get('region_code');
-                $user->nte = $glassusernte;
-                $user->save();
-            }
-        }
         return back()->with('edit_user_status', 'Users details have been updated successfuly');
     }
 
@@ -302,6 +318,12 @@ class ManageController extends Controller {
             $user->country = $glass_user->get('country_name');
             $user->region = $glass_user->get('region_code');
             $user->nte = $glassusernte;
+            if($glass_user->get('position_number')){
+                $user->account_status = "Active";
+            }else{
+                $user->account_status = "Inactive";
+            }
+            $user->status = 0;
             $user->save();
         }
         

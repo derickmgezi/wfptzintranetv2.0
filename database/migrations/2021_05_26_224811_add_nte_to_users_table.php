@@ -14,7 +14,8 @@ class AddNteToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dateTime('nte')->nullable()->after('region');
+            $table->string('account_status',10)->default('Active')->after('region');
+            $table->dateTime('nte')->nullable()->after('account_status');
         });
     }
 
