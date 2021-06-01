@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserProfileUpdated extends Notification
+class UserProfileCreated extends Notification
 {
     use Queueable;
 
@@ -41,19 +41,16 @@ class UserProfileUpdated extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/feedback');
+        $url = url('/');
         
         return (new MailMessage)
-                    ->line('Your user profile has been updated.')
-                    ->line('Account name: '.$this->user->firstname.' '.$this->user->secondname)
-                    ->line('Username: '.$this->user->username)
-                    ->line('Title: '.$this->user->title)
-                    ->line('Email: '.$this->user->email)
-                    ->line('Country: '.$this->user->country)
-                    ->line('Region: '.$this->user->region)
-                    ->line('NTE: '.$this->user->nte)
-                    ->line('Please click on below button and provide your feedback on how we can further improve Wazo')
-                    ->action('Send us your Feedback', $url)
+                    ->line('Your been granted access to Wazo.')
+                    ->line('Wazo is an online Intranet web system designed and developed by WFP Tanzania to facilitate internal communications among the different units and CO and sub offices in the Tanzania')
+                    ->line('Meaning “idea” in Swahili, Wazo is a one stop shop for staff in Tanzania to access and share information.')
+                    ->line('Through its simplicity, Wazo enables staff to access various services while staying up to date on WFP operations and events in Tanzania.')
+                    ->line('Please click on below button to log into Wazo')
+                    ->action('Login', $url)
+                    ->line('To login enter your email address '.$this->user->email.' and WFP Global password')
                     ->line('Thank you for using Wazo!');
     }
 
