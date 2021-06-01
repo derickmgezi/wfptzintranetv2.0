@@ -16,6 +16,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Notification;
 use App\Notifications\UserProfileCreated;
+use App\Notifications\UserProfileUpdated;
 use Date;
 
 class ManageController extends Controller {
@@ -74,7 +75,7 @@ class ManageController extends Controller {
         
         // Get Glass User info from API
         //$response = $client->request('GET', '?q=email:eunice.mosha@wfp.org', [
-        $response = $client->request('GET', '?q=country_iso_code_alpha_3:TZA', [
+        $response = $client->request('GET', '?q=country_name:'.Auth::user()->country, [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.env('WFP_GLASS_BEARER_TOKEN')
             ],
@@ -243,6 +244,17 @@ class ManageController extends Controller {
                         $user->account_status = "Inactive";
                     }
                     $user->save();
+
+                    //Notify user if and only if user is in the same country as the local IT office
+                    if($glass_user->get('country_name') == Auth::user()->country){
+                        try{
+                            //Send Email Notification to user that profile has been updated
+                            Notification::send($user, new UserProfileUpdated($user));
+                        }catch(\Exception $e){
+                            //dd($e->getMessage());
+                        }
+                    }
+                    
                 }
             }
         });
@@ -325,8 +337,17 @@ class ManageController extends Controller {
             }else{
                 $user->account_status = "Inactive";
             }
-            $user->status = 0;
             $user->save();
+
+            //Notify user if and only if user is in the same country as the local IT office
+            if($glass_user->get('country_name') == Auth::user()->country){
+                try{
+                    //Send Email Notification to user that profile has been updated
+                    Notification::send($user, new UserProfileUpdated($user));
+                }catch(\Exception $e){
+                    //dd($e->getMessage());
+                }
+            }
         }
         
         return back()->with('edit_user_status', 'User details have been updated successfuly');
