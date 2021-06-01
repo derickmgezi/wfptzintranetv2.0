@@ -48,10 +48,9 @@ class UserProfileCreated extends Notification
                     ->line('Wazo is an online Intranet web system designed and developed by WFP Tanzania to facilitate internal communications among the different units and CO and sub offices in the Tanzania')
                     ->line('Meaning “idea” in Swahili, Wazo is a one stop shop for staff in Tanzania to access and share information.')
                     ->line('Through its simplicity, Wazo enables staff to access various services while staying up to date on WFP operations and events in Tanzania.')
-                    ->line('Please click on below button to log into Wazo')
+                    ->line('Please click below button to log into Wazo')
                     ->action('Login', $url)
-                    ->line('To login enter your email address '.$this->user->email.' and WFP Global password')
-                    ->line('Thank you for using Wazo!');
+                    ->line('To login enter your email address '.$this->user->email.' and WFP Global password');
     }
 
     /**
