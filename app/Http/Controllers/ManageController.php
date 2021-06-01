@@ -14,6 +14,8 @@ use Illuminate\Validation\Rule;
 use Session;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use Notification;
+use App\Notifications\UserProfileCreated;
 use Date;
 
 class ManageController extends Controller {
