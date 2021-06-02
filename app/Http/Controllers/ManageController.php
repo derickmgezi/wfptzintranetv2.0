@@ -72,16 +72,21 @@ class ManageController extends Controller {
         $client = new Client([
             'base_uri' => env('WFP_GLASS_BASE_URI')
             ]);
-        
-        // Get Glass User info from API
+
+        // Get Glass User info from API usign POST
         //$response = $client->request('GET', '?q=email:eunice.mosha@wfp.org', [
-        $response = $client->request('GET', '?q=country_name:'.Auth::user()->country, [
+        $response = $client->request('POST', '', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.env('WFP_GLASS_BEARER_TOKEN')
             ],
-        //    RequestOptions::QUERY => [
-        //        'email' => 'derick.ruganuza@wfp.org'
-        //    ]
+            RequestOptions::JSON => [
+                "size" => 10,
+                "query" => [
+                    "match" => [
+                        'country_name' => Auth::user()->country,
+                    ]
+                ]
+            ]
         ]);
         
         //Get Body will all users
@@ -101,67 +106,93 @@ class ManageController extends Controller {
         $collection_response = collect($array_response);
         
         //Data
-        //dd($collection_response)
+        //dd($collection_response);
 
-        //Multiple Actual User Data
-        $glass_users= collect($collection_response['hits']['hits']);
-        //dd($glass_users);
+        // Now we loop until the scroll "cursors" are exhausted
+        while (isset($collection_response['hits']['hits']) && count($collection_response['hits']['hits']) > 0) {
         
-        //Single Actual User Data
-        //$glass_user= collect($collection_response['hits']['hits'][0]['_source']);
-        //dd($glass_user);
-        //dd($glass_user->get('nte'));
-        
-        //Update Local database User details incase they differ with details from Azure
-        // if($localuser->country != $azureuser->user['country'] || $localuser->region != $azureuser->user['department']){
-        //     $user = User::find($localuser->id);
-        //     $user->country = $azureuser->user['country'];
-        //     $user->region = $azureuser->user['department'];
-        //     $user->save();
-        // }
-         
-        //Update Local database User details incase they differ with details from Glass
-        foreach($glass_users as $glass_user){
-            //Convert Array into a collection
-            //$glass_user = collect($glass_user);
-            
             //Multiple Actual User Data
-            $glass_user= collect( $glass_user['_source']);
+            $glass_users= collect($collection_response['hits']['hits']);
+            //dd($glass_users);
+            
+            //Single Actual User Data
+            //$glass_user= collect($collection_response['hits']['hits'][0]['_source']);
             //dd($glass_user);
             //dd($glass_user->get('nte'));
+            
+            //Update Local database User details incase they differ with details from Azure
+            // if($localuser->country != $azureuser->user['country'] || $localuser->region != $azureuser->user['department']){
+            //     $user = User::find($localuser->id);
+            //     $user->country = $azureuser->user['country'];
+            //     $user->region = $azureuser->user['department'];
+            //     $user->save();
+            // }
+            
+            //Update Local database User details incase they differ with details from Glass
+            foreach($glass_users as $glass_user){
+                //Convert Array into a collection
+                //$glass_user = collect($glass_user);
 
-            //If Glass User doesn't exist Create User in Local database
-            $glassusernte = new Date($glass_user->get('nte'));
-            $glassusernte = $glassusernte->format("Y-m-d H:i:s");
+                //Multiple Actual User Data
+                $glass_user= collect( $glass_user['_source']);
+                //dd($glass_user);
+                //dd($glass_user->get('nte'));
 
-            try{
-                $user = User::firstOrCreate(
-                    ['email' => $glass_user->get('email')],
-                    [
-                        'firstname' => $glass_user->get('first_name'),
-                        'secondname' => $glass_user->get('last_name'),
-                        'username' => $glass_user->get('login_name'),
-                        'title' => $glass_user->get('position_title'),
-                        'department' => $glass_user->get('org_unit_description'),
-                        'dutystation' => $glass_user->get('location_hierarchy'),
-                        'country' => $glass_user->get('country_name'),
-                        'region' => $glass_user->get('region_code'),
-                        'nte' => $glassusernte,
-                        'password' => bcrypt('Welcome@123')
-                    ]
-                );
+                //If Glass User doesn't exist Create User in Local database
+                $glassusernte = new Date($glass_user->get('nte'));
+                $glassusernte = $glassusernte->format("Y-m-d H:i:s");
 
-                if($user->wasRecentlyCreated){
-                    try{
-                        //Send Email Notification to user after account has been created in Wazo
-                        Notification::send($user, new UserProfileCreated($user));
-                    }catch(\Exception $e){
-                        //dd($e->getMessage());
+                try{
+                    $user = User::firstOrCreate(
+                        ['email' => $glass_user->get('email')],
+                        [
+                            'firstname' => $glass_user->get('first_name'),
+                            'secondname' => $glass_user->get('last_name'),
+                            'username' => $glass_user->get('login_name'),
+                            'title' => $glass_user->get('position_title'),
+                            'department' => $glass_user->get('org_unit_description'),
+                            'dutystation' => $glass_user->get('location_hierarchy'),
+                            'country' => $glass_user->get('country_name'),
+                            'region' => $glass_user->get('region_code'),
+                            'nte' => $glassusernte,
+                            'password' => bcrypt('Welcome@123')
+                        ]
+                    );
+
+                    if($user->wasRecentlyCreated){
+                        try{
+                            //Send Email Notification to user after account has been created in Wazo
+                            Notification::send($user, new UserProfileCreated($user));
+                        }catch(\Exception $e){
+                            //dd($e->getMessage());
+                        }
                     }
+                }catch (\Illuminate\Database\QueryException $exception) {
+                    //dd($exception->getMessage());
                 }
-            }catch (\Illuminate\Database\QueryException $exception) {
-                //dd($exception->getMessage());
             }
+        
+            // When done, get the new scroll_id
+            // You must always refresh your _scroll_id!  It can change sometimes
+            $scroll_id = $collection_response['_scroll_id'];
+            //dd($scroll_id);
+        
+            // Execute a Scroll request and repeat
+            $response = $client->request('POST', '', [
+                RequestOptions::HEADERS => [
+                    'Authorization' => 'Bearer '.env('WFP_GLASS_BEARER_TOKEN')
+                ],
+                RequestOptions::QUERY => [
+                    'scroll_id' => $scroll_id,  //...using our previously obtained _scroll_id
+                ]
+            ]);
+
+            //Convert JSON Data into an Array
+            $array_response = json_decode($response->getBody(), true);
+                    
+            //Convert Array into a collection
+            $collection_response = collect($array_response);
+            //dd($collection_response);
         }
         
         return back()->with('add_user_status', 'Users have automatically been added successfuly');
@@ -178,8 +209,8 @@ class ManageController extends Controller {
                     ]);
                 
                 // Get Glass User info from API
-                $response = $client->request('GET', '?q=email:martine.nicole', [
-                //$response = $client->request('GET', '?q=email:'.$localuser->email, [
+                //$response = $client->request('GET', '?q=email:martine.nicole', [
+                $response = $client->request('GET', '?q=email:'.$localuser->email, [
                     RequestOptions::HEADERS => [
                         'Authorization' => 'Bearer '.env('WFP_GLASS_BEARER_TOKEN')
                     ],
