@@ -83,7 +83,10 @@ class ManageController extends Controller {
                 "size" => 10,
                 "query" => [
                     "match" => [
-                        'country_name' => Auth::user()->country,
+                        'country_name' => [
+                            'query' => Auth::user()->country,
+                            'operator' => 'and'
+                        ]
                     ]
                 ]
             ]
